@@ -4,6 +4,7 @@ import Breadcrumb from '../../components/Breadcrumb.astro';
 import WhatsAppButton from '../../components/WhatsAppButton.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import { PRODUCTS } from '../../data/products';
+import { stripBase, withBase } from '../../utils/paths';
 
 export async function getStaticPaths() {
   return PRODUCTS.map(product => {
@@ -30,7 +31,7 @@ const productSchema = {
   "@context": "https://schema.org/",
   "@type": "Product",
   "name": product.name,
-  "image": new URL(product.image, Astro.site).toString(),
+  "image": new URL(withBase(product.image), Astro.site).toString(),
   "description": `${product.description} Tersedia di Floragate, toko bunga Malang murah dan berkualitas dengan pengerjaan cepat.`,
   "sku": product.id,
   "mpn": product.id,
@@ -40,7 +41,7 @@ const productSchema = {
   },
   "offers": {
     "@type": "Offer",
-    "url": new URL(Astro.url.pathname, Astro.site).toString(),
+    "url": new URL(withBase(stripBase(Astro.url.pathname)), Astro.site).toString(),
     "priceCurrency": "IDR",
     "price": product.priceFrom,
     "priceValidUntil": "2030-12-31",
@@ -74,7 +75,7 @@ const productSchema = {
         <div class="lg:col-span-6 flex flex-col justify-start">
           <div class="relative bg-clean-ivory rounded-lg overflow-hidden border border-soft-cream/60 aspect-4/3">
             <img 
-              src={product.image} 
+              src={withBase(product.image)} 
               alt={`Karangan ${product.name} Florist Malang`}
               width={product.imageWidth}
               height={product.imageHeight}
@@ -92,7 +93,7 @@ const productSchema = {
           <div class="space-y-6">
             <!-- Category and ID -->
             <div class="flex items-center justify-between border-b border-soft-cream/30 pb-4">
-              <a href={`/kategori/${product.categorySlug}/`} class="text-xs font-bold text-secondary uppercase tracking-wider hover:underline">
+              <a href={withBase(`/kategori/${product.categorySlug}/`)} class="text-xs font-bold text-secondary uppercase tracking-wider hover:underline">
                 {product.categoryName}
               </a>
               <span class="text-xs text-slate-400 font-mono">ID: {product.id}</span>
@@ -181,3 +182,4 @@ const productSchema = {
 
   </div>
 </Layout>
+

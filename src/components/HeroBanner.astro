@@ -1,8 +1,9 @@
 ---
 import { WHATSAPP_NUMBER } from '../data/constants';
+import { withBase } from '../utils/paths';
 
-const panoramaImage = '/images/banner/Panorama.png';
-const mobileHeroImage = '/images/produk/wedding-sweet.webp';
+const panoramaImage = withBase('/images/banner/Panorama.png');
+const mobileHeroImage = withBase('/images/produk/wedding-sweet.webp');
 
 const scenes = [
   {
@@ -90,7 +91,7 @@ const panoramaPanels = [
       </p>
 
       <div class="hero-cta-row" id="hero-cta-row">
-        <a href="/katalog/" class="hero-btn hero-btn--gold">
+        <a href={withBase('/katalog/')} class="hero-btn hero-btn--gold">
           <span>Lihat Katalog</span>
           <svg class="hero-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0-4 4m4-4H3"/>
@@ -1782,6 +1783,7 @@ const panoramaPanels = [
     runIntroAnimation();
   });
 </script>
+
 
 
 

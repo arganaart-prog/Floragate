@@ -2,6 +2,7 @@
 // Navbar.astro
 import { WHATSAPP_NUMBER } from '../data/constants';
 import { CATEGORIES } from '../data/products';
+import { stripBase, withBase } from '../utils/paths';
 
 const navItems = [
   { href: '/', label: 'Beranda' },
@@ -11,7 +12,7 @@ const navItems = [
   { href: '/kontak/', label: 'Kontak' }
 ];
 
-const currentPath = Astro.url.pathname;
+const currentPath = stripBase(Astro.url.pathname);
 ---
 
 <!-- ============================================= -->
@@ -27,7 +28,7 @@ const currentPath = Astro.url.pathname;
           <div class="flex-shrink-0 flex items-center relative h-24 md:h-28">
             <!-- Absolute shield hanging down -->
             <div class="absolute left-0 top-0 w-22 sm:w-24 md:w-28 h-26 sm:h-28 md:h-32 z-20">
-              <a href="/" class="block w-full h-full relative group" id="logo-shield">
+              <a href={withBase('/')} class="block w-full h-full relative group" id="logo-shield">
                 <!-- SVG Shield Background with warm cream color #FAF7ED and gold lines -->
                 <svg class="absolute inset-0 w-full h-full drop-shadow-[0_4px_8px_rgba(0,0,0,0.15)] transition-transform duration-300 group-hover:scale-105" viewBox="0 0 100 115" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M0 0 H100 V55 C100 88 50 115 50 115 C50 115 0 88 0 55 Z" fill="#FAF7ED"/>
@@ -35,7 +36,7 @@ const currentPath = Astro.url.pathname;
                 <!-- Brand Logo Centered -->
                 <div class="absolute inset-0 flex items-center justify-center pb-3 md:pb-4">
                   <img 
-                    src="/images/logo/logo%20Floragate%201.png" 
+                    src={withBase('/images/logo/logo%20Floragate%201.png')} 
                     alt="Logo Floragate" 
                     class="h-14 sm:h-16 md:h-20 w-auto scale-[1.15] object-contain transition-transform duration-300 group-hover:scale-125"
                     width={64}
@@ -58,7 +59,7 @@ const currentPath = Astro.url.pathname;
 
         <!-- Search Bar (Pill-shaped, aligned to the right) -->
         <div class="w-full max-w-[280px] lg:max-w-[340px] ml-auto mr-6 lg:mr-8">
-          <form action="/katalog/" method="GET" class="relative w-full">
+          <form action={withBase('/katalog/')} method="GET" class="relative w-full">
             <input 
               type="text" 
               name="search"
@@ -109,7 +110,7 @@ const currentPath = Astro.url.pathname;
               return (
                 <div class="relative group py-3" id="katalog-dropdown-trigger">
                   <a 
-                    href={item.href} 
+                    href={withBase(item.href)} 
                     class={`flex items-center gap-1.5 text-xs sm:text-sm font-semibold tracking-wide transition-colors ${isActive ? 'text-white border-b-2 border-secondary pb-1' : 'text-white/80 hover:text-secondary'}`}
                   >
                     {item.label}
@@ -123,7 +124,7 @@ const currentPath = Astro.url.pathname;
                     <div class="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-[#FAF7ED] rotate-45 border-t border-l border-soft-cream/30"></div>
                     {CATEGORIES.map(category => (
                       <a 
-                        href={`/kategori/${category.slug}/`} 
+                        href={withBase(`/kategori/${category.slug}/`)} 
                         class="block px-4 py-2.5 text-xs font-semibold text-slate-700 hover:text-primary hover:bg-primary/5 transition-colors"
                       >
                         {category.name}
@@ -131,7 +132,7 @@ const currentPath = Astro.url.pathname;
                     ))}
                     <div class="border-t border-soft-cream/20 my-1"></div>
                     <a 
-                      href="/katalog/" 
+                      href={withBase('/katalog/')} 
                       class="block px-4 py-2.5 text-xs font-bold text-center text-secondary hover:text-secondary-dark hover:bg-secondary/5 transition-colors"
                     >
                       Lihat Semua Karangan Bunga →
@@ -143,7 +144,7 @@ const currentPath = Astro.url.pathname;
 
             return (
               <a 
-                href={item.href} 
+                href={withBase(item.href)} 
                 class={`text-xs sm:text-sm font-semibold tracking-wide transition-colors py-3 ${isActive ? 'text-white border-b-2 border-secondary pb-1' : 'text-white/80 hover:text-secondary'}`}
               >
                 {item.label}
@@ -165,13 +166,13 @@ const currentPath = Astro.url.pathname;
       <div class="flex items-center">
         <div class="flex-shrink-0 flex items-center relative h-20">
           <div class="absolute left-0 top-0 w-14 h-18 z-20">
-            <a href="/" class="block w-full h-full relative">
+            <a href={withBase('/')} class="block w-full h-full relative">
               <svg class="absolute inset-0 w-full h-full drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)]" viewBox="0 0 100 115" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 0 H100 V55 C100 88 50 115 50 115 C50 115 0 88 0 55 Z" fill="#FAF7ED"/>
               </svg>
               <div class="absolute inset-0 flex items-center justify-center pb-2.5">
                 <img 
-                  src="/images/logo/logo%20Floragate%201.png" 
+                  src={withBase('/images/logo/logo%20Floragate%201.png')} 
                   alt="Logo Floragate" 
                   class="h-10 w-auto scale-110 object-contain"
                   width={34}
@@ -231,7 +232,7 @@ const currentPath = Astro.url.pathname;
     <div class="px-4 pt-3 pb-6 space-y-3 bg-[#FAF7ED] border-t border-soft-cream/30 shadow-lg select-none">
       
       <!-- Mobile Search Field -->
-      <form action="/katalog/" method="GET" class="relative w-full pb-2">
+      <form action={withBase('/katalog/')} method="GET" class="relative w-full pb-2">
         <input 
           type="text" 
           name="search"
@@ -265,14 +266,14 @@ const currentPath = Astro.url.pathname;
               <div class="pl-4 space-y-1 pt-1">
                 {CATEGORIES.map(category => (
                   <a 
-                    href={`/kategori/${category.slug}/`}
+                    href={withBase(`/kategori/${category.slug}/`)}
                     class="block px-3 py-2 text-sm font-medium text-slate-600 rounded-md hover:bg-primary/5 hover:text-primary transition-colors"
                   >
                     {category.name}
                   </a>
                 ))}
                 <a 
-                  href="/katalog/"
+                  href={withBase('/katalog/')}
                   class="block px-3 py-2 text-sm font-bold text-primary rounded-md hover:bg-primary/5 transition-colors"
                 >
                   Semua Produk →
@@ -284,7 +285,7 @@ const currentPath = Astro.url.pathname;
 
         return (
           <a 
-            href={item.href} 
+            href={withBase(item.href)} 
             class={`block px-3 py-2.5 rounded-md text-base font-semibold transition-colors ${isActive ? 'bg-primary/10 text-primary' : 'text-slate-600 hover:bg-primary/5 hover:text-primary'}`}
           >
             {item.label}
@@ -328,3 +329,4 @@ const currentPath = Astro.url.pathname;
     });
   }
 </script>
+

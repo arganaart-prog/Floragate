@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
+import { withBase } from '../utils/paths';
 
 // SEO Meta
 const title = "Tentang Floragate - Layanan Pemesanan Bunga Malang Terpercaya";
@@ -45,7 +46,7 @@ const description = "Floragate adalah layanan pemesanan karangan bunga di Malang
         <div class="relative flex justify-center">
           <div class="w-full max-w-sm aspect-square rounded-xl border border-soft-cream/60 overflow-hidden shadow-lg">
             <img 
-              src="/images/produk/standing-lilac.webp" 
+              src={withBase('/images/produk/standing-lilac.webp')} 
               alt="Rangkaian standing flower elegan dari mitra florist Floragate Malang" 
               width="600" 
               height="600" 
@@ -157,3 +158,4 @@ const description = "Floragate adalah layanan pemesanan karangan bunga di Malang
 
   </div>
 </Layout>
+

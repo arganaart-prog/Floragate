@@ -4,9 +4,9 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://tokobungamurahmalang.com',
-  // Ubah 'base' jika dideploy di subfolder GitHub Pages, misal: '/floragate/'
-  base: '/',
+  site: 'https://arganaart-prog.github.io',
+  // GitHub Pages project site: https://arganaart-prog.github.io/Floragate/
+  base: '/Floragate/',
   devToolbar: { enabled: false },
   integrations: [sitemap()],
   vite: {

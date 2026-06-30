@@ -1,4 +1,6 @@
 ---
+import { stripBase, withBase } from '../utils/paths';
+
 interface Props {
   title: string;
   description: string;
@@ -17,8 +19,8 @@ const {
   robots = 'index, follow, max-image-preview:large'
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const ogImageURL = new URL(image, Astro.site);
+const canonicalURL = new URL(withBase(stripBase(Astro.url.pathname)), Astro.site);
+const ogImageURL = new URL(withBase(image), Astro.site);
 const siteName = 'Floragate';
 const fullTitle = title.toLowerCase().includes(siteName.toLowerCase()) ? title : `${title} | ${siteName}`;
 const defaultKeywords = 'Floragate, Floragate Malang, Floragate toko bunga, toko bunga Floragate, toko bunga Malang murah, toko bunga Malang berkualitas, florist Malang murah, florist Malang berkualitas, karangan bunga Malang murah, bunga papan Malang, hand bouquet Malang, standing flower Malang';
@@ -72,3 +74,4 @@ const securityPolicy = [
 {schema && (
   <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
 )}
+

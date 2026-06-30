@@ -1,6 +1,7 @@
 ---
 import type { Product } from '../data/products';
 import { PRODUCTS } from '../data/products';
+import { withBase } from '../utils/paths';
 
 const dukaCitaProducts = PRODUCTS.filter(
   (p) => p.categorySlug === 'bunga-papan-duka-cita-malang'
@@ -93,7 +94,7 @@ const tabs: Tab[] = [
           <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             {tab.products.map((product) => (
               <a
-                href={`/produk/${product.slug}/`}
+                href={withBase(`/produk/${product.slug}/`)}
                 class="group bunga-papan-card bg-white rounded-lg border border-soft-cream/60 overflow-hidden hover-gold-grow no-underline"
               >
                 <div class="relative aspect-[4/5] bg-slate-50 overflow-hidden premium-image-hover">
@@ -115,7 +116,7 @@ const tabs: Tab[] = [
 
                   <!-- Product image -->
                   <img
-                    src={product.image}
+                    src={withBase(product.image)}
                     alt={`Foto ${product.name} Floragate Malang`}
                     width={product.imageWidth}
                     height={product.imageHeight}
@@ -138,7 +139,7 @@ const tabs: Tab[] = [
           <!-- View all link -->
           <div class="text-center mt-10">
             <a
-              href={tab.categoryHref}
+              href={withBase(tab.categoryHref)}
               class="inline-flex items-center text-sm font-semibold text-primary hover:text-secondary transition-colors group"
             >
               Lihat Semua {tab.label}
@@ -191,3 +192,4 @@ const tabs: Tab[] = [
   initBungaPapanTabs();
   document.addEventListener('astro:page-load', initBungaPapanTabs);
 </script>
+

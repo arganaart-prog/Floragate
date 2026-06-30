@@ -9,6 +9,7 @@ import StandingFlowerSection from '../components/StandingFlowerSection.astro';
 import BungaMejaSection from '../components/BungaMejaSection.astro';
 import { PRODUCTS } from '../data/products';
 import { WHATSAPP_NUMBER } from '../data/constants';
+import { withBase } from '../utils/paths';
 
 // Ambil maksimal 6 produk unggulan
 const featuredProducts = PRODUCTS.filter(p => p.featured).slice(0, 6);
@@ -118,7 +119,7 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
           <p class="text-slate-500 text-sm mt-3 leading-relaxed">Kumpulan desain karangan bunga yang paling sering dipesan oleh pelanggan kami di Malang untuk berbagai keperluan.</p>
         </div>
         <a 
-          href="/katalog/" 
+          href={withBase('/katalog/')} 
           class="mt-4 md:mt-0 inline-flex items-center text-sm font-semibold text-primary hover:text-secondary transition-colors group"
         >
           Lihat Semua Produk
@@ -217,7 +218,7 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
       </div>
       
       <div class="text-center mt-12">
-        <a href="/cara-pesan/" class="inline-flex items-center text-sm font-semibold text-primary hover:text-secondary transition-colors">
+        <a href={withBase('/cara-pesan/')} class="inline-flex items-center text-sm font-semibold text-primary hover:text-secondary transition-colors">
           Selengkapnya tentang cara pesan
           <svg class="h-4 w-4 ml-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
@@ -291,3 +292,4 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
   </section>
 
 </Layout>
+

@@ -116,7 +116,7 @@ const description = "Lihat katalog karangan bunga Floragate: toko bunga Malang m
   });
 
   // Intercept search forms to prevent full reload on katalog page
-  const searchForms = document.querySelectorAll('form[action="/katalog/"]');
+  const searchForms = document.querySelectorAll('form[action$="/katalog/"]');
   searchForms.forEach(form => {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -179,4 +179,5 @@ const description = "Lihat katalog karangan bunga Floragate: toko bunga Malang m
     });
   });
 </script>
+
 
