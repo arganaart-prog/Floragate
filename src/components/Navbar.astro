@@ -314,13 +314,13 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
   @media (min-width: 768px) {
     #desktop-sticky-nav.is-fixed .desktop-scroll-logo {
       position: absolute;
-      top: 0;
+      top: -7rem;
       left: clamp(1.75rem, 4vw, 3.5rem);
       z-index: 80;
       display: block;
       width: 7rem;
       height: 8rem;
-      pointer-events: auto;
+      pointer-events: none;
     }
 
     .desktop-scroll-logo-shield {
@@ -352,6 +352,7 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
     left: 0;
     right: 0;
     z-index: 70;
+    overflow: visible;
   }
 
   @media (min-width: 768px) {
