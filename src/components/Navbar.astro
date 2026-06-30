@@ -24,7 +24,7 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
 <!-- ============================================= -->
 
 <!-- Row 1: Brand, Search, & WhatsApp Button (Primary Theme Green) -->
-<div class="hidden md:block bg-primary border-b border-white/10 px-4 lg:px-8">
+<div class="relative z-[60] hidden overflow-visible md:block bg-primary border-b border-white/10 px-4 lg:px-8">
       <div class="max-w-7xl mx-auto flex items-center justify-between h-24 md:h-28">
         
         <!-- Logo & Brand Name -->
@@ -99,7 +99,7 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
     </div>
 
 <!-- Row 2: Centered Navigation Links (Primary Dark Theme Green - Sticky) -->
-<div class="sticky top-0 z-[55] hidden md:block bg-primary-dark px-4 shadow-md">
+<div class="sticky top-0 z-40 hidden md:block bg-primary-dark px-4 shadow-md">
       <div class="max-w-7xl mx-auto flex justify-center items-center h-14 relative">
         <nav class="flex items-center gap-10" id="desktop-nav">
           {navItems.map(item => {
