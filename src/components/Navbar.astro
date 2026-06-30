@@ -23,8 +23,8 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
 <!-- DESKTOP NAVBAR (Two rows, shown on md and up) -->
 <!-- ============================================= -->
 
-<!-- Row 1: Brand, Search, & WhatsApp Button (Primary Theme Green - Sticky) -->
-<div class="fixed inset-x-0 top-0 z-[60] hidden md:block bg-primary border-b border-white/10 px-4 lg:px-8">
+<!-- Row 1: Brand, Search, & WhatsApp Button (Primary Theme Green) -->
+<div class="hidden md:block bg-primary border-b border-white/10 px-4 lg:px-8">
       <div class="max-w-7xl mx-auto flex items-center justify-between h-24 md:h-28">
         
         <!-- Logo & Brand Name -->
@@ -99,7 +99,7 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
     </div>
 
 <!-- Row 2: Centered Navigation Links (Primary Dark Theme Green - Sticky) -->
-<div class="fixed inset-x-0 top-28 z-[55] hidden md:block bg-primary-dark px-4 shadow-md">
+<div class="sticky top-0 z-[55] hidden md:block bg-primary-dark px-4 shadow-md">
       <div class="max-w-7xl mx-auto flex justify-center items-center h-14 relative">
         <nav class="flex items-center gap-10" id="desktop-nav">
           {navItems.map(item => {
@@ -139,7 +139,7 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
                       href={withBase('/katalog/')} 
                       class="block px-4 py-2.5 text-xs font-bold text-center text-secondary hover:text-secondary-dark hover:bg-secondary/5 transition-colors"
                     >
-                      Lihat Semua Karangan Bunga →
+                      Lihat Semua Karangan Bunga ->
                     </a>
                   </div>
                 </div>
@@ -158,7 +158,7 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
         </nav>
       </div>
     </div>
-<div class="hidden md:block h-[10.5rem]" aria-hidden="true"></div>
+
   <!-- ============================================= -->
   <!-- MOBILE NAVBAR (One row, shown below md - Sticky) -->
   <!-- ============================================= -->
@@ -190,7 +190,7 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
           <div class="w-14 flex-shrink-0"></div>
         </div>
 
-        <div class="ml-3 -translate-y-0.5 text-white flex flex-col justify-center select-none">
+        <div class="ml-1.5 -translate-y-1.5 text-white flex flex-col justify-center select-none">
           <span class="font-serif text-lg font-bold tracking-wide leading-none">Floragate</span>
           <span class="text-[9px] sm:text-[10px] text-white/80 font-sans mt-1 leading-tight">The Gateway to Meaningful Moments</span>
         </div>
@@ -234,44 +234,44 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
   </div>
 
   <!-- MOBILE MENU DRAWER (Hidden by default, shown when toggled) -->
-  <div class="hidden md:hidden fixed inset-0 z-[80]" id="mobile-menu" aria-hidden="true">
-    <button id="mobile-menu-backdrop" type="button" class="absolute inset-0 bg-slate-900/35 backdrop-blur-[2px]" aria-label="Tutup menu"></button>
-    <aside class="relative flex h-full w-[82vw] max-w-[410px] flex-col bg-[#FAF7ED] px-5 py-7 shadow-2xl rounded-r-2xl select-none">
+  <div class="hidden md:hidden fixed inset-0 z-[80] mobile-menu-shell" id="mobile-menu" aria-hidden="true">
+    <button id="mobile-menu-backdrop" type="button" class="mobile-menu-backdrop absolute inset-0 bg-slate-900/35 backdrop-blur-[2px]" aria-label="Tutup menu"></button>
+    <aside class="mobile-menu-panel relative flex h-full w-[82vw] max-w-[410px] flex-col bg-[#FAF7ED] px-5 py-7 shadow-2xl rounded-r-2xl select-none">
       <div class="flex items-start justify-between gap-4 px-1">
-        <h2 class="font-serif text-3xl font-bold leading-none text-primary">Floragate Malang</h2>
-        <button id="mobile-menu-close" type="button" class="inline-flex h-10 w-10 items-center justify-center rounded-full text-[#555a50] hover:bg-primary/5 hover:text-primary" aria-label="Tutup menu">
-          <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <h2 class="font-serif text-[1.75rem] font-bold leading-none text-primary">Floragate Malang</h2>
+        <button id="mobile-menu-close" type="button" class="inline-flex h-9 w-9 items-center justify-center rounded-full text-[#555a50] hover:bg-primary/5 hover:text-primary" aria-label="Tutup menu">
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M18 6 6 18" />
           </svg>
         </button>
       </div>
 
-      <nav class="mt-12 space-y-3" aria-label="Menu mobile Floragate">
-        <a href={withBase('/')} class={`flex items-center gap-4 rounded-lg px-5 py-4 text-[1.55rem] font-medium transition-colors ${isMobileHome ? 'bg-[#ead9be] text-primary' : 'text-[#555a50] hover:bg-primary/5 hover:text-primary'}`}>
-          <svg class="h-7 w-7 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
+      <nav class="mt-10 space-y-3" aria-label="Menu mobile Floragate">
+        <a href={withBase('/')} class={`flex items-center gap-3.5 rounded-lg px-4 py-3.5 text-[1.35rem] font-medium transition-colors ${isMobileHome ? 'bg-[#ead9be] text-primary' : 'text-[#555a50] hover:bg-primary/5 hover:text-primary'}`}>
+          <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
             <path stroke-linecap="round" stroke-linejoin="round" d="m3 10.5 9-7 9 7" />
             <path stroke-linecap="round" stroke-linejoin="round" d="M5.5 9.5V20h5v-6h3v6h5V9.5" />
           </svg>
           <span>Home</span>
         </a>
 
-        <a href={withBase('/katalog/')} class={`flex items-center gap-4 rounded-lg px-5 py-4 text-[1.55rem] font-medium transition-colors ${isMobileKatalog ? 'bg-[#ead9be] text-primary' : 'text-[#555a50] hover:bg-primary/5 hover:text-primary'}`}>
-          <svg class="h-7 w-7 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
+        <a href={withBase('/katalog/')} class={`flex items-center gap-3.5 rounded-lg px-4 py-3.5 text-[1.35rem] font-medium transition-colors ${isMobileKatalog ? 'bg-[#ead9be] text-primary' : 'text-[#555a50] hover:bg-primary/5 hover:text-primary'}`}>
+          <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z" />
           </svg>
           <span>Katalog</span>
         </a>
 
-        <a href={withBase('/#momen')} class="flex items-center gap-4 rounded-lg px-5 py-4 text-[1.55rem] font-medium text-[#555a50] transition-colors hover:bg-primary/5 hover:text-primary">
-          <svg class="h-7 w-7 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
+        <a href={withBase('/#momen')} class="flex items-center gap-3.5 rounded-lg px-4 py-3.5 text-[1.35rem] font-medium text-[#555a50] transition-colors hover:bg-primary/5 hover:text-primary">
+          <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 3.5c.8 2.3 2.2 3.7 4.5 4.5-2.3.8-3.7 2.2-4.5 4.5-.8-2.3-2.2-3.7-4.5-4.5 2.3-.8 3.7-2.2 4.5-4.5Z" />
             <path stroke-linecap="round" stroke-linejoin="round" d="M5.5 13.5c.45 1.2 1.2 1.95 2.4 2.4-1.2.45-1.95 1.2-2.4 2.4-.45-1.2-1.2-1.95-2.4-2.4 1.2-.45 1.95-1.2 2.4-2.4ZM18.5 14.5c.38 1 .98 1.62 2 2-.98.38-1.62 1-2 2-.38-1-.98-1.62-2-2 .98-.38 1.62-1 2-2Z" />
           </svg>
           <span>Momen</span>
         </a>
 
-        <a href={withBase('/cara-pesan/')} class={`flex items-center gap-4 rounded-lg px-5 py-4 text-[1.55rem] font-medium transition-colors ${isMobileCaraPesan ? 'bg-[#ead9be] text-primary' : 'text-[#555a50] hover:bg-primary/5 hover:text-primary'}`}>
-          <svg class="h-7 w-7 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
+        <a href={withBase('/cara-pesan/')} class={`flex items-center gap-3.5 rounded-lg px-4 py-3.5 text-[1.35rem] font-medium transition-colors ${isMobileCaraPesan ? 'bg-[#ead9be] text-primary' : 'text-[#555a50] hover:bg-primary/5 hover:text-primary'}`}>
+          <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" />
             <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9a2.35 2.35 0 1 1 3.45 2.08c-.86.5-1.2 1.06-1.2 1.92" />
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 16h.01" />
@@ -279,8 +279,8 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
           <span>Cara Pesan</span>
         </a>
 
-        <a href={withBase('/tentang/')} class={`flex items-center gap-4 rounded-lg px-5 py-4 text-[1.55rem] font-medium transition-colors ${isMobileTentang ? 'bg-[#ead9be] text-primary' : 'text-[#555a50] hover:bg-primary/5 hover:text-primary'}`}>
-          <svg class="h-7 w-7 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
+        <a href={withBase('/tentang/')} class={`flex items-center gap-3.5 rounded-lg px-4 py-3.5 text-[1.35rem] font-medium transition-colors ${isMobileTentang ? 'bg-[#ead9be] text-primary' : 'text-[#555a50] hover:bg-primary/5 hover:text-primary'}`}>
+          <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" />
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 11v5" />
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 8h.01" />
@@ -292,6 +292,42 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
   </div>
 </div>
 <div class="md:hidden h-20" aria-hidden="true"></div>
+<style>
+  .mobile-menu-shell {
+    pointer-events: none;
+  }
+
+  .mobile-menu-shell.is-open {
+    pointer-events: auto;
+  }
+
+  .mobile-menu-backdrop {
+    opacity: 0;
+    transition: opacity 260ms ease;
+  }
+
+  .mobile-menu-panel {
+    transform: translateX(-104%);
+    transition: transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+
+  .mobile-menu-shell.is-open .mobile-menu-backdrop {
+    opacity: 1;
+  }
+
+  .mobile-menu-shell.is-open .mobile-menu-panel {
+    transform: translateX(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-menu-backdrop,
+    .mobile-menu-panel {
+      transition: none;
+    }
+  }
+</style>
+
 <script>
   const btn = document.getElementById('mobile-menu-btn');
   const menu = document.getElementById('mobile-menu');
@@ -299,37 +335,59 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
   const closeIcon = document.getElementById('close-icon');
   const closeBtn = document.getElementById('mobile-menu-close');
   const backdrop = document.getElementById('mobile-menu-backdrop');
+  const panel = menu?.querySelector('.mobile-menu-panel');
+  let closeTimer;
+
+  const setMobileMenuIcons = (isOpen) => {
+    if (!btn || !menuIcon || !closeIcon) return;
+    btn.setAttribute('aria-expanded', String(isOpen));
+    menuIcon.classList.toggle('hidden', isOpen);
+    closeIcon.classList.toggle('hidden', !isOpen);
+  };
 
   const openMobileMenu = () => {
-    if (!btn || !menu || !menuIcon || !closeIcon) return;
-    btn.setAttribute('aria-expanded', 'true');
-    menu.setAttribute('aria-hidden', 'false');
+    if (!menu) return;
+    window.clearTimeout(closeTimer);
     menu.classList.remove('hidden');
-    menuIcon.classList.add('hidden');
-    closeIcon.classList.remove('hidden');
+    menu.setAttribute('aria-hidden', 'false');
+    setMobileMenuIcons(true);
     document.body.classList.add('overflow-hidden');
+    window.requestAnimationFrame(() => {
+      menu.classList.add('is-open');
+    });
   };
 
   const closeMobileMenu = () => {
-    if (!btn || !menu || !menuIcon || !closeIcon) return;
-    btn.setAttribute('aria-expanded', 'false');
+    if (!menu || menu.classList.contains('hidden')) return;
+    window.clearTimeout(closeTimer);
+    menu.classList.remove('is-open');
     menu.setAttribute('aria-hidden', 'true');
-    menu.classList.add('hidden');
-    menuIcon.classList.remove('hidden');
-    closeIcon.classList.add('hidden');
+    setMobileMenuIcons(false);
     document.body.classList.remove('overflow-hidden');
+
+    const finishClose = () => {
+      if (btn?.getAttribute('aria-expanded') === 'false') {
+        menu.classList.add('hidden');
+      }
+    };
+
+    closeTimer = window.setTimeout(finishClose, 420);
+    panel?.addEventListener('transitionend', function handleTransition(event) {
+      if (event.propertyName !== 'transform') return;
+      panel.removeEventListener('transitionend', handleTransition);
+      window.clearTimeout(closeTimer);
+      finishClose();
+    });
   };
 
-  if (btn && menu && menuIcon && closeIcon) {
-    btn.addEventListener('click', () => {
-      const isExpanded = btn.getAttribute('aria-expanded') === 'true';
-      if (isExpanded) {
-        closeMobileMenu();
-      } else {
-        openMobileMenu();
-      }
-    });
-  }
+  btn?.addEventListener('click', () => {
+    const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+    if (isExpanded) {
+      closeMobileMenu();
+    } else {
+      openMobileMenu();
+    }
+  });
 
   closeBtn?.addEventListener('click', closeMobileMenu);
   backdrop?.addEventListener('click', closeMobileMenu);
@@ -338,4 +396,3 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
     if (event.key === 'Escape') closeMobileMenu();
   });
 </script>
-
