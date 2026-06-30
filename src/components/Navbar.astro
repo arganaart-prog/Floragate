@@ -24,7 +24,7 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
 <!-- ============================================= -->
 
 <!-- Row 1: Brand, Search, & WhatsApp Button (Primary Theme Green) -->
-<div class="relative z-[60] hidden overflow-visible md:block bg-primary border-b border-white/10 px-4 lg:px-8">
+<div class="relative z-50 hidden md:block bg-primary border-b border-white/10 px-4 lg:px-8">
       <div class="max-w-7xl mx-auto flex items-center justify-between h-24 md:h-28">
         
         <!-- Logo & Brand Name -->
@@ -100,19 +100,6 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
 
 <!-- Row 2: Centered Navigation Links (Primary Dark Theme Green - Sticky) -->
 <div id="desktop-sticky-nav" class="relative z-40 hidden md:block bg-primary-dark px-4 shadow-md">
-  <a href={withBase('/')} class="desktop-scroll-logo" aria-label="Floragate">
-    <svg class="desktop-scroll-logo-shield" viewBox="0 0 100 115" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M0 0 H100 V55 C100 88 50 115 50 115 C50 115 0 88 0 55 Z" fill="#FAF7ED"/>
-    </svg>
-    <img
-      src={withBase('/images/logo/logo%20Floragate%201.png')}
-      alt=""
-      class="desktop-scroll-logo-img"
-      width={64}
-      height={62}
-      loading="eager"
-    />
-  </a>
       <div class="max-w-7xl mx-auto flex justify-center items-center h-14 relative">
         <nav class="flex items-center gap-10" id="desktop-nav">
           {navItems.map(item => {
@@ -307,40 +294,6 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
 </div>
 <div class="md:hidden h-20" aria-hidden="true"></div>
 <style>
-  .desktop-scroll-logo {
-    display: none;
-  }
-
-  @media (min-width: 768px) {
-    #desktop-sticky-nav.is-fixed .desktop-scroll-logo {
-      position: absolute;
-      top: -7rem;
-      left: clamp(1.75rem, 4vw, 3.5rem);
-      z-index: 80;
-      display: block;
-      width: 7rem;
-      height: 8rem;
-      pointer-events: none;
-    }
-
-    .desktop-scroll-logo-shield {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.18));
-    }
-
-    .desktop-scroll-logo-img {
-      position: absolute;
-      top: 43%;
-      left: 50%;
-      width: auto;
-      height: 5rem;
-      object-fit: contain;
-      transform: translate(-50%, -50%) scale(1.12);
-    }
-  }
   .desktop-nav-spacer {
     display: none;
     height: 3.5rem;
@@ -352,7 +305,6 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
     left: 0;
     right: 0;
     z-index: 70;
-    overflow: visible;
   }
 
   @media (min-width: 768px) {
