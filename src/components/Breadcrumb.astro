@@ -1,0 +1,39 @@
+---
+interface Props {
+  items: { label: string; href?: string }[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="flex text-xs md:text-sm text-slate-500 py-3 font-medium" aria-label="Breadcrumb">
+  <ol class="inline-flex items-center space-x-1 md:space-x-2 flex-wrap">
+    <li class="inline-flex items-center">
+      <a href="/" class="hover:text-primary transition-colors flex items-center">
+        <svg class="w-3.5 h-3.5 mr-1.5 text-slate-400 group-hover:text-primary" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+        </svg>
+        Beranda
+      </a>
+    </li>
+    {items.map((item, index) => {
+      const isLast = index === items.length - 1;
+      return (
+        <li class="flex items-center">
+          <svg class="w-4 h-4 text-slate-300 mx-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+          {isLast || !item.href ? (
+            <span class="text-slate-800 font-semibold line-clamp-1 max-w-[200px] md:max-w-xs" aria-current="page">
+              {item.label}
+            </span>
+          ) : (
+            <a href={item.href} class="hover:text-primary transition-colors line-clamp-1 max-w-[150px] md:max-w-xs">
+              {item.label}
+            </a>
+          )}
+        </li>
+      );
+    })}
+  </ol>
+</nav>

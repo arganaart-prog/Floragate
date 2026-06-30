@@ -1,0 +1,150 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+
+// SEO Meta
+const title = "Cara Pemesanan Karangan Bunga Malang - Floragate";
+const description = "Pelajari langkah mudah memesan bunga papan duka cita, wedding, standing flower, dan hand bouquet di Malang. Pesan online gratis ongkir kota Malang.";
+---
+
+<Layout title={title} description={description}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Breadcrumb -->
+    <Breadcrumb items={[{ label: 'Cara Pesan' }]} />
+
+    <!-- Page Header -->
+    <div class="text-center max-w-2xl mx-auto mt-6 mb-16">
+      <h1 class="font-serif text-3xl sm:text-4xl font-bold text-slate-800">Alur & Cara Pemesanan</h1>
+      <p class="text-slate-500 text-sm mt-3 leading-relaxed">
+        Floragate menghadirkan sistem pemesanan yang mudah, aman, dan transparan. Semua koordinasi dilakukan via WhatsApp Business agar Anda lebih leluasa berkonsultasi.
+      </p>
+    </div>
+
+    <!-- Step-by-Step Flow -->
+    <div class="max-w-4xl mx-auto space-y-12 relative before:absolute before:inset-0 before:left-8 before:md:left-1/2 before:w-0.5 before:bg-soft-cream before:-z-10">
+      
+      <!-- Step 1 -->
+      <div class="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12">
+        <div class="md:w-1/2 md:text-right flex flex-col md:items-end items-start order-2 md:order-1">
+          <h3 class="font-serif font-bold text-lg text-slate-800">1. Pilih Desain Karangan Bunga</h3>
+          <p class="text-slate-500 text-sm mt-2 leading-relaxed max-w-md">
+            Telusuri katalog produk kami dan pilih desain bunga yang paling sesuai dengan kebutuhan Anda. Anda bisa mencatat kode produk (ID) atau nama bunga papan yang diminati.
+          </p>
+        </div>
+        <!-- Circle indicator -->
+        <div class="w-16 h-16 bg-primary text-white font-serif font-bold text-lg flex items-center justify-center rounded-full border-4 border-white shadow-md order-1 md:order-2 flex-shrink-0">
+          1
+        </div>
+        <div class="md:w-1/2 order-3 hidden md:block"></div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12">
+        <div class="md:w-1/2 hidden md:block"></div>
+        <!-- Circle indicator -->
+        <div class="w-16 h-16 bg-primary text-white font-serif font-bold text-lg flex items-center justify-center rounded-full border-4 border-white shadow-md order-1 flex-shrink-0">
+          2
+        </div>
+        <div class="md:w-1/2 space-y-2 order-2">
+          <h3 class="font-serif font-bold text-lg text-slate-800">2. Hubungi Admin via WhatsApp</h3>
+          <p class="text-slate-500 text-sm leading-relaxed max-w-md">
+            Klik tombol "Pesan via WhatsApp" di halaman produk. Anda akan langsung diarahkan ke aplikasi WhatsApp kami dengan membawa teks format pemesanan otomatis dari produk terpilih.
+          </p>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12">
+        <div class="md:w-1/2 md:text-right flex flex-col md:items-end items-start order-2 md:order-1">
+          <h3 class="font-serif font-bold text-lg text-slate-800">3. Kirim Detail Ucapan & Alamat</h3>
+          <p class="text-slate-500 text-sm mt-2 leading-relaxed max-w-md">
+            Lengkapi draf ucapan yang akan ditulis di papan bunga. Informasikan data seperti:<br />
+            - Tulisan Utama (misal: "Selamat & Sukses", "Turut Berduka Cita")<br />
+            - Ditujukan untuk siapa<br />
+            - Pengirim (Nama Anda / Perusahaan)<br />
+            - Tanggal & Jam Pengiriman<br />
+            - Alamat Lengkap Penerima di Malang Raya/Batu.
+          </p>
+        </div>
+        <!-- Circle indicator -->
+        <div class="w-16 h-16 bg-primary text-white font-serif font-bold text-lg flex items-center justify-center rounded-full border-4 border-white shadow-md order-1 md:order-2 flex-shrink-0">
+          3
+        </div>
+        <div class="md:w-1/2 order-3 hidden md:block"></div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12">
+        <div class="md:w-1/2 hidden md:block"></div>
+        <!-- Circle indicator -->
+        <div class="w-16 h-16 bg-primary text-white font-serif font-bold text-lg flex items-center justify-center rounded-full border-4 border-white shadow-md order-1 flex-shrink-0">
+          4
+        </div>
+        <div class="md:w-1/2 space-y-2 order-2">
+          <h3 class="font-serif font-bold text-lg text-slate-800">4. Konfirmasi Harga Total</h3>
+          <p class="text-slate-500 text-sm leading-relaxed max-w-md">
+            Admin akan memverifikasi ketersediaan slot pemesanan, menghitung biaya pengiriman jika ada, dan menginformasikan total harga beserta nominal DP yang perlu dibayar.
+          </p>
+        </div>
+      </div>
+
+      <!-- Step 5 -->
+      <div class="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12">
+        <div class="md:w-1/2 md:text-right flex flex-col md:items-end items-start order-2 md:order-1">
+          <h3 class="font-serif font-bold text-lg text-slate-800">5. Bayar DP 20–50%</h3>
+          <p class="text-slate-500 text-sm mt-2 leading-relaxed max-w-md">
+            Lakukan pembayaran uang muka (DP) sebesar 20–50% dari total harga via transfer bank resmi Floragate. Setelah DP diterima, mitra florist lokal kami segera memulai pengerjaan karangan bunga Anda.
+          </p>
+        </div>
+        <!-- Circle indicator -->
+        <div class="w-16 h-16 bg-primary text-white font-serif font-bold text-lg flex items-center justify-center rounded-full border-4 border-white shadow-md order-1 md:order-2 flex-shrink-0">
+          5
+        </div>
+        <div class="md:w-1/2 order-3 hidden md:block"></div>
+      </div>
+
+      <!-- Step 6 -->
+      <div class="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12">
+        <div class="md:w-1/2 hidden md:block"></div>
+        <!-- Circle indicator -->
+        <div class="w-16 h-16 bg-primary text-white font-serif font-bold text-lg flex items-center justify-center rounded-full border-4 border-white shadow-md order-1 flex-shrink-0">
+          6
+        </div>
+        <div class="md:w-1/2 space-y-2 order-2">
+          <h3 class="font-serif font-bold text-lg text-slate-800">6. Pelunasan & Pengiriman ke Lokasi</h3>
+          <p class="text-slate-500 text-sm leading-relaxed max-w-md">
+            Setelah karangan bunga selesai dirangkai, kami kirimkan foto hasilnya. Lakukan pelunasan sisa pembayaran, lalu bunga baru dikirim ke alamat tujuan. Anda juga akan menerima foto bukti saat bunga tiba di lokasi.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Helper Template Section -->
+    <div class="max-w-4xl mx-auto mt-20 p-6 sm:p-8 bg-white border border-soft-cream/60 rounded-lg">
+      <h3 class="font-serif font-bold text-lg text-slate-800 mb-4">Template Format Pemesanan</h3>
+      <p class="text-xs text-slate-500 mb-6">
+        Untuk mempercepat pengerjaan, Anda dapat menyalin dan mengisi template format pemesanan berikut saat mengirim pesan via WhatsApp:
+      </p>
+      
+      <div class="bg-clean-ivory/30 p-4 rounded-md border border-soft-cream/60 font-mono text-xs text-slate-700 select-all whitespace-pre">Nama Pemesan: [Nama Anda]
+No. Telp / HP: [No Anda]
+Kode / Nama Produk: [Contoh: BP-DC-01]
+Tulisan di Papan: [Contoh: Turut Berduka Cita atas wafatnya Bapak Budi]
+Pengirim: [Contoh: Direksi & Staff PT Maju Jaya]
+Alamat Pengiriman: [Contoh: Jl. Diponegoro No. 45, Klojen, Malang]
+Tanggal & Jam Kirim: [Contoh: 25 Juni 2026, Pukul 09:00 WIB]</div>
+      
+      <div class="text-center mt-10">
+        <WhatsAppButton 
+          whatsappText="Halo Floragate, saya ingin pesan bunga. Mohon dikirimkan format pemesanannya." 
+          text="Hubungi Admin Untuk Mulai Pesan" 
+          className="shadow-md"
+        />
+      </div>
+    </div>
+
+  </div>
+</Layout>

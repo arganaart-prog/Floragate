@@ -1,0 +1,330 @@
+---
+// Navbar.astro
+import { WHATSAPP_NUMBER } from '../data/constants';
+import { CATEGORIES } from '../data/products';
+
+const navItems = [
+  { href: '/', label: 'Beranda' },
+  { href: '/katalog/', label: 'Katalog', hasDropdown: true },
+  { href: '/cara-pesan/', label: 'Cara Pesan' },
+  { href: '/tentang/', label: 'Tentang Kami' },
+  { href: '/kontak/', label: 'Kontak' }
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<!-- ============================================= -->
+<!-- DESKTOP NAVBAR (Two rows, shown on md and up) -->
+<!-- ============================================= -->
+
+<!-- Row 1: Brand, Search, & WhatsApp Button (Primary Theme Green - Non-sticky) -->
+<div class="relative z-50 hidden md:block bg-primary border-b border-white/10 px-4 lg:px-8">
+      <div class="max-w-7xl mx-auto flex items-center justify-between h-24 md:h-28">
+        
+        <!-- Logo & Brand Name -->
+        <div class="flex items-center">
+          <div class="flex-shrink-0 flex items-center relative h-24 md:h-28">
+            <!-- Absolute shield hanging down -->
+            <div class="absolute left-0 top-0 w-22 sm:w-24 md:w-28 h-26 sm:h-28 md:h-32 z-20">
+              <a href="/" class="block w-full h-full relative group" id="logo-shield">
+                <!-- SVG Shield Background with warm cream color #FAF7ED and gold lines -->
+                <svg class="absolute inset-0 w-full h-full drop-shadow-[0_4px_8px_rgba(0,0,0,0.15)] transition-transform duration-300 group-hover:scale-105" viewBox="0 0 100 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0 0 H100 V55 C100 88 50 115 50 115 C50 115 0 88 0 55 Z" fill="#FAF7ED"/>
+                </svg>
+                <!-- Brand Logo Centered -->
+                <div class="absolute inset-0 flex items-center justify-center pb-3 md:pb-4">
+                  <img 
+                    src="/images/logo/logo%20Floragate%201.png" 
+                    alt="Logo Floragate" 
+                    class="h-14 sm:h-16 md:h-20 w-auto scale-[1.15] object-contain transition-transform duration-300 group-hover:scale-125"
+                    width={64}
+                    height={62}
+                    loading="eager"
+                  />
+                </div>
+              </a>
+            </div>
+            <!-- Spacer for logo layout so the brand text starts after the logo -->
+            <div class="w-22 sm:w-24 md:w-28 flex-shrink-0"></div>
+          </div>
+
+          <!-- Brand Text -->
+          <div class="ml-4 md:ml-6 flex flex-col justify-center text-white select-none">
+            <span class="font-serif text-2xl sm:text-3xl md:text-4xl font-bold tracking-wide leading-none">Floragate</span>
+            <span class="text-[11px] sm:text-xs md:text-sm text-white/80 font-medium font-sans mt-2 tracking-wide leading-none">The Gateway to Meaningful Moments</span>
+          </div>
+        </div>
+
+        <!-- Search Bar (Pill-shaped, aligned to the right) -->
+        <div class="w-full max-w-[280px] lg:max-w-[340px] ml-auto mr-6 lg:mr-8">
+          <form action="/katalog/" method="GET" class="relative w-full">
+            <input 
+              type="text" 
+              name="search"
+              maxlength="80"
+              autocomplete="off"
+              placeholder="Cari produk bunga..." 
+              class="search-input-field w-full px-5 py-3 pr-12 rounded-full border border-white/20 bg-white/10 text-white text-sm placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-secondary/50 focus:border-secondary focus:bg-white/20 transition-all"
+            />
+            <button type="submit" class="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-secondary transition-colors cursor-pointer">
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </button>
+          </form>
+        </div>
+
+        <!-- WhatsApp Call to Action (Gold Button) -->
+        <div class="flex-shrink-0">
+          <a 
+            href={`https://wa.me/${WHATSAPP_NUMBER}?text=Halo%20Floragate,%20saya%20ingin%20tanya%20mengenai%20layanan%20pemesanan%20bunga%20di%20Malang.`} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-secondary hover:bg-secondary-dark text-xs font-bold text-white transition-all duration-300 shadow-md hover:shadow-lg hover:-translate-y-0.5"
+          >
+            <svg class="h-4 w-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.965C16.588 2.02 14.12 1.022 11.5 1.022c-5.438 0-9.863 4.372-9.867 9.802-.001 1.73.473 3.42 1.37 4.947l-.994 3.63 3.734-.967c1.554.84 3.123 1.282 4.304 1.282zm11.304-6.858c-.31-.155-1.838-.895-2.122-.997-.284-.102-.49-.153-.696.155-.205.308-.796.997-.975 1.199-.179.203-.359.227-.669.073-.31-.155-1.31-.476-2.494-1.516-.922-.811-1.545-1.812-1.725-2.12-.179-.31-.018-.478.137-.631.14-.139.31-.359.464-.539.155-.179.206-.308.31-.513.102-.206.051-.385-.026-.539-.077-.154-.696-1.649-.953-2.263-.25-.596-.503-.515-.69-.525l-.59-.01c-.206 0-.54.077-.822.385-.282.308-1.079 1.052-1.079 2.565 0 1.513 1.103 2.977 1.257 3.182.155.206 2.17 3.267 5.257 4.569.735.31 1.307.495 1.753.634.739.231 1.412.197 1.944.119.593-.087 1.838-.739 2.095-1.453.258-.713.258-1.325.18-1.453-.077-.128-.283-.205-.593-.36z" />
+            </svg>
+            Order WhatsApp
+          </a>
+        </div>
+        
+      </div>
+    </div>
+
+<!-- Row 2: Centered Navigation Links (Primary Dark Theme Green - Sticky) -->
+<div class="sticky top-0 z-40 hidden md:block bg-primary-dark px-4 shadow-md">
+      <div class="max-w-7xl mx-auto flex justify-center items-center h-14 relative">
+        <nav class="flex items-center gap-10" id="desktop-nav">
+          {navItems.map(item => {
+            const isHome = item.href === '/' && currentPath === '/';
+            const isSubpage = item.href !== '/' && (
+              currentPath.startsWith(item.href) || 
+              (item.href === '/katalog/' && (currentPath.startsWith('/kategori/') || currentPath.startsWith('/produk/')))
+            );
+            const isActive = isHome || isSubpage;
+            
+            if (item.hasDropdown) {
+              return (
+                <div class="relative group py-3" id="katalog-dropdown-trigger">
+                  <a 
+                    href={item.href} 
+                    class={`flex items-center gap-1.5 text-xs sm:text-sm font-semibold tracking-wide transition-colors ${isActive ? 'text-white border-b-2 border-secondary pb-1' : 'text-white/80 hover:text-secondary'}`}
+                  >
+                    {item.label}
+                    <svg class="h-3.5 w-3.5 text-white/60 transition-transform duration-200 group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </a>
+                  
+                  <!-- Dropdown Menu -->
+                  <div class="absolute left-1/2 -translate-x-1/2 top-full w-64 bg-[#FAF7ED] rounded-md shadow-xl border border-soft-cream/30 py-2 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 z-50">
+                    <div class="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-[#FAF7ED] rotate-45 border-t border-l border-soft-cream/30"></div>
+                    {CATEGORIES.map(category => (
+                      <a 
+                        href={`/kategori/${category.slug}/`} 
+                        class="block px-4 py-2.5 text-xs font-semibold text-slate-700 hover:text-primary hover:bg-primary/5 transition-colors"
+                      >
+                        {category.name}
+                      </a>
+                    ))}
+                    <div class="border-t border-soft-cream/20 my-1"></div>
+                    <a 
+                      href="/katalog/" 
+                      class="block px-4 py-2.5 text-xs font-bold text-center text-secondary hover:text-secondary-dark hover:bg-secondary/5 transition-colors"
+                    >
+                      Lihat Semua Karangan Bunga →
+                    </a>
+                  </div>
+                </div>
+              );
+            }
+
+            return (
+              <a 
+                href={item.href} 
+                class={`text-xs sm:text-sm font-semibold tracking-wide transition-colors py-3 ${isActive ? 'text-white border-b-2 border-secondary pb-1' : 'text-white/80 hover:text-secondary'}`}
+              >
+                {item.label}
+              </a>
+            );
+          })}
+        </nav>
+      </div>
+    </div>
+  
+  <!-- ============================================= -->
+  <!-- MOBILE NAVBAR (One row, shown below md - Sticky) -->
+  <!-- ============================================= -->
+  <div class="sticky top-0 z-50 md:hidden bg-primary shadow-md">
+    <div class="px-4">
+    <div class="flex items-center justify-between h-20">
+      
+      <!-- Brand & Shield Logo Container -->
+      <div class="flex items-center">
+        <div class="flex-shrink-0 flex items-center relative h-20">
+          <div class="absolute left-0 top-0 w-14 h-18 z-20">
+            <a href="/" class="block w-full h-full relative">
+              <svg class="absolute inset-0 w-full h-full drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)]" viewBox="0 0 100 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 0 H100 V55 C100 88 50 115 50 115 C50 115 0 88 0 55 Z" fill="#FAF7ED"/>
+              </svg>
+              <div class="absolute inset-0 flex items-center justify-center pb-2.5">
+                <img 
+                  src="/images/logo/logo%20Floragate%201.png" 
+                  alt="Logo Floragate" 
+                  class="h-10 w-auto scale-110 object-contain"
+                  width={34}
+                  height={33}
+                  loading="eager"
+                />
+              </div>
+            </a>
+          </div>
+          <!-- Spacer -->
+          <div class="w-14 flex-shrink-0"></div>
+        </div>
+
+        <div class="ml-3 text-white flex flex-col justify-center select-none">
+          <span class="font-serif text-lg font-bold tracking-wide leading-none">Floragate</span>
+          <span class="text-[10px] text-white/80 font-sans mt-1.5 leading-none">Toko Bunga Malang Terbaik</span>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex items-center gap-2">
+        <!-- WhatsApp Quick Icon -->
+        <a 
+          href={`https://wa.me/${WHATSAPP_NUMBER}?text=Halo%20Floragate,%20saya%20ingin%20tanya%20mengenai%20layanan%20pemesanan%20bunga%20di%20Malang.`} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="p-2.5 rounded-full bg-white text-primary hover:bg-slate-100 transition-colors shadow-sm"
+          aria-label="Pesan via WhatsApp"
+        >
+          <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.965C16.588 2.02 14.12 1.022 11.5 1.022c-5.438 0-9.863 4.372-9.867 9.802-.001 1.73.473 3.42 1.37 4.947l-.994 3.63 3.734-.967c1.554.84 3.123 1.282 4.304 1.282zm11.304-6.858c-.31-.155-1.838-.895-2.122-.997-.284-.102-.49-.153-.696.155-.205.308-.796.997-.975 1.199-.179.203-.359.227-.669.073-.31-.155-1.31-.476-2.494-1.516-.922-.811-1.545-1.812-1.725-2.12-.179-.31-.018-.478.137-.631.14-.139.31-.359.464-.539.155-.179.206-.308.31-.513.102-.206.051-.385-.026-.539-.077-.154-.696-1.649-.953-2.263-.25-.596-.503-.515-.69-.525l-.59-.01c-.206 0-.54.077-.822.385-.282.308-1.079 1.052-1.079 2.565 0 1.513 1.103 2.977 1.257 3.182.155.206 2.17 3.267 5.257 4.569.735.31 1.307.495 1.753.634.739.231 1.412.197 1.944.119.593-.087 1.838-.739 2.095-1.453.258-.713.258-1.325.18-1.453-.077-.128-.283-.205-.593-.36z" />
+          </svg>
+        </a>
+
+        <!-- Mobile Menu Button -->
+        <button 
+          id="mobile-menu-btn" 
+          type="button" 
+          class="inline-flex items-center justify-center p-2 rounded-md text-white/80 hover:text-white focus:outline-none"
+          aria-expanded="false"
+        >
+          <span class="sr-only">Open main menu</span>
+          <svg class="block h-6 w-6" id="menu-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg class="hidden h-6 w-6" id="close-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MOBILE MENU DRAWER (Hidden by default, shown when toggled) -->
+  <div class="hidden transition-all duration-300" id="mobile-menu">
+    <div class="px-4 pt-3 pb-6 space-y-3 bg-[#FAF7ED] border-t border-soft-cream/30 shadow-lg select-none">
+      
+      <!-- Mobile Search Field -->
+      <form action="/katalog/" method="GET" class="relative w-full pb-2">
+        <input 
+          type="text" 
+          name="search"
+              maxlength="80"
+              autocomplete="off"
+              placeholder="Cari produk bunga..." 
+          class="search-input-field w-full px-4 py-2.5 pr-10 rounded-full border border-soft-cream bg-white text-slate-700 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+        />
+        <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 -mt-1 text-slate-400 hover:text-primary transition-colors cursor-pointer">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </button>
+      </form>
+
+      <!-- Navigation Links -->
+      {navItems.map(item => {
+        const isHome = item.href === '/' && currentPath === '/';
+        const isSubpage = item.href !== '/' && (
+          currentPath.startsWith(item.href) || 
+          (item.href === '/katalog/' && (currentPath.startsWith('/kategori/') || currentPath.startsWith('/produk/')))
+        );
+        const isActive = isHome || isSubpage;
+
+        if (item.hasDropdown) {
+          return (
+            <div class="space-y-1">
+              <div class="px-3 py-2 text-base font-semibold text-primary border-b border-soft-cream/20">
+                {item.label}
+              </div>
+              <div class="pl-4 space-y-1 pt-1">
+                {CATEGORIES.map(category => (
+                  <a 
+                    href={`/kategori/${category.slug}/`}
+                    class="block px-3 py-2 text-sm font-medium text-slate-600 rounded-md hover:bg-primary/5 hover:text-primary transition-colors"
+                  >
+                    {category.name}
+                  </a>
+                ))}
+                <a 
+                  href="/katalog/"
+                  class="block px-3 py-2 text-sm font-bold text-primary rounded-md hover:bg-primary/5 transition-colors"
+                >
+                  Semua Produk →
+                </a>
+              </div>
+            </div>
+          );
+        }
+
+        return (
+          <a 
+            href={item.href} 
+            class={`block px-3 py-2.5 rounded-md text-base font-semibold transition-colors ${isActive ? 'bg-primary/10 text-primary' : 'text-slate-600 hover:bg-primary/5 hover:text-primary'}`}
+          >
+            {item.label}
+          </a>
+        );
+      })}
+      
+      <!-- Primary WhatsApp Button inside Drawer -->
+      <div class="pt-4 border-t border-soft-cream/30">
+        <a 
+          href={`https://wa.me/${WHATSAPP_NUMBER}?text=Halo%20Floragate,%20saya%20ingin%20tanya%20mengenai%20layanan%20pemesanan%20bunga%20di%20Malang.`} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-full shadow-md text-sm font-bold text-white bg-secondary hover:bg-secondary-dark transition-colors duration-300"
+        >
+          <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.965C16.588 2.02 14.12 1.022 11.5 1.022c-5.438 0-9.863 4.372-9.867 9.802-.001 1.73.473 3.42 1.37 4.947l-.994 3.63 3.734-.967c1.554.84 3.123 1.282 4.304 1.282zm11.304-6.858c-.31-.155-1.838-.895-2.122-.997-.284-.102-.49-.153-.696.155-.205.308-.796.997-.975 1.199-.179.203-.359.227-.669.073-.31-.155-1.31-.476-2.494-1.516-.922-.811-1.545-1.812-1.725-2.12-.179-.31-.018-.478.137-.631.14-.139.31-.359.464-.539.155-.179.206-.308.31-.513.102-.206.051-.385-.026-.539-.077-.154-.696-1.649-.953-2.263-.25-.596-.503-.515-.69-.525l-.59-.01c-.206 0-.54.077-.822.385-.282.308-1.079 1.052-1.079 2.565 0 1.513 1.103 2.977 1.257 3.182.155.206 2.17 3.267 5.257 4.569.735.31 1.307.495 1.753.634.739.231 1.412.197 1.944.119.593-.087 1.838-.739 2.095-1.453.258-.713.258-1.325.18-1.453-.077-.128-.283-.205-.593-.36z" />
+          </svg>
+          Tanya Florist via WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Mobile menu toggle
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  if (btn && menu && menuIcon && closeIcon) {
+    btn.addEventListener('click', () => {
+      const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!isExpanded));
+      
+      menu.classList.toggle('hidden');
+      menuIcon.classList.toggle('hidden');
+      closeIcon.classList.toggle('hidden');
+    });
+  }
+</script>

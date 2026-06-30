@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#faf8f5"/>
+      <stop offset="100%" stop-color="#f0ece6"/>
+    </radialGradient>
+    <linearGradient id="vase" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c4a882"/>
+      <stop offset="100%" stop-color="#8b7355"/>
+    </linearGradient>
+    <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6b8f5e"/>
+      <stop offset="100%" stop-color="#4a6b3a"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="512" height="512" fill="url(#bg)" rx="24"/>
+  
+  <!-- Shadow under vase -->
+  <ellipse cx="256" cy="420" rx="100" ry="12" fill="#d4cfc7" opacity="0.5"/>
+  
+  <!-- Vase body -->
+  <path d="M210 340 Q200 380 215 410 L297 410 Q312 380 302 340 Z" fill="url(#vase)" stroke="#9a8468" stroke-width="1.5"/>
+  <ellipse cx="256" cy="340" rx="46" ry="10" fill="#d4b896" stroke="#9a8468" stroke-width="1"/>
+  
+  <!-- Stems -->
+  <line x1="240" y1="340" x2="220" y2="230" stroke="#6b8f5e" stroke-width="3" stroke-linecap="round"/>
+  <line x1="256" y1="340" x2="256" y2="200" stroke="#6b8f5e" stroke-width="3" stroke-linecap="round"/>
+  <line x1="272" y1="340" x2="292" y2="225" stroke="#6b8f5e" stroke-width="3" stroke-linecap="round"/>
+  <line x1="248" y1="340" x2="200" y2="260" stroke="#6b8f5e" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="264" y1="340" x2="312" y2="255" stroke="#6b8f5e" stroke-width="2.5" stroke-linecap="round"/>
+  
+  <!-- Leaves -->
+  <path d="M230 290 Q210 270 195 280 Q210 295 230 290Z" fill="url(#leaf)"/>
+  <path d="M282 285 Q302 265 317 275 Q302 290 282 285Z" fill="url(#leaf)"/>
+  <path d="M250 310 Q235 295 220 305 Q235 315 250 310Z" fill="url(#leaf)"/>
+  <path d="M262 305 Q277 290 292 300 Q277 310 262 305Z" fill="url(#leaf)"/>
+  
+  <!-- Center Rose (pink) -->
+  <circle cx="256" cy="195" r="28" fill="#e88ca5"/>
+  <circle cx="256" cy="195" r="20" fill="#f0a0b5"/>
+  <circle cx="256" cy="195" r="13" fill="#f5b8c8"/>
+  <circle cx="256" cy="195" r="7" fill="#f8ced8"/>
+  
+  <!-- Left Rose (peach) -->
+  <circle cx="215" cy="225" r="24" fill="#f0b88c"/>
+  <circle cx="215" cy="225" r="17" fill="#f5c8a5"/>
+  <circle cx="215" cy="225" r="10" fill="#f8d8be"/>
+  <circle cx="215" cy="225" r="5" fill="#fce8d4"/>
+  
+  <!-- Right Rose (soft red) -->
+  <circle cx="295" cy="220" r="25" fill="#d4707a"/>
+  <circle cx="295" cy="220" r="18" fill="#e0888f"/>
+  <circle cx="295" cy="220" r="11" fill="#e8a0a5"/>
+  <circle cx="295" cy="220" r="6" fill="#f0b8bb"/>
+  
+  <!-- Top-left small flower (white daisy) -->
+  <circle cx="195" cy="255" r="18" fill="#f5e6d0"/>
+  <circle cx="195" cy="255" r="12" fill="#faf0e2"/>
+  <circle cx="195" cy="255" r="6" fill="#fdf8f0"/>
+  
+  <!-- Top-right small flower (lavender) -->
+  <circle cx="315" cy="250" r="18" fill="#c8a5d4"/>
+  <circle cx="315" cy="250" r="12" fill="#d8b8e0"/>
+  <circle cx="315" cy="250" r="6" fill="#e8d0ec"/>
+  
+  <!-- Baby's breath dots -->
+  <circle cx="230" cy="205" r="4" fill="#fff" opacity="0.9"/>
+  <circle cx="275" cy="208" r="3.5" fill="#fff" opacity="0.9"/>
+  <circle cx="240" cy="245" r="3" fill="#fff" opacity="0.85"/>
+  <circle cx="272" cy="248" r="3" fill="#fff" opacity="0.85"/>
+  <circle cx="256" cy="175" r="3.5" fill="#fff" opacity="0.9"/>
+  <circle cx="205" cy="240" r="2.5" fill="#fff" opacity="0.8"/>
+  <circle cx="305" cy="238" r="2.5" fill="#fff" opacity="0.8"/>
+</svg>

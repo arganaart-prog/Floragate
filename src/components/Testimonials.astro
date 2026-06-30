@@ -1,0 +1,287 @@
+---
+import { TESTIMONIALS } from '../data/testimonials';
+---
+
+<section class="py-20 bg-accent-bg/60 border-t border-soft-cream/40 overflow-hidden" aria-labelledby="testimonials-heading">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="text-secondary font-semibold text-xs tracking-widest uppercase block mb-2">Ulasan Pelanggan</span>
+      <h2 id="testimonials-heading" class="font-serif text-3xl sm:text-4xl font-bold text-slate-800 leading-tight">
+        Apa Kata Mereka tentang Floragate
+      </h2>
+      <div class="flex items-center justify-center gap-4 my-6">
+        <span class="h-px bg-gradient-to-r from-transparent via-secondary/40 to-transparent w-20"></span>
+        <svg class="w-4 h-4 text-secondary" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 2a1.5 1.5 0 0 1 1.5 1.5c0 .351-.121.674-.323.93a4.5 4.5 0 0 0-2.354 2.354A1.5 1.5 0 0 1 12 8a1.5 1.5 0 0 1-1.5-1.5c0-.351.121-.674.323-.93a4.5 4.5 0 0 0 2.354-2.354A1.5 1.5 0 0 1 12 2zm0 20a1.5 1.5 0 0 1-1.5-1.5c0-.351.121-.674-.323-.93a4.5 4.5 0 0 0 2.354-2.354c.202.256.323.579.323.93A1.5 1.5 0 0 1 12 22z"/>
+        </svg>
+        <span class="h-px bg-gradient-to-l from-transparent via-secondary/40 to-transparent w-20"></span>
+      </div>
+      <p class="text-slate-500 text-xs sm:text-sm leading-relaxed">
+        Geser ke kiri atau kanan untuk membaca ulasan pelanggan Floragate di Malang dan sekitarnya.
+      </p>
+    </div>
+
+    <div class="testimonial-carousel relative" data-testimonial-carousel>
+      <button
+        type="button"
+        class="testimonial-carousel-prev absolute left-0 top-1/2 z-10 -translate-y-1/2 -translate-x-1/2 sm:translate-x-0 flex h-10 w-10 items-center justify-center rounded-full bg-white text-primary shadow-[0_2px_12px_rgba(0,0,0,0.12)] transition-all duration-200 hover:shadow-[0_4px_16px_rgba(0,0,0,0.16)] hover:text-secondary disabled:opacity-30 disabled:pointer-events-none cursor-pointer"
+        aria-label="Testimoni sebelumnya"
+      >
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+
+      <div
+        class="testimonial-carousel-track flex gap-5 sm:gap-6 overflow-x-auto scroll-smooth px-6 sm:px-10 pb-2 snap-x snap-mandatory cursor-grab active:cursor-grabbing select-none scrollbar-hide"
+        tabindex="0"
+        role="list"
+        aria-label="Daftar testimoni pelanggan"
+      >
+        {TESTIMONIALS.map((testimonial) => (
+          <article
+            class="testimonial-carousel-item relative flex-shrink-0 snap-start flex flex-col w-[min(85vw,380px)] sm:w-[400px] min-h-[260px] p-7 sm:p-8 rounded-xl border border-soft-cream/35 bg-white/95 backdrop-blur-xs shadow-xs hover:shadow-md hover:border-secondary/30 transition-shadow duration-300"
+            role="listitem"
+          >
+            <svg class="absolute top-6 right-6 w-8 h-8 text-secondary/15 pointer-events-none" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z"/>
+            </svg>
+
+            <div class="flex gap-1 mb-4" aria-label={`Rating ${testimonial.rating} dari 5`}>
+              {Array.from({ length: testimonial.rating }).map(() => (
+                <svg class="w-4 h-4 text-secondary" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                </svg>
+              ))}
+            </div>
+
+            <blockquote class="flex-grow">
+              <p class="text-sm text-slate-600 leading-relaxed italic">&ldquo;{testimonial.quote}&rdquo;</p>
+            </blockquote>
+
+            <footer class="mt-6 pt-5 border-t border-soft-cream/50 flex items-center gap-4">
+              <div class="flex-shrink-0 w-11 h-11 rounded-full bg-primary/10 border border-primary/15 flex items-center justify-center">
+                <span class="text-xs font-bold text-primary tracking-wide">{testimonial.initials}</span>
+              </div>
+              <div>
+                <p class="font-semibold text-slate-800 text-sm">{testimonial.name}</p>
+                <p class="text-xs text-slate-400 mt-0.5">{testimonial.location}</p>
+                <p class="text-[11px] text-secondary font-medium mt-1">{testimonial.product}</p>
+              </div>
+            </footer>
+          </article>
+        ))}
+      </div>
+
+      <button
+        type="button"
+        class="testimonial-carousel-next absolute right-0 top-1/2 z-10 -translate-y-1/2 translate-x-1/2 sm:translate-x-0 flex h-10 w-10 items-center justify-center rounded-full bg-white text-primary shadow-[0_2px_12px_rgba(0,0,0,0.12)] transition-all duration-200 hover:shadow-[0_4px_16px_rgba(0,0,0,0.16)] hover:text-secondary disabled:opacity-30 disabled:pointer-events-none cursor-pointer"
+        aria-label="Testimoni berikutnya"
+      >
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+
+      <div class="testimonial-carousel-dots flex justify-center gap-2 mt-8" role="tablist" aria-label="Indikator testimoni"></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .testimonial-carousel-track.is-dragging {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+  }
+</style>
+
+<script>
+  function initTestimonialCarousels() {
+    document.querySelectorAll('[data-testimonial-carousel]').forEach((root) => {
+      const track = root.querySelector('.testimonial-carousel-track') as HTMLElement;
+      const prevBtn = root.querySelector('.testimonial-carousel-prev') as HTMLButtonElement;
+      const nextBtn = root.querySelector('.testimonial-carousel-next') as HTMLButtonElement;
+      const dotsContainer = root.querySelector('.testimonial-carousel-dots') as HTMLElement;
+      const items = root.querySelectorAll('.testimonial-carousel-item') as NodeListOf<HTMLElement>;
+
+      if (!track || !prevBtn || !nextBtn || !dotsContainer || items.length === 0) return;
+
+      let currentIndex = 0;
+      let dots: HTMLButtonElement[] = [];
+      let autoplayTimer: ReturnType<typeof setInterval> | null = null;
+      let isDragging = false;
+      let dragStartX = 0;
+      let dragScrollLeft = 0;
+      let hasMoved = false;
+
+      function getGap() {
+        return parseFloat(getComputedStyle(track).gap) || 24;
+      }
+
+      function getStep() {
+        return items[0].offsetWidth + getGap();
+      }
+
+      function getMaxIndex() {
+        return items.length - 1;
+      }
+
+      function scrollToIndex(index: number, behavior: ScrollBehavior = 'smooth') {
+        currentIndex = Math.max(0, Math.min(index, getMaxIndex()));
+        track.scrollTo({ left: currentIndex * getStep(), behavior });
+        updateUI();
+      }
+
+      function updateButtons() {
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        prevBtn.disabled = track.scrollLeft <= 1;
+        nextBtn.disabled = track.scrollLeft >= maxScroll - 1;
+      }
+
+      function updateDots() {
+        dots.forEach((dot, i) => {
+          const active = i === currentIndex;
+          dot.classList.toggle('bg-primary', active);
+          dot.classList.toggle('w-5', active);
+          dot.classList.toggle('bg-slate-300', !active);
+          dot.classList.toggle('w-2', !active);
+          dot.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+      }
+
+      function syncIndexFromScroll() {
+        const step = getStep();
+        currentIndex = Math.round(track.scrollLeft / step);
+        currentIndex = Math.max(0, Math.min(currentIndex, getMaxIndex()));
+        updateUI();
+      }
+
+      function updateUI() {
+        updateButtons();
+        updateDots();
+      }
+
+      function buildDots() {
+        dotsContainer.innerHTML = '';
+        dots = [];
+
+        items.forEach((_, i) => {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className =
+            'h-2 w-2 rounded-full transition-all duration-300 cursor-pointer ' +
+            (i === currentIndex ? 'bg-primary w-5' : 'bg-slate-300 hover:bg-slate-400');
+          dot.setAttribute('role', 'tab');
+          dot.setAttribute('aria-label', `Testimoni ${i + 1}`);
+          dot.setAttribute('aria-selected', i === currentIndex ? 'true' : 'false');
+          dot.addEventListener('click', () => {
+            stopAutoplay();
+            scrollToIndex(i);
+            startAutoplay();
+          });
+          dotsContainer.appendChild(dot);
+          dots.push(dot);
+        });
+      }
+
+      function stopAutoplay() {
+        if (autoplayTimer) {
+          clearInterval(autoplayTimer);
+          autoplayTimer = null;
+        }
+      }
+
+      function startAutoplay() {
+        stopAutoplay();
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        autoplayTimer = setInterval(() => {
+          const nextIndex = currentIndex >= getMaxIndex() ? 0 : currentIndex + 1;
+          scrollToIndex(nextIndex);
+        }, 4500);
+      }
+
+      prevBtn.addEventListener('click', () => {
+        stopAutoplay();
+        scrollToIndex(currentIndex - 1);
+        startAutoplay();
+      });
+
+      nextBtn.addEventListener('click', () => {
+        stopAutoplay();
+        scrollToIndex(currentIndex + 1);
+        startAutoplay();
+      });
+
+      track.addEventListener('scroll', () => {
+        if (isDragging) return;
+        syncIndexFromScroll();
+      }, { passive: true });
+
+      track.addEventListener('pointerdown', (e) => {
+        isDragging = true;
+        hasMoved = false;
+        dragStartX = e.clientX;
+        dragScrollLeft = track.scrollLeft;
+        track.classList.add('is-dragging');
+        track.setPointerCapture(e.pointerId);
+        stopAutoplay();
+      });
+
+      track.addEventListener('pointermove', (e) => {
+        if (!isDragging) return;
+        const delta = e.clientX - dragStartX;
+        if (Math.abs(delta) > 4) hasMoved = true;
+        track.scrollLeft = dragScrollLeft - delta;
+      });
+
+      track.addEventListener('pointerup', (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        track.classList.remove('is-dragging');
+        track.releasePointerCapture(e.pointerId);
+
+        if (hasMoved) {
+          syncIndexFromScroll();
+          const step = getStep();
+          scrollToIndex(currentIndex);
+        }
+
+        startAutoplay();
+      });
+
+      track.addEventListener('pointercancel', () => {
+        isDragging = false;
+        track.classList.remove('is-dragging');
+        startAutoplay();
+      });
+
+      track.addEventListener('mouseenter', stopAutoplay);
+      track.addEventListener('mouseleave', startAutoplay);
+      track.addEventListener('touchstart', stopAutoplay, { passive: true });
+      track.addEventListener('touchend', () => {
+        setTimeout(startAutoplay, 3000);
+      }, { passive: true });
+
+      const resizeObserver = new ResizeObserver(() => {
+        scrollToIndex(currentIndex, 'auto');
+      });
+      resizeObserver.observe(track);
+
+      buildDots();
+      updateUI();
+      startAutoplay();
+    });
+  }
+
+  initTestimonialCarousels();
+  document.addEventListener('astro:page-load', initTestimonialCarousels);
+</script>

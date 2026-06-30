@@ -1,0 +1,74 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'product';
+  schema?: Record<string, any>;
+  robots?: string;
+}
+
+const {
+  title,
+  description,
+  image = '/images/banner/default-og.webp',
+  type = 'website',
+  schema,
+  robots = 'index, follow, max-image-preview:large'
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL(image, Astro.site);
+const siteName = 'Floragate';
+const fullTitle = title.toLowerCase().includes(siteName.toLowerCase()) ? title : `${title} | ${siteName}`;
+const defaultKeywords = 'Floragate, Floragate Malang, Floragate toko bunga, toko bunga Floragate, toko bunga Malang murah, toko bunga Malang berkualitas, florist Malang murah, florist Malang berkualitas, karangan bunga Malang murah, bunga papan Malang, hand bouquet Malang, standing flower Malang';
+const securityPolicy = [
+  "default-src 'self'",
+  "base-uri 'self'",
+  "object-src 'none'",
+  "img-src 'self' data: https:",
+  "font-src 'self' https://fonts.gstatic.com data:",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "script-src 'self' 'unsafe-inline'",
+  "connect-src 'self'",
+  "form-action 'self' https://wa.me https://api.whatsapp.com"
+].join('; ');
+---
+
+<!-- Primary Meta Tags -->
+<title>{fullTitle}</title>
+<meta name="title" content={fullTitle} />
+<meta name="application-name" content={siteName} />
+<meta name="author" content={siteName} />
+<meta name="description" content={description} />
+<meta name="keywords" content={defaultKeywords} />
+<meta name="robots" content={robots} />
+<meta name="referrer" content="strict-origin-when-cross-origin" />
+<meta http-equiv="Content-Security-Policy" content={securityPolicy} />
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImageURL} />
+<meta property="og:locale" content="id_ID" />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalURL} />
+<meta property="twitter:title" content={fullTitle} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={ogImageURL} />
+
+<!-- Fonts & Icons -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+
+<!-- JSON-LD Schema Markup -->
+{schema && (
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
+)}

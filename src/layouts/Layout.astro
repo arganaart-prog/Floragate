@@ -1,0 +1,105 @@
+---
+import '../styles/global.css';
+import SEOHead from '../components/SEOHead.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Testimonials from '../components/Testimonials.astro';
+import favicon from '../assets/favicon.svg';
+import { SITE_DOMAIN, WHATSAPP_NUMBER, INSTAGRAM_URL } from '../data/constants';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'product';
+  schema?: Record<string, any>;
+  robots?: string;
+  showTestimonials?: boolean;
+}
+
+const { title, description, image, type = 'website', schema, robots, showTestimonials = true } = Astro.props;
+
+// Default Schema: Florist di Malang
+const defaultSchema = {
+  "@context": "https://schema.org",
+  "@type": "Florist",
+  "name": "Floragate",
+  "alternateName": ["Floragate Malang", "Toko Bunga Malang Murah dan Berkualitas", "Toko Bunga Murah Malang"],
+  "description": "Floragate adalah toko bunga Malang murah dan berkualitas untuk bunga papan, standing flower, hand bouquet, dan rangkaian bunga segar dengan layanan cepat.",
+  "slogan": "The Gateway to Meaningful Moments",
+  "image": `${SITE_DOMAIN}/images/logo/logo%20Floragate%201.png`,
+  "@id": `${SITE_DOMAIN}/#florist`,
+  "url": SITE_DOMAIN,
+  "telephone": `+${WHATSAPP_NUMBER}`,
+  "priceRange": "Rp 250.000 - Rp 1.500.000",
+  "areaServed": [
+    { "@type": "City", "name": "Kota Malang" },
+    { "@type": "AdministrativeArea", "name": "Kabupaten Malang" },
+    { "@type": "City", "name": "Kota Batu" }
+  ],
+  "keywords": "Floragate, Floragate Malang, toko bunga Floragate, toko bunga Malang murah, toko bunga Malang berkualitas, florist Malang murah, karangan bunga Malang murah berkualitas",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Kota Malang, Jawa Timur",
+    "addressLocality": "Malang",
+    "addressRegion": "Jawa Timur",
+    "postalCode": "65100",
+    "addressCountry": "ID"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": -7.96662,
+    "longitude": 112.63263
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": [
+      "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+    ],
+    "opens": "07:00",
+    "closes": "21:00"
+  },
+  "sameAs": [
+    INSTAGRAM_URL
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Katalog bunga murah dan berkualitas Floragate",
+    "itemListElement": [
+      { "@type": "OfferCatalog", "name": "Bunga papan Malang" },
+      { "@type": "OfferCatalog", "name": "Standing flower Malang" },
+      { "@type": "OfferCatalog", "name": "Hand bouquet Malang" },
+      { "@type": "OfferCatalog", "name": "Bunga meja Malang" }
+    ]
+  }
+};
+
+const finalSchema = schema || defaultSchema;
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href={favicon.src} />
+    <meta name="generator" content={Astro.generator} />
+
+    <SEOHead
+      title={title}
+      description={description}
+      image={image}
+      type={type}
+      schema={finalSchema}
+      robots={robots}
+    />
+  </head>
+  <body class="flex flex-col min-h-screen bg-clean-ivory text-slate-800">
+    <Navbar />
+    <main class="flex-grow">
+      <slot />
+    </main>
+    {showTestimonials && <Testimonials />}
+    <Footer />
+  </body>
+</html>

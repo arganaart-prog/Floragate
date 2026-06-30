@@ -1,0 +1,126 @@
+---
+// ProductCard.astro
+import type { Product } from '../data/products';
+
+interface Props {
+  product: Product;
+  variant?: 'modern' | 'classic';
+}
+
+const { product, variant = 'modern' } = Astro.props;
+const productUrl = `/produk/${product.slug}/`;
+---
+
+{variant === 'classic' ? (
+  <div class="group bg-white rounded-lg border border-soft-cream/60 overflow-hidden hover-gold-grow">
+    <!-- Image Wrapper -->
+    <a href={productUrl} class="block relative aspect-4/3 bg-slate-100 overflow-hidden premium-image-hover">
+      <img
+        src={product.image}
+        alt={`Foto ${product.name} Florist Malang`}
+        width={product.imageWidth}
+        height={product.imageHeight}
+        loading="lazy"
+        class="object-cover w-full h-full"
+      />
+      <div class="absolute top-3 left-3 z-10 flex gap-2">
+        <span class="bg-primary/95 text-white text-[10px] tracking-wider uppercase font-semibold px-2.5 py-1 rounded-xs shadow-xs">
+          {product.city}
+        </span>
+        {product.featured && (
+          <span class="bg-secondary text-primary-dark text-[10px] tracking-wider uppercase font-semibold px-2.5 py-1 rounded-xs shadow-xs">
+            Terpopuler
+          </span>
+        )}
+      </div>
+    </a>
+
+    <!-- Info Wrapper -->
+    <div class="p-5 flex flex-col justify-between h-[190px]">
+      <div>
+        <p class="text-[11px] font-semibold tracking-wider text-slate-400 uppercase mb-1">{product.categoryName}</p>
+        <h3 class="font-serif text-lg font-bold text-slate-800 line-clamp-2 leading-snug group-hover:text-primary transition-colors duration-200">
+          <a href={productUrl}>{product.name}</a>
+        </h3>
+      </div>
+
+      <div class="pt-4 border-t border-soft-cream/30 flex items-center justify-between">
+        <div>
+          <p class="text-[10px] text-slate-400 font-medium">Harga Mulai</p>
+          <p class="text-base font-bold text-primary font-sans">{product.priceLabel}</p>
+        </div>
+        <a
+          href={productUrl}
+          class="inline-flex items-center justify-center px-4 py-2 border border-soft-cream text-xs font-semibold rounded-md text-slate-700 bg-white hover:bg-clean-ivory hover:text-primary hover:border-primary transition-colors duration-300"
+        >
+          Lihat Detail
+        </a>
+      </div>
+    </div>
+  </div>
+) : (
+  <article class="group relative h-full overflow-hidden rounded-lg border border-soft-cream/70 bg-white shadow-[0_14px_38px_rgba(15,23,42,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-secondary/70 hover:shadow-[0_24px_60px_rgba(85,101,75,0.15)]">
+    <a href={productUrl} class="block h-full no-underline">
+      <div class="relative -mx-px -mt-px aspect-4/3 overflow-hidden bg-clean-ivory premium-image-hover">
+        <img
+          src={product.image}
+          alt={`Foto ${product.name} Florist Malang`}
+          width={product.imageWidth}
+          height={product.imageHeight}
+          loading="lazy"
+          class="block h-full w-full object-cover object-top"
+        />
+
+        <div class="absolute inset-x-0 bottom-0 z-10 h-20 bg-gradient-to-t from-primary-dark/35 via-primary-dark/5 to-transparent"></div>
+
+        <div class="absolute left-3 top-3 z-10 flex max-w-[calc(100%-1.5rem)] flex-wrap gap-2">
+          <span class="inline-flex max-w-[9rem] items-center gap-1.5 rounded-full bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-primary shadow-[0_8px_18px_rgba(15,23,42,0.12)] backdrop-blur-sm">
+            <svg class="h-3 w-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 21s7-4.35 7-11a7 7 0 10-14 0c0 6.65 7 11 7 11z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 10.5h.01" />
+            </svg>
+            <span class="truncate">{product.city}</span>
+          </span>
+          {product.featured && (
+            <span class="inline-flex items-center rounded-full bg-secondary px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-primary-dark shadow-[0_8px_18px_rgba(191,167,122,0.28)]">
+              Terpopuler
+            </span>
+          )}
+        </div>
+
+        <span class="absolute bottom-3 right-3 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/95 text-primary shadow-[0_10px_24px_rgba(15,23,42,0.16)] transition-colors duration-300 group-hover:bg-primary group-hover:text-white" aria-hidden="true">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M9 7h8v8" />
+          </svg>
+        </span>
+      </div>
+
+      <div class="flex min-h-[218px] flex-col p-5">
+        <div>
+          <p class="line-clamp-1 text-[10px] font-bold uppercase tracking-[0.18em] text-secondary-dark">{product.categoryName}</p>
+          <h3 class="mt-2 font-serif text-xl font-bold leading-snug text-slate-800 line-clamp-2 transition-colors duration-200 group-hover:text-primary">
+            {product.name}
+          </h3>
+          <p class="mt-3 line-clamp-2 text-xs leading-relaxed text-slate-500">
+            {product.description}
+          </p>
+        </div>
+
+        <div class="mt-auto pt-5">
+          <div class="flex items-end justify-between gap-3 border-t border-soft-cream/45 pt-4">
+            <div class="min-w-0">
+              <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Mulai dari</p>
+              <p class="mt-0.5 text-lg font-bold text-primary">{product.priceLabel}</p>
+            </div>
+            <span class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary px-3.5 py-2 text-[11px] font-bold text-white shadow-[0_10px_24px_rgba(85,101,75,0.2)] transition-colors duration-300 group-hover:bg-secondary group-hover:text-primary-dark">
+              Detail
+              <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.6" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </span>
+          </div>
+        </div>
+      </div>
+    </a>
+  </article>
+)}

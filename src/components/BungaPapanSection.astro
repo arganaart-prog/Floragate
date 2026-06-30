@@ -1,0 +1,193 @@
+---
+import type { Product } from '../data/products';
+import { PRODUCTS } from '../data/products';
+
+const dukaCitaProducts = PRODUCTS.filter(
+  (p) => p.categorySlug === 'bunga-papan-duka-cita-malang'
+);
+
+const weddingProducts = PRODUCTS.filter(
+  (p) => p.categorySlug === 'bunga-papan-wedding-malang'
+);
+
+const congratulationsProducts = PRODUCTS.filter(
+  (p) => p.categorySlug === 'bunga-papan-congratulations-malang'
+);
+
+interface Tab {
+  id: string;
+  label: string;
+  products: Product[];
+  categoryHref: string;
+}
+
+const tabs: Tab[] = [
+  {
+    id: 'duka-cita',
+    label: 'Duka Cita',
+    products: dukaCitaProducts,
+    categoryHref: '/kategori/bunga-papan-duka-cita-malang/',
+  },
+  {
+    id: 'wedding',
+    label: 'Wedding',
+    products: weddingProducts,
+    categoryHref: '/kategori/bunga-papan-wedding-malang/',
+  },
+  {
+    id: 'congratulations',
+    label: 'Congratulations',
+    products: congratulationsProducts,
+    categoryHref: '/kategori/bunga-papan-congratulations-malang/',
+  },
+];
+---
+
+<section class="py-20 bg-accent-bg/40 border-y border-soft-cream/60" id="bunga-papan-ucapan">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Section Header -->
+    <div class="text-center max-w-2xl mx-auto mb-10">
+      <h2 class="font-serif text-3xl sm:text-4xl font-bold text-slate-800">Bunga Papan Malang</h2>
+      <p class="text-slate-500 text-sm mt-3 leading-relaxed">
+        Pilih desain bunga papan untuk duka cita, pernikahan (wedding), atau congratulations di Malang.
+      </p>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div
+      class="flex flex-wrap justify-center gap-3 mb-12"
+      role="tablist"
+      aria-label="Kategori bunga papan"
+      data-bunga-papan-tabs
+    >
+      {tabs.map((tab, index) => (
+        <button
+          type="button"
+          role="tab"
+          id={`tab-${tab.id}`}
+          aria-controls={`panel-${tab.id}`}
+          aria-selected={index === 0 ? 'true' : 'false'}
+          data-tab={tab.id}
+          class:list={[
+            'bunga-papan-tab px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer border',
+            index === 0
+              ? 'bg-primary text-white border-primary shadow-md'
+              : 'bg-white text-slate-500 border-soft-cream/80 hover:text-primary hover:border-primary/40',
+          ]}
+        >
+          {tab.label}
+        </button>
+      ))}
+    </div>
+
+    <!-- Tab Panels -->
+    <div data-bunga-papan-panels>
+      {tabs.map((tab, index) => (
+        <div
+          id={`panel-${tab.id}`}
+          role="tabpanel"
+          aria-labelledby={`tab-${tab.id}`}
+          data-panel={tab.id}
+          class:list={['bunga-papan-panel', index !== 0 && 'hidden']}
+        >
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+            {tab.products.map((product) => (
+              <a
+                href={`/produk/${product.slug}/`}
+                class="group bunga-papan-card bg-white rounded-lg border border-soft-cream/60 overflow-hidden hover-gold-grow no-underline"
+              >
+                <div class="relative aspect-[4/5] bg-slate-50 overflow-hidden premium-image-hover">
+                  <!-- Brand badge -->
+                  <div class="absolute top-2 left-2 sm:top-3 sm:left-3 z-10">
+                    <span class="inline-flex items-center bg-primary/95 text-white text-[9px] sm:text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-xs shadow-xs">
+                      Floragate
+                    </span>
+                  </div>
+
+                  <!-- Popular badge -->
+                  {product.featured && (
+                    <div class="absolute top-2 right-2 sm:top-3 sm:right-3 z-10">
+                      <span class="inline-flex items-center justify-center h-10 w-10 sm:h-11 sm:w-11 rounded-full bg-emerald-500 text-white text-[9px] sm:text-[10px] font-bold leading-tight text-center shadow-md">
+                        Populer
+                      </span>
+                    </div>
+                  )}
+
+                  <!-- Product image -->
+                  <img
+                    src={product.image}
+                    alt={`Foto ${product.name} Floragate Malang`}
+                    width={product.imageWidth}
+                    height={product.imageHeight}
+                    loading="lazy"
+                    class="block w-full h-auto object-cover object-top"
+                  />
+                </div>
+
+                <!-- Product title -->
+                <div class="px-3 sm:px-4 py-3 sm:py-4 text-center border-t border-soft-cream/40">
+                  <h3 class="font-sans text-xs sm:text-sm font-semibold text-slate-700 group-hover:text-primary transition-colors duration-200 line-clamp-2 leading-snug">
+                    {product.categoryName}
+                  </h3>
+                  <p class="text-[10px] sm:text-xs text-slate-400 mt-1">{product.priceLabel}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+
+          <!-- View all link -->
+          <div class="text-center mt-10">
+            <a
+              href={tab.categoryHref}
+              class="inline-flex items-center text-sm font-semibold text-primary hover:text-secondary transition-colors group"
+            >
+              Lihat Semua {tab.label}
+              <svg class="h-4 w-4 ml-1.5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  function initBungaPapanTabs() {
+    document.querySelectorAll('[data-bunga-papan-tabs]').forEach((tabList) => {
+      const root = tabList.closest('#bunga-papan-ucapan');
+      if (!root) return;
+
+      const tabs = root.querySelectorAll('.bunga-papan-tab') as NodeListOf<HTMLButtonElement>;
+      const panels = root.querySelectorAll('.bunga-papan-panel') as NodeListOf<HTMLElement>;
+
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          const targetId = tab.dataset.tab;
+          if (!targetId) return;
+
+          tabs.forEach((t) => {
+            const isActive = t.dataset.tab === targetId;
+            t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            t.classList.toggle('bg-primary', isActive);
+            t.classList.toggle('text-white', isActive);
+            t.classList.toggle('border-primary', isActive);
+            t.classList.toggle('shadow-md', isActive);
+            t.classList.toggle('bg-white', !isActive);
+            t.classList.toggle('text-slate-500', !isActive);
+            t.classList.toggle('border-soft-cream/80', !isActive);
+          });
+
+          panels.forEach((panel) => {
+            const isActive = panel.dataset.panel === targetId;
+            panel.classList.toggle('hidden', !isActive);
+          });
+        });
+      });
+    });
+  }
+
+  initBungaPapanTabs();
+  document.addEventListener('astro:page-load', initBungaPapanTabs);
+</script>

@@ -1,0 +1,182 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProductCard from '../components/ProductCard.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import { CATEGORIES, PRODUCTS } from '../data/products';
+
+// SEO Meta
+const title = "Katalog Toko Bunga Malang Murah & Berkualitas";
+const description = "Lihat katalog karangan bunga Floragate: toko bunga Malang murah dan berkualitas untuk bunga papan, wedding, duka cita, standing flower, hand bouquet, paper flower, dan bunga meja.";
+---
+
+<Layout title={title} description={description}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Breadcrumb -->
+    <Breadcrumb items={[{ label: 'Katalog Produk' }]} />
+
+    <!-- Page Header -->
+    <div class="text-center max-w-2xl mx-auto mt-6 mb-12">
+      <h1 class="font-serif text-3xl sm:text-4xl font-bold text-slate-800">Katalog Toko Bunga Malang Murah & Berkualitas</h1>
+      <p class="text-slate-500 text-sm mt-3 leading-relaxed">
+        Pilih rangkaian bunga segar dengan harga bersahabat dan kualitas rapi untuk dikirimkan kepada kerabat, rekan kerja, atau orang terkasih di wilayah Malang Raya & Batu.
+      </p>
+    </div>
+
+    <!-- Filter Buttons (Client-side interactivity) -->
+    <div class="flex flex-wrap justify-center gap-2 mb-10" id="filter-container">
+      <button 
+        type="button"
+        data-filter="all"
+        class="filter-btn px-4 py-2 text-xs font-semibold rounded-full border border-primary bg-primary text-white transition-colors duration-200 cursor-pointer shadow-xs"
+      >
+        Semua Kategori
+      </button>
+      
+      {CATEGORIES.map(category => (
+        <button
+          type="button"
+          data-filter={category.slug}
+          class="filter-btn px-4 py-2 text-xs font-semibold rounded-full border border-soft-cream bg-white text-slate-600 hover:border-primary hover:text-primary transition-colors duration-200 cursor-pointer shadow-xs"
+        >
+          {category.name}
+        </button>
+      ))}
+    </div>
+
+    <!-- Products Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="products-grid">
+      {PRODUCTS.map(product => (
+        <div 
+          class="product-item-wrapper" 
+          data-category={product.categorySlug}
+          data-name={product.name.toLowerCase()}
+          data-description={product.description.toLowerCase()}
+        >
+          <ProductCard product={product} />
+        </div>
+      ))}
+    </div>
+    
+    <!-- Empty State -->
+    <div id="empty-state" class="hidden text-center py-20 space-y-4">
+      <svg class="h-16 w-16 text-slate-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 115.314-3.078 5.625 5.625 0 01-5.6 5.6H6.75A4.5 4.5 0 002.25 15z" />
+      </svg>
+      <h3 class="font-serif font-bold text-lg text-slate-700">Produk Tidak Ditemukan</h3>
+      <p class="text-sm text-slate-500 max-w-sm mx-auto">Kami tidak memiliki produk yang cocok dengan pencarian Anda saat ini. Silakan coba kata kunci lain atau pilih kategori yang berbeda.</p>
+    </div>
+
+  </div>
+</Layout>
+
+<script>
+  // Filter & Search Logic
+  const buttons = document.querySelectorAll('.filter-btn');
+  const items = document.querySelectorAll('.product-item-wrapper');
+  const emptyState = document.getElementById('empty-state');
+
+  // Read URL query parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const searchParam = (urlParams.get('search') || '').toLowerCase().slice(0, 80);
+
+  // Store active filters state
+  let currentCategory = 'all';
+  let currentSearch = searchParam;
+
+  // Sync navbar search fields and listen for live input
+  const searchInputs = document.querySelectorAll('.search-input-field');
+  searchInputs.forEach(input => {
+    if (input instanceof HTMLInputElement) {
+      input.value = currentSearch;
+
+      input.addEventListener('input', (e) => {
+        const target = e.target as HTMLInputElement;
+        currentSearch = target.value.toLowerCase().slice(0, 80);
+        
+        // Sync all other search inputs
+        searchInputs.forEach(otherInput => {
+          if (otherInput !== target && otherInput instanceof HTMLInputElement) {
+            otherInput.value = target.value;
+          }
+        });
+
+        // Update URL query string without reloading page
+        const newUrl = new URL(window.location.href);
+        if (currentSearch) {
+          newUrl.searchParams.set('search', currentSearch);
+        } else {
+          newUrl.searchParams.delete('search');
+        }
+        window.history.replaceState({}, '', newUrl.toString());
+
+        applyFilters();
+      });
+    }
+  });
+
+  // Intercept search forms to prevent full reload on katalog page
+  const searchForms = document.querySelectorAll('form[action="/katalog/"]');
+  searchForms.forEach(form => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      applyFilters();
+    });
+  });
+
+  function applyFilters() {
+    let visibleCount = 0;
+
+    items.forEach(item => {
+      if (!(item instanceof HTMLElement)) return;
+
+      const itemCategory = item.getAttribute('data-category') || '';
+      const itemName = item.getAttribute('data-name') || '';
+      const itemDesc = item.getAttribute('data-description') || '';
+
+      const matchesCategory = currentCategory === 'all' || itemCategory === currentCategory;
+      const matchesSearch = currentSearch === '' || 
+                            itemName.includes(currentSearch) || 
+                            itemDesc.includes(currentSearch);
+
+      if (matchesCategory && matchesSearch) {
+        item.classList.remove('hidden');
+        visibleCount++;
+      } else {
+        item.classList.add('hidden');
+      }
+    });
+
+    // Show empty state if no matching products
+    if (emptyState) {
+      if (visibleCount === 0) {
+        emptyState.classList.remove('hidden');
+      } else {
+        emptyState.classList.add('hidden');
+      }
+    }
+  }
+
+  // Initial Run
+  applyFilters();
+
+  // Category filter buttons click handlers
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      // 1. Update button styling
+      buttons.forEach(btn => {
+        btn.classList.remove('bg-primary', 'text-white', 'border-primary');
+        btn.classList.add('bg-white', 'text-slate-600', 'border-soft-cream');
+      });
+      button.classList.remove('bg-white', 'text-slate-600', 'border-soft-cream');
+      button.classList.add('bg-primary', 'text-white', 'border-primary');
+
+      // 2. Set new category filter
+      currentCategory = button.getAttribute('data-filter') || 'all';
+
+      // 3. Apply changes
+      applyFilters();
+    });
+  });
+</script>
+

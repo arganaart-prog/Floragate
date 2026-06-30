@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tokobungamurahmalang.com/sitemap-index.xml

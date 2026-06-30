@@ -1,0 +1,183 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import WhatsAppButton from '../../components/WhatsAppButton.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { PRODUCTS } from '../../data/products';
+
+export async function getStaticPaths() {
+  return PRODUCTS.map(product => {
+    return {
+      params: { productSlug: product.slug },
+      props: { product }
+    };
+  });
+}
+
+const { product } = Astro.props;
+
+// Filter produk terkait (kategori sama, kecuali produk aktif)
+const relatedProducts = PRODUCTS.filter(
+  p => p.categorySlug === product.categorySlug && p.id !== product.id
+).slice(0, 3);
+
+// SEO Meta
+const title = `${product.name} Malang - Murah & Berkualitas`;
+const description = `Beli ${product.name} di Floragate, toko bunga Malang murah dan berkualitas. ${product.description.substring(0, 110)}... Pengerjaan cepat ${product.processingTime}, gratis ongkir area Kota Malang.`;
+
+// JSON-LD Product Schema
+const productSchema = {
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": product.name,
+  "image": new URL(product.image, Astro.site).toString(),
+  "description": `${product.description} Tersedia di Floragate, toko bunga Malang murah dan berkualitas dengan pengerjaan cepat.`,
+  "sku": product.id,
+  "mpn": product.id,
+  "brand": {
+    "@type": "Brand",
+    "name": "Floragate"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": new URL(Astro.url.pathname, Astro.site).toString(),
+    "priceCurrency": "IDR",
+    "price": product.priceFrom,
+    "priceValidUntil": "2030-12-31",
+    "itemCondition": "https://schema.org/NewCondition",
+    "availability": "https://schema.org/InStock",
+    "seller": {
+      "@type": "Florist",
+      "name": "Floragate"
+    }
+  }
+};
+---
+
+<Layout title={title} description={description} image={product.image} type="product" schema={productSchema}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Breadcrumb -->
+    <Breadcrumb 
+      items={[
+        { label: 'Katalog', href: '/katalog/' },
+        { label: product.categoryName, href: `/kategori/${product.categorySlug}/` },
+        { label: product.name }
+      ]} 
+    />
+
+    <!-- Product Detail Card Grid -->
+    <div class="bg-white rounded-xl border border-soft-cream/60 shadow-xs overflow-hidden mt-6 p-4 sm:p-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+        
+        <!-- Left Column: Product Image -->
+        <div class="lg:col-span-6 flex flex-col justify-start">
+          <div class="relative bg-clean-ivory rounded-lg overflow-hidden border border-soft-cream/60 aspect-4/3">
+            <img 
+              src={product.image} 
+              alt={`Karangan ${product.name} Florist Malang`}
+              width={product.imageWidth}
+              height={product.imageHeight}
+              loading="eager" 
+              class="w-full h-full object-cover" 
+            />
+            <div class="absolute top-4 left-4 bg-primary text-white text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-xs">
+              📍 {product.city}
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Product Metadata & Actions -->
+        <div class="lg:col-span-6 flex flex-col justify-between">
+          <div class="space-y-6">
+            <!-- Category and ID -->
+            <div class="flex items-center justify-between border-b border-soft-cream/30 pb-4">
+              <a href={`/kategori/${product.categorySlug}/`} class="text-xs font-bold text-secondary uppercase tracking-wider hover:underline">
+                {product.categoryName}
+              </a>
+              <span class="text-xs text-slate-400 font-mono">ID: {product.id}</span>
+            </div>
+            
+            <!-- Title -->
+            <h1 class="font-serif text-2xl sm:text-3xl font-bold text-slate-800 leading-snug">
+              {product.name}
+            </h1>
+
+            <!-- Price -->
+            <div class="bg-primary/5 p-4 rounded-md border border-primary/10">
+              <span class="text-xs text-slate-500 font-medium block">Harga Mulai Dari:</span>
+              <span class="text-2xl sm:text-3xl font-bold text-primary font-sans mt-1 block">{product.priceLabel}</span>
+              <p class="text-[10px] text-slate-400 mt-1">*Harga dapat berubah sesuai dengan custom ukuran / kerumitan desain.</p>
+            </div>
+
+            <!-- Delivery & Processing Specs -->
+            <div class="grid grid-cols-2 gap-4 border-t border-b border-soft-cream/30 py-4 text-xs">
+              <div>
+                <span class="text-slate-400 block mb-1">Estimasi Pengerjaan:</span>
+                <span class="font-bold text-slate-700 flex items-center">
+                  <svg class="h-4 w-4 mr-1 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  {product.processingTime}
+                </span>
+              </div>
+              <div>
+                <span class="text-slate-400 block mb-1">Kota Asal Pembuat:</span>
+                <span class="font-bold text-slate-700 flex items-center">
+                  <svg class="h-4 w-4 mr-1 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  </svg>
+                  {product.city} (Lokal)
+                </span>
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div class="space-y-2">
+              <h3 class="font-bold text-sm text-slate-800">Deskripsi Bunga:</h3>
+              <p class="text-slate-600 text-sm leading-relaxed whitespace-pre-line">
+                {product.description}
+              </p>
+            </div>
+
+            <!-- Service Area List -->
+            <div class="space-y-2">
+              <h3 class="font-bold text-sm text-slate-800">Jangkauan Pengiriman:</h3>
+              <div class="flex flex-wrap gap-2">
+                {product.serviceArea.map(area => (
+                  <span class="bg-soft-cream/40 text-primary-dark text-xs px-2.5 py-1 rounded-sm">
+                    {area}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <!-- CTA Button Section -->
+          <div class="mt-8 pt-6 border-t border-soft-cream/30">
+            <WhatsAppButton 
+              whatsappText={product.whatsappText} 
+              text="Pesan via WhatsApp Sekarang" 
+              className="w-full py-4 text-base shadow-md"
+            />
+            <p class="text-center text-[10px] text-slate-400 mt-2">Anda akan langsung terhubung ke WhatsApp Floragate untuk konsultasi ucapan & detail pengiriman.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Products -->
+    {relatedProducts.length > 0 && (
+      <div class="mt-20">
+        <h2 class="font-serif text-2xl font-bold text-slate-800 mb-8 border-b border-soft-cream/40 pb-3">Produk Serupa Lainnya</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {relatedProducts.map(prod => (
+            <ProductCard product={prod} />
+          ))}
+        </div>
+      </div>
+    )}
+
+  </div>
+</Layout>

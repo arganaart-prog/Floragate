@@ -1,0 +1,73 @@
+---
+import { PRODUCTS } from '../data/products';
+
+const handBouquetProducts = PRODUCTS.filter(
+  (p) => p.categorySlug === 'hand-bouquet-malang'
+);
+
+const categoryHref = '/kategori/hand-bouquet-malang/';
+---
+
+<section class="py-20 bg-white border-y border-soft-cream/60" id="hand-bouquet-malang">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <h2 class="font-serif text-3xl sm:text-4xl font-bold text-slate-800">Hand Bouquet Malang</h2>
+      <p class="text-slate-500 text-sm mt-3 leading-relaxed">
+        Buket bunga tangan segar untuk wisuda, lamaran, ulang tahun, atau hadiah romantis di Malang.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 max-w-4xl mx-auto lg:max-w-none">
+      {handBouquetProducts.map((product) => (
+        <a
+          href={`/produk/${product.slug}/`}
+          class="group bg-white rounded-lg border border-soft-cream/60 overflow-hidden hover-gold-grow no-underline"
+        >
+          <div class="relative aspect-square bg-slate-50 overflow-hidden premium-image-hover">
+            <div class="absolute top-2 left-2 sm:top-3 sm:left-3 z-10">
+              <span class="inline-flex items-center bg-primary/95 text-white text-[9px] sm:text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-xs shadow-xs">
+                Floragate
+              </span>
+            </div>
+
+            {product.featured && (
+              <div class="absolute top-2 right-2 sm:top-3 sm:right-3 z-10">
+                <span class="inline-flex items-center justify-center h-10 w-10 sm:h-11 sm:w-11 rounded-full bg-emerald-500 text-white text-[9px] sm:text-[10px] font-bold leading-tight text-center shadow-md">
+                  Populer
+                </span>
+              </div>
+            )}
+
+            <img
+              src={product.image}
+              alt={`Foto ${product.name} Floragate Malang`}
+              width={product.imageWidth}
+              height={product.imageHeight}
+              loading="lazy"
+              class="block w-full h-auto object-cover object-top"
+            />
+          </div>
+
+          <div class="px-3 sm:px-4 py-3 sm:py-4 text-center border-t border-soft-cream/40">
+            <h3 class="font-sans text-xs sm:text-sm font-semibold text-slate-700 group-hover:text-primary transition-colors duration-200 line-clamp-2 leading-snug">
+              {product.name}
+            </h3>
+            <p class="text-[10px] sm:text-xs text-slate-400 mt-1">{product.priceLabel}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="text-center mt-10">
+      <a
+        href={categoryHref}
+        class="inline-flex items-center text-sm font-semibold text-primary hover:text-secondary transition-colors group"
+      >
+        Lihat Semua Hand Bouquet
+        <svg class="h-4 w-4 ml-1.5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
