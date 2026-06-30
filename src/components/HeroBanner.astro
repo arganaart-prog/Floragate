@@ -1046,7 +1046,7 @@ const panoramaPanels = [
 
     .hero-stats-bar {
       position: absolute;
-      bottom: 11.6rem;
+      bottom: 12.85rem;
       left: 0;
       right: 0;
       box-sizing: border-box;
@@ -1310,7 +1310,8 @@ const panoramaPanels = [
   /* Mobile hero first-experience polish. */
   @media (max-width: 767px) {
     .hero-cinematic {
-      min-height: 720px;
+      height: min(100svh, 820px);
+      min-height: 700px;
     }
 
     .hero-mobile-img {
@@ -1399,7 +1400,7 @@ const panoramaPanels = [
     }
 
     .hero-stats-bar {
-      bottom: clamp(12.15rem, 19svh, 13.35rem);
+      bottom: clamp(13.45rem, 21svh, 14.65rem);
       z-index: 36;
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1449,7 +1450,7 @@ const panoramaPanels = [
     }
 
     .hero-divider svg {
-      height: 44px;
+      height: 76px;
     }
   }
 
@@ -1465,7 +1466,7 @@ const panoramaPanels = [
     }
 
     .hero-stats-bar {
-      bottom: 11.6rem;
+      bottom: 12.85rem;
       width: calc(100% - 1rem);
     }
   }

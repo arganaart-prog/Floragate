@@ -19,8 +19,8 @@ const currentPath = stripBase(Astro.url.pathname);
 <!-- DESKTOP NAVBAR (Two rows, shown on md and up) -->
 <!-- ============================================= -->
 
-<!-- Row 1: Brand, Search, & WhatsApp Button (Primary Theme Green - Non-sticky) -->
-<div class="relative z-50 hidden md:block bg-primary border-b border-white/10 px-4 lg:px-8">
+<!-- Row 1: Brand, Search, & WhatsApp Button (Primary Theme Green - Sticky) -->
+<div class="sticky top-0 z-50 hidden md:block bg-primary border-b border-white/10 px-4 lg:px-8">
       <div class="max-w-7xl mx-auto flex items-center justify-between h-24 md:h-28">
         
         <!-- Logo & Brand Name -->
@@ -95,7 +95,7 @@ const currentPath = stripBase(Astro.url.pathname);
     </div>
 
 <!-- Row 2: Centered Navigation Links (Primary Dark Theme Green - Sticky) -->
-<div class="sticky top-0 z-40 hidden md:block bg-primary-dark px-4 shadow-md">
+<div class="sticky top-28 z-40 hidden md:block bg-primary-dark px-4 shadow-md">
       <div class="max-w-7xl mx-auto flex justify-center items-center h-14 relative">
         <nav class="flex items-center gap-10" id="desktop-nav">
           {navItems.map(item => {
@@ -158,7 +158,7 @@ const currentPath = stripBase(Astro.url.pathname);
   <!-- ============================================= -->
   <!-- MOBILE NAVBAR (One row, shown below md - Sticky) -->
   <!-- ============================================= -->
-  <div class="sticky top-0 z-50 md:hidden bg-primary shadow-md">
+  <div class="sticky top-0 z-[60] md:hidden bg-primary shadow-md">
     <div class="px-4">
     <div class="flex items-center justify-between h-20">
       
