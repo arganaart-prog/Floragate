@@ -24,14 +24,14 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
 <!-- ============================================= -->
 
 <!-- Row 1: Brand, Search, & WhatsApp Button (Primary Theme Green) -->
-<div class="relative z-50 hidden md:block bg-primary border-b border-white/10 px-4 lg:px-8">
+<div class="relative z-[90] hidden md:block bg-primary border-b border-white/10 px-4 lg:px-8">
       <div class="max-w-7xl mx-auto flex items-center justify-between h-24 md:h-28">
         
         <!-- Logo & Brand Name -->
         <div class="flex items-center">
           <div class="flex-shrink-0 flex items-center relative h-24 md:h-28">
             <!-- Absolute shield hanging down -->
-            <div class="absolute left-0 top-0 w-22 sm:w-24 md:w-28 h-26 sm:h-28 md:h-32 z-20">
+            <div class="absolute left-0 top-0 w-22 sm:w-24 md:w-28 h-26 sm:h-28 md:h-32 z-[100]">
               <a href={withBase('/')} class="block w-full h-full relative group" id="logo-shield">
                 <!-- SVG Shield Background with warm cream color #FAF7ED and gold lines -->
                 <svg class="absolute inset-0 w-full h-full drop-shadow-[0_4px_8px_rgba(0,0,0,0.15)] transition-transform duration-300 group-hover:scale-105" viewBox="0 0 100 115" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -170,7 +170,7 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
       <!-- Brand & Shield Logo Container -->
       <div class="flex items-center">
         <div class="flex-shrink-0 flex items-center relative h-20">
-          <div class="absolute left-0 top-0 w-14 h-18 z-20">
+          <div class="absolute left-0 top-0 w-14 h-18 z-[100]">
             <a href={withBase('/')} class="block w-full h-full relative">
               <svg class="absolute inset-0 w-full h-full drop-shadow-[0_2px_4px_rgba(0,0,0,0.15)]" viewBox="0 0 100 115" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M0 0 H100 V55 C100 88 50 115 50 115 C50 115 0 88 0 55 Z" fill="#FAF7ED"/>
@@ -348,8 +348,8 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
 </style>
 
 <script>
-  const desktopStickyNav = document.getElementById('desktop-sticky-nav');
-  const desktopNavSpacer = document.getElementById('desktop-nav-spacer');
+  const desktopStickyNav = /** @type {HTMLElement | null} */ (document.getElementById('desktop-sticky-nav'));
+  const desktopNavSpacer = /** @type {HTMLElement | null} */ (document.getElementById('desktop-nav-spacer'));
   const desktopNavQuery = window.matchMedia('(min-width: 768px)');
   let desktopStickyOffset = 0;
   const updateDesktopStickyNav = () => {
@@ -379,15 +379,24 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
   window.addEventListener('load', measureDesktopStickyNav);
   desktopNavQuery.addEventListener('change', measureDesktopStickyNav);
   window.requestAnimationFrame(measureDesktopStickyNav);
-  const btn = document.getElementById('mobile-menu-btn');
-  const menu = document.getElementById('mobile-menu');
-  const menuIcon = document.getElementById('menu-icon');
-  const closeIcon = document.getElementById('close-icon');
-  const closeBtn = document.getElementById('mobile-menu-close');
-  const backdrop = document.getElementById('mobile-menu-backdrop');
-  const panel = menu?.querySelector('.mobile-menu-panel');
+
+  const btn = /** @type {HTMLButtonElement | null} */ (document.getElementById('mobile-menu-btn'));
+  const menu = /** @type {HTMLElement | null} */ (document.getElementById('mobile-menu'));
+  const menuIcon = /** @type {HTMLElement | null} */ (document.getElementById('menu-icon'));
+  const closeIcon = /** @type {HTMLElement | null} */ (document.getElementById('close-icon'));
+  const closeBtn = /** @type {HTMLButtonElement | null} */ (document.getElementById('mobile-menu-close'));
+  const backdrop = /** @type {HTMLButtonElement | null} */ (document.getElementById('mobile-menu-backdrop'));
+  const panel = /** @type {HTMLElement | null} */ (menu?.querySelector('.mobile-menu-panel') ?? null);
+  /** @type {number | undefined} */
   let closeTimer;
 
+  const clearCloseTimer = () => {
+    if (closeTimer === undefined) return;
+    window.clearTimeout(closeTimer);
+    closeTimer = undefined;
+  };
+
+  /** @param {boolean} isOpen */
   const setMobileMenuIcons = (isOpen) => {
     if (!btn || !menuIcon || !closeIcon) return;
     btn.setAttribute('aria-expanded', String(isOpen));
@@ -397,7 +406,7 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
 
   const openMobileMenu = () => {
     if (!menu) return;
-    window.clearTimeout(closeTimer);
+    clearCloseTimer();
     menu.classList.remove('hidden');
     menu.setAttribute('aria-hidden', 'false');
     setMobileMenuIcons(true);
@@ -409,7 +418,7 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
 
   const closeMobileMenu = () => {
     if (!menu || menu.classList.contains('hidden')) return;
-    window.clearTimeout(closeTimer);
+    clearCloseTimer();
     menu.classList.remove('is-open');
     menu.setAttribute('aria-hidden', 'true');
     setMobileMenuIcons(false);
@@ -422,12 +431,14 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
     };
 
     closeTimer = window.setTimeout(finishClose, 420);
-    panel?.addEventListener('transitionend', function handleTransition(event) {
-      if (event.propertyName !== 'transform') return;
-      panel.removeEventListener('transitionend', handleTransition);
-      window.clearTimeout(closeTimer);
-      finishClose();
-    });
+    if (panel) {
+      panel.addEventListener('transitionend', function handleTransition(event) {
+        if (!(event instanceof TransitionEvent) || event.propertyName !== 'transform') return;
+        panel.removeEventListener('transitionend', handleTransition);
+        clearCloseTimer();
+        finishClose();
+      });
+    }
   };
 
   btn?.addEventListener('click', () => {
