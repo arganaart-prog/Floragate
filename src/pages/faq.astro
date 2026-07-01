@@ -1,0 +1,132 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import { WHATSAPP_LABEL } from '../data/constants';
+
+const title = 'FAQ Floragate - Pertanyaan Seputar Pemesanan Bunga';
+const description = 'Temukan jawaban tentang cara pesan, pembayaran, pengiriman, pengerjaan, revisi ucapan, dan layanan karangan bunga Floragate di Malang Raya.';
+
+const faqItems = [
+  {
+    question: 'Bagaimana cara memesan bunga di Floragate?',
+    answer: 'Pilih produk di katalog, klik tombol Pesan via WhatsApp, lalu kirim detail ucapan, nama pengirim, alamat tujuan, tanggal kirim, dan jam pengiriman yang diinginkan. Admin akan membantu konfirmasi harga dan ketersediaan slot pengerjaan.',
+  },
+  {
+    question: 'Berapa lama proses pengerjaan karangan bunga?',
+    answer: 'Estimasi pengerjaan normal sekitar 3 sampai 4 jam setelah detail pesanan dan pembayaran awal terkonfirmasi. Untuk pesanan mendadak, silakan hubungi admin agar kami cek slot florist dan kurir terlebih dahulu.',
+  },
+  {
+    question: 'Apakah bisa custom tulisan dan warna bunga?',
+    answer: 'Bisa. Anda dapat mengirimkan draft tulisan, nama penerima, nama pengirim, warna dominan, dan referensi desain. Admin akan memberi saran jika ada bagian yang perlu disesuaikan agar hasil tetap rapi dan terbaca jelas.',
+  },
+  {
+    question: 'Area pengiriman Floragate mencakup mana saja?',
+    answer: 'Floragate melayani Kota Malang, Kabupaten Malang, dan Kota Batu. Beberapa area seperti Singosari, Lawang, Kepanjen, Bululawang, dan sekitarnya dapat dilayani dengan konfirmasi ongkos kirim terlebih dahulu.',
+  },
+  {
+    question: 'Apakah tersedia gratis ongkir?',
+    answer: 'Gratis ongkir dapat berlaku untuk area tertentu di Kota Malang sesuai jarak dan kondisi pengiriman. Untuk alamat di luar area gratis ongkir, admin akan menginformasikan biaya kirim sebelum pesanan diproses.',
+  },
+  {
+    question: 'Bagaimana sistem pembayaran di Floragate?',
+    answer: 'Pesanan diproses setelah pembayaran awal atau DP terkonfirmasi. Sisa pembayaran dapat dilunasi sebelum pengiriman. Nominal DP dan metode pembayaran akan dikonfirmasi oleh admin melalui WhatsApp resmi Floragate.',
+  },
+  {
+    question: 'Apakah saya mendapat foto hasil sebelum dikirim?',
+    answer: 'Ya. Kami mengirimkan foto hasil rangkaian sebelum pengiriman agar Anda dapat mengecek tulisan dan tampilan akhir. Setelah bunga tiba, bukti foto pengiriman juga dapat dikirimkan melalui WhatsApp.',
+  },
+  {
+    question: 'Bisakah pesanan dibatalkan atau direvisi?',
+    answer: 'Revisi tulisan dapat dilakukan selama papan belum masuk tahap finishing. Pembatalan hanya dapat diproses jika pesanan belum mulai dikerjakan. Jika bahan sudah dibeli atau rangkaian sudah diproses, biaya yang sudah berjalan dapat diperhitungkan.',
+  },
+  {
+    question: 'Jam kerja admin Floragate kapan?',
+    answer: 'Admin aktif setiap hari pukul 09.00 sampai 23.00 WIB. Di luar jam tersebut pesan tetap bisa dikirim, tetapi respon dapat lebih lambat.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqItems.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.answer,
+    },
+  })),
+};
+---
+
+<Layout title={title} description={description} schema={faqSchema}>
+  <section class="bg-clean-ivory/80 border-b border-soft-cream/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+      <Breadcrumb items={[{ label: 'FAQ' }]} />
+
+      <div class="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 lg:gap-12 items-end mt-8">
+        <div>
+          <span class="inline-flex items-center rounded-full border border-secondary/35 bg-white/75 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.18em] text-secondary-dark shadow-xs">
+            Pusat Bantuan Floragate
+          </span>
+          <h1 class="mt-5 max-w-3xl font-serif text-3xl sm:text-5xl font-bold leading-tight text-slate-800">
+            Pertanyaan yang Sering Ditanyakan
+          </h1>
+          <p class="mt-4 max-w-2xl text-sm sm:text-base leading-relaxed text-slate-600">
+            Ringkasan praktis tentang pemesanan bunga, pembayaran, pengiriman, custom desain, dan layanan Floragate di Malang Raya.
+          </p>
+        </div>
+
+        <div class="rounded-lg border border-soft-cream/70 bg-white p-5 shadow-[0_22px_54px_rgba(63,75,55,0.09)]">
+          <p class="text-xs font-bold uppercase tracking-[0.16em] text-secondary-dark">Butuh jawaban cepat?</p>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">
+            Hubungi admin melalui WhatsApp {WHATSAPP_LABEL}. Admin aktif 09.00 sampai 23.00 WIB.
+          </p>
+          <div class="mt-5">
+            <WhatsAppButton whatsappText="Halo Floragate, saya ingin bertanya tentang pemesanan bunga." text="Tanya Admin" className="w-full justify-center" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-14 sm:py-18">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8 lg:gap-12">
+        <aside class="lg:sticky lg:top-24 h-fit rounded-lg border border-soft-cream/70 bg-clean-ivory/65 p-5">
+          <p class="font-serif text-xl font-bold text-primary">Topik Bantuan</p>
+          <div class="mt-5 grid gap-3 text-sm text-slate-600">
+            <span class="rounded-md bg-white px-4 py-3 shadow-xs">Cara pemesanan</span>
+            <span class="rounded-md bg-white px-4 py-3 shadow-xs">Pembayaran dan DP</span>
+            <span class="rounded-md bg-white px-4 py-3 shadow-xs">Pengiriman Malang Raya</span>
+            <span class="rounded-md bg-white px-4 py-3 shadow-xs">Custom tulisan dan desain</span>
+          </div>
+        </aside>
+
+        <div class="space-y-4">
+          {faqItems.map((item, index) => (
+            <details class="group rounded-lg border border-soft-cream/70 bg-white shadow-[0_14px_38px_rgba(15,23,42,0.04)] open:border-secondary/60 open:bg-clean-ivory/40">
+              <summary class="flex cursor-pointer list-none items-start justify-between gap-4 px-5 py-5 sm:px-6">
+                <span class="flex gap-4">
+                  <span class="mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-white">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <span class="font-serif text-lg font-bold leading-snug text-slate-800">{item.question}</span>
+                </span>
+                <span class="mt-1 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-soft-cream bg-white text-primary transition-transform duration-300 group-open:rotate-45">
+                  <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14" />
+                  </svg>
+                </span>
+              </summary>
+              <div class="px-5 pb-5 pl-16 sm:px-6 sm:pb-6 sm:pl-[4.75rem]">
+                <p class="text-sm leading-relaxed text-slate-600">{item.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
