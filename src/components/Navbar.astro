@@ -6,17 +6,19 @@ import { stripBase, withBase } from '../utils/paths';
 
 const navItems = [
   { href: '/', label: 'Beranda' },
-  { href: '/katalog/', label: 'Katalog', hasDropdown: true },
+  { href: '/katalog/', label: 'Bunga Papan', hasDropdown: true },
   { href: '/cara-pesan/', label: 'Cara Pesan' },
   { href: '/tentang/', label: 'Tentang Kami' },
   { href: '/kontak/', label: 'Kontak' }
 ];
 
+const bungaPapanCategories = CATEGORIES.filter((category) => category.slug.startsWith('bunga-papan-'));
 const currentPath = stripBase(Astro.url.pathname);
 const isMobileHome = currentPath === '/';
 const isMobileKatalog = currentPath.startsWith('/katalog/') || currentPath.startsWith('/kategori/') || currentPath.startsWith('/produk/');
 const isMobileCaraPesan = currentPath.startsWith('/cara-pesan/');
 const isMobileTentang = currentPath.startsWith('/tentang/');
+const isMobileKontak = currentPath.startsWith('/kontak/');
 ---
 
 <!-- ============================================= -->
@@ -107,42 +109,45 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
           {navItems.map(item => {
             const isHome = item.href === '/' && currentPath === '/';
             const isSubpage = item.href !== '/' && (
-              currentPath.startsWith(item.href) || 
-              (item.href === '/katalog/' && (currentPath.startsWith('/kategori/') || currentPath.startsWith('/produk/')))
+              item.hasDropdown
+                ? currentPath.startsWith('/katalog/') || currentPath.startsWith('/kategori/bunga-papan-') || currentPath.startsWith('/produk/bunga-papan-')
+                : currentPath.startsWith(item.href)
             );
             const isActive = isHome || isSubpage;
             
             if (item.hasDropdown) {
               return (
-                <div class="relative group py-3" id="katalog-dropdown-trigger">
-                  <a 
-                    href={withBase(item.href)} 
-                    class={`flex items-center gap-1.5 text-xs sm:text-sm font-semibold tracking-wide transition-colors ${isActive ? 'text-white border-b-2 border-secondary pb-1' : 'text-white/80 hover:text-secondary'}`}
+                <div class="relative group py-3" id="bunga-papan-dropdown-trigger">
+                  <a
+                    href={withBase(item.href)}
+                    class={`relative inline-flex py-3 text-[0.72rem] font-bold uppercase tracking-[0.22em] transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-center after:scale-x-0 after:bg-secondary after:transition-transform after:duration-300 group-hover:after:scale-x-100 ${isActive ? 'text-white after:scale-x-100' : 'text-white/78 hover:text-white'}`}
                   >
                     {item.label}
-                    <svg class="h-3.5 w-3.5 text-white/60 transition-transform duration-200 group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                    </svg>
                   </a>
-                  
-                  <!-- Dropdown Menu -->
-                  <div class="absolute left-1/2 -translate-x-1/2 top-full w-64 bg-[#FAF7ED] rounded-md shadow-xl border border-soft-cream/30 py-2 opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-200 z-50">
-                    <div class="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-[#FAF7ED] rotate-45 border-t border-l border-soft-cream/30"></div>
-                    {CATEGORIES.map(category => (
-                      <a 
-                        href={withBase(`/kategori/${category.slug}/`)} 
-                        class="block px-4 py-2.5 text-xs font-semibold text-slate-700 hover:text-primary hover:bg-primary/5 transition-colors"
+
+                  <!-- Bunga Papan Dropdown Menu -->
+                  <div class="absolute left-1/2 top-full z-50 w-[22rem] -translate-x-1/2 translate-y-3 rounded-lg border border-soft-cream/70 bg-[#FAF7ED] p-3 opacity-0 invisible shadow-[0_22px_60px_rgba(15,23,42,0.18)] transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+                    <div class="absolute -top-1.5 left-1/2 h-3 w-3 -translate-x-1/2 rotate-45 border-l border-t border-soft-cream/70 bg-[#FAF7ED]"></div>
+                    <p class="px-3 pb-2 text-[0.62rem] font-bold uppercase tracking-[0.22em] text-secondary-dark">Kategori Bunga Papan</p>
+                    <div class="grid gap-1.5">
+                      {bungaPapanCategories.map((category) => (
+                        <a
+                          href={withBase(`/kategori/${category.slug}/`)}
+                          class="group/item rounded-md px-3 py-3 transition-colors hover:bg-primary/10"
+                        >
+                          <span class="block font-serif text-base font-bold leading-tight text-primary-dark transition-colors group-hover/item:text-primary">{category.name}</span>
+                          <span class="mt-1 block text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-slate-400">Floragate Malang</span>
+                        </a>
+                      ))}
+                    </div>
+                    <div class="mt-2 border-t border-soft-cream/70 pt-2">
+                      <a
+                        href={withBase('/katalog/?search=bunga%20papan')}
+                        class="block rounded-md px-3 py-2 text-center text-[0.72rem] font-bold uppercase tracking-[0.16em] text-secondary-dark transition-colors hover:bg-secondary/10 hover:text-primary"
                       >
-                        {category.name}
+                        Semua Bunga Papan
                       </a>
-                    ))}
-                    <div class="border-t border-soft-cream/20 my-1"></div>
-                    <a 
-                      href={withBase('/katalog/')} 
-                      class="block px-4 py-2.5 text-xs font-bold text-center text-secondary hover:text-secondary-dark hover:bg-secondary/5 transition-colors"
-                    >
-                      Lihat Semua Karangan Bunga ->
-                    </a>
+                    </div>
                   </div>
                 </div>
               );
@@ -151,7 +156,7 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
             return (
               <a 
                 href={withBase(item.href)} 
-                class={`text-xs sm:text-sm font-semibold tracking-wide transition-colors py-3 ${isActive ? 'text-white border-b-2 border-secondary pb-1' : 'text-white/80 hover:text-secondary'}`}
+                class={`relative py-3 text-[0.72rem] font-bold uppercase tracking-[0.22em] transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-center after:scale-x-0 after:bg-secondary after:transition-transform after:duration-300 ${isActive ? 'text-white after:scale-x-100' : 'text-white/78 hover:text-white hover:after:scale-x-100'}`}
               >
                 {item.label}
               </a>
@@ -251,46 +256,35 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
         </button>
       </div>
 
-      <nav class="mt-10 space-y-3" aria-label="Menu mobile Floragate">
-        <a href={withBase('/')} class={`flex items-center gap-3.5 rounded-lg px-4 py-3.5 text-[1.35rem] font-medium transition-colors ${isMobileHome ? 'bg-[#ead9be] text-primary' : 'text-[#555a50] hover:bg-primary/5 hover:text-primary'}`}>
-          <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m3 10.5 9-7 9 7" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5.5 9.5V20h5v-6h3v6h5V9.5" />
-          </svg>
-          <span>Home</span>
+      <nav class="mt-9 space-y-2.5" aria-label="Menu mobile Floragate">
+        <a href={withBase('/')} class={`block rounded-lg border px-4 py-3.5 transition-colors ${isMobileHome ? 'border-secondary/40 bg-[#ead9be] text-primary shadow-sm' : 'border-transparent text-[#4f584a] hover:border-soft-cream/70 hover:bg-primary/5 hover:text-primary'}`}>
+          <span class="block font-serif text-[1.24rem] font-bold leading-tight tracking-wide">Beranda</span>
+          <span class="mt-1 block text-[0.66rem] font-bold uppercase tracking-[0.2em] opacity-60">Halaman utama</span>
         </a>
 
-        <a href={withBase('/katalog/')} class={`flex items-center gap-3.5 rounded-lg px-4 py-3.5 text-[1.35rem] font-medium transition-colors ${isMobileKatalog ? 'bg-[#ead9be] text-primary' : 'text-[#555a50] hover:bg-primary/5 hover:text-primary'}`}>
-          <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z" />
-          </svg>
-          <span>Katalog</span>
+        <a href={withBase('/katalog/')} class={`block rounded-lg border px-4 py-3.5 transition-colors ${isMobileKatalog ? 'border-secondary/40 bg-[#ead9be] text-primary shadow-sm' : 'border-transparent text-[#4f584a] hover:border-soft-cream/70 hover:bg-primary/5 hover:text-primary'}`}>
+          <span class="block font-serif text-[1.24rem] font-bold leading-tight tracking-wide">Katalog</span>
+          <span class="mt-1 block text-[0.66rem] font-bold uppercase tracking-[0.2em] opacity-60">Pilihan karangan bunga</span>
         </a>
 
-        <a href={withBase('/#momen')} class="flex items-center gap-3.5 rounded-lg px-4 py-3.5 text-[1.35rem] font-medium text-[#555a50] transition-colors hover:bg-primary/5 hover:text-primary">
-          <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3.5c.8 2.3 2.2 3.7 4.5 4.5-2.3.8-3.7 2.2-4.5 4.5-.8-2.3-2.2-3.7-4.5-4.5 2.3-.8 3.7-2.2 4.5-4.5Z" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M5.5 13.5c.45 1.2 1.2 1.95 2.4 2.4-1.2.45-1.95 1.2-2.4 2.4-.45-1.2-1.2-1.95-2.4-2.4 1.2-.45 1.95-1.2 2.4-2.4ZM18.5 14.5c.38 1 .98 1.62 2 2-.98.38-1.62 1-2 2-.38-1-.98-1.62-2-2 .98-.38 1.62-1 2-2Z" />
-          </svg>
-          <span>Momen</span>
+        <a href={withBase('/#momen')} class="block rounded-lg border border-transparent px-4 py-3.5 text-[#4f584a] transition-colors hover:border-soft-cream/70 hover:bg-primary/5 hover:text-primary">
+          <span class="block font-serif text-[1.24rem] font-bold leading-tight tracking-wide">Momen</span>
+          <span class="mt-1 block text-[0.66rem] font-bold uppercase tracking-[0.2em] opacity-60">Inspirasi acara</span>
         </a>
 
-        <a href={withBase('/cara-pesan/')} class={`flex items-center gap-3.5 rounded-lg px-4 py-3.5 text-[1.35rem] font-medium transition-colors ${isMobileCaraPesan ? 'bg-[#ead9be] text-primary' : 'text-[#555a50] hover:bg-primary/5 hover:text-primary'}`}>
-          <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9a2.35 2.35 0 1 1 3.45 2.08c-.86.5-1.2 1.06-1.2 1.92" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 16h.01" />
-          </svg>
-          <span>Cara Pesan</span>
+        <a href={withBase('/cara-pesan/')} class={`block rounded-lg border px-4 py-3.5 transition-colors ${isMobileCaraPesan ? 'border-secondary/40 bg-[#ead9be] text-primary shadow-sm' : 'border-transparent text-[#4f584a] hover:border-soft-cream/70 hover:bg-primary/5 hover:text-primary'}`}>
+          <span class="block font-serif text-[1.24rem] font-bold leading-tight tracking-wide">Cara Pesan</span>
+          <span class="mt-1 block text-[0.66rem] font-bold uppercase tracking-[0.2em] opacity-60">Alur pemesanan</span>
         </a>
 
-        <a href={withBase('/tentang/')} class={`flex items-center gap-3.5 rounded-lg px-4 py-3.5 text-[1.35rem] font-medium transition-colors ${isMobileTentang ? 'bg-[#ead9be] text-primary' : 'text-[#555a50] hover:bg-primary/5 hover:text-primary'}`}>
-          <svg class="h-6 w-6 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 11v5" />
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8h.01" />
-          </svg>
-          <span>Tentang</span>
+        <a href={withBase('/tentang/')} class={`block rounded-lg border px-4 py-3.5 transition-colors ${isMobileTentang ? 'border-secondary/40 bg-[#ead9be] text-primary shadow-sm' : 'border-transparent text-[#4f584a] hover:border-soft-cream/70 hover:bg-primary/5 hover:text-primary'}`}>
+          <span class="block font-serif text-[1.24rem] font-bold leading-tight tracking-wide">Tentang</span>
+          <span class="mt-1 block text-[0.66rem] font-bold uppercase tracking-[0.2em] opacity-60">Profil Floragate</span>
+        </a>
+
+        <a href={withBase('/kontak/')} class={`block rounded-lg border px-4 py-3.5 transition-colors ${isMobileKontak ? 'border-secondary/40 bg-[#ead9be] text-primary shadow-sm' : 'border-transparent text-[#4f584a] hover:border-soft-cream/70 hover:bg-primary/5 hover:text-primary'}`}>
+          <span class="block font-serif text-[1.24rem] font-bold leading-tight tracking-wide">Kontak</span>
+          <span class="mt-1 block text-[0.66rem] font-bold uppercase tracking-[0.2em] opacity-60">Hubungi admin</span>
         </a>
       </nav>
     </aside>
