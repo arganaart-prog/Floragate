@@ -39,14 +39,19 @@ const categories = CATEGORIES.map((category) => {
       >
         <!-- Circular product image -->
         <div class="relative mb-3 sm:mb-4">
-          <div class="h-[4.5rem] w-[4.5rem] sm:h-20 sm:w-20 md:h-[5.5rem] md:w-[5.5rem] rounded-full overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.1)] ring-2 ring-white transition-shadow duration-300 group-hover:shadow-[0_6px_24px_rgba(85,101,75,0.2)] premium-image-hover">
+          <div class="image-load-shell h-[4.5rem] w-[4.5rem] sm:h-20 sm:w-20 md:h-[5.5rem] md:w-[5.5rem] rounded-full overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.1)] ring-2 ring-white transition-shadow duration-300 group-hover:shadow-[0_6px_24px_rgba(85,101,75,0.2)] premium-image-hover" data-image-frame>
+            <span class="image-skeleton" aria-hidden="true"></span>
             <img
               src={withBase(category.image)}
               alt={`Kategori ${category.name} Floragate Malang`}
               width={88}
               height={88}
               loading="lazy"
-              class="h-full w-full object-cover"
+              decoding="async"
+              fetchpriority="low"
+              sizes="88px"
+              data-image-loader="true"
+              class="relative z-0 h-full w-full object-cover"
             />
           </div>
         </div>

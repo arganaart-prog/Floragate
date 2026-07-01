@@ -6,23 +6,35 @@ import { withBase } from '../utils/paths';
 interface Props {
   product: Product;
   variant?: 'modern' | 'classic';
+  priority?: boolean;
 }
 
-const { product, variant = 'modern' } = Astro.props;
+const { product, variant = 'modern', priority = false } = Astro.props;
 const productUrl = withBase(`/produk/${product.slug}/`);
+const imageUrl = withBase(product.image);
+const imageLoading = priority ? 'eager' : 'lazy';
+const imageFetchPriority = priority ? 'high' : 'low';
+const imageSizes = variant === 'classic'
+  ? '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'
+  : '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw';
 ---
 
 {variant === 'classic' ? (
-  <div class="group bg-white rounded-lg border border-soft-cream/60 overflow-hidden hover-gold-grow">
+  <div class="product-card-shell group bg-white rounded-lg border border-soft-cream/60 overflow-hidden hover-gold-grow">
     <!-- Image Wrapper -->
-    <a href={productUrl} class="block relative aspect-4/3 bg-slate-100 overflow-hidden premium-image-hover">
+    <a href={productUrl} class="image-load-shell block relative aspect-4/3 bg-slate-100 overflow-hidden premium-image-hover" data-image-frame>
+      <span class="image-skeleton" aria-hidden="true"></span>
       <img
-        src={withBase(product.image)}
+        src={imageUrl}
         alt={`Foto ${product.name} Florist Malang`}
         width={product.imageWidth}
         height={product.imageHeight}
-        loading="lazy"
-        class="object-cover w-full h-full"
+        loading={imageLoading}
+        decoding="async"
+        fetchpriority={imageFetchPriority}
+        sizes={imageSizes}
+        data-image-loader="true"
+        class="relative z-0 object-cover w-full h-full"
       />
       <div class="absolute top-3 left-3 z-10 flex gap-2">
         <span class="bg-primary/95 text-white text-[10px] tracking-wider uppercase font-semibold px-2.5 py-1 rounded-xs shadow-xs">
@@ -60,16 +72,21 @@ const productUrl = withBase(`/produk/${product.slug}/`);
     </div>
   </div>
 ) : (
-  <article class="group relative h-full overflow-hidden rounded-lg border border-soft-cream/70 bg-white shadow-[0_14px_38px_rgba(15,23,42,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-secondary/70 hover:shadow-[0_24px_60px_rgba(85,101,75,0.15)]">
+  <article class="product-card-shell group relative h-full overflow-hidden rounded-lg border border-soft-cream/70 bg-white shadow-[0_14px_38px_rgba(15,23,42,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-secondary/70 hover:shadow-[0_24px_60px_rgba(85,101,75,0.15)]">
     <a href={productUrl} class="block h-full no-underline">
-      <div class="relative -mx-px -mt-px aspect-4/3 overflow-hidden bg-clean-ivory premium-image-hover">
+      <div class="image-load-shell relative -mx-px -mt-px aspect-4/3 overflow-hidden bg-clean-ivory premium-image-hover" data-image-frame>
+        <span class="image-skeleton" aria-hidden="true"></span>
         <img
-          src={withBase(product.image)}
+          src={imageUrl}
           alt={`Foto ${product.name} Florist Malang`}
           width={product.imageWidth}
           height={product.imageHeight}
-          loading="lazy"
-          class="block h-full w-full object-cover object-top"
+          loading={imageLoading}
+          decoding="async"
+          fetchpriority={imageFetchPriority}
+          sizes={imageSizes}
+          data-image-loader="true"
+          class="relative z-0 block h-full w-full object-cover object-top"
         />
 
         <div class="absolute inset-x-0 bottom-0 z-10 h-20 bg-gradient-to-t from-primary-dark/35 via-primary-dark/5 to-transparent"></div>

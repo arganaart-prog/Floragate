@@ -73,14 +73,19 @@ const productSchema = {
         
         <!-- Left Column: Product Image -->
         <div class="lg:col-span-6 flex flex-col justify-start">
-          <div class="relative bg-clean-ivory rounded-lg overflow-hidden border border-soft-cream/60 aspect-4/3">
+          <div class="image-load-shell relative bg-clean-ivory rounded-lg overflow-hidden border border-soft-cream/60 aspect-4/3" data-image-frame>
+            <span class="image-skeleton" aria-hidden="true"></span>
             <img 
               src={withBase(product.image)} 
               alt={`Karangan ${product.name} Florist Malang`}
               width={product.imageWidth}
               height={product.imageHeight}
-              loading="eager" 
-              class="w-full h-full object-cover" 
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              data-image-loader="true"
+              class="relative z-0 w-full h-full object-cover" 
             />
             <div class="absolute top-4 left-4 bg-primary text-white text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-xs">
               📍 {product.city}

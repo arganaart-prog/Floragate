@@ -2,7 +2,7 @@
 import { WHATSAPP_NUMBER } from '../data/constants';
 import { withBase } from '../utils/paths';
 
-const panoramaImage = withBase('/images/banner/Panorama.png');
+const panoramaImage = withBase('/images/banner/Panorama.webp');
 const mobileHeroImage = withBase('/images/produk/wedding-sweet.webp');
 
 const scenes = [
@@ -34,9 +34,11 @@ const panoramaPanels = [
     <img
       src={mobileHeroImage}
       alt=""
-      width="1920"
-      height="1080"
+      width="960"
+      height="960"
       loading="eager"
+      decoding="async"
+      fetchpriority="high"
       class="hero-mobile-img"
     />
   </div>

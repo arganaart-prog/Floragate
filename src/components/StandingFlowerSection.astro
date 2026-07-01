@@ -24,7 +24,8 @@ const categoryHref = '/kategori/standing-flower-malang/';
           href={withBase(`/produk/${product.slug}/`)}
           class="group bg-white rounded-lg border border-soft-cream/60 overflow-hidden hover-gold-grow no-underline"
         >
-          <div class="relative aspect-[4/5] bg-slate-50 overflow-hidden premium-image-hover">
+          <div class="image-load-shell relative aspect-[4/5] bg-slate-50 overflow-hidden premium-image-hover" data-image-frame>
+                  <span class="image-skeleton" aria-hidden="true"></span>
             <div class="absolute top-2 left-2 sm:top-3 sm:left-3 z-10">
               <span class="inline-flex items-center bg-primary/95 text-white text-[9px] sm:text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-xs shadow-xs">
                 Floragate
@@ -45,7 +46,11 @@ const categoryHref = '/kategori/standing-flower-malang/';
               width={product.imageWidth}
               height={product.imageHeight}
               loading="lazy"
-              class="block w-full h-auto object-cover object-top"
+                    decoding="async"
+                    fetchpriority="low"
+                    sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+                    data-image-loader="true"
+                    class="relative z-0 block h-full w-full object-cover object-top"
             />
           </div>
 

@@ -43,8 +43,8 @@ const { category, products } = Astro.props;
     <!-- Products Grid -->
     {products.length > 0 ? (
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {products.map(product => (
-          <ProductCard product={product} />
+        {products.map((product, index) => (
+          <ProductCard product={product} priority={index < 3} />
         ))}
       </div>
     ) : (

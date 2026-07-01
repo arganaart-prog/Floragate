@@ -44,14 +44,19 @@ const description = "Floragate adalah layanan pemesanan karangan bunga di Malang
 
         <!-- Visual -->
         <div class="relative flex justify-center">
-          <div class="w-full max-w-sm aspect-square rounded-xl border border-soft-cream/60 overflow-hidden shadow-lg">
+          <div class="image-load-shell w-full max-w-sm aspect-square rounded-xl border border-soft-cream/60 overflow-hidden shadow-lg" data-image-frame>
+            <span class="image-skeleton" aria-hidden="true"></span>
             <img 
               src={withBase('/images/produk/standing-lilac.webp')} 
               alt="Rangkaian standing flower elegan dari mitra florist Floragate Malang" 
               width="600" 
               height="600" 
               loading="lazy"
-              class="w-full h-full object-cover"
+              decoding="async"
+              fetchpriority="low"
+              sizes="(min-width: 1024px) 33vw, 100vw"
+              data-image-loader="true"
+              class="relative z-0 w-full h-full object-cover"
             />
           </div>
           <!-- Accent decoration -->

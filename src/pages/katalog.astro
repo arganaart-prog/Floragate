@@ -46,14 +46,14 @@ const description = "Lihat katalog karangan bunga Floragate: toko bunga Malang m
 
     <!-- Products Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="products-grid">
-      {PRODUCTS.map(product => (
+      {PRODUCTS.map((product, index) => (
         <div 
           class="product-item-wrapper" 
           data-category={product.categorySlug}
           data-name={product.name.toLowerCase()}
           data-description={product.description.toLowerCase()}
         >
-          <ProductCard product={product} />
+          <ProductCard product={product} priority={index < 3} />
         </div>
       ))}
     </div>

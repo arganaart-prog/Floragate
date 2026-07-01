@@ -46,6 +46,8 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
                     width={64}
                     height={62}
                     loading="eager"
+                    decoding="async"
+                    fetchpriority="high"
                   />
                 </div>
               </a>
@@ -183,7 +185,9 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
                   width={34}
                   height={33}
                   loading="eager"
-                />
+                    decoding="async"
+                    fetchpriority="high"
+                  />
               </div>
             </a>
           </div>
@@ -235,7 +239,7 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
   </div>
 
   <!-- MOBILE MENU DRAWER (Hidden by default, shown when toggled) -->
-  <div class="hidden md:hidden fixed inset-0 z-[80] mobile-menu-shell" id="mobile-menu" aria-hidden="true">
+  <div class="hidden md:hidden fixed inset-0 z-[140] mobile-menu-shell" id="mobile-menu" aria-hidden="true">
     <button id="mobile-menu-backdrop" type="button" class="mobile-menu-backdrop absolute inset-0 bg-slate-900/35 backdrop-blur-[2px]" aria-label="Tutup menu"></button>
     <aside class="mobile-menu-panel relative flex h-full w-[82vw] max-w-[410px] flex-col bg-[#FAF7ED] px-5 py-7 shadow-2xl rounded-r-2xl select-none">
       <div class="flex items-start justify-between gap-4 px-1">
