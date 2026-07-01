@@ -352,10 +352,11 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
 </style>
 
 <script>
-  const desktopStickyNav = /** @type {HTMLElement | null} */ (document.getElementById('desktop-sticky-nav'));
-  const desktopNavSpacer = /** @type {HTMLElement | null} */ (document.getElementById('desktop-nav-spacer'));
+  const desktopStickyNav = document.getElementById('desktop-sticky-nav');
+  const desktopNavSpacer = document.getElementById('desktop-nav-spacer');
   const desktopNavQuery = window.matchMedia('(min-width: 768px)');
   let desktopStickyOffset = 0;
+
   const updateDesktopStickyNav = () => {
     if (!desktopStickyNav || !desktopNavSpacer) return;
 
@@ -384,28 +385,32 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
   desktopNavQuery.addEventListener('change', measureDesktopStickyNav);
   window.requestAnimationFrame(measureDesktopStickyNav);
 
-  const btn = /** @type {HTMLButtonElement | null} */ (document.getElementById('mobile-menu-btn'));
-  const menu = /** @type {HTMLElement | null} */ (document.getElementById('mobile-menu'));
-  const menuIcon = /** @type {HTMLElement | null} */ (document.getElementById('menu-icon'));
-  const closeIcon = /** @type {HTMLElement | null} */ (document.getElementById('close-icon'));
-  const closeBtn = /** @type {HTMLButtonElement | null} */ (document.getElementById('mobile-menu-close'));
-  const backdrop = /** @type {HTMLButtonElement | null} */ (document.getElementById('mobile-menu-backdrop'));
-  const panel = /** @type {HTMLElement | null} */ (menu?.querySelector('.mobile-menu-panel') ?? null);
-  /** @type {number | undefined} */
-  let closeTimer;
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+  const closeBtn = document.getElementById('mobile-menu-close');
+  const backdrop = document.getElementById('mobile-menu-backdrop');
+  let closeTimer = 0;
 
   const clearCloseTimer = () => {
-    if (closeTimer === undefined) return;
+    if (!closeTimer) return;
     window.clearTimeout(closeTimer);
-    closeTimer = undefined;
+    closeTimer = 0;
   };
 
-  /** @param {boolean} isOpen */
-  const setMobileMenuIcons = (isOpen) => {
+  const showMenuIcon = () => {
     if (!btn || !menuIcon || !closeIcon) return;
-    btn.setAttribute('aria-expanded', String(isOpen));
-    menuIcon.classList.toggle('hidden', isOpen);
-    closeIcon.classList.toggle('hidden', !isOpen);
+    btn.setAttribute('aria-expanded', 'false');
+    menuIcon.classList.remove('hidden');
+    closeIcon.classList.add('hidden');
+  };
+
+  const showCloseIcon = () => {
+    if (!btn || !menuIcon || !closeIcon) return;
+    btn.setAttribute('aria-expanded', 'true');
+    menuIcon.classList.add('hidden');
+    closeIcon.classList.remove('hidden');
   };
 
   const openMobileMenu = () => {
@@ -413,11 +418,19 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
     clearCloseTimer();
     menu.classList.remove('hidden');
     menu.setAttribute('aria-hidden', 'false');
-    setMobileMenuIcons(true);
+    showCloseIcon();
     document.body.classList.add('overflow-hidden');
     window.requestAnimationFrame(() => {
       menu.classList.add('is-open');
     });
+  };
+
+  const finishClose = () => {
+    if (!menu || !btn) return;
+    if (btn.getAttribute('aria-expanded') === 'false') {
+      menu.classList.add('hidden');
+    }
+    closeTimer = 0;
   };
 
   const closeMobileMenu = () => {
@@ -425,24 +438,9 @@ const isMobileTentang = currentPath.startsWith('/tentang/');
     clearCloseTimer();
     menu.classList.remove('is-open');
     menu.setAttribute('aria-hidden', 'true');
-    setMobileMenuIcons(false);
+    showMenuIcon();
     document.body.classList.remove('overflow-hidden');
-
-    const finishClose = () => {
-      if (btn?.getAttribute('aria-expanded') === 'false') {
-        menu.classList.add('hidden');
-      }
-    };
-
     closeTimer = window.setTimeout(finishClose, 420);
-    if (panel) {
-      panel.addEventListener('transitionend', function handleTransition(event) {
-        if (!(event instanceof TransitionEvent) || event.propertyName !== 'transform') return;
-        panel.removeEventListener('transitionend', handleTransition);
-        clearCloseTimer();
-        finishClose();
-      });
-    }
   };
 
   btn?.addEventListener('click', () => {
