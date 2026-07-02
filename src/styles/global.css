@@ -170,6 +170,7 @@
 
 .product-card-shell,
 .product-item-wrapper,
+.category-product-card,
 .bunga-papan-card {
   content-visibility: auto;
   contain-intrinsic-size: 520px;

@@ -1,6 +1,7 @@
 ---
 import type { Product } from '../data/products';
 import { PRODUCTS } from '../data/products';
+import CategoryProductCard from './CategoryProductCard.astro';
 import { withBase } from '../utils/paths';
 
 const dukaCitaProducts = PRODUCTS.filter(
@@ -92,52 +93,8 @@ const tabs: Tab[] = [
           class:list={['bunga-papan-panel', index !== 0 && 'hidden']}
         >
           <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-            {tab.products.map((product) => (
-              <a
-                href={withBase(`/produk/${product.slug}/`)}
-                class="group bunga-papan-card bg-white rounded-lg border border-soft-cream/60 overflow-hidden hover-gold-grow no-underline"
-              >
-                <div class="image-load-shell relative aspect-[4/5] bg-slate-50 overflow-hidden premium-image-hover" data-image-frame>
-                  <span class="image-skeleton" aria-hidden="true"></span>
-                  <!-- Brand badge -->
-                  <div class="absolute top-2 left-2 sm:top-3 sm:left-3 z-10">
-                    <span class="inline-flex items-center bg-primary/95 text-white text-[9px] sm:text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-xs shadow-xs">
-                      Floragate
-                    </span>
-                  </div>
-
-                  <!-- Popular badge -->
-                  {product.featured && (
-                    <div class="absolute top-2 right-2 sm:top-3 sm:right-3 z-10">
-                      <span class="inline-flex items-center justify-center h-10 w-10 sm:h-11 sm:w-11 rounded-full bg-emerald-500 text-white text-[9px] sm:text-[10px] font-bold leading-tight text-center shadow-md">
-                        Populer
-                      </span>
-                    </div>
-                  )}
-
-                  <!-- Product image -->
-                  <img
-                    src={withBase(product.image)}
-                    alt={`Foto ${product.name} Floragate Malang`}
-                    width={product.imageWidth}
-                    height={product.imageHeight}
-                    loading="lazy"
-                    decoding="async"
-                    fetchpriority="low"
-                    sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
-                    data-image-loader="true"
-                    class="relative z-0 block h-full w-full object-cover object-top"
-                  />
-                </div>
-
-                <!-- Product title -->
-                <div class="px-3 sm:px-4 py-3 sm:py-4 text-center border-t border-soft-cream/40">
-                  <h3 class="font-sans text-xs sm:text-sm font-semibold text-slate-700 group-hover:text-primary transition-colors duration-200 line-clamp-2 leading-snug">
-                    {product.categoryName}
-                  </h3>
-                  <p class="text-[10px] sm:text-xs text-slate-400 mt-1">{product.priceLabel}</p>
-                </div>
-              </a>
+            {tab.products.map((product, productIndex) => (
+              <CategoryProductCard product={product} aspect="aspect-[4/5]" priority={index === 0 && productIndex < 2} />
             ))}
           </div>
 
