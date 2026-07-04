@@ -16,6 +16,13 @@
 }
 
 @layer base {
+  html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
   html,
   body {
     max-width: 100%;
@@ -175,6 +182,16 @@
   content-visibility: auto;
   contain-intrinsic-size: 520px;
 }
+@media (max-width: 767px) {
+  /* Mobile browsers can reserve the intrinsic size inside sliders; keep cards measured from real content. */
+  .product-card-shell,
+  .product-item-wrapper,
+  .category-product-card,
+  .bunga-papan-card {
+    content-visibility: visible;
+    contain-intrinsic-size: none;
+  }
+}
 
 @keyframes imageSkeletonSweep {
   to {
@@ -191,5 +208,14 @@
     scroll-behavior: auto !important;
     transition-duration: 0s !important;
     transition-delay: 0s !important;
+  }
+}
+
+/* Firefox Mobile specific scaling to match Chrome's visual layout size and proportions */
+@supports (-moz-appearance: none) {
+  @media (max-width: 767px) {
+    html {
+      font-size: 18.5px !important;
+    }
   }
 }

@@ -24,9 +24,19 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
   <!-- Hero Section — Cinematic Malang Edition -->
   <HeroBanner />
 
+  <div class="flex flex-col">
   <!-- USP Section — Keunggulan Layanan Floragate -->
-  <section id="momen" class="pt-24 pb-20 bg-accent-bg/60 border-b border-soft-cream/40 relative overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <section id="momen" class="quality-transition-section order-8 pt-24 pb-20 bg-accent-bg/60 border-b border-soft-cream/40 relative lg:order-1">
+    <svg class="section-transition-curve section-transition-curve--quality" viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="quality-transition-curve-gradient" x1="0" y1="0" x2="0" y2="120" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#F7F4EF" stop-opacity="0.72" />
+          <stop offset="100%" stop-color="#F7F4EF" />
+        </linearGradient>
+      </defs>
+      <path d="M0 120 L0 60 Q360 0 720 40 T1440 20 L1440 120Z" fill="url(#quality-transition-curve-gradient)" />
+    </svg>
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Section Header -->
       <div class="text-center max-w-2xl mx-auto mb-16">
@@ -99,8 +109,17 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
   </section>
 
   <!-- Categories Section -->
-  <section class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <section class="category-transition-section order-1 relative py-20 bg-white lg:order-2">
+    <svg class="section-transition-curve section-transition-curve--category" viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="category-transition-curve-gradient" x1="0" y1="0" x2="0" y2="120" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#F7F4EF" />
+          <stop offset="100%" stop-color="#ffffff" />
+        </linearGradient>
+      </defs>
+      <path d="M0 120 L0 60 Q360 0 720 40 T1440 20 L1440 120Z" fill="url(#category-transition-curve-gradient)" />
+    </svg>
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center max-w-2xl mx-auto mb-16">
         <h2 class="font-serif text-3xl sm:text-4xl font-bold text-slate-800">Kategori Bunga Pilihan</h2>
         <p class="text-slate-500 text-sm mt-3 leading-relaxed">Temukan karangan bunga yang tepat untuk mendampingi setiap momen penting Anda, dari rasa duka hingga ungkapan sukacita.</p>
@@ -111,16 +130,17 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
   </section>
 
   <!-- Featured Products Section -->
-  <section class="py-20 bg-white border-y border-soft-cream/60">
+  <section class="featured-products-section order-2 py-20 bg-white border-y border-soft-cream/60 lg:order-3">
+    <div class="featured-products-mobile-band" aria-hidden="true"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+      <div class="featured-products-header flex flex-col md:flex-row md:items-end justify-between mb-12">
         <div class="max-w-xl">
           <h2 class="font-serif text-3xl sm:text-4xl font-bold text-slate-800">Produk Unggulan Terpopuler</h2>
           <p class="text-slate-500 text-sm mt-3 leading-relaxed">Kumpulan desain karangan bunga yang paling sering dipesan oleh pelanggan kami di Malang untuk berbagai keperluan.</p>
         </div>
         <a 
           href={withBase('/katalog/')} 
-          class="mt-4 md:mt-0 inline-flex items-center text-sm font-semibold text-primary hover:text-secondary transition-colors group"
+          class="mt-4 hidden md:mt-0 md:inline-flex items-center text-sm font-semibold text-primary hover:text-secondary transition-colors group"
         >
           Lihat Semua Produk
           <svg class="h-4 w-4 ml-1.5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -130,7 +150,7 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
       </div>
       
       <!-- Max 6 Featured Products Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div id="featured-products-slider" data-featured-products-slider class="featured-products-slider grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {featuredProducts.map((product, index) => (
           <ProductCard product={product} variant="classic" priority={index < 3} />
         ))}
@@ -138,20 +158,312 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
     </div>
   </section>
 
+
+  <style is:global>
+    .quality-transition-section,
+    .category-transition-section {
+      --transition-curve-height: clamp(4.5rem, 9vw, 7rem);
+      overflow: visible;
+      isolation: isolate;
+    }
+
+    .section-transition-curve {
+      position: absolute;
+      top: calc(-1 * var(--transition-curve-height) + 1px);
+      left: 0;
+      right: 0;
+      z-index: 1;
+      display: block;
+      width: 100%;
+      height: var(--transition-curve-height);
+      pointer-events: none;
+    }
+
+    .section-transition-curve--quality {
+      display: none;
+    }
+
+    @media (min-width: 1024px) {
+      .section-transition-curve--quality {
+        display: block;
+      }
+
+      .section-transition-curve--category {
+        display: none;
+      }
+    }
+
+    .featured-products-mobile-band {
+      display: none;
+    }
+
+    @media (max-width: 767px) {
+      .category-transition-section {
+        padding-top: 2.75rem;
+        padding-bottom: 2.75rem;
+      }
+
+      .category-transition-section .text-center {
+        margin-bottom: 2rem;
+      }
+      .featured-products-section {
+        padding-top: 2.5rem;
+        padding-bottom: 2.75rem;
+        background: #f8f5ef;
+        border-color: rgba(234, 219, 198, 0.55);
+      }
+
+      .featured-products-mobile-band {
+        display: block;
+        width: 100%;
+        height: 2rem;
+        margin-bottom: 1rem;
+        background: var(--color-primary);
+        opacity: 0.05;
+      }
+
+      .featured-products-header {
+        display: block;
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+
+      .featured-products-header h2 {
+        font-size: clamp(1.7rem, 7.2vw, 2.1rem);
+        line-height: 1.08;
+      }
+
+      .featured-products-header p {
+        max-width: 21rem;
+        margin-inline: auto;
+        font-size: 0.86rem;
+      }
+
+      .featured-products-slider {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-inline: -1rem;
+        padding: 0.5rem 1rem 0.75rem;
+        overflow-x: auto;
+        overflow-y: visible;
+        scroll-behavior: smooth;
+        scroll-padding-inline: 1rem;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+      }
+
+      .featured-products-slider::-webkit-scrollbar {
+        display: none;
+      }
+
+      .featured-products-slider .classic-product-card {
+        flex: 0 0 calc((100% - 24px) / 3);
+        min-width: calc((100% - 24px) / 3);
+        display: flex;
+        flex-direction: column;
+        align-self: flex-start;
+        height: auto;
+        min-height: 0;
+        content-visibility: visible;
+        contain-intrinsic-size: none;
+        border: 2px solid #e7dcc5;
+        border-radius: 12px;
+        box-shadow: 0 5px 16px rgba(15, 23, 42, 0.06);
+        scroll-snap-align: start;
+      }
+
+      .featured-products-slider .classic-product-card:hover {
+        transform: none;
+      }
+
+      .featured-products-slider .classic-product-image {
+        flex: 0 0 auto;
+        aspect-ratio: 1 / 1;
+        border-bottom: 1px solid #efe4cf;
+      }
+
+      .featured-products-slider .classic-product-badges {
+        top: 6px;
+        right: 6px;
+        left: 6px;
+        max-width: none;
+        justify-content: space-between;
+        gap: 4px;
+      }
+
+      .featured-products-slider .classic-product-badges span {
+        max-width: 48%;
+        overflow: hidden;
+        padding: 2px 5px;
+        border-radius: 999px;
+        font-size: 8px;
+        line-height: 1.05;
+        letter-spacing: 0.02em;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .featured-products-slider .classic-product-info {
+        flex: 0 0 auto;
+        height: auto;
+        min-height: 0;
+        padding: 0.38rem 0.45rem 0.55rem;
+        text-align: center;
+      }
+
+      .featured-products-slider .classic-product-category,
+      .featured-products-slider .classic-product-price-label {
+        display: none;
+      }
+
+      .featured-products-slider .classic-product-title {
+        display: -webkit-box;
+        height: 2.55em;
+        min-height: 2.5em;
+        max-height: 2.55em;
+        overflow: hidden;
+        overflow-wrap: anywhere;
+        font-family: var(--font-sans), system-ui, sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 1.15;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+      }
+
+      .featured-products-slider .classic-product-price-wrap {
+        padding-top: 0.4rem;
+      }
+
+      .featured-products-slider .classic-product-price-box {
+        margin-top: 0;
+        padding: 0;
+        border: 0;
+        background: transparent;
+      }
+
+      .featured-products-slider .classic-product-price-row {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.45rem;
+      }
+
+      .featured-products-slider .classic-product-price {
+        overflow: hidden;
+        color: var(--color-primary);
+        font-size: 12px;
+        line-height: 1.1;
+        text-align: center;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .featured-products-slider .classic-product-detail {
+        width: 100%;
+        min-height: 28px;
+        padding: 0.42rem 0.35rem;
+        border-radius: 6px;
+        box-shadow: none;
+        font-size: 11px;
+        line-height: 1;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .featured-products-slider .classic-product-title {
+        font-size: 10.5px;
+      }
+
+      .featured-products-slider .classic-product-price,
+      .featured-products-slider .classic-product-detail {
+        font-size: 10.5px;
+      }
+    }
+  </style>
+
+  <script>
+    function initFeaturedProductsSlider() {
+      document.querySelectorAll('[data-featured-products-slider]').forEach(function(slider) {
+        if (slider.dataset.featuredSliderReady === 'true') return;
+        slider.dataset.featuredSliderReady = 'true';
+
+        var mobileQuery = window.matchMedia('(max-width: 767px)');
+        var reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        var intervalId = 0;
+
+        function stopAutoSlide() {
+          if (!intervalId) return;
+          window.clearInterval(intervalId);
+          intervalId = 0;
+        }
+
+        function startAutoSlide() {
+          stopAutoSlide();
+          if (!mobileQuery.matches || reduceMotionQuery.matches) return;
+
+          intervalId = window.setInterval(function() {
+            var card = slider.querySelector('.classic-product-card');
+            if (!card) return;
+
+            var gap = parseFloat(window.getComputedStyle(slider).gap) || 12;
+            var step = card.getBoundingClientRect().width + gap;
+            slider.scrollBy({ left: step, behavior: 'smooth' });
+
+            window.setTimeout(function() {
+              if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 15) {
+                slider.scrollLeft = 0;
+              }
+            }, 600);
+          }, 2600);
+        }
+
+        slider.addEventListener('mouseenter', stopAutoSlide);
+        slider.addEventListener('mouseleave', startAutoSlide);
+        slider.addEventListener('focusin', stopAutoSlide);
+        slider.addEventListener('focusout', startAutoSlide);
+        slider.addEventListener('touchstart', stopAutoSlide, { passive: true });
+        slider.addEventListener('touchend', startAutoSlide, { passive: true });
+        mobileQuery.addEventListener('change', startAutoSlide);
+        reduceMotionQuery.addEventListener('change', startAutoSlide);
+        document.addEventListener('visibilitychange', function() {
+          if (document.hidden) {
+            stopAutoSlide();
+          } else {
+            startAutoSlide();
+          }
+        });
+
+        startAutoSlide();
+      });
+    }
+
+    initFeaturedProductsSlider();
+    document.addEventListener('astro:page-load', initFeaturedProductsSlider);
+  </script>
   <!-- Hand Bouquet Section -->
-  <HandBouquetSection />
+  <div class="order-3 lg:order-4">
+    <HandBouquetSection />
+  </div>
 
   <!-- Bunga Papan Section -->
-  <BungaPapanSection />
+  <div class="order-4 lg:order-5">
+    <BungaPapanSection />
+  </div>
 
   <!-- Standing Flower Section -->
-  <StandingFlowerSection />
+  <div class="order-5 lg:order-6">
+    <StandingFlowerSection />
+  </div>
 
   <!-- Bunga Meja Section -->
-  <BungaMejaSection />
+  <div class="order-6 lg:order-7">
+    <BungaMejaSection />
+  </div>
 
   <!-- How to Order Section -->
-  <section class="py-20 bg-white">
+  <section class="order-7 py-20 bg-white lg:order-8">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center max-w-2xl mx-auto mb-16">
         <h2 class="font-serif text-3xl sm:text-4xl font-bold text-slate-800">Cara Mudah Pemesanan</h2>
@@ -227,6 +539,8 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
       </div>
     </div>
   </section>
+
+  </div>
 
   <!-- Service Area Section -->
   <section class="py-20 bg-primary text-white relative overflow-hidden">
