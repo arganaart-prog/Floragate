@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
 import { CATEGORIES, PRODUCTS } from '../data/products';
+import { getProductDisplayName } from '../utils/productHelpers';
 
 // SEO Meta
 const title = "Katalog Toko Bunga Malang Murah & Berkualitas";
@@ -50,7 +51,7 @@ const description = "Lihat katalog karangan bunga Floragate: toko bunga Malang m
         <div 
           class="product-item-wrapper" 
           data-category={product.categorySlug}
-          data-name={product.name.toLowerCase()}
+          data-name={getProductDisplayName(product).toLowerCase()}
           data-description={product.description.toLowerCase()}
         >
           <ProductCard product={product} priority={index < 3} />

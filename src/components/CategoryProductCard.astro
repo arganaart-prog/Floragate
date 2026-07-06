@@ -1,6 +1,7 @@
 ---
 import type { Product } from '../data/products';
 import { withBase } from '../utils/paths';
+import { getProductDisplayName } from '../utils/productHelpers';
 
 interface Props {
   product: Product;
@@ -12,18 +13,19 @@ const { product, aspect = 'aspect-[4/5]', priority = false } = Astro.props;
 const productUrl = withBase(`/produk/${product.slug}/`);
 const imageLoading = priority ? 'eager' : 'lazy';
 const imageFetchPriority = priority ? 'high' : 'low';
+const displayName = getProductDisplayName(product);
 ---
 
 <a
   href={productUrl}
-  class="category-product-card group flex h-full flex-col overflow-hidden rounded-lg border border-soft-cream/70 bg-white text-left no-underline shadow-[0_14px_38px_rgba(15,23,42,0.055)] transition-all duration-300 hover:-translate-y-1 hover:border-secondary/80 hover:shadow-[0_24px_58px_rgba(85,101,75,0.14)]"
+  class="category-product-card group flex h-full flex-col overflow-hidden rounded-[20px] border border-soft-cream/70 bg-white text-left no-underline shadow-[0_14px_38px_rgba(15,23,42,0.055)] transition-all duration-300 hover:-translate-y-1 hover:border-secondary/80 hover:shadow-[0_24px_58px_rgba(85,101,75,0.14)]"
 >
   <div class={`image-load-shell relative ${aspect} overflow-hidden bg-clean-ivory premium-image-hover`} data-image-frame>
     <span class="image-skeleton" aria-hidden="true"></span>
 
     <img
       src={withBase(product.image)}
-      alt={`Foto ${product.name} Floragate Malang`}
+      alt={`Foto ${displayName} Floragate Malang`}
       width={product.imageWidth}
       height={product.imageHeight}
       loading={imageLoading}
@@ -36,23 +38,12 @@ const imageFetchPriority = priority ? 'high' : 'low';
 
     <div class="absolute inset-x-0 bottom-0 z-10 h-24 bg-gradient-to-t from-primary-dark/45 via-primary-dark/10 to-transparent"></div>
 
-    <div class="absolute left-2 top-2 z-10 flex max-w-[calc(100%-1rem)] flex-wrap gap-1.5 sm:left-3 sm:top-3">
-      <span class="inline-flex max-w-full items-center rounded-full bg-white/95 px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.14em] text-primary shadow-[0_8px_20px_rgba(15,23,42,0.12)] backdrop-blur-sm sm:text-[10px]">
-        <span class="truncate">{product.categoryName}</span>
-      </span>
-      {product.featured && (
-        <span class="inline-flex items-center rounded-full bg-secondary px-2.5 py-1 text-[9px] font-bold uppercase tracking-[0.12em] text-primary-dark shadow-[0_8px_20px_rgba(191,167,122,0.28)] sm:text-[10px]">
-          Terpopuler
-        </span>
-      )}
-    </div>
-
 
   </div>
 
   <div class="flex min-h-[150px] flex-1 flex-col px-3.5 py-4 sm:min-h-[168px] sm:px-4 sm:py-4.5">
     <h3 class="font-serif text-[0.98rem] font-bold leading-snug text-slate-800 line-clamp-2 transition-colors duration-200 group-hover:text-primary sm:text-lg">
-      {product.name}
+      {displayName}
     </h3>
 
     <div class="mt-auto pt-4">

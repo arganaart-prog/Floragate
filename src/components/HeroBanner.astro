@@ -3,7 +3,7 @@ import { WHATSAPP_NUMBER } from '../data/constants';
 import { withBase } from '../utils/paths';
 
 const panoramaImage = withBase('/images/banner/Panorama.webp');
-const mobileHeroImage = withBase('/images/produk/wedding-sweet.webp');
+const mobileHeroImage = withBase('/images/produk/bunga-papan/wedding/600000/wedding-sweet.webp');
 
 const scenes = [
   {
@@ -1452,40 +1452,58 @@ const panoramaPanels = [
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    var desktopQuery = window.matchMedia('(min-width: 1024px)');
-    var reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    var viewport = document.getElementById('hero-panorama-viewport');
-    var track = document.getElementById('hero-panorama-track');
-    var hero = document.getElementById('hero-banner');
-    var btnPrev = document.getElementById('hero-arrow-left');
-    var btnNext = document.getElementById('hero-arrow-right');
-    var indicators = Array.prototype.slice.call(document.querySelectorAll('.hero-indicator'));
-    var fractionCurrent = document.getElementById('hero-fraction-current');
-    var fractionBarFill = document.getElementById('hero-fraction-bar-fill');
+    type RevealOptions = {
+      delay?: number;
+      duration?: number;
+      opacity?: number;
+      transform?: string | null;
+      easing?: string;
+    };
+
+    type DragState = {
+      startX: number;
+      currentX: number;
+      baseOffset: number;
+      pointerId: number;
+    };
+
+    const desktopQuery = window.matchMedia('(min-width: 1024px)');
+    const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const viewport = document.getElementById('hero-panorama-viewport');
+    const track = document.getElementById('hero-panorama-track');
+    const hero = document.getElementById('hero-banner');
+    const btnPrev = document.getElementById('hero-arrow-left');
+    const btnNext = document.getElementById('hero-arrow-right');
+    const indicators = Array.from(document.querySelectorAll<HTMLElement>('.hero-indicator'));
+    const fractionCurrent = document.getElementById('hero-fraction-current');
+    const fractionBarFill = document.getElementById('hero-fraction-bar-fill');
 
     if (!viewport || !track || !hero) return;
 
-    var sceneCount = 3;
-    var panelCount = 5;
-    var currentScene = 0;
-    var currentPanel = 1;
-    var isTransitioning = false;
-    var autoplayTimer = null;
-    var autoplayDelay = 6500;
-    var dragState = null;
-    var desktopActive = desktopQuery.matches;
-    var hasIntroRun = false;
+    const heroViewport = viewport;
+    const heroTrack = track;
+    const heroRoot = hero;
 
+    const sceneCount = 3;
+    const panelCount = 5;
+    let currentScene = 0;
+    let currentPanel = 1;
+    let isTransitioning = false;
+    let autoplayTimer: number | undefined;
+    const autoplayDelay = 6500;
+    let dragState: DragState | null = null;
+    let desktopActive = desktopQuery.matches;
+    let hasIntroRun = false;
 
-    function revealElement(target, options) {
-      var el = typeof target === 'string' ? document.querySelector(target) : target;
-      if (!el) return;
+    function revealElement(target: string | Element | null, options?: RevealOptions) {
+      const el = typeof target === 'string' ? document.querySelector(target) : target;
+      if (!(el instanceof HTMLElement)) return;
 
-      var delay = options && options.delay ? options.delay : 0;
-      var duration = options && options.duration ? options.duration : 600;
-      var opacity = options && options.opacity != null ? options.opacity : 1;
-      var transform = options && options.transform != null ? options.transform : 'translateY(0)';
-      var easing = options && options.easing ? options.easing : 'cubic-bezier(0.22, 1, 0.36, 1)';
+      const delay = options?.delay ?? 0;
+      const duration = options?.duration ?? 600;
+      const opacity = options?.opacity ?? 1;
+      const transform = options?.transform !== undefined ? options.transform : 'translateY(0)';
+      const easing = options?.easing ?? 'cubic-bezier(0.22, 1, 0.36, 1)';
 
       window.setTimeout(function() {
         el.style.transition = 'opacity ' + duration + 'ms ease, transform ' + duration + 'ms ' + easing;
@@ -1517,28 +1535,29 @@ const panoramaPanels = [
         startAutoplay();
       }, 2600);
     }
-    function panelOffset(panelIndex) {
+
+    function panelOffset(panelIndex: number) {
       return -panelIndex * (100 / panelCount);
     }
 
-    function setPanel(panelIndex, animate) {
-      var duration = reduceMotionQuery.matches ? 0 : 760;
-      track.style.transition = animate && duration
+    function setPanel(panelIndex: number, animate: boolean) {
+      const duration = reduceMotionQuery.matches ? 0 : 760;
+      heroTrack.style.transition = animate && duration
         ? 'transform ' + duration + 'ms cubic-bezier(0.25, 1, 0.5, 1)'
         : 'none';
-      track.style.transform = 'translate3d(' + panelOffset(panelIndex) + '%, 0, 0)';
+      heroTrack.style.transform = 'translate3d(' + panelOffset(panelIndex) + '%, 0, 0)';
     }
 
-    function setPanelPixels(pixelOffset) {
-      track.style.transition = 'none';
-      track.style.transform = 'translate3d(' + pixelOffset + 'px, 0, 0)';
+    function setPanelPixels(pixelOffset: number) {
+      heroTrack.style.transition = 'none';
+      heroTrack.style.transform = 'translate3d(' + pixelOffset + 'px, 0, 0)';
     }
 
-    function updateUI(sceneIndex) {
+    function updateUI(sceneIndex: number) {
       currentScene = sceneIndex;
 
       indicators.forEach(function(indicator, index) {
-        var active = index === sceneIndex;
+        const active = index === sceneIndex;
         indicator.classList.toggle('hero-indicator--active', active);
         indicator.setAttribute('aria-current', active ? 'true' : 'false');
       });
@@ -1592,11 +1611,11 @@ const panoramaPanels = [
       }
     }
 
-    function goToScene(targetScene) {
+    function goToScene(targetScene: number) {
       if (!desktopActive || targetScene === currentScene || isTransitioning) return;
 
-      var forwardDistance = (targetScene - currentScene + sceneCount) % sceneCount;
-      var backwardDistance = (currentScene - targetScene + sceneCount) % sceneCount;
+      const forwardDistance = (targetScene - currentScene + sceneCount) % sceneCount;
+      const backwardDistance = (currentScene - targetScene + sceneCount) % sceneCount;
 
       if (forwardDistance <= backwardDistance) {
         goNext();
@@ -1606,9 +1625,9 @@ const panoramaPanels = [
     }
 
     function stopAutoplay() {
-      if (autoplayTimer) {
+      if (autoplayTimer !== undefined) {
         window.clearInterval(autoplayTimer);
-        autoplayTimer = null;
+        autoplayTimer = undefined;
       }
     }
 
@@ -1623,19 +1642,19 @@ const panoramaPanels = [
       stopAutoplay();
       isTransitioning = false;
       dragState = null;
-      viewport.classList.remove('is-dragging');
+      heroViewport.classList.remove('is-dragging');
 
       if (desktopActive) {
         currentPanel = currentScene + 1;
         setPanel(currentPanel, false);
         if (hasIntroRun) startAutoplay();
       } else {
-        track.style.transition = 'none';
-        track.style.transform = 'translate3d(-20%, 0, 0)';
+        heroTrack.style.transition = 'none';
+        heroTrack.style.transform = 'translate3d(-20%, 0, 0)';
       }
     }
 
-    track.addEventListener('transitionend', function(event) {
+    heroTrack.addEventListener('transitionend', function(event: TransitionEvent) {
       if (event.propertyName !== 'transform') return;
       finishInfiniteJump();
     });
@@ -1661,40 +1680,40 @@ const panoramaPanels = [
       });
     });
 
-    hero.addEventListener('mouseenter', stopAutoplay);
-    hero.addEventListener('mouseleave', startAutoplay);
-    hero.addEventListener('focusin', stopAutoplay);
-    hero.addEventListener('focusout', startAutoplay);
+    heroRoot.addEventListener('mouseenter', stopAutoplay);
+    heroRoot.addEventListener('mouseleave', startAutoplay);
+    heroRoot.addEventListener('focusin', stopAutoplay);
+    heroRoot.addEventListener('focusout', startAutoplay);
 
-    viewport.addEventListener('pointerdown', function(event) {
+    heroViewport.addEventListener('pointerdown', function(event: PointerEvent) {
       if (!desktopActive || isTransitioning || event.button !== 0) return;
 
       stopAutoplay();
       dragState = {
         startX: event.clientX,
         currentX: event.clientX,
-        baseOffset: -currentPanel * viewport.clientWidth,
+        baseOffset: -currentPanel * heroViewport.clientWidth,
         pointerId: event.pointerId,
       };
-      viewport.classList.add('is-dragging');
-      viewport.setPointerCapture(event.pointerId);
+      heroViewport.classList.add('is-dragging');
+      heroViewport.setPointerCapture(event.pointerId);
     });
 
-    viewport.addEventListener('pointermove', function(event) {
+    heroViewport.addEventListener('pointermove', function(event: PointerEvent) {
       if (!dragState || event.pointerId !== dragState.pointerId) return;
 
       dragState.currentX = event.clientX;
-      var delta = dragState.currentX - dragState.startX;
+      const delta = dragState.currentX - dragState.startX;
       setPanelPixels(dragState.baseOffset + delta);
     });
 
-    function endDrag(event) {
+    function endDrag(event: PointerEvent) {
       if (!dragState || event.pointerId !== dragState.pointerId) return;
 
-      var delta = dragState.currentX - dragState.startX;
-      var threshold = Math.min(160, viewport.clientWidth * 0.12);
+      const delta = dragState.currentX - dragState.startX;
+      const threshold = Math.min(160, heroViewport.clientWidth * 0.12);
 
-      viewport.classList.remove('is-dragging');
+      heroViewport.classList.remove('is-dragging');
       dragState = null;
 
       if (Math.abs(delta) >= threshold) {
@@ -1710,8 +1729,8 @@ const panoramaPanels = [
       startAutoplay();
     }
 
-    viewport.addEventListener('pointerup', endDrag);
-    viewport.addEventListener('pointercancel', endDrag);
+    heroViewport.addEventListener('pointerup', endDrag);
+    heroViewport.addEventListener('pointercancel', endDrag);
 
     desktopQuery.addEventListener('change', resetForMode);
     reduceMotionQuery.addEventListener('change', resetForMode);
@@ -1719,19 +1738,20 @@ const panoramaPanels = [
       if (!desktopActive || dragState) return;
       setPanel(currentPanel, false);
     }, { passive: true });
-    function easeOutCubic(t) {
+
+    function easeOutCubic(t: number) {
       return 1 - Math.pow(1 - t, 3);
     }
 
     function animateCounters() {
-      var counters = document.querySelectorAll('.hero-stat-num[data-target]');
+      const counters = document.querySelectorAll('.hero-stat-num[data-target]');
       counters.forEach(function(el) {
-        var target = parseInt(el.getAttribute('data-target') || '0', 10);
-        var duration = target > 100 ? 2000 : 1000;
-        var start = performance.now();
+        const target = parseInt(el.getAttribute('data-target') || '0', 10);
+        const duration = target > 100 ? 2000 : 1000;
+        const start = performance.now();
 
-        function tick(now) {
-          var progress = Math.min((now - start) / duration, 1);
+        function tick(now: number) {
+          const progress = Math.min((now - start) / duration, 1);
           el.textContent = String(Math.round(easeOutCubic(progress) * target));
           if (progress < 1) window.requestAnimationFrame(tick);
         }
@@ -1740,9 +1760,9 @@ const panoramaPanels = [
       });
     }
 
-    var scrollHint = document.getElementById('hero-scroll-hint');
+    const scrollHint = document.getElementById('hero-scroll-hint');
     if (scrollHint) {
-      var hasScrolled = false;
+      let hasScrolled = false;
       window.addEventListener('scroll', function() {
         if (!hasScrolled && window.scrollY > 80) {
           hasScrolled = true;
@@ -1751,6 +1771,7 @@ const panoramaPanels = [
         }
       }, { passive: true });
     }
+
     updateUI(0);
     resetForMode();
     runIntroAnimation();

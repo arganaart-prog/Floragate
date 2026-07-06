@@ -6,17 +6,19 @@ import CategoryCarousel from '../components/CategoryCarousel.astro';
 import BungaPapanSection from '../components/BungaPapanSection.astro';
 import HandBouquetSection from '../components/HandBouquetSection.astro';
 import StandingFlowerSection from '../components/StandingFlowerSection.astro';
+import PaperFlowerSection from '../components/PaperFlowerSection.astro';
 import BungaMejaSection from '../components/BungaMejaSection.astro';
 import { PRODUCTS } from '../data/products';
 import { WHATSAPP_NUMBER } from '../data/constants';
 import { withBase } from '../utils/paths';
+import { isProductPopular } from '../utils/productHelpers';
 
 // Ambil maksimal 6 produk unggulan
-const featuredProducts = PRODUCTS.filter(p => p.featured).slice(0, 6);
+const featuredProducts = PRODUCTS.filter(isProductPopular).slice(0, 6);
 
 // SEO Meta
 const title = "Toko Bunga Malang Murah & Berkualitas - Florist Cepat";
-const description = "Floragate adalah toko bunga Malang murah dan berkualitas untuk bunga papan, wedding, duka cita, standing flower, hand bouquet, dan bunga meja. Harga bersahabat, bunga segar, pengerjaan cepat 3 jam.";
+const description = "Floragate adalah toko bunga Malang murah dan berkualitas untuk bunga papan, wedding, duka cita, standing flower, hand bouquet, paper flower, dan bunga meja. Harga bersahabat, bunga segar, pengerjaan cepat 3 jam.";
 ---
 
 <Layout title={title} description={description}>
@@ -26,7 +28,7 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
 
   <div class="flex flex-col">
   <!-- USP Section — Keunggulan Layanan Floragate -->
-  <section id="momen" class="quality-transition-section order-8 pt-24 pb-20 bg-accent-bg/60 border-b border-soft-cream/40 relative lg:order-1">
+  <section id="momen" class="quality-transition-section order-9 pt-24 pb-20 bg-accent-bg/60 border-b border-soft-cream/40 relative lg:order-1">
     <svg class="section-transition-curve section-transition-curve--quality" viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none" aria-hidden="true">
       <defs>
         <linearGradient id="quality-transition-curve-gradient" x1="0" y1="0" x2="0" y2="120" gradientUnits="userSpaceOnUse">
@@ -279,7 +281,7 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
 
       .featured-products-slider .classic-product-image {
         flex: 0 0 auto;
-        aspect-ratio: 1 / 1;
+        aspect-ratio: 1 / 1.08;
         border-bottom: 1px solid #efe4cf;
       }
 
@@ -457,13 +459,18 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
     <StandingFlowerSection />
   </div>
 
-  <!-- Bunga Meja Section -->
+  <!-- Paper Flower Section -->
   <div class="order-6 lg:order-7">
+    <PaperFlowerSection />
+  </div>
+
+  <!-- Bunga Meja Section -->
+  <div class="order-7 lg:order-8">
     <BungaMejaSection />
   </div>
 
   <!-- How to Order Section -->
-  <section class="order-7 py-20 bg-white lg:order-8">
+  <section class="order-8 py-20 bg-white lg:order-9">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center max-w-2xl mx-auto mb-16">
         <h2 class="font-serif text-3xl sm:text-4xl font-bold text-slate-800">Cara Mudah Pemesanan</h2>

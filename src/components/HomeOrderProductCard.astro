@@ -1,0 +1,31 @@
+---
+import type { Product } from '../data/products';
+import CategoryProductCard from './CategoryProductCard.astro';
+
+interface Props {
+  product: Product;
+  priority?: boolean;
+  arch?: boolean;
+}
+
+const { product, priority = false, arch = false } = Astro.props;
+const aspect = arch ? 'aspect-[4/5]' : 'aspect-square';
+---
+
+<div class:list={['home-order-product-card', arch && 'home-order-product-card--arch']}>
+  <CategoryProductCard product={product} aspect={aspect} priority={priority} />
+</div>
+
+<style>
+  .home-order-product-card {
+    height: 100%;
+  }
+
+  .home-order-product-card--arch :global(.category-product-card) {
+    border-radius: 999px 999px 20px 20px;
+  }
+
+  .home-order-product-card--arch :global(.category-product-card > .image-load-shell) {
+    border-radius: 999px 999px 0 0;
+  }
+</style>

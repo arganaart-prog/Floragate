@@ -5,6 +5,7 @@ import WhatsAppButton from '../../components/WhatsAppButton.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import { PRODUCTS } from '../../data/products';
 import { stripBase, withBase } from '../../utils/paths';
+import { getProductDisplayName } from '../../utils/productHelpers';
 
 export async function getStaticPaths() {
   return PRODUCTS.map(product => {
@@ -16,6 +17,7 @@ export async function getStaticPaths() {
 }
 
 const { product } = Astro.props;
+const displayName = getProductDisplayName(product);
 
 // Filter produk terkait (kategori sama, kecuali produk aktif)
 const relatedProducts = PRODUCTS.filter(
@@ -23,14 +25,14 @@ const relatedProducts = PRODUCTS.filter(
 ).slice(0, 3);
 
 // SEO Meta
-const title = `${product.name} Malang - Murah & Berkualitas`;
-const description = `Beli ${product.name} di Floragate, toko bunga Malang murah dan berkualitas. ${product.description.substring(0, 110)}... Pengerjaan cepat ${product.processingTime}, gratis ongkir area Kota Malang.`;
+const title = `${displayName} Malang - Murah & Berkualitas`;
+const description = `Beli ${displayName} di Floragate, toko bunga Malang murah dan berkualitas. ${product.description.substring(0, 110)}... Pengerjaan cepat ${product.processingTime}, gratis ongkir area Kota Malang.`;
 
 // JSON-LD Product Schema
 const productSchema = {
   "@context": "https://schema.org/",
   "@type": "Product",
-  "name": product.name,
+  "name": displayName,
   "image": new URL(withBase(product.image), Astro.site).toString(),
   "description": `${product.description} Tersedia di Floragate, toko bunga Malang murah dan berkualitas dengan pengerjaan cepat.`,
   "sku": product.id,
@@ -63,7 +65,7 @@ const productSchema = {
       items={[
         { label: 'Katalog', href: '/katalog/' },
         { label: product.categoryName, href: `/kategori/${product.categorySlug}/` },
-        { label: product.name }
+        { label: displayName }
       ]} 
     />
 
@@ -73,11 +75,11 @@ const productSchema = {
         
         <!-- Left Column: Product Image -->
         <div class="lg:col-span-6 flex flex-col justify-start">
-          <div class="image-load-shell relative bg-clean-ivory rounded-lg overflow-hidden border border-soft-cream/60 aspect-4/3" data-image-frame>
+          <div class="image-load-shell relative bg-clean-ivory rounded-lg overflow-hidden border border-soft-cream/60" data-image-frame>
             <span class="image-skeleton" aria-hidden="true"></span>
             <img 
               src={withBase(product.image)} 
-              alt={`Karangan ${product.name} Florist Malang`}
+              alt={`Karangan ${displayName} Florist Malang`}
               width={product.imageWidth}
               height={product.imageHeight}
               loading="eager"
@@ -85,7 +87,7 @@ const productSchema = {
               fetchpriority="high"
               sizes="(min-width: 1024px) 50vw, 100vw"
               data-image-loader="true"
-              class="relative z-0 w-full h-full object-cover" 
+              class="relative z-0 block h-auto w-full" 
             />
             <div class="absolute top-4 left-4 bg-primary text-white text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-xs">
               {product.city}
@@ -106,7 +108,7 @@ const productSchema = {
             
             <!-- Title -->
             <h1 class="font-serif text-2xl sm:text-3xl font-bold text-slate-800 leading-snug">
-              {product.name}
+              {displayName}
             </h1>
 
             <!-- Price -->
@@ -177,7 +179,7 @@ const productSchema = {
     {relatedProducts.length > 0 && (
       <div class="mt-20">
         <h2 class="font-serif text-2xl font-bold text-slate-800 mb-8 border-b border-soft-cream/40 pb-3">Produk Serupa Lainnya</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="related-products-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {relatedProducts.map(prod => (
             <ProductCard product={prod} />
           ))}
@@ -186,5 +188,22 @@ const productSchema = {
     )}
 
   </div>
+  <style is:global>
+    .related-products-grid .product-card-shell .image-load-shell {
+      aspect-ratio: 1 / 1.08;
+    }
+
+    .related-products-grid .product-card-shell .image-load-shell img {
+      object-position: top center;
+    }
+
+    @media (min-width: 768px) {
+      .related-products-grid {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 14.5rem), 18.5rem));
+        gap: 1.25rem;
+        justify-content: start;
+      }
+    }
+  </style>
 </Layout>
 
