@@ -71,7 +71,7 @@ const tabs: Tab[] = [
           aria-selected={index === 0 ? 'true' : 'false'}
           data-tab={tab.id}
           class:list={[
-            'bunga-papan-tab px-6 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer border',
+            'bunga-papan-tab px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer border min-h-[44px] inline-flex items-center justify-center',
             index === 0
               ? 'bg-primary text-white border-primary shadow-md'
               : 'bg-white text-slate-500 border-soft-cream/80 hover:text-primary hover:border-primary/40',
