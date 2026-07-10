@@ -26,7 +26,7 @@ export interface Category {
   image: string;
 }
 
-export const CATEGORIES: Category[] = [
+const RAW_CATEGORIES: Category[] = [
   {
     slug: "bunga-papan-duka-cita-malang",
     name: "Bunga Papan Duka Cita",
@@ -124,24 +124,6 @@ export const PRODUCTS: Product[] = [
     serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
   },
 
-  {
-    id: "BP-DC-03",
-    slug: "bunga-papan-duka-cita-malang-product1",
-    name: "Bunga Papan Duka Cita - Product1",
-    categorySlug: "bunga-papan-duka-cita-malang",
-    categoryName: "Bunga Papan Duka Cita",
-    city: "Malang",
-    priceFrom: 750000,
-    priceLabel: "Rp 750.000",
-    image: "/images/produk/bunga-papan/duka-cita/750000/Product1.png",
-    imageWidth: 1122,
-    imageHeight: 1230,
-    description: "Karangan bunga papan duka cita dengan desain elegan dan rangkaian bunga yang tertata rapi untuk menyampaikan belasungkawa secara hangat, sopan, dan penuh penghormatan.",
-    featured: false,
-    whatsappText: "Halo Floragate, saya ingin pesan karangan Bunga Papan Duka Cita - Product1 (BP-DC-03). Mohon info harga detail dan format pemesanannya.",
-    processingTime: "3 - 4 Jam",
-    serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
-  },
   // Bunga Papan Wedding
   {
     id: "BP-WD-01",
@@ -180,188 +162,6 @@ export const PRODUCTS: Product[] = [
     serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
   },
 
-  {
-    id: "BP-WD-03",
-    slug: "bunga-papan-wedding-malang-product1",
-    name: "Bunga Papan Wedding - Product1",
-    categorySlug: "bunga-papan-wedding-malang",
-    categoryName: "Bunga Papan Wedding",
-    city: "Malang",
-    priceFrom: 800000,
-    priceLabel: "Rp 800.000",
-    image: "/images/produk/bunga-papan/wedding/800000/Product1.png",
-    imageWidth: 1122,
-    imageHeight: 1297,
-    description: "Bunga papan wedding dengan tampilan meriah dan rangkaian bunga yang cantik untuk menyampaikan ucapan selamat atas momen pernikahan keluarga, sahabat, atau rekan kerja.",
-    featured: false,
-    whatsappText: "Halo Floragate, saya ingin pesan karangan Bunga Papan Wedding - Product1 (BP-WD-03). Mohon info harga detail dan format pemesanannya.",
-    processingTime: "3 - 4 Jam",
-    serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
-  },
-  {
-    id: "BP-WD-04",
-    slug: "bunga-papan-wedding-malang-paket-700",
-    name: "Bunga Papan Wedding - Paket 700",
-    categorySlug: "bunga-papan-wedding-malang",
-    categoryName: "Bunga Papan Wedding",
-    city: "Malang",
-    priceFrom: 700000,
-    priceLabel: "Rp 700.000",
-    image: "/images/produk/bunga-papan/wedding/700.png",
-    imageWidth: 1122,
-    imageHeight: 1402,
-    description: "Bunga papan wedding paket 700 ribu dengan desain ceria dan rangkaian bunga segar yang rapi untuk ucapan selamat pernikahan di area Malang Raya.",
-    featured: false,
-    whatsappText: "Halo Floragate, saya ingin pesan karangan Bunga Papan Wedding - Paket 700 (BP-WD-04). Mohon info harga detail dan format pemesanannya.",
-    processingTime: "3 - 4 Jam",
-    serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
-  },
-  {
-    id: "BP-WD-05",
-    slug: "bunga-papan-wedding-malang-paket-800",
-    name: "Bunga Papan Wedding - Paket 800",
-    categorySlug: "bunga-papan-wedding-malang",
-    categoryName: "Bunga Papan Wedding",
-    city: "Malang",
-    priceFrom: 800000,
-    priceLabel: "Rp 800.000",
-    image: "/images/produk/bunga-papan/wedding/800.png",
-    imageWidth: 1122,
-    imageHeight: 1402,
-    description: "Bunga papan wedding paket 800 ribu dengan tampilan meriah, warna menarik, dan komposisi bunga yang cantik untuk mengirimkan ucapan selamat pernikahan.",
-    featured: false,
-    whatsappText: "Halo Floragate, saya ingin pesan karangan Bunga Papan Wedding - Paket 800 (BP-WD-05). Mohon info harga detail dan format pemesanannya.",
-    processingTime: "3 - 4 Jam",
-    serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
-  },
-  {
-    id: "BP-WD-06",
-    slug: "bunga-papan-wedding-malang-paket-950",
-    name: "Bunga Papan Wedding - Paket 950",
-    categorySlug: "bunga-papan-wedding-malang",
-    categoryName: "Bunga Papan Wedding",
-    city: "Malang",
-    priceFrom: 950000,
-    priceLabel: "Rp 950.000",
-    image: "/images/produk/bunga-papan/wedding/950.png",
-    imageWidth: 1122,
-    imageHeight: 1402,
-    description: "Bunga papan wedding paket 950 ribu dengan susunan bunga yang lebih penuh dan elegan untuk melengkapi momen pernikahan keluarga, sahabat, atau rekan kerja.",
-    featured: false,
-    whatsappText: "Halo Floragate, saya ingin pesan karangan Bunga Papan Wedding - Paket 950 (BP-WD-06). Mohon info harga detail dan format pemesanannya.",
-    processingTime: "3 - 4 Jam",
-    serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
-  },
-  {
-    id: "BP-WD-07",
-    slug: "bunga-papan-wedding-malang-paket-1350",
-    name: "Bunga Papan Wedding - Paket 1350",
-    categorySlug: "bunga-papan-wedding-malang",
-    categoryName: "Bunga Papan Wedding",
-    city: "Malang",
-    priceFrom: 1350000,
-    priceLabel: "Rp 1.350.000",
-    image: "/images/produk/bunga-papan/wedding/1350.png",
-    imageWidth: 1122,
-    imageHeight: 1402,
-    description: "Bunga papan wedding paket 1,35 juta dengan desain premium, ukuran tampilan yang megah, dan rangkaian bunga lebih melimpah untuk ucapan pernikahan yang berkesan.",
-    featured: false,
-    whatsappText: "Halo Floragate, saya ingin pesan karangan Bunga Papan Wedding - Paket 1350 (BP-WD-07). Mohon info harga detail dan format pemesanannya.",
-    processingTime: "4 - 5 Jam",
-    serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
-  },
-  {
-    id: "BP-WD-08",
-    slug: "bunga-papan-wedding-malang-product3",
-    name: "Bunga Papan Wedding - Product3",
-    categorySlug: "bunga-papan-wedding-malang",
-    categoryName: "Bunga Papan Wedding",
-    city: "Malang",
-    priceFrom: 800000,
-    priceLabel: "Rp 800.000",
-    image: "/images/produk/bunga-papan/wedding/800000/Product3.png",
-    imageWidth: 1122,
-    imageHeight: 1402,
-    description: "Bunga papan wedding paket 800 ribu varian Product3 dengan tampilan meriah dan rangkaian bunga segar yang cantik untuk ucapan selamat pernikahan.",
-    featured: false,
-    whatsappText: "Halo Floragate, saya ingin pesan karangan Bunga Papan Wedding - Product3 (BP-WD-08). Mohon info harga detail dan format pemesanannya.",
-    processingTime: "3 - 4 Jam",
-    serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
-  },
-  // Bunga Papan Congratulations
-  {
-    id: "BP-CG-01",
-    slug: "bunga-papan-congratulations-success-gold",
-    name: "Bunga Papan Congratulations - Success Gold",
-    categorySlug: "bunga-papan-congratulations-malang",
-    categoryName: "Bunga Papan Congratulations",
-    city: "Malang",
-    priceFrom: 550000,
-    priceLabel: "Rp 550.000",
-    image: "/images/produk/bunga-papan/congratulations/550000/Product1.png",
-    imageWidth: 1084,
-    imageHeight: 1272,
-    description: "Bunga papan ucapan 'Selamat & Sukses' atau 'Congratulations' dengan nuansa warna kuning cerah, merah meriah, dan aksen emas (gold) yang melambangkan kemakmuran dan kesuksesan. Sangat cocok diletakkan di depan toko baru, kantor baru, atau kafe saat peresmian / grand opening di area Malang.",
-    featured: true,
-    whatsappText: "Halo Floragate, saya ingin pesan karangan Bunga Papan Congratulations - Success Gold (BP-CG-01). Mohon info harga detail dan format pemesanannya.",
-    processingTime: "3 - 4 Jam",
-    serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
-  },
-  {
-    id: "BP-CG-03",
-    slug: "bunga-papan-congratulations-grand-opening-classic",
-    name: "Bunga Papan Congratulations - Grand Opening Classic",
-    categorySlug: "bunga-papan-congratulations-malang",
-    categoryName: "Bunga Papan Congratulations",
-    city: "Malang",
-    priceFrom: 550000,
-    priceLabel: "Rp 550.000",
-    image: "/images/produk/bunga-papan/congratulations/550000/Product2.png",
-    imageWidth: 1085,
-    imageHeight: 1450,
-    description: "Bunga papan congratulations untuk ucapan selamat pembukaan usaha, grand opening, atau momen pencapaian penting. Desain rapi dengan komposisi bunga yang menonjol sehingga pesan ucapan terlihat jelas dan elegan.",
-    featured: false,
-    whatsappText: "Halo Floragate, saya ingin pesan karangan Bunga Papan Congratulations - Grand Opening Classic (BP-CG-03). Mohon info harga detail dan format pemesanannya.",
-    processingTime: "3 - 4 Jam",
-    serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
-  },
-  {
-    id: "BP-CG-02",
-    slug: "bunga-papan-congratulations-vibrant-achievement",
-    name: "Bunga Papan Congratulations - Vibrant Achievement",
-    categorySlug: "bunga-papan-congratulations-malang",
-    categoryName: "Bunga Papan Congratulations",
-    city: "Malang",
-    priceFrom: 2250000,
-    priceLabel: "Rp 2.250.000",
-    image: "/images/produk/bunga-papan/congratulations/2250000/Product1.png",
-    imageWidth: 1158,
-    imageHeight: 1359,
-    description: "Karangan bunga papan selamat grand opening dengan desain penuh energi, paduan warna jingga, merah menyala, dan biru navy yang modern. Dirangkai menggunakan spon tebal anti badai dengan hiasan bunga segar melimpah ruah di bagian mahkota atas dan kaki bawah papan bunga.",
-    featured: false,
-    whatsappText: "Halo Floragate, saya ingin pesan karangan Bunga Papan Congratulations - Vibrant Achievement (BP-CG-02). Mohon info harga detail dan format pemesanannya.",
-    processingTime: "3 - 4 Jam",
-    serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
-  },
-
-  {
-    id: "BP-CG-04",
-    slug: "bunga-papan-congratulations-premium-celebration",
-    name: "Bunga Papan Congratulations - Premium Celebration",
-    categorySlug: "bunga-papan-congratulations-malang",
-    categoryName: "Bunga Papan Congratulations",
-    city: "Malang",
-    priceFrom: 2500000,
-    priceLabel: "Rp 2.500.000",
-    image: "/images/produk/bunga-papan/congratulations/2250000/2500000.png",
-    imageWidth: 1122,
-    imageHeight: 1311,
-    description: "Karangan bunga papan congratulations premium dengan tampilan megah dan rangkaian bunga melimpah untuk pembukaan usaha, pencapaian penting, atau ucapan selamat eksklusif di area Malang.",
-    featured: false,
-    whatsappText: "Halo Floragate, saya ingin pesan karangan Bunga Papan Congratulations - Premium Celebration (BP-CG-04). Mohon info harga detail dan format pemesanannya.",
-    processingTime: "3 - 4 Jam",
-    serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
-  },
   // Standing Flower
   {
     id: "SF-01",
@@ -451,7 +251,7 @@ export const PRODUCTS: Product[] = [
     image: "/images/produk/paper-flower/200000/600.webp",
     imageWidth: 960,
     imageHeight: 1200,
-    description: "Paper flower paket 600 ribu dengan detail handmade yang rapi dan tahan lama. Cocok untuk dekorasi acara, kado spesial, wisuda, lamaran, atau pajangan cantik di rumah.",
+    description: "Paper flower paket 600 ribu dengan detail handmade yang rapi and tahan lama. Cocok untuk dekorasi acara, kado spesial, wisuda, lamaran, atau pajangan cantik di rumah.",
     featured: true,
     whatsappText: "Halo Floragate, saya ingin pesan Paper Flower - Paket 600 (PF-01). Mohon info harga detail dan format pemesanannya.",
     processingTime: "1 - 2 Hari",
@@ -515,3 +315,6 @@ export const PRODUCTS: Product[] = [
   }
 ];
 
+export const CATEGORIES: Category[] = RAW_CATEGORIES.filter(cat =>
+  PRODUCTS.some(p => p.categorySlug === cat.slug)
+);
