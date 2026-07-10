@@ -235,24 +235,7 @@ export const PRODUCTS: Product[] = [
     processingTime: "3 - 4 Jam",
     serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
   },
-  {
-    id: "BP-CG-03",
-    slug: "bunga-papan-congratulations-grand-opening-classic",
-    name: "Bunga Papan Congratulations - Grand Opening Classic",
-    categorySlug: "bunga-papan-congratulations-malang",
-    categoryName: "Bunga Papan Congratulations",
-    city: "Malang",
-    priceFrom: 550000,
-    priceLabel: "Rp 550.000",
-    image: "/images/produk/bunga-papan/congratulations/550000/Product2.png",
-    imageWidth: 1085,
-    imageHeight: 1450,
-    description: "Bunga papan congratulations untuk ucapan selamat pembukaan usaha, grand opening, atau momen pencapaian penting. Desain rapi dengan komposisi bunga yang menonjol sehingga pesan ucapan terlihat jelas dan elegan.",
-    featured: false,
-    whatsappText: "Halo Floragate, saya ingin pesan karangan Bunga Papan Congratulations - Grand Opening Classic (BP-CG-03). Mohon info harga detail dan format pemesanannya.",
-    processingTime: "3 - 4 Jam",
-    serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
-  },
+
   {
     id: "BP-CG-02",
     slug: "bunga-papan-congratulations-vibrant-achievement",
@@ -376,7 +359,7 @@ export const PRODUCTS: Product[] = [
     city: "Malang",
     priceFrom: 700000,
     priceLabel: "Rp 700.000",
-    image: "/images/produk/bunga-meja/400000/700.webp",
+    image: "/images/produk/bunga-meja/400000/700.png",
     imageWidth: 960,
     imageHeight: 1200,
     description: "Bunga meja paket 700 ribu dengan rangkaian segar yang cocok untuk meja tamu, lobby, meja resepsionis, rapat, atau dekorasi acara formal di area Malang.",
@@ -394,7 +377,7 @@ export const PRODUCTS: Product[] = [
     city: "Malang",
     priceFrom: 950000,
     priceLabel: "Rp 950.000",
-    image: "/images/produk/bunga-meja/250000/950.webp",
+    image: "/images/produk/bunga-meja/250000/950.png",
     imageWidth: 960,
     imageHeight: 1200,
     description: "Bunga meja paket 950 ribu dengan susunan bunga lebih penuh dan premium. Pilihan pas untuk dekorasi meja VIP, lobby, ruang meeting, resepsi, atau acara spesial.",
