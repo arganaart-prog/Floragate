@@ -105,6 +105,42 @@ export const PRODUCTS: Product[] = [
     processingTime: "3 - 4 Jam",
     serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
   },
+  {
+    id: "BP-DC-04",
+    slug: "bunga-papan-duka-cita-malang-002",
+    name: "Bunga Papan Duka Cita Malang 002",
+    categorySlug: "bunga-papan-duka-cita-malang",
+    categoryName: "Bunga Papan Duka Cita",
+    city: "Malang",
+    priceFrom: 935000,
+    priceLabel: "Rp 935.000",
+    image: "/images/produk/bunga-papan/duka-cita/935.webp",
+    imageWidth: 1198,
+    imageHeight: 1313,
+    description: "Bunga papan duka cita paket 935 ribu dengan desain bernuansa teduh dan rangkaian bunga segar yang rapi untuk menyampaikan ungkapan belasungkawa di area Malang Raya.",
+    featured: false,
+    whatsappText: "Halo Floragate, saya ingin pesan karangan Bunga Papan Duka Cita Malang 002 (BP-DC-04). Mohon info harga detail dan format pemesanannya.",
+    processingTime: "3 - 4 Jam",
+    serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
+  },
+  {
+    id: "BP-DC-05",
+    slug: "bunga-papan-duka-cita-malang-003",
+    name: "Bunga Papan Duka Cita Malang 003",
+    categorySlug: "bunga-papan-duka-cita-malang",
+    categoryName: "Bunga Papan Duka Cita",
+    city: "Malang",
+    priceFrom: 1155000,
+    priceLabel: "Rp 1.155.000",
+    image: "/images/produk/bunga-papan/duka-cita/1155.webp",
+    imageWidth: 1313,
+    imageHeight: 1198,
+    description: "Bunga papan duka cita paket 1,155 juta dengan tampilan megah, susunan bunga melimpah, dan nuansa terhormat untuk ungkapan belasungkawa mendalam di area Malang Raya.",
+    featured: false,
+    whatsappText: "Halo Floragate, saya ingin pesan karangan Bunga Papan Duka Cita Malang 003 (BP-DC-05). Mohon info harga detail dan format pemesanannya.",
+    processingTime: "3 - 4 Jam",
+    serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
+  },
 
   // Bunga Papan Wedding
   {
