@@ -7,20 +7,10 @@ Options -Indexes
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 </IfModule>
 
-# Brotli compression (preferred over gzip)
-<IfModule mod_brotli.c>
-  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/xml text/css
-  AddOutputFilterByType BROTLI_COMPRESS application/javascript application/json
-  AddOutputFilterByType BROTLI_COMPRESS image/svg+xml application/xml
-  AddOutputFilterByType BROTLI_COMPRESS application/font-woff2
-</IfModule>
-
-# Gzip compression (fallback)
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css
   AddOutputFilterByType DEFLATE application/javascript application/json
   AddOutputFilterByType DEFLATE image/svg+xml application/xml
-  AddOutputFilterByType DEFLATE application/font-woff2
 </IfModule>
 
 <IfModule mod_headers.c>
@@ -31,38 +21,11 @@ Options -Indexes
   Header always set Permissions-Policy "accelerometer=(), autoplay=(), camera=(), encrypted-media=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" "expr=%{HTTPS} == 'on'"
 
-  # CORS for fonts
-  <FilesMatch "\.(woff2?|ttf|otf)$">
-    Header set Access-Control-Allow-Origin "*"
+  <FilesMatch "\.(?:html|xml|json|txt|svg)$">
+    Header set Cache-Control "no-cache"
   </FilesMatch>
 
-  # HTML - no cache (always fresh)
-  <FilesMatch "\.(?:html|xml|json|txt)$">
-    Header set Cache-Control "no-cache, must-revalidate"
-  </FilesMatch>
-
-  # SVG - long cache (content-hashed)
-  <FilesMatch "\.(?:svg)$">
-    Header set Cache-Control "public, max-age=604800, stale-while-revalidate=86400"
-  </FilesMatch>
-
-  # Static assets - immutable cache (1 year, Astro hashes filenames)
-  <FilesMatch "\._[a-zA-Z0-9]+\.(css|js|mjs)$">
+  <FilesMatch "\.(?:css|js|mjs|png|jpg|jpeg|gif|webp|avif|ico|woff2?)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
-
-  # Images and fonts - long cache
-  <FilesMatch "\.(?:png|jpg|jpeg|gif|webp|avif|ico|woff2?)$">
-    Header set Cache-Control "public, max-age=2592000, stale-while-revalidate=86400"
-  </FilesMatch>
-
-  # All other CSS/JS
-  <FilesMatch "\.(?:css|js|mjs)$">
-    Header set Cache-Control "public, max-age=31536000, immutable"
-  </FilesMatch>
-</IfModule>
-
-# Enable Keep-Alive
-<IfModule mod_headers.c>
-  Header set Connection keep-alive
 </IfModule>

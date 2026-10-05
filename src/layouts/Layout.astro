@@ -15,18 +15,9 @@ interface Props {
   schema?: Record<string, any>;
   robots?: string;
   showTestimonials?: boolean;
-  preloadHero?: boolean;
 }
 
-const { title, description, image, type = 'website', schema, robots, showTestimonials = true, preloadHero } = Astro.props;
-
-const currentPath = Astro.url.pathname;
-const isHome = preloadHero ?? (
-  currentPath === '/' ||
-  currentPath === '' ||
-  currentPath === withBase('/') ||
-  currentPath.replace(/\/+$/, '') === withBase('').replace(/\/+$/, '')
-);
+const { title, description, image, type = 'website', schema, robots, showTestimonials = true } = Astro.props;
 
 // Default Schema: Florist di Malang
 const defaultSchema = {
@@ -91,28 +82,9 @@ const finalSchema = schema || defaultSchema;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Use SVG favicon (lightweight) -->
-    <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+    <link rel="icon" type="image/png" href={withBase('/favicon-transparent.png')} />
     <link rel="apple-touch-icon" href={withBase('/favicon-transparent.png')} />
     <meta name="generator" content={Astro.generator} />
-
-    <!-- Preload critical hero assets for LCP (Home page only) -->
-    {isHome && (
-      <>
-        <link
-          rel="preload"
-          as="image"
-          href={withBase('/images/produk/bunga-papan/wedding/600000/wedding-sweet.webp')}
-          media="(max-width: 1023px)"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href={withBase('/images/banner/Panorama.webp')}
-          media="(min-width: 1024px)"
-        />
-      </>
-    )}
 
     <SEOHead
       title={title}
@@ -137,9 +109,6 @@ const finalSchema = schema || defaultSchema;
     {showTestimonials && <Testimonials />}
     <Footer />
     <script>
-      // Enable smooth scroll after page is interactive (avoids CLS during initial paint)
-      document.documentElement.style.scrollBehavior = 'smooth';
-
       function initImageLoaders() {
         document.querySelectorAll('[data-image-loader]').forEach(function(image) {
           if (!(image instanceof HTMLImageElement)) return;
