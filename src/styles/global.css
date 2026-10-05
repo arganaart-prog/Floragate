@@ -31,16 +31,23 @@
 
   body {
     @apply bg-white text-slate-800 font-sans antialiased selection:bg-primary/20 selection:text-primary;
-    scroll-behavior: smooth;
+    /* Use smooth scroll only when JS is ready to avoid CLS */
+    scroll-behavior: auto;
+  }
+
+  /* Prevent FOUC on fonts */
+  :root {
+    font-synthesis: none;
   }
 }
 
-/* Micro-animations */
+
+/* Micro-animations - only use transform/opacity to avoid layout thrashing */
 .hover-gold-grow {
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
 }
 .hover-gold-grow:hover {
+  will-change: transform;
   transform: translateY(-2px);
   border-color: var(--color-secondary);
 }
@@ -157,11 +164,9 @@
 
 .image-load-shell img[data-image-loader] {
   opacity: 0;
-  transform: scale(1.015);
-  transition:
-    opacity 0.45s ease,
-    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
+  /* Use only opacity for transition (GPU composited, no layout) */
+  transition: opacity 0.4s ease;
+  will-change: opacity;
 }
 
 .image-load-shell.is-loaded .image-skeleton,
@@ -172,7 +177,7 @@
 .image-load-shell.is-loaded img[data-image-loader],
 .image-load-shell.is-error img[data-image-loader] {
   opacity: 1;
-  transform: scale(1);
+  will-change: auto;
 }
 
 .product-card-shell,
@@ -180,10 +185,10 @@
 .category-product-card,
 .bunga-papan-card {
   content-visibility: auto;
-  contain-intrinsic-size: 520px;
+  contain-intrinsic-size: auto 520px;
 }
 @media (max-width: 767px) {
-  /* Mobile browsers can reserve the intrinsic size inside sliders; keep cards measured from real content. */
+  /* Mobile: disable for sliders – content must be measured from real content */
   .product-card-shell,
   .product-item-wrapper,
   .category-product-card,

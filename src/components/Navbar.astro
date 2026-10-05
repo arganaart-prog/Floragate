@@ -109,7 +109,7 @@ const isMobileFaq = currentPath.startsWith('/faq/');
 <!-- Row 2: Centered Navigation Links (Primary Dark Theme Green - Sticky) -->
 <div id="desktop-sticky-nav" class="relative z-40 hidden md:block bg-primary-dark px-4 shadow-md">
       <div class="max-w-7xl mx-auto flex justify-center items-center h-14 relative">
-        <nav class="flex items-center gap-10" id="desktop-nav">
+        <nav class="flex items-center gap-10" id="desktop-nav" aria-label="Navigasi utama Floragate">
           {navItems.map(item => {
             const isHome = item.href === '/' && currentPath === '/';
             const isSubpage = item.href !== '/' && (
