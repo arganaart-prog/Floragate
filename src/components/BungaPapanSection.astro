@@ -5,7 +5,7 @@ import CategoryProductCard from './CategoryProductCard.astro';
 import { withBase } from '../utils/paths';
 
 const dukaCitaProducts = PRODUCTS.filter(
-  (p) => p.categorySlug === 'bunga-papan-duka-cita-malang'
+  (p) => p.categorySlug === 'bunga-papan-duka-cita-malang' && p.slug !== 'bunga-papan-duka-cita-malang-004'
 );
 
 const weddingProducts = PRODUCTS.filter(
