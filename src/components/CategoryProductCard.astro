@@ -14,6 +14,7 @@ const productUrl = withBase(`/produk/${product.slug}/`);
 const imageLoading = priority ? 'eager' : 'lazy';
 const imageFetchPriority = priority ? 'high' : 'low';
 const displayName = getProductDisplayName(product);
+const isBungaPapan = product.categorySlug.startsWith('bunga-papan') || product.categoryName.toLowerCase().includes('bunga papan');
 ---
 
 <a
@@ -42,7 +43,7 @@ const displayName = getProductDisplayName(product);
   </div>
 
   <div class="flex min-h-[150px] flex-1 flex-col px-3.5 py-4 sm:min-h-[168px] sm:px-4 sm:py-4.5">
-    <h3 class="font-serif text-[0.98rem] font-bold leading-snug text-slate-800 line-clamp-2 transition-colors duration-200 group-hover:text-primary sm:text-lg">
+    <h3 class={`font-serif font-bold leading-snug text-slate-800 line-clamp-2 transition-colors duration-200 group-hover:text-primary ${isBungaPapan ? 'text-[0.875rem] sm:text-base' : 'text-[0.98rem] sm:text-lg'}`}>
       {displayName}
     </h3>
 

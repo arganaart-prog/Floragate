@@ -177,33 +177,31 @@ const productSchema = {
 
     <!-- Related Products -->
     {relatedProducts.length > 0 && (
-      <div class="mt-20">
-        <h2 class="font-serif text-2xl font-bold text-slate-800 mb-8 border-b border-soft-cream/40 pb-3">Produk Serupa Lainnya</h2>
-        <div class="related-products-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <section class="mt-16 sm:mt-20 pt-10 border-t border-soft-cream/60" aria-labelledby="related-products-heading">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6 sm:mb-8">
+          <div>
+            <span class="text-secondary font-semibold text-xs tracking-widest uppercase block mb-1">Pilihan Lainnya</span>
+            <h2 id="related-products-heading" class="font-serif text-2xl sm:text-3xl font-bold text-slate-800">Produk Serupa Lainnya</h2>
+          </div>
+          <a 
+            href={withBase(`/kategori/${product.categorySlug}/`)} 
+            class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-primary hover:text-secondary transition-colors group"
+          >
+            Lihat Semua {product.categoryName}
+            <svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3.5 sm:gap-6 max-w-4xl">
           {relatedProducts.map(prod => (
-            <ProductCard product={prod} />
+            <ProductCard product={prod} variant="compact" />
           ))}
         </div>
-      </div>
+      </section>
     )}
 
   </div>
-  <style is:global>
-    .related-products-grid .product-card-shell .image-load-shell {
-      aspect-ratio: 1 / 1.08;
-    }
-
-    .related-products-grid .product-card-shell .image-load-shell img {
-      object-position: top center;
-    }
-
-    @media (min-width: 768px) {
-      .related-products-grid {
-        grid-template-columns: repeat(auto-fit, minmax(min(100%, 14.5rem), 18.5rem));
-        gap: 1.25rem;
-        justify-content: start;
-      }
-    }
-  </style>
 </Layout>
 
