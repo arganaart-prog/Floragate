@@ -95,7 +95,7 @@ const paymentMethods = [
       <div class="lg:ml-12">
         <h3 class="text-xl font-bold text-white mb-3">Kategori Produk</h3>
         <ul class="space-y-1.5 text-lg">
-          {CATEGORIES.slice(0, 6).map((category) => (
+          {CATEGORIES.map((category) => (
             <li>
               <a href={withBase(`/kategori/${category.slug}/`)} class="text-white/78 hover:text-white transition-colors duration-200 font-medium leading-normal">
                 {category.name}

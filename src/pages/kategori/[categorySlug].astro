@@ -3,7 +3,8 @@ import Layout from '../../layouts/Layout.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import { CATEGORIES, PRODUCTS } from '../../data/products';
-import { WHATSAPP_NUMBER } from '../../data/constants';
+import { WHATSAPP_NUMBER, SITE_DOMAIN } from '../../data/constants';
+import { withBase } from '../../utils/paths';
 
 export async function getStaticPaths() {
   return CATEGORIES.map(category => {
@@ -16,9 +17,65 @@ export async function getStaticPaths() {
 }
 
 const { category, products } = Astro.props;
+const isTanbulampot = category.slug === 'tanbulampot-malang';
+
+// Structured Schema untuk Kategori & FAQ
+const categoryUrl = `${SITE_DOMAIN}/kategori/${category.slug}/`;
+const customCategorySchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": category.seoTitle,
+  "description": category.seoDescription,
+  "url": categoryUrl,
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": products.map((prod, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "url": `${SITE_DOMAIN}/produk/${prod.slug}/`,
+      "name": prod.name
+    }))
+  },
+  ...(isTanbulampot ? {
+    "hasPart": {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Apa itu bunga ucapan tanaman dan pohon ucapan (tanbulampot)?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Bunga ucapan tanaman atau pohon ucapan adalah kreasi ucapan selamat & sukses menggunakan tanaman hidup dan bibit pohon buah dalam pot (tanbulampot) yang dirangkai estetis lengkap dengan pita satin mewah serta kartu ucapan kustom sebagai alternatif karangan bunga konvensional yang ramah lingkungan."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mengapa memilih ucapan bibit pohon & buah dibanding karangan bunga biasa?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ucapan bibit pohon & buah tidak mudah layu karena tanaman tetap hidup, dapat dirawat, tumbuh subur, dan menghasilkan buah. Hal ini menjadikannya simbol keberkahan dan doa pertumbuhan bisnis yang berkesan untuk jangka panjang."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Apakah bisa custom karangan bibit tanaman untuk grand opening di Malang?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ya, Floragate menyediakan custom karangan bibit tanaman dan bunga ucapan tanaman hidup dengan pilihan jenis bibit buah (jeruk nagami, tin, dsb.), ukuran pot keramik eksklusif, serta ucapan kustom untuk pengiriman ke seluruh Malang Raya dan Kota Batu."
+          }
+        }
+      ]
+    }
+  } : {})
+};
 ---
 
-<Layout title={category.seoTitle} description={category.seoDescription}>
+<Layout
+  title={category.seoTitle}
+  description={category.seoDescription}
+  keywords={category.seoKeywords}
+  schema={customCategorySchema}
+>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     
     <!-- Breadcrumb -->
@@ -31,13 +88,36 @@ const { category, products } = Astro.props;
 
     <!-- Category Header -->
     <div class="mt-6 mb-12 max-w-3xl">
-      <span class="text-xs font-semibold text-secondary uppercase tracking-widest block mb-2">Kategori Pilihan</span>
+      <span class="text-xs font-semibold text-secondary uppercase tracking-widest block mb-2">
+        {isTanbulampot ? 'Kategori Eksklusif Eco-Friendly' : 'Kategori Pilihan'}
+      </span>
       <h1 class="font-serif text-3xl sm:text-4xl font-bold text-slate-800">
-        Jual {category.name} Malang
+        {isTanbulampot ? 'Bunga Ucapan Tanaman & Pohon Ucapan (Tanbulampot) Malang' : `Jual ${category.name} Malang`}
       </h1>
-      <p class="text-slate-500 text-sm mt-3 leading-relaxed">
-        {category.description} Floragate menawarkan pilihan toko bunga Malang murah dan berkualitas dengan desain elegan, bunga segar, harga bersahabat, serta pengiriman cepat di wilayah Malang Kota, Kabupaten Malang, dan Kota Batu.
+      <p class="text-slate-600 text-sm sm:text-base mt-3 leading-relaxed">
+        {category.description} Floragate menghadirkan solusi toko bunga Malang murah dan berkualitas dengan pilihan rangkaian istimewa, harga transparan, pengerjaan rapi, dan pengiriman amanah ke area Kota Malang, Kabupaten Malang, serta Kota Batu.
       </p>
+
+      {isTanbulampot && (
+        <!-- Quick Keyword Badges for Crawlers & Visitors -->
+        <div class="mt-4 flex flex-wrap gap-2 pt-2">
+          <span class="inline-flex items-center rounded-full bg-accent-bg px-3 py-1 text-xs font-semibold text-primary-dark border border-soft-cream">
+            Bunga Ucapan Tanaman
+          </span>
+          <span class="inline-flex items-center rounded-full bg-accent-bg px-3 py-1 text-xs font-semibold text-primary-dark border border-soft-cream">
+            Pohon Ucapan
+          </span>
+          <span class="inline-flex items-center rounded-full bg-accent-bg px-3 py-1 text-xs font-semibold text-primary-dark border border-soft-cream">
+            Ucapan Bibit Pohon & Buah
+          </span>
+          <span class="inline-flex items-center rounded-full bg-accent-bg px-3 py-1 text-xs font-semibold text-primary-dark border border-soft-cream">
+            Karangan Bibit Tanaman
+          </span>
+          <span class="inline-flex items-center rounded-full bg-accent-bg px-3 py-1 text-xs font-semibold text-primary-dark border border-soft-cream">
+            Bunga Ucapan Tanaman Hidup
+          </span>
+        </div>
+      )}
     </div>
 
     <!-- Products Grid -->
@@ -63,6 +143,119 @@ const { category, products } = Astro.props;
           Hubungi Admin WA
         </a>
       </div>
+    )}
+
+    <!-- Dedicated SEO Rich Content Section for Tanbulampot -->
+    {isTanbulampot && (
+      <section class="mt-20 pt-16 border-t border-soft-cream/80">
+        <div class="max-w-4xl mx-auto">
+          <div class="text-center mb-12">
+            <span class="text-secondary font-semibold text-xs tracking-widest uppercase block mb-2">Tren Hadiah Ramah Lingkungan</span>
+            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-800">
+              Mengenal Bunga Ucapan Tanaman & Pohon Ucapan (Tanbulampot)
+            </h2>
+            <p class="text-slate-500 text-sm mt-3 leading-relaxed">
+              Inovasi karangan bunga tanaman hidup dan ucapan bibit pohon & buah sebagai ungkapan doa kesuksesan yang bertumbuh, berbuah, dan abadi.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="p-6 rounded-2xl bg-white border border-soft-cream/70 shadow-xs">
+              <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold mb-4">
+                🌱
+              </div>
+              <h3 class="font-serif font-bold text-slate-800 text-base mb-2">Bunga Ucapan Tanaman Hidup</h3>
+              <p class="text-xs text-slate-500 leading-relaxed">
+                Berbeda dari karangan bunga potong yang layu dalam hitungan hari, bunga ucapan tanaman hidup dapat terus dirawat dan dipajang di kantor atau hunian sebagai kenang-kenangan bermakna.
+              </p>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-white border border-soft-cream/70 shadow-xs">
+              <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold mb-4">
+                🍊
+              </div>
+              <h3 class="font-serif font-bold text-slate-800 text-base mb-2">Ucapan Bibit Pohon & Buah</h3>
+              <p class="text-xs text-slate-500 leading-relaxed">
+                Pilihan bibit tanaman buah dalam pot (tanbulampot / tabulampot) seperti jeruk nagami atau jeruk kimkit berbuah lebat melambangkan kemakmuran, kelimpahan rezeki, dan pertumbuhan usaha.
+              </p>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-white border border-soft-cream/70 shadow-xs">
+              <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold mb-4">
+                🎀
+              </div>
+              <h3 class="font-serif font-bold text-slate-800 text-base mb-2">Karangan Bibit Tanaman Estetis</h3>
+              <p class="text-xs text-slate-500 leading-relaxed">
+                Dirangkai rapi dengan pot keramik premium, pita satin elegan, dan kartu ucapan kustom. Sangat pas untuk karangan bibit tanaman ucapan grand opening, peresmian gedung, atau kado wisuda di Malang.
+              </p>
+            </div>
+          </div>
+
+          <!-- Editorial Paragraphs for Search Engines & Visitors -->
+          <div class="prose prose-slate max-w-none text-xs sm:text-sm leading-relaxed text-slate-600 space-y-4 bg-accent-bg/40 p-8 rounded-2xl border border-soft-cream/70">
+            <h3 class="font-serif text-lg font-bold text-slate-800">
+              Pesan Karangan Bunga Tanaman & Pohon Ucapan Selamat di Malang Raya
+            </h3>
+            <p>
+              Mencari <strong>bunga ucapan tanaman</strong> atau <strong>pohon ucapan</strong> di Malang? Floragate menyediakan layanan pemesanan <strong>ucapan bibit pohon & buah</strong> dalam pot berkualitas tinggi (tanbulampot) untuk berbagai perayaan spesial. Tren ucapan menggunakan tanaman hidup kini semakin diminati para profesional dan korporat karena mengusung nilai keberlanjutan (*eco-friendly*), bernilai estetika tinggi, dan memberikan kesan mendalam bagi penerimanya.
+            </p>
+            <p>
+              Setiap <strong>karangan bibit tanaman</strong> kami pilih dari indukan pohon buah yang sehat, berdaun segar, dan sering kali telah berbuah atau siap berbunga. Dilengkapi kartu ucapan eksklusif berisi nama pengirim dan ucapan selamat, paket <strong>karangan bunga tanaman</strong> ini sangat ideal untuk ucapan peresmian toko baru, pembukaan kantor cabang, pelantikan jabatan, serah terima jabatan, hingga hadiah ulang tahun dan wisuda di Kota Malang, Kabupaten Malang, serta Kota Batu.
+            </p>
+          </div>
+
+          <!-- FAQ Accordion / Cards -->
+          <div class="mt-12 space-y-4">
+            <h3 class="font-serif text-xl font-bold text-slate-800 mb-6 text-center">
+              Pertanyaan Umum (FAQ) Seputar Pohon Ucapan & Tanbulampot
+            </h3>
+
+            <div class="p-5 rounded-xl bg-white border border-soft-cream/80">
+              <h4 class="font-bold text-sm text-slate-800 mb-1">
+                Apakah jenis bibit pohon dan buah bisa dipilih sesuai permintaan?
+              </h4>
+              <p class="text-xs text-slate-500 leading-relaxed">
+                Tentu saja. Anda bisa berkonsultasi via WhatsApp untuk memilih varietas bibit pohon buah yang siap kirim, seperti pohon jeruk hias, tin, jambu, atau tanaman hias daun tropis premium.
+              </p>
+            </div>
+
+            <div class="p-5 rounded-xl bg-white border border-soft-cream/80">
+              <h4 class="font-bold text-sm text-slate-800 mb-1">
+                Berapa lama proses persiapan karangan bibit tanaman hidup?
+              </h4>
+              <p class="text-xs text-slate-500 leading-relaxed">
+                Proses penataan pot, pemasangan pita perayaan, dan cetak kartu ucapan umumnya membutuhkan waktu 1 hari kerja untuk memastikan pohon dalam kondisi prima sebelum diantar kurir lokal kami.
+              </p>
+            </div>
+
+            <div class="p-5 rounded-xl bg-white border border-soft-cream/80">
+              <h4 class="font-bold text-sm text-slate-800 mb-1">
+                Apakah pengiriman pohon ucapan aman sampai lokasi tujuan?
+              </h4>
+              <p class="text-xs text-slate-500 leading-relaxed">
+                Pengantaran dilakukan langsung oleh kurir internal Floragate menggunakan penanganan khusus agar pot tidak pecah, media tanam tetap rapi, dan ranting buah terlindungi sempurna di wilayah Malang Raya & Batu.
+              </p>
+            </div>
+          </div>
+
+          <!-- Call to Action Banner -->
+          <div class="mt-10 text-center p-8 rounded-2xl bg-primary text-white shadow-md">
+            <h3 class="font-serif text-xl font-bold mb-2">Ingin Custom Pohon Ucapan Bibit Buah Spesial?</h3>
+            <p class="text-xs text-slate-200 max-w-md mx-auto mb-6">
+              Konsultasikan kebutuhan bunga ucapan tanaman dan karangan bibit tanaman Anda dengan admin Floragate untuk penawaran terbaik.
+            </p>
+            <a
+              href={`https://wa.me/${WHATSAPP_NUMBER}?text=Halo%20Floragate,%20saya%20tertarik%20dengan%20kategori%20Bunga%20Ucapan%20Tanaman%20/%20Pohon%20Ucapan%20Tanbulampot.%20Mohon%20info%20katalog%20dan%20harganya.`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center px-6 py-3 rounded-full bg-secondary text-primary-dark font-bold text-xs uppercase tracking-wider hover:bg-white transition-colors duration-200 shadow-sm"
+            >
+              Konsultasi Pohon Ucapan via WhatsApp
+            </a>
+          </div>
+
+        </div>
+      </section>
     )}
 
   </div>

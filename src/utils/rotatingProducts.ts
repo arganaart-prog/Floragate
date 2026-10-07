@@ -7,7 +7,8 @@ const CATEGORY_ORDER = [
   'standing-flower-malang',
   'hand-bouquet-malang',
   'paper-flower-malang',
-  'bunga-meja-malang'
+  'bunga-meja-malang',
+  'tanbulampot-malang'
 ];
 
 /**

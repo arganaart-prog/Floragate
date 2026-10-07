@@ -23,6 +23,7 @@ export interface Category {
   description: string;
   seoTitle: string;
   seoDescription: string;
+  seoKeywords?: string;
   image: string;
 }
 
@@ -82,6 +83,15 @@ const RAW_CATEGORIES: Category[] = [
     seoTitle: "Bunga Meja Malang Murah & Berkualitas",
     seoDescription: "Pesan bunga meja Malang murah dan berkualitas untuk dekorasi lobby, kantor, ruang tamu, meja resepsi, dan acara formal. Segar, cantik, dan elegan.",
     image: "/images/kategori/bunga-meja.svg"
+  },
+  {
+    slug: "tanbulampot-malang",
+    name: "Tanbulampot (Pohon Ucapan)",
+    description: "Bunga ucapan tanaman hidup & pohon ucapan bibit buah dalam pot (tanbulampot) eksklusif untuk selamat & sukses, grand opening toko, peresmian kantor, wisuda, atau kado spesial di Malang.",
+    seoTitle: "Bunga Ucapan Tanaman & Pohon Ucapan Tanbulampot Malang",
+    seoDescription: "Jual bunga ucapan tanaman, pohon ucapan, ucapan bibit pohon & buah, karangan bibit tanaman (tanbulampot) di Malang. Bunga ucapan tanaman hidup eksklusif, ramah lingkungan, pesan cepat.",
+    seoKeywords: "bunga ucapan tanaman, pohon ucapan, ucapan bibit pohon & buah, ucapan tanaman, karangan bibit tanaman, karangan bunga tanaman, bunga ucapan tanaman hidup, tanbulampot malang, tabulampot malang, pohon ucapan malang, kado tanaman hidup malang, hampers tanaman buah malang, standing plant ucapan malang, bibit pohon ucapan selamat",
+    image: "/images/kategori/tanbulampot.webp"
   }
 ];
 
@@ -743,6 +753,44 @@ export const PRODUCTS: Product[] = [
     featured: false,
     whatsappText: "Halo Floragate, saya ingin pesan Bunga Meja - Paket 875 (BM-05). Mohon info harga detail dan format pemesanannya.",
     processingTime: "2 - 3 Jam",
+    serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
+  },
+
+  // Tanbulampot & Pohon Ucapan
+  {
+    id: "TBL-01",
+    slug: "pohon-ucapan-tanbulampot-malang-paket-875",
+    name: "Pohon Ucapan Tanbulampot - Paket 875",
+    categorySlug: "tanbulampot-malang",
+    categoryName: "Tanbulampot (Pohon Ucapan)",
+    city: "Malang",
+    priceFrom: 875000,
+    priceLabel: "Rp 875.000",
+    image: "/images/produk/tanbulampot/875.webp",
+    imageWidth: 1122,
+    imageHeight: 1402,
+    description: "Bunga ucapan tanaman hidup paket 875 ribu berupa pohon ucapan bibit buah dalam pot cantik berhias pita perayaan dan kartu ucapan kustom. Alternatif karangan bibit tanaman yang ramah lingkungan, indah, dan tahan lama untuk ucapan selamat & sukses di Malang Raya.",
+    featured: true,
+    whatsappText: "Halo Floragate, saya ingin pesan Pohon Ucapan Tanbulampot - Paket 875 (TBL-01). Mohon info ketersediaan dan format pemesanannya.",
+    processingTime: "1 - 2 Hari",
+    serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
+  },
+  {
+    id: "TBL-02",
+    slug: "pohon-ucapan-tanbulampot-malang-paket-1250-berbuah",
+    name: "Pohon Ucapan Tanbulampot Berbuah - Paket 1250",
+    categorySlug: "tanbulampot-malang",
+    categoryName: "Tanbulampot (Pohon Ucapan)",
+    city: "Malang",
+    priceFrom: 1250000,
+    priceLabel: "Rp 1.250.000",
+    image: "/images/produk/tanbulampot/1250 berbuah.webp",
+    imageWidth: 1122,
+    imageHeight: 1402,
+    description: "Pohon ucapan tanaman hidup paket 1,25 juta dengan pohon buah yang sudah berbuah lebat dalam pot eksklusif lengkap dengan pita satin mewah dan standing greeting card. Hadiah karangan bibit tanaman istimewa yang melambangkan kemakmuran dan kesuksesan untuk peresmian kantor, grand opening, atau momen prestisius di Malang.",
+    featured: false,
+    whatsappText: "Halo Floragate, saya ingin pesan Pohon Ucapan Tanbulampot Berbuah - Paket 1250 (TBL-02). Mohon info ketersediaan dan format pemesanannya.",
+    processingTime: "1 - 2 Hari",
     serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
   }
 ];

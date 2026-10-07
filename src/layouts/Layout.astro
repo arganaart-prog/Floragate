@@ -10,6 +10,7 @@ import { SITE_DOMAIN, WHATSAPP_NUMBER, INSTAGRAM_URL } from '../data/constants';
 interface Props {
   title: string;
   description: string;
+  keywords?: string;
   image?: string;
   type?: 'website' | 'product';
   schema?: Record<string, any>;
@@ -17,7 +18,7 @@ interface Props {
   showTestimonials?: boolean;
 }
 
-const { title, description, image, type = 'website', schema, robots, showTestimonials = true } = Astro.props;
+const { title, description, keywords, image, type = 'website', schema, robots, showTestimonials = true } = Astro.props;
 
 // Default Schema: Florist di Malang
 const defaultSchema = {
@@ -69,7 +70,8 @@ const defaultSchema = {
       { "@type": "OfferCatalog", "name": "Bunga papan Malang" },
       { "@type": "OfferCatalog", "name": "Standing flower Malang" },
       { "@type": "OfferCatalog", "name": "Hand bouquet Malang" },
-      { "@type": "OfferCatalog", "name": "Bunga meja Malang" }
+      { "@type": "OfferCatalog", "name": "Bunga meja Malang" },
+      { "@type": "OfferCatalog", "name": "Tanbulampot & pohon ucapan tanaman Malang" }
     ]
   }
 };
@@ -99,6 +101,7 @@ const finalSchema = schema || defaultSchema;
     <SEOHead
       title={title}
       description={description}
+      keywords={keywords}
       image={image}
       type={type}
       schema={finalSchema}
