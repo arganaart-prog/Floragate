@@ -3,18 +3,11 @@ import type { Product } from '../data/products';
 import { PRODUCTS } from '../data/products';
 import CategoryProductCard from './CategoryProductCard.astro';
 import { withBase } from '../utils/paths';
+import { getHomeBungaPapanProducts } from '../utils/productHelpers';
 
-const dukaCitaProducts = PRODUCTS.filter(
-  (p) => p.categorySlug === 'bunga-papan-duka-cita-malang' && p.slug !== 'bunga-papan-duka-cita-malang-004'
-);
-
-const weddingProducts = PRODUCTS.filter(
-  (p) => p.categorySlug === 'bunga-papan-wedding-malang'
-);
-
-const congratulationsProducts = PRODUCTS.filter(
-  (p) => p.categorySlug === 'bunga-papan-congratulations-malang'
-);
+const dukaCitaProducts = getHomeBungaPapanProducts(PRODUCTS, 'bunga-papan-duka-cita-malang');
+const weddingProducts = getHomeBungaPapanProducts(PRODUCTS, 'bunga-papan-wedding-malang');
+const congratulationsProducts = getHomeBungaPapanProducts(PRODUCTS, 'bunga-papan-congratulations-malang');
 
 interface Tab {
   id: string;

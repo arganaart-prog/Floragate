@@ -13,9 +13,10 @@ import { PRODUCTS } from '../data/products';
 import { WHATSAPP_NUMBER } from '../data/constants';
 import { withBase } from '../utils/paths';
 import { getRotatingHomeProducts } from '../utils/rotatingProducts';
+import { getHomeDisplayProducts } from '../utils/productHelpers';
 
-// Batasi 8 produk di halaman utama dan rotasikan setiap 3 hari jika produk banyak
-const { candidateProducts, activeIndices } = getRotatingHomeProducts(PRODUCTS, 8);
+// Batasi 8 produk unggulan; bunga papan max 8/subkategori; rotasi setiap 3 hari
+const { candidateProducts, activeIndices } = getRotatingHomeProducts(getHomeDisplayProducts(PRODUCTS), 8);
 const activeIndicesSet = new Set(activeIndices);
 
 // SEO Meta
@@ -117,6 +118,21 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
       display: none;
     }
 
+    .featured-products-slider .classic-product-image {
+      aspect-ratio: 20 / 22;
+    }
+
+    .featured-products-slider .classic-product-card[data-category-slug='standing-flower-malang'] .classic-product-image,
+    .featured-products-slider .classic-product-card[data-category-slug='tanbulampot-malang'] .classic-product-image {
+      aspect-ratio: 4 / 5;
+    }
+
+    .featured-products-slider .classic-product-card[data-category-slug='standing-flower-malang'] .classic-product-image img,
+    .featured-products-slider .classic-product-card[data-category-slug='tanbulampot-malang'] .classic-product-image img {
+      object-fit: contain;
+      object-position: center;
+    }
+
     @media (max-width: 767px) {
       .category-transition-section {
         padding-top: 2.75rem;
@@ -206,8 +222,13 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
 
       .featured-products-slider .classic-product-image {
         flex: 0 0 auto;
-        aspect-ratio: 1 / 1.08;
+        aspect-ratio: 1 / 1.12;
         border-bottom: 1px solid #efe4cf;
+      }
+
+      .featured-products-slider .classic-product-card[data-category-slug='standing-flower-malang'] .classic-product-image,
+      .featured-products-slider .classic-product-card[data-category-slug='tanbulampot-malang'] .classic-product-image {
+        aspect-ratio: 4 / 5;
       }
 
       .featured-products-slider .classic-product-badges {
