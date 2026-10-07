@@ -497,6 +497,61 @@ export const PRODUCTS: Product[] = [
     processingTime: "3 - 4 Jam",
     serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
   },
+  {
+    id: "BP-CG-06",
+    slug: "bunga-papan-congratulations-malang-005",
+    name: "Bunga Papan Congratulations Malang 005",
+    categorySlug: "bunga-papan-congratulations-malang",
+    categoryName: "Bunga Papan Congratulations",
+    city: "Malang",
+    priceFrom: 850000,
+    priceLabel: "Rp 850.000",
+    image: "/images/produk/bunga-papan/congratulations/850.webp",
+    imageWidth: 1136,
+    imageHeight: 1385,
+    description: "Karangan bunga papan ucapan selamat & sukses paket 850 ribu dengan susunan bunga segar yang rapi dan kombinasi warna cerah untuk pembukaan usaha, grand opening, atau perayaan di Malang Raya.",
+    featured: false,
+    whatsappText: "Halo Floragate, saya ingin pesan karangan Bunga Papan Congratulations Malang 005 (BP-CG-06). Mohon info harga detail dan format pemesanannya.",
+    processingTime: "3 - 4 Jam",
+    serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
+  },
+  {
+    id: "BP-CG-07",
+    slug: "bunga-papan-congratulations-malang-006",
+    name: "Bunga Papan Congratulations Malang 006",
+    categorySlug: "bunga-papan-congratulations-malang",
+    categoryName: "Bunga Papan Congratulations",
+    city: "Malang",
+    priceFrom: 985000,
+    priceLabel: "Rp 985.000",
+    image: "/images/produk/bunga-papan/congratulations/985.webp",
+    imageWidth: 1136,
+    imageHeight: 1385,
+    description: "Karangan bunga papan ucapan selamat & sukses paket 985 ribu dengan susunan bunga segar meriah dan desain menarik untuk peresmian toko, kantor baru, atau ucapan selamat di area Malang.",
+    featured: false,
+    whatsappText: "Halo Floragate, saya ingin pesan karangan Bunga Papan Congratulations Malang 006 (BP-CG-07). Mohon info harga detail dan format pemesanannya.",
+    processingTime: "3 - 4 Jam",
+    serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
+  },
+  {
+    id: "BP-CG-08",
+    slug: "bunga-papan-congratulations-malang-007",
+    name: "Bunga Papan Congratulations Malang 007",
+    categorySlug: "bunga-papan-congratulations-malang",
+    categoryName: "Bunga Papan Congratulations",
+    city: "Malang",
+    priceFrom: 1175000,
+    priceLabel: "Rp 1.175.000",
+    image: "/images/produk/bunga-papan/congratulations/1175.webp",
+    imageWidth: 1136,
+    imageHeight: 1385,
+    description: "Karangan bunga papan ucapan selamat & sukses paket 1,175 juta dengan desain mewah, susunan bunga melimpah, dan tampilan elegan untuk grand opening atau perayaan prestisius di area Malang.",
+    featured: false,
+    whatsappText: "Halo Floragate, saya ingin pesan karangan Bunga Papan Congratulations Malang 007 (BP-CG-08). Mohon info harga detail dan format pemesanannya.",
+    processingTime: "3 - 4 Jam",
+    serviceArea: ["Kota Malang", "Kabupaten Malang", "Kota Batu"]
+  },
+
 
   // Standing Flower
   {
