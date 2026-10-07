@@ -8,9 +8,12 @@ interface Props {
   product: Product;
   variant?: 'modern' | 'classic' | 'compact';
   priority?: boolean;
+  class?: string;
+  hidden?: boolean;
+  [key: string]: any;
 }
 
-const { product, variant = 'modern', priority = false } = Astro.props;
+const { product, variant = 'modern', priority = false, class: className = '', hidden = false, ...rest } = Astro.props;
 const productUrl = withBase(`/produk/${product.slug}/`);
 const imageUrl = withBase(product.image);
 const imageLoading = priority ? 'eager' : 'lazy';
@@ -24,7 +27,7 @@ const isBungaPapan = product.categorySlug.startsWith('bunga-papan') || product.c
 ---
 
 {variant === 'compact' ? (
-  <article class="product-card-shell compact-product-card group relative h-full flex flex-col overflow-hidden rounded-2xl border border-soft-cream/80 bg-white shadow-[0_4px_18px_rgba(15,23,42,0.04)] transition-all duration-300 hover:-translate-y-1 hover:border-secondary/80 hover:shadow-[0_12px_28px_rgba(85,101,75,0.12)]">
+  <article class={`product-card-shell compact-product-card group relative h-full flex flex-col overflow-hidden rounded-2xl border border-soft-cream/80 bg-white shadow-[0_4px_18px_rgba(15,23,42,0.04)] transition-all duration-300 hover:-translate-y-1 hover:border-secondary/80 hover:shadow-[0_12px_28px_rgba(85,101,75,0.12)] ${className}`} hidden={hidden ? true : undefined} {...rest}>
     <a href={productUrl} class="flex h-full flex-col no-underline">
       <!-- Image frame: full edge-to-edge (no side spaces), naturally proportioned -->
       <div class="image-load-shell relative aspect-[4/4.5] overflow-hidden bg-clean-ivory border-b border-soft-cream/40" data-image-frame>
@@ -74,7 +77,7 @@ const isBungaPapan = product.categorySlug.startsWith('bunga-papan') || product.c
     </a>
   </article>
 ) : variant === 'classic' ? (
-  <div class="classic-product-card product-card-shell group bg-white rounded-[20px] border border-soft-cream/60 overflow-hidden hover-gold-grow">
+  <div class={`classic-product-card product-card-shell group bg-white rounded-[20px] border border-soft-cream/60 overflow-hidden hover-gold-grow ${className}`} hidden={hidden ? true : undefined} {...rest}>
     <!-- Image Wrapper -->
     <a href={productUrl} class="classic-product-image image-load-shell block relative aspect-[20/19] bg-slate-100 overflow-hidden premium-image-hover" data-image-frame>
       <span class="image-skeleton" aria-hidden="true"></span>
@@ -125,7 +128,7 @@ const isBungaPapan = product.categorySlug.startsWith('bunga-papan') || product.c
     </div>
   </div>
 ) : (
-  <article class="product-card-shell group relative h-full overflow-hidden rounded-[20px] border border-soft-cream/70 bg-white shadow-[0_14px_38px_rgba(15,23,42,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-secondary/70 hover:shadow-[0_24px_60px_rgba(85,101,75,0.15)]">
+  <article class={`product-card-shell group relative h-full overflow-hidden rounded-[20px] border border-soft-cream/70 bg-white shadow-[0_14px_38px_rgba(15,23,42,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-secondary/70 hover:shadow-[0_24px_60px_rgba(85,101,75,0.15)] ${className}`} hidden={hidden ? true : undefined} {...rest}>
     <a href={productUrl} class="flex h-full flex-col no-underline">
       <div class="image-load-shell relative -mx-px -mt-px aspect-[20/19] overflow-hidden bg-clean-ivory premium-image-hover" data-image-frame>
         <span class="image-skeleton" aria-hidden="true"></span>

@@ -11,10 +11,11 @@ import BungaMejaSection from '../components/BungaMejaSection.astro';
 import { PRODUCTS } from '../data/products';
 import { WHATSAPP_NUMBER } from '../data/constants';
 import { withBase } from '../utils/paths';
-import { isProductPopular } from '../utils/productHelpers';
+import { getRotatingHomeProducts } from '../utils/rotatingProducts';
 
-// Ambil maksimal 6 produk unggulan
-const featuredProducts = PRODUCTS.filter(isProductPopular).slice(0, 6);
+// Batasi 8 produk di halaman utama dan rotasikan setiap 3 hari jika produk banyak
+const { candidateProducts, activeIndices } = getRotatingHomeProducts(PRODUCTS, 8);
+const activeIndicesSet = new Set(activeIndices);
 
 // SEO Meta
 const title = "Toko Bunga Malang Murah & Berkualitas - Florist Cepat";
@@ -151,11 +152,23 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
         </a>
       </div>
       
-      <!-- Max 6 Featured Products Grid -->
-      <div id="featured-products-slider" data-featured-products-slider class="featured-products-slider grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {featuredProducts.map((product, index) => (
-          <ProductCard product={product} variant="classic" priority={index < 3} />
-        ))}
+      <!-- 8 Featured Products Grid (Rotasi Setiap 3 Hari) -->
+      <div id="featured-products-slider" data-featured-products-slider class="featured-products-slider grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        {candidateProducts.map((product, index) => {
+          const isActive = activeIndicesSet.has(index);
+          const activePos = activeIndices.indexOf(index);
+          const priority = isActive && activePos < 4;
+          return (
+            <ProductCard
+              product={product}
+              variant="classic"
+              priority={priority}
+              class={isActive ? '' : 'hidden'}
+              hidden={!isActive}
+              data-featured-product-index={index}
+            />
+          );
+        })}
       </div>
     </div>
   </section>
@@ -257,6 +270,13 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
 
       .featured-products-slider::-webkit-scrollbar {
         display: none;
+      }
+
+      .featured-products-slider .classic-product-card.hidden,
+      .featured-products-slider .classic-product-card[hidden],
+      .classic-product-card.hidden,
+      .classic-product-card[hidden] {
+        display: none !important;
       }
 
       .featured-products-slider .classic-product-card {
@@ -389,8 +409,38 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
   </style>
 
   <script>
+    function updateRotatingFeaturedProducts(slider) {
+      var cards = slider.querySelectorAll('[data-featured-product-index]');
+      var total = cards.length;
+      if (total <= 8) return;
+
+      var WIB_OFFSET_MS = 7 * 60 * 60 * 1000;
+      var dayNumber = Math.floor((Date.now() + WIB_OFFSET_MS) / (24 * 60 * 60 * 1000));
+      var cycleIndex = Math.floor(dayNumber / 3);
+      var start = (cycleIndex * 8) % total;
+
+      var activeIndices = [];
+      for (var i = 0; i < 8; i++) {
+        activeIndices.push((start + i) % total);
+      }
+
+      cards.forEach(function(card) {
+        var idx = parseInt(card.getAttribute('data-featured-product-index') || '-1', 10);
+        var shouldShow = activeIndices.indexOf(idx) !== -1;
+        if (shouldShow) {
+          card.classList.remove('hidden');
+          card.removeAttribute('hidden');
+        } else {
+          card.classList.add('hidden');
+          card.setAttribute('hidden', '');
+        }
+      });
+    }
+
     function initFeaturedProductsSlider() {
       document.querySelectorAll('[data-featured-products-slider]').forEach(function(slider) {
+        updateRotatingFeaturedProducts(slider);
+
         if (slider.dataset.featuredSliderReady === 'true') return;
         slider.dataset.featuredSliderReady = 'true';
 
@@ -409,7 +459,10 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
           if (!mobileQuery.matches || reduceMotionQuery.matches) return;
 
           intervalId = window.setInterval(function() {
-            var card = slider.querySelector('.classic-product-card');
+            var visibleCards = Array.from(slider.querySelectorAll('.classic-product-card')).filter(function(card) {
+              return !card.classList.contains('hidden') && !card.hasAttribute('hidden') && card.style.display !== 'none';
+            });
+            var card = visibleCards[0];
             if (!card) return;
 
             var gap = parseFloat(window.getComputedStyle(slider).gap) || 12;
