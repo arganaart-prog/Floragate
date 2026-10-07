@@ -1,0 +1,40 @@
+---
+import { PRODUCTS } from '../data/products';
+import HomeOrderProductCard from './HomeOrderProductCard.astro';
+import { withBase } from '../utils/paths';
+
+const tanbulampotProducts = PRODUCTS.filter(
+  (p) => p.categorySlug === 'tanbulampot-malang'
+);
+
+const categoryHref = '/kategori/tanbulampot-malang/';
+---
+
+<section class="py-20 bg-white border-y border-soft-cream/60" id="tanbulampot-malang">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <h2 class="font-serif text-3xl sm:text-4xl font-bold text-slate-800">Tanbulampot Malang (Pohon Ucapan)</h2>
+      <p class="text-slate-500 text-sm mt-3 leading-relaxed">
+        Bunga ucapan tanaman hidup & pohon ucapan bibit buah estetik untuk selamat, grand opening, dan momen berkesan yang tumbuh berkelanjutan.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 max-w-4xl mx-auto lg:max-w-none">
+      {tanbulampotProducts.map((product, index) => (
+        <HomeOrderProductCard product={product} arch priority={index < 2} />
+      ))}
+    </div>
+
+    <div class="text-center mt-10">
+      <a
+        href={withBase(categoryHref)}
+        class="inline-flex items-center text-sm font-semibold text-primary hover:text-secondary transition-colors group"
+      >
+        Lihat Semua Tanbulampot & Pohon Ucapan
+        <svg class="h-4 w-4 ml-1.5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>

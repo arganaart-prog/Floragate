@@ -8,6 +8,7 @@ import HandBouquetSection from '../components/HandBouquetSection.astro';
 import StandingFlowerSection from '../components/StandingFlowerSection.astro';
 import PaperFlowerSection from '../components/PaperFlowerSection.astro';
 import BungaMejaSection from '../components/BungaMejaSection.astro';
+import TanbulampotSection from '../components/TanbulampotSection.astro';
 import { PRODUCTS } from '../data/products';
 import { WHATSAPP_NUMBER } from '../data/constants';
 import { withBase } from '../utils/paths';
@@ -19,7 +20,7 @@ const activeIndicesSet = new Set(activeIndices);
 
 // SEO Meta
 const title = "Toko Bunga Malang Murah & Berkualitas - Florist Cepat";
-const description = "Floragate adalah toko bunga Malang murah dan berkualitas untuk bunga papan, wedding, duka cita, standing flower, hand bouquet, paper flower, dan bunga meja. Harga bersahabat, bunga segar, pengerjaan cepat 3 jam.";
+const description = "Floragate adalah toko bunga Malang murah dan berkualitas untuk bunga papan, wedding, duka cita, standing flower, hand bouquet, paper flower, bunga meja, dan tanbulampot pohon ucapan. Harga bersahabat, bunga segar, pengerjaan cepat 3 jam.";
 ---
 
 <Layout title={title} description={description}>
@@ -29,7 +30,7 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
 
   <div class="flex flex-col">
   <!-- USP Section — Keunggulan Layanan Floragate -->
-  <section id="momen" class="quality-transition-section order-9 pt-24 pb-20 bg-accent-bg/60 border-b border-soft-cream/40 relative lg:order-1">
+  <section id="momen" class="quality-transition-section order-10 pt-24 pb-20 bg-accent-bg/60 border-b border-soft-cream/40 relative lg:order-1">
     <svg class="section-transition-curve section-transition-curve--quality" viewBox="0 0 1440 120" fill="none" preserveAspectRatio="none" aria-hidden="true">
       <defs>
         <linearGradient id="quality-transition-curve-gradient" x1="0" y1="0" x2="0" y2="120" gradientUnits="userSpaceOnUse">
@@ -525,8 +526,14 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
     <BungaMejaSection />
   </div>
 
+
+  <!-- Tanbulampot Section -->
+  <div class="order-8 lg:order-9">
+    <TanbulampotSection />
+  </div>
+
   <!-- How to Order Section -->
-  <section class="order-8 py-20 bg-white lg:order-9">
+  <section class="order-9 py-20 bg-white lg:order-10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center max-w-2xl mx-auto mb-16">
         <h2 class="font-serif text-3xl sm:text-4xl font-bold text-slate-800">Cara Mudah Pemesanan</h2>
