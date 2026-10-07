@@ -77,7 +77,7 @@ const isBungaPapan = product.categorySlug.startsWith('bunga-papan') || product.c
     </a>
   </article>
 ) : variant === 'classic' ? (
-  <div class={`classic-product-card product-card-shell group bg-white rounded-[20px] border border-soft-cream/60 overflow-hidden hover-gold-grow ${className}`} data-category-slug={product.categorySlug} hidden={hidden ? true : undefined} {...rest}>
+  <div class={`classic-product-card product-card-shell group bg-white rounded-[20px] border border-soft-cream/60 overflow-hidden hover-gold-grow ${className}`} hidden={hidden ? true : undefined} {...rest}>
     <!-- Image Wrapper -->
     <a href={productUrl} class="classic-product-image image-load-shell block relative aspect-[20/19] bg-slate-100 overflow-hidden premium-image-hover" data-image-frame>
       <span class="image-skeleton" aria-hidden="true"></span>

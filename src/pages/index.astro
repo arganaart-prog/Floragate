@@ -118,19 +118,10 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
       display: none;
     }
 
-    .featured-products-slider .classic-product-image {
-      aspect-ratio: 20 / 22;
-    }
-
-    .featured-products-slider .classic-product-card[data-category-slug='standing-flower-malang'] .classic-product-image,
-    .featured-products-slider .classic-product-card[data-category-slug='tanbulampot-malang'] .classic-product-image {
-      aspect-ratio: 4 / 5;
-    }
-
-    .featured-products-slider .classic-product-card[data-category-slug='standing-flower-malang'] .classic-product-image img,
-    .featured-products-slider .classic-product-card[data-category-slug='tanbulampot-malang'] .classic-product-image img {
-      object-fit: contain;
-      object-position: center;
+    @media (min-width: 768px) {
+      .featured-products-slider .classic-product-image {
+        aspect-ratio: 20 / 22;
+      }
     }
 
     @media (max-width: 767px) {
@@ -222,13 +213,8 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
 
       .featured-products-slider .classic-product-image {
         flex: 0 0 auto;
-        aspect-ratio: 1 / 1.12;
+        aspect-ratio: 1 / 1.08;
         border-bottom: 1px solid #efe4cf;
-      }
-
-      .featured-products-slider .classic-product-card[data-category-slug='standing-flower-malang'] .classic-product-image,
-      .featured-products-slider .classic-product-card[data-category-slug='tanbulampot-malang'] .classic-product-image {
-        aspect-ratio: 4 / 5;
       }
 
       .featured-products-slider .classic-product-badges {
