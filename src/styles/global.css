@@ -219,3 +219,11 @@
     }
   }
 }
+
+/* Batasi jumlah produk kategori harian maksimal 4 item pada tampilan mobile */
+@media (max-width: 767px) {
+  .daily-rotate-grid > *:nth-child(n+5) {
+    display: none !important;
+  }
+}
+

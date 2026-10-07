@@ -2,9 +2,12 @@
 import { PRODUCTS } from '../data/products';
 import CategoryProductCard from './CategoryProductCard.astro';
 import { withBase } from '../utils/paths';
+import { getDailyShuffledProducts } from '../utils/rotatingProducts';
 
-const bungaMejaProducts = PRODUCTS.filter(
-  (p) => p.categorySlug === 'bunga-meja-malang'
+const categorySlug = 'bunga-meja-malang';
+const bungaMejaProducts = getDailyShuffledProducts(
+  PRODUCTS.filter((p) => p.categorySlug === categorySlug),
+  categorySlug
 );
 
 const categoryHref = '/kategori/bunga-meja-malang/';
@@ -19,9 +22,14 @@ const categoryHref = '/kategori/bunga-meja-malang/';
       </p>
     </div>
 
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 max-w-4xl mx-auto lg:max-w-none">
+    <div
+      class="daily-rotate-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 max-w-4xl mx-auto lg:max-w-none"
+      data-daily-rotate-category={categorySlug}
+    >
       {bungaMejaProducts.map((product, index) => (
-        <CategoryProductCard product={product} aspect="aspect-square" priority={index < 2} />
+        <div class="daily-product-item h-full" data-product-slug={product.slug}>
+          <CategoryProductCard product={product} aspect="aspect-square" priority={index < 2} />
+        </div>
       ))}
     </div>
 
@@ -38,4 +46,5 @@ const categoryHref = '/kategori/bunga-meja-malang/';
     </div>
   </div>
 </section>
+
 

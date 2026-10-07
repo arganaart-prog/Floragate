@@ -2,9 +2,12 @@
 import { PRODUCTS } from '../data/products';
 import HomeOrderProductCard from './HomeOrderProductCard.astro';
 import { withBase } from '../utils/paths';
+import { getDailyShuffledProducts } from '../utils/rotatingProducts';
 
-const tanbulampotProducts = PRODUCTS.filter(
-  (p) => p.categorySlug === 'tanbulampot-malang'
+const categorySlug = 'tanbulampot-malang';
+const tanbulampotProducts = getDailyShuffledProducts(
+  PRODUCTS.filter((p) => p.categorySlug === categorySlug),
+  categorySlug
 );
 
 const categoryHref = '/kategori/tanbulampot-malang/';
@@ -19,9 +22,14 @@ const categoryHref = '/kategori/tanbulampot-malang/';
       </p>
     </div>
 
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 max-w-4xl mx-auto lg:max-w-none">
+    <div
+      class="daily-rotate-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 max-w-4xl mx-auto lg:max-w-none"
+      data-daily-rotate-category={categorySlug}
+    >
       {tanbulampotProducts.map((product, index) => (
-        <HomeOrderProductCard product={product} arch priority={index < 2} />
+        <div class="daily-product-item h-full" data-product-slug={product.slug}>
+          <HomeOrderProductCard product={product} arch priority={index < 2} />
+        </div>
       ))}
     </div>
 
@@ -38,3 +46,4 @@ const categoryHref = '/kategori/tanbulampot-malang/';
     </div>
   </div>
 </section>
+
