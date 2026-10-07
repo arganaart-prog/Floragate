@@ -19,10 +19,16 @@ export async function getStaticPaths() {
 const { product } = Astro.props;
 const displayName = getProductDisplayName(product);
 
-// Filter produk terkait (kategori sama, kecuali produk aktif)
-const relatedProducts = PRODUCTS.filter(
+// Filter produk terkait (kategori sama, kecuali produk aktif) hingga 12 produk.
+// Jika dalam kategori yang sama kurang dari 12, lengkapi dengan produk dari kategori lain.
+const sameCategoryProducts = PRODUCTS.filter(
   p => p.categorySlug === product.categorySlug && p.id !== product.id
-).slice(0, 3);
+);
+const otherProducts = PRODUCTS.filter(
+  p => p.id !== product.id && p.categorySlug !== product.categorySlug
+);
+const relatedProducts = [...sameCategoryProducts, ...otherProducts].slice(0, 12);
+
 
 // SEO Meta
 const title = `${displayName} Malang - Murah & Berkualitas`;
@@ -194,7 +200,7 @@ const productSchema = {
           </a>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-3.5 sm:gap-6 max-w-4xl">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
           {relatedProducts.map(prod => (
             <ProductCard product={prod} variant="compact" />
           ))}
