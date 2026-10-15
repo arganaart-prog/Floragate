@@ -1,0 +1,132 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { ARTICLES } from '../../data/articles';
+import { withBase } from '../../utils/paths';
+import { WHATSAPP_NUMBER } from '../../data/constants';
+
+const title = "Artikel & Tips Florist Malang - Panduan Bunga Terlengkap | Floragate";
+const description = "Kumpulan artikel edukatif, panduan memilih karangan bunga papan, tips merawat bunga segar tahan lama, dan tren kado bunga modern di Malang dari Floragate.";
+---
+
+<Layout title={title} description={description}>
+  <div class="bg-clean-ivory min-h-screen py-10 md:py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Breadcrumb -->
+      <div class="mb-6">
+        <Breadcrumb items={[{ label: 'Artikel & Panduan' }]} />
+      </div>
+
+      <!-- Hero Header -->
+      <div class="text-center max-w-3xl mx-auto mb-14">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-secondary/15 text-primary border border-secondary/30 mb-3">
+          <svg class="w-3.5 h-3.5 text-secondary" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/>
+          </svg>
+          Wawasan & Inspirasi
+        </span>
+        <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-slate-800 tracking-tight leading-tight">
+          Artikel & Tips Florist Malang
+        </h1>
+        <p class="text-slate-600 text-sm sm:text-base mt-4 leading-relaxed">
+          Temukan panduan praktis memilih karangan bunga papan, tips menjaga bunga potong tetap segar, makna filosofis warna bunga, hingga rekomendasi hadiah istimewa untuk momen terpenting Anda.
+        </p>
+      </div>
+
+      <!-- Articles Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 lg:gap-10">
+        {ARTICLES.map((article) => (
+          <article class="bg-white rounded-2xl border border-cream/90 shadow-sm hover:shadow-xl hover:border-secondary/60 transition-all duration-300 overflow-hidden flex flex-col group">
+            <!-- Article Image -->
+            <a href={withBase(`/artikel/${article.slug}/`)} class="block relative aspect-[16/9] overflow-hidden bg-accent-bg">
+              <img
+                src={withBase(article.image)}
+                alt={article.title}
+                class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                loading="lazy"
+                decoding="async"
+              />
+              <span class="absolute top-4 left-4 inline-flex items-center px-3 py-1 rounded-full text-xs font-bold text-white bg-primary/90 backdrop-blur-sm shadow-sm">
+                {article.category}
+              </span>
+            </a>
+
+            <!-- Article Details -->
+            <div class="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center gap-3 text-xs text-slate-400 mb-3 font-medium">
+                  <span>{article.date}</span>
+                  <span class="w-1 h-1 rounded-full bg-slate-300"></span>
+                  <span class="inline-flex items-center gap-1 text-slate-500">
+                    <svg class="w-3.5 h-3.5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {article.readTime}
+                  </span>
+                </div>
+
+                <h2 class="font-serif text-xl sm:text-2xl font-bold text-slate-800 group-hover:text-primary transition-colors leading-snug line-clamp-2 mb-3">
+                  <a href={withBase(`/artikel/${article.slug}/`)}>
+                    {article.title}
+                  </a>
+                </h2>
+
+                <p class="text-slate-500 text-sm leading-relaxed line-clamp-3 mb-6">
+                  {article.excerpt}
+                </p>
+              </div>
+
+              <div class="pt-4 border-t border-slate-100 flex items-center justify-between mt-auto">
+                <div class="text-xs text-slate-500">
+                  Oleh <span class="font-semibold text-slate-700">{article.author}</span>
+                </div>
+                <a
+                  href={withBase(`/artikel/${article.slug}/`)}
+                  class="inline-flex items-center gap-1.5 text-xs font-bold text-primary group-hover:text-secondary group-hover:translate-x-1 transition-all"
+                  aria-label={`Baca artikel: ${article.title}`}
+                >
+                  <span>Baca Selengkapnya</span>
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- Bottom WhatsApp CTA Box -->
+      <div class="mt-16 bg-primary text-white rounded-2xl p-8 sm:p-12 shadow-xl border border-secondary/20 relative overflow-hidden">
+        <div class="relative z-10 max-w-2xl">
+          <span class="text-secondary text-xs font-bold uppercase tracking-widest block mb-2">Konsultasi Florist Gratis</span>
+          <h2 class="font-serif text-2xl sm:text-3xl font-bold leading-tight">
+            Punya Pertanyaan Seputar Pilihan Bunga & Pengiriman di Malang?
+          </h2>
+          <p class="text-slate-200 text-sm mt-3 leading-relaxed">
+            Tim florist profesional Floragate siap membantu memilih desain karangan bunga terbaik, merancang kalimat ucapan, hingga memastikan pengiriman tiba tepat waktu di lokasi acara.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-4">
+            <a
+              href={`https://wa.me/${WHATSAPP_NUMBER}?text=Halo%20Floragate,%20saya%20membaca%20artikel%20di%20website%20dan%20ingin%20konsultasi%20pesanan%20bunga.`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-6 py-3 bg-secondary hover:bg-secondary-dark text-white font-bold text-sm rounded-full transition-all duration-300 shadow-md hover:shadow-lg"
+            >
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.965C16.588 2.02 14.12 1.022 11.5 1.022c-5.438 0-9.863 4.372-9.867 9.802-.001 1.73.473 3.42 1.37 4.947l-.994 3.63 3.734-.967c1.554.84 3.123 1.282 4.304 1.282zm11.304-6.858c-.31-.155-1.838-.895-2.122-.997-.284-.102-.49-.153-.696.155-.205.308-.796.997-.975 1.199-.179.203-.359.227-.669.073-.31-.155-1.31-.476-2.494-1.516-.922-.811-1.545-1.812-1.725-2.12-.179-.31-.018-.478.137-.631.14-.139.31-.359.464-.539.155-.179.206-.308.31-.513.102-.206.051-.385-.026-.539-.077-.154-.696-1.649-.953-2.263-.25-.596-.503-.515-.69-.525l-.59-.01c-.206 0-.54.077-.822.385-.282.308-1.079 1.052-1.079 2.565 0 1.513 1.103 2.977 1.257 3.182.155.206 2.17 3.267 5.257 4.569.735.31 1.307.495 1.753.634.739.231 1.412.197 1.944.119.593-.087 1.838-.739 2.095-1.453.258-.713.258-1.325.18-1.453-.077-.128-.283-.205-.593-.36z" />
+              </svg>
+              Konsultasi via WhatsApp
+            </a>
+            <a
+              href={withBase('/katalog/')}
+              class="inline-flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-semibold text-sm rounded-full border border-white/20 transition-all duration-300"
+            >
+              Lihat Katalog Bunga
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

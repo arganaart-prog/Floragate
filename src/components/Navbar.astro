@@ -8,6 +8,7 @@ const navItems = [
   { href: '/', label: 'Beranda' },
   { href: '/katalog/', label: 'Kategori', hasDropdown: true },
   { href: '/cara-pesan/', label: 'Cara Pesan' },
+  { href: '/artikel/', label: 'Artikel' },
   { href: '/tentang/', label: 'Tentang Kami' },
   { href: '/kontak/', label: 'Kontak' }
 ];
@@ -20,6 +21,7 @@ const currentPath = stripBase(Astro.url.pathname);
 const isMobileHome = currentPath === '/';
 const isMobileKatalog = currentPath.startsWith('/katalog/') || currentPath.startsWith('/kategori/') || currentPath.startsWith('/produk/');
 const isMobileCaraPesan = currentPath.startsWith('/cara-pesan/');
+const isMobileArtikel = currentPath.startsWith('/artikel/');
 const isMobileTentang = currentPath.startsWith('/tentang/');
 const isMobileKontak = currentPath.startsWith('/kontak/');
 const isMobileFaq = currentPath.startsWith('/faq/');
@@ -327,6 +329,11 @@ const isMobileFaq = currentPath.startsWith('/faq/');
         <a href={withBase('/cara-pesan/')} class={`block rounded-lg border px-4 py-3.5 transition-colors ${isMobileCaraPesan ? 'border-secondary/40 bg-[#ead9be] text-primary shadow-sm' : 'border-transparent text-[#4f584a] hover:border-soft-cream/70 hover:bg-primary/5 hover:text-primary'}`}>
           <span class="block font-serif text-[1.24rem] font-bold leading-tight tracking-wide">Cara Pesan</span>
           <span class="mt-1 block text-[0.66rem] font-bold uppercase tracking-[0.2em] opacity-60">Alur pemesanan</span>
+        </a>
+
+        <a href={withBase('/artikel/')} class={`block rounded-lg border px-4 py-3.5 transition-colors ${isMobileArtikel ? 'border-secondary/40 bg-[#ead9be] text-primary shadow-sm' : 'border-transparent text-[#4f584a] hover:border-soft-cream/70 hover:bg-primary/5 hover:text-primary'}`}>
+          <span class="block font-serif text-[1.24rem] font-bold leading-tight tracking-wide">Artikel</span>
+          <span class="mt-1 block text-[0.66rem] font-bold uppercase tracking-[0.2em] opacity-60">Tips & wawasan florist</span>
         </a>
 
         <a href={withBase('/faq/')} class={`block rounded-lg border px-4 py-3.5 transition-colors ${isMobileFaq ? 'border-secondary/40 bg-[#ead9be] text-primary shadow-sm' : 'border-transparent text-[#4f584a] hover:border-soft-cream/70 hover:bg-primary/5 hover:text-primary'}`}>
