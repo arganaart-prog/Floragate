@@ -2,13 +2,18 @@
 import { ARTICLES } from '../data/articles';
 import { withBase } from '../utils/paths';
 
-const articlesPair1 = ARTICLES.slice(0, 2);
-const articlesPair2 = ARTICLES.slice(2, 4);
+// Kelompokkan berdasarkan kategori
+const panduan = ARTICLES.filter(a =>
+  a.category === 'Panduan Florist' || a.category === 'Tips Perawatan'
+);
+const inspirasi = ARTICLES.filter(a =>
+  a.category === 'Inspirasi Bunga' || a.category === 'Tren Florist'
+);
 ---
 
 <div class="aw-root" id="hero-articles-widget">
 
-  <!-- Header: two rows — label+heading | tabs -->
+  <!-- Header -->
   <div class="aw-header">
     <div class="aw-header-top">
       <div class="aw-header-left">
@@ -16,14 +21,14 @@ const articlesPair2 = ARTICLES.slice(2, 4);
         <h3 class="aw-heading">Tips & Wawasan</h3>
       </div>
       <nav class="aw-nav" role="tablist" aria-label="Pilih topik artikel">
-      <button type="button" role="tab" aria-selected="true" class="aw-tab is-active" data-tab="pair-1" id="tab-articles-1">Panduan</button>
-      <button type="button" role="tab" aria-selected="false" class="aw-tab" data-tab="pair-2" id="tab-articles-2">Inspirasi</button>
-      <a href={withBase('/artikel/')} class="aw-all-link" aria-label="Semua artikel">
-        Semua
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <polyline points="9 18 15 12 9 6"/>
-        </svg>
-      </a>
+        <button type="button" role="tab" aria-selected="true" class="aw-tab is-active" data-tab="pair-1" id="tab-articles-1">Panduan</button>
+        <button type="button" role="tab" aria-selected="false" class="aw-tab" data-tab="pair-2" id="tab-articles-2">Inspirasi</button>
+        <a href={withBase('/artikel/')} class="aw-all-link" aria-label="Semua artikel">
+          Semua
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
       </nav>
     </div>
   </div>
@@ -34,15 +39,14 @@ const articlesPair2 = ARTICLES.slice(2, 4);
   <!-- Article Panels -->
   <div class="aw-panels">
 
-    <!-- Panel 1 -->
+    <!-- Panel Panduan -->
     <div class="aw-panel is-active" id="panel-pair-1" role="tabpanel" aria-labelledby="tab-articles-1">
-      {articlesPair1.map((article, i) => (
+      {panduan.map((article) => (
         <a
           href={withBase(`/artikel/${article.slug}/`)}
           class="aw-item"
           aria-label={`Baca: ${article.title}`}
         >
-          <!-- Thumbnail -->
           <div class="aw-thumb">
             <img
               src={withBase(article.image)}
@@ -54,13 +58,11 @@ const articlesPair2 = ARTICLES.slice(2, 4);
               height="150"
               aria-hidden="true"
             />
-            <span class="aw-read-time">{article.readTime}</span>
           </div>
-
-          <!-- Content -->
           <div class="aw-content">
             <div class="aw-meta">
               <span class="aw-cat">{article.category}</span>
+              <span class="aw-meta-dot" aria-hidden="true">·</span>
               <time class="aw-date">{article.date}</time>
             </div>
             <p class="aw-title">{article.title}</p>
@@ -68,13 +70,12 @@ const articlesPair2 = ARTICLES.slice(2, 4);
             <span class="aw-read-link">Baca artikel <span class="aw-arrow">→</span></span>
           </div>
         </a>
-
       ))}
     </div>
 
-    <!-- Panel 2 -->
+    <!-- Panel Inspirasi -->
     <div class="aw-panel" id="panel-pair-2" role="tabpanel" aria-labelledby="tab-articles-2">
-      {articlesPair2.map((article, i) => (
+      {inspirasi.map((article) => (
         <a
           href={withBase(`/artikel/${article.slug}/`)}
           class="aw-item"
@@ -91,11 +92,11 @@ const articlesPair2 = ARTICLES.slice(2, 4);
               height="150"
               aria-hidden="true"
             />
-            <span class="aw-read-time">{article.readTime}</span>
           </div>
           <div class="aw-content">
             <div class="aw-meta">
               <span class="aw-cat">{article.category}</span>
+              <span class="aw-meta-dot" aria-hidden="true">·</span>
               <time class="aw-date">{article.date}</time>
             </div>
             <p class="aw-title">{article.title}</p>
@@ -117,6 +118,7 @@ const articlesPair2 = ARTICLES.slice(2, 4);
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
+    min-height: 0;
   }
 
   /* ─── Header ─────────────────────────────────────── */
@@ -170,7 +172,7 @@ const articlesPair2 = ARTICLES.slice(2, 4);
   .aw-tab {
     border: none;
     background: transparent;
-    font-size: 0.7rem;
+    font-size: 0.69rem;
     font-weight: 500;
     color: #8c8273;
     padding: 0.25rem 0.5rem;
@@ -193,9 +195,7 @@ const articlesPair2 = ARTICLES.slice(2, 4);
     transition: transform 0.2s ease;
   }
 
-  .aw-tab:hover {
-    color: #18211b;
-  }
+  .aw-tab:hover { color: #18211b; }
 
   .aw-tab.is-active {
     color: #9b1b30;
@@ -210,7 +210,7 @@ const articlesPair2 = ARTICLES.slice(2, 4);
     display: inline-flex;
     align-items: center;
     gap: 0.2rem;
-    font-size: 0.68rem;
+    font-size: 0.67rem;
     font-weight: 600;
     color: #556056;
     text-decoration: none;
@@ -220,33 +220,51 @@ const articlesPair2 = ARTICLES.slice(2, 4);
     transition: color 0.15s;
   }
 
-  .aw-all-link:hover {
-    color: #9b1b30;
-  }
+  .aw-all-link:hover { color: #9b1b30; }
 
   /* ─── Divider ─────────────────────────────────────── */
   .aw-divider {
     height: 1px;
-    background: rgba(226, 218, 206, 0.7);
-    margin: 0.5rem 0 0.6rem;
+    background: rgba(226, 218, 206, 0.8);
+    margin: 0.45rem 0 0;
     flex-shrink: 0;
   }
 
-  /* ─── Panels ──────────────────────────────────────── */
+  /* ─── Panels — scrollable list ────────────────────── */
   .aw-panels {
     flex: 1;
-    display: flex;
-    flex-direction: column;
     min-height: 0;
     position: relative;
+    overflow: hidden;
   }
 
   .aw-panel {
     display: none;
     flex-direction: column;
     gap: 0;
-    height: 100%;
-    flex: 1;
+    /* Kunci scroll: panel mengisi sisa tinggi container lalu bisa di-scroll */
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* Scrollbar minimal */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(168, 154, 138, 0.35) transparent;
+    padding-right: 2px;
+  }
+
+  .aw-panel::-webkit-scrollbar {
+    width: 3px;
+  }
+  .aw-panel::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .aw-panel::-webkit-scrollbar-thumb {
+    background: rgba(168, 154, 138, 0.4);
+    border-radius: 2px;
+  }
+  .aw-panel::-webkit-scrollbar-thumb:hover {
+    background: rgba(168, 154, 138, 0.65);
   }
 
   .aw-panel.is-active {
@@ -257,56 +275,70 @@ const articlesPair2 = ARTICLES.slice(2, 4);
   .aw-item {
     display: flex;
     align-items: flex-start;
-    gap: 0.7rem;
-    padding: 0.65rem 0;
+    gap: 0.72rem;
+    padding: 0.72rem 0.4rem 0.72rem 0.55rem;
     text-decoration: none;
     color: inherit;
-    border-bottom: 1px solid rgba(226, 218, 206, 0.55);
-    flex: 1;
-    min-height: 0;
-    transition: opacity 0.15s;
+    border-bottom: 1px solid rgba(226, 218, 206, 0.65);
+    position: relative;
+    transition: background 0.18s;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  /* Left accent bar — editorial feel */
+  .aw-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 14%;
+    bottom: 14%;
+    width: 2px;
+    background: #9b1b30;
+    border-radius: 0 2px 2px 0;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.22s ease;
   }
 
   .aw-item:last-child {
     border-bottom: none;
-    padding-bottom: 0;
   }
 
   .aw-item:hover {
-    opacity: 0.82;
+    background: rgba(245, 240, 234, 0.6);
+  }
+
+  .aw-item:hover::before {
+    transform: scaleY(1);
+  }
+
+  .aw-item:hover .aw-title {
+    color: #8b1728;
   }
 
   /* ─── Thumbnail ───────────────────────────────────── */
   .aw-thumb {
     position: relative;
-    width: 96px;
-    min-width: 96px;
-    border-radius: 7px;
+    width: 82px;
+    min-width: 82px;
+    border-radius: 5px;
     overflow: hidden;
-    background: #f4ede3;
+    background: #f0e9e1;
     flex-shrink: 0;
   }
 
   .aw-thumb-img {
     display: block;
     width: 100%;
-    height: 76px;
+    height: 66px;
     object-fit: cover;
     object-position: center;
+    transition: transform 0.32s ease;
   }
 
-  .aw-read-time {
-    position: absolute;
-    bottom: 4px;
-    left: 5px;
-    font-size: 0.55rem;
-    font-weight: 600;
-    color: rgba(255,255,255,0.95);
-    background: rgba(0,0,0,0.48);
-    padding: 0.07rem 0.32rem;
-    border-radius: 3px;
-    letter-spacing: 0.02em;
-    line-height: 1.4;
+  .aw-item:hover .aw-thumb-img {
+    transform: scale(1.05);
   }
 
   /* ─── Content ─────────────────────────────────────── */
@@ -315,49 +347,61 @@ const articlesPair2 = ARTICLES.slice(2, 4);
     display: flex;
     flex-direction: column;
     min-width: 0;
-    gap: 0.15rem;
+    gap: 0.1rem;
+    padding-top: 0.02rem;
   }
 
   .aw-meta {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.28rem;
     flex-wrap: nowrap;
     overflow: hidden;
+    margin-bottom: 0.06rem;
   }
 
   .aw-cat {
-    font-size: 0.58rem;
+    font-size: 0.54rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.07em;
     color: #9b1b30;
     white-space: nowrap;
   }
 
+  .aw-meta-dot {
+    font-size: 0.6rem;
+    color: #c4b8ae;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
   .aw-date {
-    font-size: 0.58rem;
-    color: #a89a8a;
+    font-size: 0.54rem;
+    color: #b0a49a;
     font-weight: 400;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .aw-title {
-    font-size: 0.8rem;
+    font-size: 0.76rem;
     font-weight: 700;
-    line-height: 1.28;
-    color: #18211b;
+    line-height: 1.3;
+    color: #1a2218;
     margin: 0;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     overflow: hidden;
+    transition: color 0.15s;
   }
 
   .aw-excerpt {
-    font-size: 0.67rem;
-    line-height: 1.38;
-    color: #6b7a6d;
+    font-size: 0.63rem;
+    line-height: 1.42;
+    color: #7c8c7e;
     margin: 0;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -366,14 +410,14 @@ const articlesPair2 = ARTICLES.slice(2, 4);
   }
 
   .aw-read-link {
-    font-size: 0.63rem;
+    font-size: 0.6rem;
     font-weight: 600;
-    color: #8c8273;
+    color: #a09080;
     display: flex;
     align-items: center;
-    gap: 0.2rem;
+    gap: 0.18rem;
+    margin-top: 0.15rem;
     transition: color 0.15s;
-    margin-top: 0.1rem;
   }
 
   .aw-item:hover .aw-read-link {
@@ -393,21 +437,24 @@ const articlesPair2 = ARTICLES.slice(2, 4);
   /* ─── Wider screens ───────────────────────────────── */
   @media (min-width: 1280px) {
     .aw-title {
-      font-size: 0.83rem;
+      font-size: 0.79rem;
     }
     .aw-thumb {
-      width: 104px;
-      min-width: 104px;
+      width: 90px;
+      min-width: 90px;
     }
     .aw-thumb-img {
-      height: 82px;
+      height: 72px;
+    }
+    .aw-item {
+      padding: 0.78rem 0.4rem 0.78rem 0.55rem;
     }
   }
 </style>
 
 <script>
   function initArticlesWidget() {
-    const tabs = document.querySelectorAll('.aw-tab');
+    const tabs = document.querySelectorAll<HTMLButtonElement>('.aw-tab');
     if (!tabs.length) return;
 
     tabs.forEach((tab) => {
@@ -428,9 +475,11 @@ const articlesPair2 = ARTICLES.slice(2, 4);
           if (targetTab === 'pair-1') {
             panel1.classList.add('is-active');
             panel2.classList.remove('is-active');
+            panel1.scrollTop = 0;
           } else {
             panel2.classList.add('is-active');
             panel1.classList.remove('is-active');
+            panel2.scrollTop = 0;
           }
         }
       });

@@ -41,13 +41,6 @@ const description = article.excerpt;
             {article.category}
           </span>
           <span class="text-xs text-slate-400 font-medium">{article.date}</span>
-          <span class="w-1 h-1 rounded-full bg-slate-300"></span>
-          <span class="inline-flex items-center gap-1 text-xs text-slate-500 font-medium">
-            <svg class="w-3.5 h-3.5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            {article.readTime}
-          </span>
         </div>
 
         <h1 class="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-800 tracking-tight leading-tight mb-6">
@@ -192,7 +185,7 @@ const description = article.excerpt;
                   {rel.title}
                 </h4>
                 <span class="text-[11px] text-slate-400 mt-2 font-medium">
-                  {rel.readTime}
+                  {rel.date}
                 </span>
               </a>
             ))}
