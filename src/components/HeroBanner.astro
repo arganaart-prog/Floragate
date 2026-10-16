@@ -3,8 +3,8 @@ import { withBase } from '../utils/paths';
 import { WHATSAPP_NUMBER } from '../data/constants';
 
 // Promo slides configuration
-// Desktop: 2.webp, 3.webp, 4.webp (all 1080x540, 2:1 aspect ratio) — gambar sudah ada ruang kosong di kiri untuk CTA
-// Mobile: 1.webp (1080x776), 3.webp, 4.webp
+// Desktop: 2.webp, 3.webp, 4.webp (all 1080x540, 2:1 aspect ratio) — CTA buttons sit in the empty space
+// Mobile: 1.webp (1080x776), 3.webp, 4.webp — Each slide is an independent rounded card (Image on top + text/buttons on bottom)
 const promoSlides = [
   {
     id: 'promo-gratis-ongkir',
@@ -85,64 +85,94 @@ const displaySlides = [
           aria-label={slide.headline}
           aria-hidden={slide.isClone || slide.realIndex !== 0 ? 'true' : 'false'}
         >
-          <div
-            class="hb-ambient"
-            style={`background-image: url('${slide.mobileImage}');`}
-            aria-hidden="true"
-          />
-          <a
-            href={slide.ctaPrimary.href}
-            target={slide.ctaPrimary.external ? '_blank' : undefined}
-            rel={slide.ctaPrimary.external ? 'noopener noreferrer' : undefined}
-            class="hb-slide-link"
-            tabindex={!slide.isClone && slide.realIndex === 0 ? '0' : '-1'}
-            aria-label={slide.headline}
-          >
-            <picture class="hb-picture">
-              <source
-                media="(min-width: 1024px)"
-                srcset={slide.desktopImage}
-                width="1080"
-                height="540"
+          <!-- Individual Card (1 Slide = 1 Rounded Card; Image + Text move together when scrolled) -->
+          <article class="hb-card">
+            <!-- Media Section (Banner Image) -->
+            <div class="hb-card-media">
+              <div
+                class="hb-ambient"
+                style={`background-image: url('${slide.mobileImage}');`}
+                aria-hidden="true"
               />
-              <img
-                class="hb-img"
-                src={slide.mobileImage}
-                alt={slide.alt}
-                width="1080"
-                height={slide.realIndex === 0 ? '776' : '540'}
-                loading={trackIndex === 1 ? 'eager' : 'lazy'}
-                decoding={trackIndex === 1 ? 'sync' : 'async'}
-                fetchpriority={trackIndex === 1 ? 'high' : 'auto'}
-                draggable="false"
-              />
-            </picture>
-          </a>
-
-          <!-- Desktop CTA Buttons in Empty Space (No copywriting overlay) -->
-          <div class="hb-desktop-cta" aria-hidden={slide.isClone ? 'true' : 'false'}>
-            <div class="hb-btn-row">
               <a
                 href={slide.ctaPrimary.href}
                 target={slide.ctaPrimary.external ? '_blank' : undefined}
                 rel={slide.ctaPrimary.external ? 'noopener noreferrer' : undefined}
-                class="hb-btn hb-btn--primary"
+                class="hb-media-link"
                 tabindex={!slide.isClone && slide.realIndex === 0 ? '0' : '-1'}
-              >{slide.ctaPrimary.label}</a>
-              <a
-                href={slide.ctaSecondary.href}
-                target={slide.ctaSecondary.external ? '_blank' : undefined}
-                rel={slide.ctaSecondary.external ? 'noopener noreferrer' : undefined}
-                class="hb-btn hb-btn--secondary"
-                tabindex={!slide.isClone && slide.realIndex === 0 ? '0' : '-1'}
-              >{slide.ctaSecondary.label}</a>
+                aria-label={slide.headline}
+              >
+                <picture class="hb-picture">
+                  <source
+                    media="(min-width: 1024px)"
+                    srcset={slide.desktopImage}
+                    width="1080"
+                    height="540"
+                  />
+                  <img
+                    class="hb-img"
+                    src={slide.mobileImage}
+                    alt={slide.alt}
+                    width="1080"
+                    height={slide.realIndex === 0 ? '776' : '540'}
+                    loading={trackIndex === 1 ? 'eager' : 'lazy'}
+                    decoding={trackIndex === 1 ? 'sync' : 'async'}
+                    fetchpriority={trackIndex === 1 ? 'high' : 'auto'}
+                    draggable="false"
+                  />
+                </picture>
+              </a>
+
+              <!-- Desktop CTA Buttons in Empty Space (Desktop only) -->
+              <div class="hb-desktop-cta" aria-hidden={slide.isClone ? 'true' : 'false'}>
+                <div class="hb-btn-row">
+                  <a
+                    href={slide.ctaPrimary.href}
+                    target={slide.ctaPrimary.external ? '_blank' : undefined}
+                    rel={slide.ctaPrimary.external ? 'noopener noreferrer' : undefined}
+                    class="hb-btn hb-btn--primary"
+                    tabindex={!slide.isClone && slide.realIndex === 0 ? '0' : '-1'}
+                  >{slide.ctaPrimary.label}</a>
+                  <a
+                    href={slide.ctaSecondary.href}
+                    target={slide.ctaSecondary.external ? '_blank' : undefined}
+                    rel={slide.ctaSecondary.external ? 'noopener noreferrer' : undefined}
+                    class="hb-btn hb-btn--secondary"
+                    tabindex={!slide.isClone && slide.realIndex === 0 ? '0' : '-1'}
+                  >{slide.ctaSecondary.label}</a>
+                </div>
+              </div>
             </div>
-          </div>
+
+            <!-- Mobile Card Body (Text & Buttons inside the card, slides WITH the card!) -->
+            <div class="hb-card-body">
+              <span class="hb-m-badge">{slide.badge}</span>
+              <h2 class="hb-m-title">{slide.headline}</h2>
+              <p class="hb-m-desc">{slide.description}</p>
+              <div class="hb-m-btns">
+                <a
+                  href={slide.ctaPrimary.href}
+                  target={slide.ctaPrimary.external ? '_blank' : undefined}
+                  rel={slide.ctaPrimary.external ? 'noopener noreferrer' : undefined}
+                  class="hb-m-btn hb-m-btn--primary"
+                  tabindex={!slide.isClone && slide.realIndex === 0 ? '0' : '-1'}
+                >{slide.ctaPrimary.label}</a>
+                <a
+                  href={slide.ctaSecondary.href}
+                  target={slide.ctaSecondary.external ? '_blank' : undefined}
+                  rel={slide.ctaSecondary.external ? 'noopener noreferrer' : undefined}
+                  class="hb-m-btn hb-m-btn--ghost"
+                  tabindex={!slide.isClone && slide.realIndex === 0 ? '0' : '-1'}
+                >{slide.ctaSecondary.label}</a>
+              </div>
+            </div>
+          </article>
         </div>
       ))}
     </div>
   </div>
 
+  <!-- Dot Indicators -->
   <div class="hb-dots" id="hb-dots" role="tablist" aria-label="Navigasi slide promo">
     {promoSlides.map((slide, idx) => (
       <button
@@ -161,6 +191,7 @@ const displaySlides = [
     ))}
   </div>
 
+  <!-- Arrow Navigation (Desktop) -->
   <button class="hb-arrow hb-arrow--prev" id="hb-arrow-prev" type="button" aria-label="Promo sebelumnya">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <polyline points="15 18 9 12 15 6"></polyline>
@@ -173,63 +204,23 @@ const displaySlides = [
   </button>
 </div>
 
-<div class="hb-mobile-cta" id="hb-mobile-cta" aria-live="polite">
-  {promoSlides.map((slide, idx) => (
-    <div
-      class={`hb-mobile-panel${idx === 0 ? ' is-active' : ''}`}
-      data-panel-index={idx}
-      aria-hidden={idx !== 0 ? 'true' : 'false'}
-    >
-      <span class="hb-m-badge">{slide.badge}</span>
-      <h2 class="hb-m-title">{slide.headline}</h2>
-      <p class="hb-m-desc">{slide.description}</p>
-      <div class="hb-m-btns">
-        <a
-          href={slide.ctaPrimary.href}
-          target={slide.ctaPrimary.external ? '_blank' : undefined}
-          rel={slide.ctaPrimary.external ? 'noopener noreferrer' : undefined}
-          class="hb-m-btn hb-m-btn--primary"
-          tabindex={idx === 0 ? '0' : '-1'}
-        >{slide.ctaPrimary.label}</a>
-        <a
-          href={slide.ctaSecondary.href}
-          target={slide.ctaSecondary.external ? '_blank' : undefined}
-          rel={slide.ctaSecondary.external ? 'noopener noreferrer' : undefined}
-          class="hb-m-btn hb-m-btn--ghost"
-          tabindex={idx === 0 ? '0' : '-1'}
-        >{slide.ctaSecondary.label}</a>
-      </div>
-    </div>
-  ))}
-</div>
-
 <style>
   .hero-banner-wrap {
     position: relative;
     width: 100%;
-    aspect-ratio: 1080 / 776;
-    background: #f4ede3;
-    /* Mobile: square bottom corners — CTA strip below will have rounded bottom */
-    border-radius: 14px 14px 0 0;
-    border: 1px solid rgba(226, 218, 206, 0.88);
-    border-bottom: none;
-    box-shadow:
-      0 6px 20px -4px rgba(45, 56, 46, 0.08),
-      0 2px 6px rgba(60, 50, 30, 0.04);
-    overflow: hidden;
     user-select: none;
     -webkit-user-select: none;
     touch-action: pan-y;
     outline: none;
     box-sizing: border-box;
+    --hb-gap: 12px;
   }
 
   @media (min-width: 1024px) {
     .hero-banner-wrap {
+      height: 100%;
       aspect-ratio: 1080 / 540;
-      border-radius: 18px;
-      /* Restore bottom border on desktop (no CTA strip below) */
-      border-bottom: 1px solid rgba(226, 218, 206, 0.88);
+      --hb-gap: 16px;
     }
   }
 
@@ -238,6 +229,8 @@ const displaySlides = [
     height: 100%;
     overflow: hidden;
     position: relative;
+    padding: 2px 0 6px;
+    margin: -2px 0 -6px;
   }
 
   .hb-track {
@@ -245,6 +238,7 @@ const displaySlides = [
     flex-direction: row;
     width: 100%;
     height: 100%;
+    gap: var(--hb-gap, 12px);
     will-change: transform;
     cursor: grab;
   }
@@ -256,10 +250,56 @@ const displaySlides = [
   .hb-slide {
     flex: 0 0 100%;
     width: 100%;
-    height: 100%;
+    min-width: 100%;
     box-sizing: border-box;
     position: relative;
+  }
+
+  @media (min-width: 1024px) {
+    .hb-slide {
+      height: 100%;
+    }
+  }
+
+  /* ── INDEPENDENT CARD (1 Slide = 1 Rounded Card) ── */
+  .hb-card {
+    width: 100%;
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid rgba(226, 218, 206, 0.88);
+    box-shadow:
+      0 4px 18px -4px rgba(45, 56, 46, 0.08),
+      0 1px 4px rgba(60, 50, 30, 0.03);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-sizing: border-box;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  @media (min-width: 1024px) {
+    .hb-card {
+      height: 100%;
+      border-radius: 18px;
+    }
+  }
+
+  /* ── Media Section (Image) ── */
+  .hb-card-media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1080 / 776;
+    background: #f4ede3;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  @media (min-width: 1024px) {
+    .hb-card-media {
+      height: 100%;
+      aspect-ratio: 1080 / 540;
+    }
   }
 
   .hb-ambient {
@@ -276,6 +316,17 @@ const displaySlides = [
 
   @media (min-width: 1024px) {
     .hb-ambient { display: none; }
+  }
+
+  .hb-media-link {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 2;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
   }
 
   .hb-picture {
@@ -308,19 +359,7 @@ const displaySlides = [
     .hb-img { object-fit: cover !important; }
   }
 
-  /* Slide Link */
-  .hb-slide-link {
-    display: block;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    z-index: 2;
-    text-decoration: none;
-    color: inherit;
-    cursor: pointer;
-  }
-
-  /* Desktop CTA Buttons (Placed in the empty space of the banner graphic) */
+  /* ── Desktop CTA Buttons in Empty Space ── */
   .hb-desktop-cta {
     display: none;
   }
@@ -389,149 +428,22 @@ const displaySlides = [
     transform: translateY(-1px);
   }
 
-  /* Dot Indicators */
-  .hb-dots {
-    position: absolute;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
+  /* ── Mobile Card Body (Text & Buttons, moves WITH the card) ── */
+  .hb-card-body {
     display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.22rem 0.45rem;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(226, 218, 206, 0.9);
-    border-radius: 999px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
-    z-index: 20;
-  }
-
-  @media (min-width: 1024px) {
-    .hb-dots {
-      left: auto;
-      right: 18px;
-      bottom: 18px;
-      transform: none;
-    }
-  }
-
-  .hb-dot {
-    position: relative;
-    padding: 0;
-    margin: 0;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 12px;
-  }
-
-  .hb-dot-track {
-    position: relative;
-    display: block;
-    width: 7px;
-    height: 5px;
-    border-radius: 999px;
-    background: #d1cdc7;
-    overflow: hidden;
-    transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), background 0.3s ease;
-  }
-
-  .hb-dot-fill {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 0%;
-    background: #9b1b30;
-    border-radius: inherit;
-    transition: width 0.1s linear;
-  }
-
-  .hb-dot.is-active .hb-dot-track {
-    width: 24px;
-    background: #9b1b30;
-  }
-
-  .hb-dot.is-active .hb-dot-fill {
-    width: 100%;
-    background: #9b1b30;
-  }
-
-  .hb-dot.is-active.is-animating .hb-dot-fill {
-    width: 0%;
-    animation: dotAutoplay var(--ap-dur, 5000ms) linear forwards;
-  }
-
-  @keyframes dotAutoplay {
-    0% { width: 0%; }
-    100% { width: 100%; }
-  }
-
-  /* Arrow navigation */
-  .hb-arrow { display: none; }
-
-  @media (min-width: 1024px) {
-    .hb-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      z-index: 20;
-      width: 38px;
-      height: 38px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      border: 1px solid rgba(226, 218, 206, 0.9);
-      background: rgba(255, 255, 255, 0.92);
-      color: #18211b;
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      cursor: pointer;
-      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-      transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease, opacity 0.2s ease;
-      opacity: 0;
-      padding: 0;
-    }
-
-    .hero-banner-wrap:hover .hb-arrow { opacity: 1; }
-
-    .hb-arrow svg { width: 16px; height: 16px; }
-
-    .hb-arrow:hover {
-      background: #ffffff;
-      color: #9b1b30;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
-    }
-
-    .hb-arrow--prev { left: 14px; }
-    .hb-arrow--next { right: 14px; }
-  }
-
-  /* Mobile CTA strip */
-  .hb-mobile-cta {
-    display: block;
-    width: 100%;
+    flex-direction: column;
+    padding: 1.1rem 1.15rem 2.45rem 1.15rem;
     background: #ffffff;
-    border-radius: 0 0 14px 14px;
-    border: 1px solid rgba(226, 218, 206, 0.88);
-    border-top: none;
-    padding: 1rem 1rem 1.15rem;
     box-sizing: border-box;
-    margin-top: -1px;
+    position: relative;
+    z-index: 2;
   }
 
   @media (min-width: 1024px) {
-    .hb-mobile-cta { display: none; }
+    .hb-card-body {
+      display: none !important;
+    }
   }
-
-  .hb-mobile-panel { display: none; flex-direction: column; }
-  .hb-mobile-panel.is-active { display: flex; }
 
   .hb-m-badge {
     display: inline-flex;
@@ -608,12 +520,146 @@ const displaySlides = [
     color: #9b1b30;
   }
 
+  /* ── Dot Indicators ── */
+  .hb-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.2rem 0.45rem;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(226, 218, 206, 0.9);
+    border-radius: 999px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    z-index: 25;
+  }
+
+  @media (min-width: 1024px) {
+    .hb-dots {
+      left: auto;
+      right: 18px;
+      bottom: 18px;
+      transform: none;
+    }
+  }
+
+  .hb-dot {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 18px;
+    width: 18px;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .hb-dot:focus-visible .hb-dot-track {
+    box-shadow: 0 0 0 2px #9b1b30;
+  }
+
+  .hb-dot.is-active {
+    width: 28px;
+  }
+
+  .hb-dot-track {
+    display: block;
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    background: rgba(85, 96, 86, 0.28);
+    position: relative;
+    overflow: hidden;
+    transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+                background-color 0.25s ease;
+  }
+
+  .hb-dot.is-active .hb-dot-track {
+    width: 26px;
+    height: 7px;
+    background: rgba(155, 27, 48, 0.18);
+  }
+
+  .hb-dot-fill {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: #9b1b30;
+    border-radius: 999px;
+  }
+
+  .hb-dot.is-active.is-animating .hb-dot-fill {
+    animation: hbDotProgress var(--ap-dur, 5000ms) linear forwards;
+  }
+
+  @keyframes hbDotProgress {
+    from { width: 0%; }
+    to { width: 100%; }
+  }
+
+  /* ── Arrow Navigation (Desktop) ── */
+  .hb-arrow {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .hb-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid rgba(226, 218, 206, 0.9);
+      color: #18211b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      z-index: 25;
+      transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease, opacity 0.2s ease;
+      opacity: 0;
+    }
+
+    .hero-banner-wrap:hover .hb-arrow { opacity: 1; }
+
+    .hb-arrow svg { width: 16px; height: 16px; }
+
+    .hb-arrow:hover {
+      background: #ffffff;
+      color: #9b1b30;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+    }
+
+    .hb-arrow--prev { left: 14px; }
+    .hb-arrow--next { right: 14px; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .hb-track,
     .hb-dot-track,
     .hb-img,
     .hb-arrow,
-    .hb-btn { transition: none !important; animation: none !important; }
+    .hb-btn,
+    .hb-card { transition: none !important; animation: none !important; }
 
     .hb-dot.is-active.is-animating .hb-dot-fill {
       animation: none !important;
@@ -634,7 +680,6 @@ const displaySlides = [
     const prevBtn = document.getElementById('hb-arrow-prev');
     const nextBtn = document.getElementById('hb-arrow-next');
     const dots = Array.from(document.querySelectorAll('.hb-dot'));
-    const mobilePanels = Array.from(document.querySelectorAll('.hb-mobile-panel'));
 
     if (!(container instanceof HTMLElement) || !(track instanceof HTMLElement)) return;
     if (container.dataset.hbInit === 'true') return;
@@ -661,7 +706,7 @@ const displaySlides = [
     function setTranslate(idx, animate) {
       const dur = prefersReduced.matches ? 0 : (animate ? TRANSITION_MS : 0);
       track.style.transition = dur > 0 ? `transform ${dur}ms cubic-bezier(0.25, 1, 0.5, 1)` : 'none';
-      track.style.transform = `translateX(-${idx * 100}%)`;
+      track.style.transform = `translateX(calc(-${idx} * (100% + var(--hb-gap, 12px))))`;
     }
 
     function updateDots(realIdx) {
@@ -669,17 +714,6 @@ const displaySlides = [
         const active = i === realIdx;
         dot.classList.toggle('is-active', active);
         dot.setAttribute('aria-selected', active ? 'true' : 'false');
-      });
-    }
-
-    function updateMobilePanels(realIdx) {
-      mobilePanels.forEach((panel, i) => {
-        const active = i === realIdx;
-        panel.classList.toggle('is-active', active);
-        panel.setAttribute('aria-hidden', active ? 'false' : 'true');
-        panel.querySelectorAll('a').forEach(function(a) {
-          a.setAttribute('tabindex', active ? '0' : '-1');
-        });
       });
     }
 
@@ -720,7 +754,6 @@ const displaySlides = [
 
       const realIdx = getRealIdx(current);
       updateDots(realIdx);
-      updateMobilePanels(realIdx);
       updateSlideAria(realIdx);
 
       if (animate && !prefersReduced.matches) startDotAnim(realIdx);
@@ -815,10 +848,9 @@ const displaySlides = [
       if (!drag.isDragging) return;
       drag.currentX = e.clientX;
 
-      var offsetPct = ((e.clientX - drag.startX) / (container.offsetWidth || 1)) * 100;
-      var base = -(current * 100);
+      var base = `calc(-${current} * (100% + var(--hb-gap, 12px)))`;
       track.style.transition = 'none';
-      track.style.transform = `translateX(calc(${base}% + ${offsetPct}%))`;
+      track.style.transform = `translateX(calc(${base} + ${dx}px))`;
     });
 
     function handlePointerEnd(e) {
@@ -848,7 +880,6 @@ const displaySlides = [
 
     setTranslate(1, false);
     updateDots(0);
-    updateMobilePanels(0);
     updateSlideAria(0);
     startAutoplay();
   }

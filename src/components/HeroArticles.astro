@@ -2,503 +2,412 @@
 import { ARTICLES } from '../data/articles';
 import { withBase } from '../utils/paths';
 
-// Group articles into pairs for quick tabs / switching:
-// Pair 1: Panduan & Tips (Articles 0 & 1)
-// Pair 2: Inspirasi & Tren (Articles 2 & 3)
 const articlesPair1 = ARTICLES.slice(0, 2);
 const articlesPair2 = ARTICLES.slice(2, 4);
 ---
 
-<div class="hero-articles-widget" id="hero-articles-widget">
-  <!-- Widget Top Header -->
-  <div class="articles-widget-header">
-    <div class="flex items-center gap-2">
-      <span class="articles-header-badge">
-        <svg class="w-3.5 h-3.5 text-secondary" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/>
-        </svg>
-        Artikel Florist
-      </span>
-      <h3 class="articles-header-title">Tips & Wawasan</h3>
-    </div>
+<div class="aw-root" id="hero-articles-widget">
 
-    <!-- Tab Buttons to easily switch between articles -->
-    <div class="articles-tab-switch" role="tablist" aria-label="Pilih topik artikel">
-      <button
-        type="button"
-        role="tab"
-        aria-selected="true"
-        class="articles-tab-btn is-active"
-        data-tab="pair-1"
-        id="tab-articles-1"
-      >
-        Panduan
-      </button>
-      <button
-        type="button"
-        role="tab"
-        aria-selected="false"
-        class="articles-tab-btn"
-        data-tab="pair-2"
-        id="tab-articles-2"
-      >
-        Inspirasi
-      </button>
-      <a
-        href={withBase('/artikel/')}
-        class="articles-view-all-link"
-        title="Lihat semua artikel"
-        aria-label="Lihat semua artikel"
-      >
-        <span>Semua</span>
-        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+  <!-- Header: two rows — label+heading | tabs -->
+  <div class="aw-header">
+    <div class="aw-header-top">
+      <div class="aw-header-left">
+        <span class="aw-eyebrow">Artikel Florist</span>
+        <h3 class="aw-heading">Tips & Wawasan</h3>
+      </div>
+      <nav class="aw-nav" role="tablist" aria-label="Pilih topik artikel">
+      <button type="button" role="tab" aria-selected="true" class="aw-tab is-active" data-tab="pair-1" id="tab-articles-1">Panduan</button>
+      <button type="button" role="tab" aria-selected="false" class="aw-tab" data-tab="pair-2" id="tab-articles-2">Inspirasi</button>
+      <a href={withBase('/artikel/')} class="aw-all-link" aria-label="Semua artikel">
+        Semua
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="9 18 15 12 9 6"/>
         </svg>
       </a>
+      </nav>
     </div>
   </div>
 
-  <!-- Articles Panels Container -->
-  <div class="articles-panels-wrapper">
-    <!-- Panel 1 (Default Active) -->
-    <div class="articles-pair-panel is-active" id="panel-pair-1" role="tabpanel" aria-labelledby="tab-articles-1">
-      {articlesPair1.map((article) => (
-        <article class="article-side-card">
-          <a
-            href={withBase(`/artikel/${article.slug}/`)}
-            class="article-side-card-link"
-            aria-label={`Baca artikel: ${article.title}`}
-          >
-            <!-- Card Thumbnail with authentic florist photograph -->
-            <div class="article-thumb-box">
-              <img
-                src={withBase(article.image)}
-                alt={article.title}
-                class="article-thumb-img"
-                loading="lazy"
-                decoding="async"
-                width="280"
-                height="210"
-              />
-              <span class="article-img-badge">{article.readTime}</span>
+  <!-- Divider -->
+  <div class="aw-divider" aria-hidden="true"></div>
+
+  <!-- Article Panels -->
+  <div class="aw-panels">
+
+    <!-- Panel 1 -->
+    <div class="aw-panel is-active" id="panel-pair-1" role="tabpanel" aria-labelledby="tab-articles-1">
+      {articlesPair1.map((article, i) => (
+        <a
+          href={withBase(`/artikel/${article.slug}/`)}
+          class="aw-item"
+          aria-label={`Baca: ${article.title}`}
+        >
+          <!-- Thumbnail -->
+          <div class="aw-thumb">
+            <img
+              src={withBase(article.image)}
+              alt=""
+              class="aw-thumb-img"
+              loading="lazy"
+              decoding="async"
+              width="200"
+              height="150"
+              aria-hidden="true"
+            />
+            <span class="aw-read-time">{article.readTime}</span>
+          </div>
+
+          <!-- Content -->
+          <div class="aw-content">
+            <div class="aw-meta">
+              <span class="aw-cat">{article.category}</span>
+              <time class="aw-date">{article.date}</time>
             </div>
+            <p class="aw-title">{article.title}</p>
+            <p class="aw-excerpt">{article.excerpt}</p>
+            <span class="aw-read-link">Baca artikel <span class="aw-arrow">→</span></span>
+          </div>
+        </a>
 
-            <!-- Card Content -->
-            <div class="article-side-content">
-              <div class="article-side-meta">
-                <span class="article-cat-label">{article.category}</span>
-                <span class="meta-dot">·</span>
-                <span class="article-date-text">{article.date}</span>
-              </div>
-
-              <h4 class="article-side-title">
-                {article.title}
-              </h4>
-
-              <p class="article-side-excerpt">
-                {article.excerpt}
-              </p>
-
-              <div class="article-side-cta">
-                <span class="cta-label">Baca Selengkapnya</span>
-                <span class="cta-arrow-circle">
-                  <svg class="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                  </svg>
-                </span>
-              </div>
-            </div>
-          </a>
-        </article>
       ))}
     </div>
 
     <!-- Panel 2 -->
-    <div class="articles-pair-panel" id="panel-pair-2" role="tabpanel" aria-labelledby="tab-articles-2">
-      {articlesPair2.map((article) => (
-        <article class="article-side-card">
-          <a
-            href={withBase(`/artikel/${article.slug}/`)}
-            class="article-side-card-link"
-            aria-label={`Baca artikel: ${article.title}`}
-          >
-            <!-- Card Thumbnail with authentic florist photograph -->
-            <div class="article-thumb-box">
-              <img
-                src={withBase(article.image)}
-                alt={article.title}
-                class="article-thumb-img"
-                loading="lazy"
-                decoding="async"
-                width="280"
-                height="210"
-              />
-              <span class="article-img-badge">{article.readTime}</span>
+    <div class="aw-panel" id="panel-pair-2" role="tabpanel" aria-labelledby="tab-articles-2">
+      {articlesPair2.map((article, i) => (
+        <a
+          href={withBase(`/artikel/${article.slug}/`)}
+          class="aw-item"
+          aria-label={`Baca: ${article.title}`}
+        >
+          <div class="aw-thumb">
+            <img
+              src={withBase(article.image)}
+              alt=""
+              class="aw-thumb-img"
+              loading="lazy"
+              decoding="async"
+              width="200"
+              height="150"
+              aria-hidden="true"
+            />
+            <span class="aw-read-time">{article.readTime}</span>
+          </div>
+          <div class="aw-content">
+            <div class="aw-meta">
+              <span class="aw-cat">{article.category}</span>
+              <time class="aw-date">{article.date}</time>
             </div>
-
-            <!-- Card Content -->
-            <div class="article-side-content">
-              <div class="article-side-meta">
-                <span class="article-cat-label">{article.category}</span>
-                <span class="meta-dot">·</span>
-                <span class="article-date-text">{article.date}</span>
-              </div>
-
-              <h4 class="article-side-title">
-                {article.title}
-              </h4>
-
-              <p class="article-side-excerpt">
-                {article.excerpt}
-              </p>
-
-              <div class="article-side-cta">
-                <span class="cta-label">Baca Selengkapnya</span>
-                <span class="cta-arrow-circle">
-                  <svg class="w-3 h-3" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                  </svg>
-                </span>
-              </div>
-            </div>
-          </a>
-        </article>
+            <p class="aw-title">{article.title}</p>
+            <p class="aw-excerpt">{article.excerpt}</p>
+            <span class="aw-read-link">Baca artikel <span class="aw-arrow">→</span></span>
+          </div>
+        </a>
       ))}
     </div>
+
   </div>
 </div>
 
 <style>
-  /* ── Outer Widget Container ──────────────────────────────── */
-  .hero-articles-widget {
+  /* ─── Root ─────────────────────────────────────────── */
+  .aw-root {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     box-sizing: border-box;
   }
 
-  /* ── Top Header Bar ──────────────────────────────────────── */
-  .articles-widget-header {
+  /* ─── Header ─────────────────────────────────────── */
+  .aw-header {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-bottom: 0.5rem;
-    margin-bottom: 0.55rem;
-    border-bottom: 1px solid rgba(226, 218, 206, 0.75);
+    flex-direction: column;
+    gap: 0;
     flex-shrink: 0;
   }
 
-  .articles-header-badge {
-    display: inline-flex;
+  .aw-header-top {
+    display: flex;
     align-items: center;
-    gap: 0.35rem;
-    font-size: 0.68rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #55654B;
-    background: rgba(85, 101, 75, 0.08);
-    padding: 0.18rem 0.5rem;
-    border-radius: 999px;
+    justify-content: space-between;
+    gap: 0.5rem;
   }
 
-  .articles-header-title {
+  .aw-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+  }
+
+  .aw-eyebrow {
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #a89a8a;
+    line-height: 1;
+  }
+
+  .aw-heading {
     font-family: var(--font-serif, "Playfair Display", Georgia, serif);
-    font-size: 0.92rem;
+    font-size: 1rem;
     font-weight: 700;
     color: #18211b;
     margin: 0;
+    line-height: 1.2;
   }
 
-  .articles-tab-switch {
+  /* ─── Nav Tabs ────────────────────────────────────── */
+  .aw-nav {
     display: flex;
     align-items: center;
-    gap: 0.2rem;
-    background: #f4ede3;
-    padding: 0.18rem 0.22rem;
-    border-radius: 999px;
+    gap: 0;
+    flex-shrink: 0;
   }
 
-  .articles-tab-btn {
+  .aw-tab {
     border: none;
     background: transparent;
     font-size: 0.7rem;
-    font-weight: 600;
-    color: #556056;
-    padding: 0.2rem 0.55rem;
-    border-radius: 999px;
+    font-weight: 500;
+    color: #8c8273;
+    padding: 0.25rem 0.5rem;
     cursor: pointer;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-    line-height: 1.2;
+    transition: color 0.15s;
+    letter-spacing: 0.01em;
+    position: relative;
   }
 
-  .articles-tab-btn:hover {
+  .aw-tab::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0.5rem;
+    right: 0.5rem;
+    height: 1.5px;
+    background: #9b1b30;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.2s ease;
+  }
+
+  .aw-tab:hover {
     color: #18211b;
   }
 
-  .articles-tab-btn.is-active {
-    background: #ffffff;
+  .aw-tab.is-active {
     color: #9b1b30;
     font-weight: 700;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
   }
 
-  .articles-view-all-link {
+  .aw-tab.is-active::after {
+    transform: scaleX(1);
+  }
+
+  .aw-all-link {
     display: inline-flex;
     align-items: center;
-    gap: 0.15rem;
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: #9b1b30;
-    padding: 0.2rem 0.45rem;
+    gap: 0.2rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #556056;
     text-decoration: none;
-    transition: color 0.2s ease;
-    white-space: nowrap;
-    border-left: 1px solid rgba(191, 167, 122, 0.35);
-    margin-left: 0.15rem;
+    padding: 0.25rem 0.4rem 0.25rem 0.55rem;
+    border-left: 1px solid rgba(0,0,0,0.1);
+    margin-left: 0.2rem;
+    transition: color 0.15s;
   }
 
-  .articles-view-all-link:hover {
-    color: #55654B;
+  .aw-all-link:hover {
+    color: #9b1b30;
   }
 
-  /* ── Panels Wrapper & Stacking ───────────────────────────── */
-  .articles-panels-wrapper {
+  /* ─── Divider ─────────────────────────────────────── */
+  .aw-divider {
+    height: 1px;
+    background: rgba(226, 218, 206, 0.7);
+    margin: 0.5rem 0 0.6rem;
+    flex-shrink: 0;
+  }
+
+  /* ─── Panels ──────────────────────────────────────── */
+  .aw-panels {
     flex: 1;
     display: flex;
     flex-direction: column;
     min-height: 0;
-    gap: 0.55rem;
+    position: relative;
   }
 
-  .articles-pair-panel {
+  .aw-panel {
     display: none;
     flex-direction: column;
-    gap: 0.55rem;
+    gap: 0;
     height: 100%;
     flex: 1;
   }
 
-  .articles-pair-panel.is-active {
+  .aw-panel.is-active {
     display: flex;
-    animation: fadeInPanel 0.25s ease-out;
   }
 
-  @keyframes fadeInPanel {
-    from {
-      opacity: 0;
-      transform: translateY(3px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* ── Individual Article Card ─────────────────────────────── */
-  .article-side-card {
-    flex: 1 1 0;
-    min-height: 0;
-    max-height: 155px;
+  /* ─── Individual Item ─────────────────────────────── */
+  .aw-item {
     display: flex;
-    border-radius: 12px;
-    background: #ffffff;
-    border: 1px solid rgba(226, 218, 206, 0.82);
-    box-shadow:
-      0 2px 8px -2px rgba(45, 56, 46, 0.05),
-      0 1px 2px rgba(0, 0, 0, 0.02);
-    overflow: hidden;
-    transition:
-      transform 0.22s ease,
-      border-color 0.22s ease,
-      box-shadow 0.22s ease;
-  }
-
-  .article-side-card:hover {
-    transform: translateY(-2px);
-    border-color: #9b1b30;
-    box-shadow:
-      0 6px 16px -4px rgba(155, 27, 48, 0.13),
-      0 2px 5px rgba(0, 0, 0, 0.03);
-  }
-
-  .article-side-card-link {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 0.65rem 0;
     text-decoration: none;
-    padding: 0.55rem 0.65rem;
-    gap: 0.75rem;
-    box-sizing: border-box;
-    overflow: hidden;
+    color: inherit;
+    border-bottom: 1px solid rgba(226, 218, 206, 0.55);
+    flex: 1;
+    min-height: 0;
+    transition: opacity 0.15s;
   }
 
-  /* ── Card Thumbnail Box (Lebar gambar otomatis sama dengan tinggi thumbnail 120x120) ── */
-  .article-thumb-box {
+  .aw-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .aw-item:hover {
+    opacity: 0.82;
+  }
+
+  /* ─── Thumbnail ───────────────────────────────────── */
+  .aw-thumb {
     position: relative;
-    width: 120px;
-    height: 120px;
-    min-width: 120px;
-    min-height: 120px;
-    max-width: 120px;
-    max-height: 120px;
-    aspect-ratio: 1 / 1;
-    flex-shrink: 0;
-    border-radius: 9px;
+    width: 96px;
+    min-width: 96px;
+    border-radius: 7px;
     overflow: hidden;
-    background: #f7f4ef;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: #f4ede3;
+    flex-shrink: 0;
   }
 
-  .article-thumb-img {
+  .aw-thumb-img {
+    display: block;
     width: 100%;
-    height: 100%;
+    height: 76px;
     object-fit: cover;
     object-position: center;
-    transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
-  .article-side-card:hover .article-thumb-img {
-    transform: scale(1.06);
-  }
-
-  .article-img-badge {
+  .aw-read-time {
     position: absolute;
-    bottom: 5px;
+    bottom: 4px;
     left: 5px;
-    font-size: 0.58rem;
-    font-weight: 700;
-    color: #ffffff;
-    background: rgba(24, 33, 27, 0.78);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-    padding: 0.1rem 0.4rem;
-    border-radius: 999px;
-    line-height: 1.2;
-    letter-spacing: 0.01em;
+    font-size: 0.55rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.95);
+    background: rgba(0,0,0,0.48);
+    padding: 0.07rem 0.32rem;
+    border-radius: 3px;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
   }
 
-  /* ── Card Content ────────────────────────────────────────── */
-  .article-side-content {
+  /* ─── Content ─────────────────────────────────────── */
+  .aw-content {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     min-width: 0;
-    padding: 0.05rem 0;
+    gap: 0.15rem;
   }
 
-  .article-side-meta {
+  .aw-meta {
     display: flex;
     align-items: center;
-    gap: 0.3rem;
-    font-size: 0.64rem;
-    margin-bottom: 0.15rem;
+    gap: 0.4rem;
+    flex-wrap: nowrap;
+    overflow: hidden;
   }
 
-  .article-cat-label {
-    color: #9b1b30;
+  .aw-cat {
+    font-size: 0.58rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
+    color: #9b1b30;
+    white-space: nowrap;
   }
 
-  .meta-dot {
-    color: #cbd5e1;
+  .aw-date {
+    font-size: 0.58rem;
+    color: #a89a8a;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  .aw-title {
+    font-size: 0.8rem;
     font-weight: 700;
-  }
-
-  .article-date-text {
-    color: #8c8273;
-    font-weight: 500;
-  }
-
-  .article-side-title {
-    font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
-    font-size: 0.82rem;
-    font-weight: 700;
-    line-height: 1.26;
+    line-height: 1.28;
     color: #18211b;
-    margin: 0 0 0.2rem;
+    margin: 0;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     overflow: hidden;
-    transition: color 0.2s ease;
   }
 
-  .article-side-card:hover .article-side-title {
-    color: #9b1b30;
-  }
-
-  .article-side-excerpt {
-    font-size: 0.7rem;
-    line-height: 1.35;
-    color: #556056;
-    margin: 0 0 0.25rem;
+  .aw-excerpt {
+    font-size: 0.67rem;
+    line-height: 1.38;
+    color: #6b7a6d;
+    margin: 0;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
     overflow: hidden;
   }
 
-  /* ── CTA Row with circular arrow ─────────────────────────── */
-  .article-side-cta {
+  .aw-read-link {
+    font-size: 0.63rem;
+    font-weight: 600;
+    color: #8c8273;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    margin-top: auto;
+    gap: 0.2rem;
+    transition: color 0.15s;
+    margin-top: 0.1rem;
   }
 
-  .cta-label {
-    font-size: 0.68rem;
-    font-weight: 700;
-    color: #556056;
-    letter-spacing: 0.01em;
-    transition: color 0.2s ease;
-  }
-
-  .article-side-card:hover .cta-label {
+  .aw-item:hover .aw-read-link {
     color: #9b1b30;
   }
 
-  .cta-arrow-circle {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: #fcedea;
-    color: #9b1b30;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.22s ease;
-    flex-shrink: 0;
+  .aw-arrow {
+    display: inline-block;
+    transition: transform 0.15s ease;
+    font-style: normal;
   }
 
-  .article-side-card:hover .cta-arrow-circle {
-    background: #9b1b30;
-    color: #ffffff;
-    transform: translateX(2.5px);
+  .aw-item:hover .aw-arrow {
+    transform: translateX(3px);
   }
 
-  /* ── Wide Desktop Enhancements ───────────────────────────── */
+  /* ─── Wider screens ───────────────────────────────── */
   @media (min-width: 1280px) {
-    .article-side-title {
-      font-size: 0.85rem;
+    .aw-title {
+      font-size: 0.83rem;
+    }
+    .aw-thumb {
+      width: 104px;
+      min-width: 104px;
+    }
+    .aw-thumb-img {
+      height: 82px;
     }
   }
 </style>
 
 <script>
   function initArticlesWidget() {
-    const tabs = document.querySelectorAll('.articles-tab-btn');
+    const tabs = document.querySelectorAll('.aw-tab');
     if (!tabs.length) return;
 
     tabs.forEach((tab) => {
@@ -506,14 +415,12 @@ const articlesPair2 = ARTICLES.slice(2, 4);
         const targetTab = tab.getAttribute('data-tab');
         if (!targetTab) return;
 
-        // Toggle buttons
         tabs.forEach((t) => {
           const isActive = t === tab;
           t.classList.toggle('is-active', isActive);
           t.setAttribute('aria-selected', isActive ? 'true' : 'false');
         });
 
-        // Toggle panels
         const panel1 = document.getElementById('panel-pair-1');
         const panel2 = document.getElementById('panel-pair-2');
 
