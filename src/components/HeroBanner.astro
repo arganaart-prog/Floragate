@@ -2,452 +2,422 @@
 import { withBase } from '../utils/paths';
 import { WHATSAPP_NUMBER } from '../data/constants';
 
-// Slides configuration with authentic high-res florist photography
-const rawSlides = [
+// Promo slides configuration
+// Desktop: 2.webp, 3.webp, 4.webp (all 1080x540, 2:1 aspect ratio) — gambar sudah ada ruang kosong di kiri untuk CTA
+// Mobile: 1.webp (1080x776), 3.webp, 4.webp
+const promoSlides = [
   {
-    id: 'promo-1',
-    badge: 'Same-day · buka 24 jam',
-    badgeType: 'sameday',
-    title: 'Kirim bunga hari ini, sampai hari ini',
-    description: 'Karangan papan, bouquet segar, standing flower & tanbulampot. Dirangkai florist lokal di Kota Malang, difoto sebelum diantar.',
-    primaryCtaText: 'Belanja Sekarang',
-    primaryCtaHref: withBase('/katalog/'),
-    secondaryCtaText: 'Tanya Florist',
-    waText: 'Halo Floragate, saya ingin pesan bunga hari ini untuk pengiriman di Malang.',
-    image: withBase('/images/produk/wedding-luxury.webp'),
-    alt: 'Karangan Bunga Papan Mewah Malang – Floragate',
-  },
-  {
-    id: 'promo-2',
+    id: 'promo-gratis-ongkir',
     badge: 'Gratis Ongkir · Malang Kota',
-    badgeType: 'ongkir',
-    title: 'Bunga papan elegan untuk momen istimewa Anda',
-    description: 'Pilihan terbaik untuk pernikahan, duka cita, peresmian instansi, dan ucapan selamat. Pengerjaan kilat 3 jam bergaransi bunga segar.',
-    primaryCtaText: 'Pesan Sekarang',
-    primaryCtaHref: withBase('/katalog/?search=bunga%20papan'),
-    secondaryCtaText: 'Tanya Florist',
-    waText: 'Halo Floragate, saya ingin pesan bunga papan elegan dengan promo Gratis Ongkir Malang Kota.',
-    image: withBase('/images/banner/default-og.webp'),
-    alt: 'Bunga Papan Grand Opening Malang – Floragate',
+    headline: 'Bunga Segar, Gratis Ongkir ke Seluruh Malang Kota',
+    description: 'Karangan bunga papan, hand bouquet & standing flower. Dirangkai tim florist lokal, difoto sebelum diantar.',
+    mobileImage: withBase('/images/banner/promo%20banner/1.webp'),
+    desktopImage: withBase('/images/banner/promo%20banner/2.webp'),
+    alt: 'Promo Spesial Gratis Ongkir ke Malang Kota – Floragate Florist',
+    ctaPrimary: {
+      label: 'Pesan Sekarang',
+      href: `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Halo Floragate, saya ingin pesan bunga dengan Promo Spesial Gratis Ongkir Malang Kota.')}`,
+      external: true,
+    },
+    ctaSecondary: {
+      label: 'Lihat Katalog',
+      href: withBase('/katalog/'),
+      external: false,
+    },
   },
   {
-    id: 'promo-3',
-    badge: 'Kado Unik · Ramah Lingkungan',
-    badgeType: 'tanaman',
-    title: 'Pohon ucapan tanbulampot berbuah di Malang',
-    description: 'Inovasi kado hidup modern yang terus tumbuh, berbuah lebat, dan tahan bertahun-tahun. Kenangan abadi untuk wisuda & grand opening.',
-    primaryCtaText: 'Pilih Tanaman',
-    primaryCtaHref: withBase('/kategori/tanbulampot-malang/'),
-    secondaryCtaText: 'Tanya Florist',
-    waText: 'Halo Floragate, saya ingin info pemesanan pohon ucapan tanbulampot di Malang.',
-    image: withBase('/images/produk/tanbulampot/1250 berbuah.webp'),
-    alt: 'Pohon Ucapan Tanbulampot Malang – Floragate',
+    id: 'promo-7-bunga-papan',
+    badge: 'Paket Hemat · Acara Besar',
+    headline: 'Pesan 7 Bunga Papan, Gratis Ongkir Seluruh Malang Raya',
+    description: 'Cocok untuk pernikahan, wisuda, atau acara instansi besar. Harga terbaik, kualitas premium.',
+    mobileImage: withBase('/images/banner/promo%20banner/3.webp'),
+    desktopImage: withBase('/images/banner/promo%20banner/3.webp'),
+    alt: 'Promo Spesial Pesan 7 Bunga Papan Gratis Ongkir Seluruh Malang Raya – Floragate',
+    ctaPrimary: {
+      label: 'Tanya via WhatsApp',
+      href: `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Halo Floragate, saya ingin info Promo Pesan 7 Bunga Papan Gratis Ongkir ke Seluruh Malang Raya.')}`,
+      external: true,
+    },
+    ctaSecondary: {
+      label: 'Lihat Bunga Papan',
+      href: withBase('/katalog/?search=bunga%20papan'),
+      external: false,
+    },
+  },
+  {
+    id: 'promo-bunga-papan-400rb',
+    badge: 'Harga Bersahabat · 3 Jam Selesai',
+    headline: 'Bunga Papan Mulai 400 Ribuan untuk Setiap Momen',
+    description: 'Pernikahan, duka cita, wisuda, hingga acara instansi. Pengerjaan cepat 3 jam, bisa pesan hari ini.',
+    mobileImage: withBase('/images/banner/promo%20banner/4.webp'),
+    desktopImage: withBase('/images/banner/promo%20banner/4.webp'),
+    alt: 'Bunga Papan Mulai 400 Ribuan – Floragate Florist Malang',
+    ctaPrimary: {
+      label: 'Lihat Desain Papan',
+      href: withBase('/katalog/?search=bunga%20papan'),
+      external: false,
+    },
+    ctaSecondary: {
+      label: 'Tanya Harga',
+      href: `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Halo Floragate, saya ingin tanya harga bunga papan.')}`,
+      external: true,
+    },
   },
 ];
 
-// Cloned slides for continuous seamless infinite looping:
-// [Clone of Last, Slide 0, Slide 1, Slide 2, Clone of First]
 const displaySlides = [
-  { ...rawSlides[rawSlides.length - 1], isClone: true, realIndex: rawSlides.length - 1, key: 'clone-prev' },
-  ...rawSlides.map((slide, idx) => ({ ...slide, isClone: false, realIndex: idx, key: `real-${idx}` })),
-  { ...rawSlides[0], isClone: true, realIndex: 0, key: 'clone-next' },
+  { ...promoSlides[promoSlides.length - 1], isClone: true, realIndex: promoSlides.length - 1, key: 'clone-prev' },
+  ...promoSlides.map((slide, idx) => ({ ...slide, isClone: false, realIndex: idx, key: `real-${idx}` })),
+  { ...promoSlides[0], isClone: true, realIndex: 0, key: 'clone-next' },
 ];
 ---
 
-<section
-  class="promo-carousel-container"
-  id="hero-banner"
-  aria-label="Promo Banner Floragate"
-  aria-roledescription="carousel"
-  tabindex="0"
->
-  <!-- Carousel Viewport -->
-  <div class="promo-viewport" id="promo-viewport">
-    <div class="promo-track" id="promo-track" aria-live="off">
-      {displaySlides.map((slide, trackIndex) => {
-        const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(slide.waText)}`;
-        return (
+<div class="hero-banner-wrap" id="hero-banner" aria-label="Promo Banner Floragate" aria-roledescription="carousel" tabindex="0">
+
+  <div class="hb-viewport" id="hb-viewport">
+    <div class="hb-track" id="hb-track" aria-live="off">
+      {displaySlides.map((slide, trackIndex) => (
+        <div
+          class="hb-slide"
+          data-track-index={trackIndex}
+          data-real-index={slide.realIndex}
+          aria-roledescription="slide"
+          aria-label={slide.headline}
+          aria-hidden={slide.isClone || slide.realIndex !== 0 ? 'true' : 'false'}
+        >
           <div
-            class="promo-slide"
-            data-track-index={trackIndex}
-            data-real-index={slide.realIndex}
-            aria-roledescription="slide"
-            aria-label={slide.title}
-            aria-hidden={slide.isClone || slide.realIndex !== 0 ? 'true' : 'false'}
+            class="hb-ambient"
+            style={`background-image: url('${slide.mobileImage}');`}
+            aria-hidden="true"
+          />
+          <a
+            href={slide.ctaPrimary.href}
+            target={slide.ctaPrimary.external ? '_blank' : undefined}
+            rel={slide.ctaPrimary.external ? 'noopener noreferrer' : undefined}
+            class="hb-slide-link"
+            tabindex={!slide.isClone && slide.realIndex === 0 ? '0' : '-1'}
+            aria-label={slide.headline}
           >
-            <!-- INDEPENDENT ROUNDED CARD: Pristine white card matching Prestisa -->
-            <article class="promo-card">
-              <div class="promo-card-grid">
-                <!-- Left Side: Real HTML Typography & Actions -->
-                <div class="promo-card-left">
-                  <div class="promo-badge-wrap">
-                    <span class={`promo-badge-pill promo-badge--${slide.badgeType}`}>
-                      {slide.badge}
-                    </span>
-                  </div>
+            <picture class="hb-picture">
+              <source
+                media="(min-width: 1024px)"
+                srcset={slide.desktopImage}
+                width="1080"
+                height="540"
+              />
+              <img
+                class="hb-img"
+                src={slide.mobileImage}
+                alt={slide.alt}
+                width="1080"
+                height={slide.realIndex === 0 ? '776' : '540'}
+                loading={trackIndex === 1 ? 'eager' : 'lazy'}
+                decoding={trackIndex === 1 ? 'sync' : 'async'}
+                fetchpriority={trackIndex === 1 ? 'high' : 'auto'}
+                draggable="false"
+              />
+            </picture>
+          </a>
 
-                  <h2 class="promo-heading">
-                    <a
-                      href={slide.primaryCtaHref}
-                      class="promo-heading-link"
-                      tabindex={!slide.isClone && slide.realIndex === 0 ? '0' : '-1'}
-                    >
-                      {slide.title}
-                    </a>
-                  </h2>
-
-                  <p class="promo-caption">
-                    {slide.description}
-                  </p>
-
-                  <div class="promo-cta-bar">
-                    <a
-                      href={slide.primaryCtaHref}
-                      class="promo-btn-primary"
-                      tabindex={!slide.isClone && slide.realIndex === 0 ? '0' : '-1'}
-                    >
-                      <span>{slide.primaryCtaText}</span>
-                    </a>
-
-                    <a
-                      href={waUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="promo-btn-secondary"
-                      aria-label="Konsultasi langsung via WhatsApp Floragate"
-                      tabindex={!slide.isClone && slide.realIndex === 0 ? '0' : '-1'}
-                    >
-                      <svg class="promo-chat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-                      </svg>
-                      <span>{slide.secondaryCtaText}</span>
-                    </a>
-                  </div>
-                </div>
-
-                <!-- Right Side: High-res authentic flower photography -->
-                <div class="promo-card-right">
-                  <a
-                    href={slide.primaryCtaHref}
-                    class="promo-img-link"
-                    tabindex="-1"
-                    aria-hidden="true"
-                  >
-                    <img
-                      class="promo-img"
-                      src={slide.image}
-                      alt={slide.alt}
-                      width="640"
-                      height="480"
-                      loading={trackIndex === 1 ? 'eager' : 'lazy'}
-                      decoding={trackIndex === 1 ? 'sync' : 'async'}
-                      fetchpriority={trackIndex === 1 ? 'high' : 'auto'}
-                      draggable="false"
-                    />
-                  </a>
-                </div>
-              </div>
-            </article>
+          <!-- Desktop CTA Buttons in Empty Space (No copywriting overlay) -->
+          <div class="hb-desktop-cta" aria-hidden={slide.isClone ? 'true' : 'false'}>
+            <div class="hb-btn-row">
+              <a
+                href={slide.ctaPrimary.href}
+                target={slide.ctaPrimary.external ? '_blank' : undefined}
+                rel={slide.ctaPrimary.external ? 'noopener noreferrer' : undefined}
+                class="hb-btn hb-btn--primary"
+                tabindex={!slide.isClone && slide.realIndex === 0 ? '0' : '-1'}
+              >{slide.ctaPrimary.label}</a>
+              <a
+                href={slide.ctaSecondary.href}
+                target={slide.ctaSecondary.external ? '_blank' : undefined}
+                rel={slide.ctaSecondary.external ? 'noopener noreferrer' : undefined}
+                class="hb-btn hb-btn--secondary"
+                tabindex={!slide.isClone && slide.realIndex === 0 ? '0' : '-1'}
+              >{slide.ctaSecondary.label}</a>
+            </div>
           </div>
-        );
-      })}
+        </div>
+      ))}
     </div>
   </div>
 
-  <!-- Arrow Navigation (Previous) - Desktop Only -->
-  <button
-    class="promo-nav-arrow promo-nav-arrow--prev"
-    id="promo-arrow-prev"
-    type="button"
-    aria-label="Lihat promo sebelumnya"
-  >
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <polyline points="15 18 9 12 15 6"></polyline>
-    </svg>
-  </button>
-
-  <!-- Arrow Navigation (Next) - Desktop Only -->
-  <button
-    class="promo-nav-arrow promo-nav-arrow--next"
-    id="promo-arrow-next"
-    type="button"
-    aria-label="Lihat promo berikutnya"
-  >
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <polyline points="9 18 15 12 9 6"></polyline>
-    </svg>
-  </button>
-
-  <!-- Centered Dot / Pill Indicators below carousel -->
-  <div class="promo-indicators" id="promo-indicators" role="tablist" aria-label="Navigasi slide promo">
-    {rawSlides.map((slide, idx) => (
+  <div class="hb-dots" id="hb-dots" role="tablist" aria-label="Navigasi slide promo">
+    {promoSlides.map((slide, idx) => (
       <button
-        class={`promo-indicator-pill${idx === 0 ? ' is-active' : ''}`}
+        class={`hb-dot${idx === 0 ? ' is-active' : ''}`}
         type="button"
         role="tab"
         data-real-index={idx}
-        aria-label={`Pindah ke promo: ${slide.title}`}
+        aria-label={`Pindah ke promo: ${slide.headline}`}
         aria-selected={idx === 0 ? 'true' : 'false'}
-        id={`promo-dot-${idx}`}
+        id={`hb-dot-${idx}`}
       >
-        <span class="promo-pill-track">
-          <span class="promo-pill-progress"></span>
+        <span class="hb-dot-track">
+          <span class="hb-dot-fill"></span>
         </span>
       </button>
     ))}
   </div>
-</section>
+
+  <button class="hb-arrow hb-arrow--prev" id="hb-arrow-prev" type="button" aria-label="Promo sebelumnya">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="15 18 9 12 15 6"></polyline>
+    </svg>
+  </button>
+  <button class="hb-arrow hb-arrow--next" id="hb-arrow-next" type="button" aria-label="Promo berikutnya">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </button>
+</div>
+
+<div class="hb-mobile-cta" id="hb-mobile-cta" aria-live="polite">
+  {promoSlides.map((slide, idx) => (
+    <div
+      class={`hb-mobile-panel${idx === 0 ? ' is-active' : ''}`}
+      data-panel-index={idx}
+      aria-hidden={idx !== 0 ? 'true' : 'false'}
+    >
+      <span class="hb-m-badge">{slide.badge}</span>
+      <h2 class="hb-m-title">{slide.headline}</h2>
+      <p class="hb-m-desc">{slide.description}</p>
+      <div class="hb-m-btns">
+        <a
+          href={slide.ctaPrimary.href}
+          target={slide.ctaPrimary.external ? '_blank' : undefined}
+          rel={slide.ctaPrimary.external ? 'noopener noreferrer' : undefined}
+          class="hb-m-btn hb-m-btn--primary"
+          tabindex={idx === 0 ? '0' : '-1'}
+        >{slide.ctaPrimary.label}</a>
+        <a
+          href={slide.ctaSecondary.href}
+          target={slide.ctaSecondary.external ? '_blank' : undefined}
+          rel={slide.ctaSecondary.external ? 'noopener noreferrer' : undefined}
+          class="hb-m-btn hb-m-btn--ghost"
+          tabindex={idx === 0 ? '0' : '-1'}
+        >{slide.ctaSecondary.label}</a>
+      </div>
+    </div>
+  ))}
+</div>
 
 <style>
-  /* ── Carousel Outer Container ────────────────────────────── */
-  .promo-carousel-container {
+  .hero-banner-wrap {
     position: relative;
     width: 100%;
-    margin: 0 auto;
-    background: transparent;
+    aspect-ratio: 1080 / 776;
+    background: #f4ede3;
+    /* Mobile: square bottom corners — CTA strip below will have rounded bottom */
+    border-radius: 14px 14px 0 0;
+    border: 1px solid rgba(226, 218, 206, 0.88);
+    border-bottom: none;
+    box-shadow:
+      0 6px 20px -4px rgba(45, 56, 46, 0.08),
+      0 2px 6px rgba(60, 50, 30, 0.04);
+    overflow: hidden;
     user-select: none;
     -webkit-user-select: none;
     touch-action: pan-y;
-    overflow: hidden;
     outline: none;
+    box-sizing: border-box;
   }
 
-  /* ── Viewport & Track ────────────────────────────────────── */
-  .promo-viewport {
+  @media (min-width: 1024px) {
+    .hero-banner-wrap {
+      aspect-ratio: 1080 / 540;
+      border-radius: 18px;
+      /* Restore bottom border on desktop (no CTA strip below) */
+      border-bottom: 1px solid rgba(226, 218, 206, 0.88);
+    }
+  }
+
+  .hb-viewport {
     width: 100%;
+    height: 100%;
     overflow: hidden;
     position: relative;
-    padding: 2px 0 6px;
   }
 
-  .promo-track {
+  .hb-track {
     display: flex;
     flex-direction: row;
     width: 100%;
+    height: 100%;
     will-change: transform;
     cursor: grab;
   }
 
-  .promo-carousel-container.is-dragging .promo-track {
+  .hero-banner-wrap.is-dragging .hb-track {
     cursor: grabbing;
   }
 
-  /* ── Individual Slide Wrapper ────────────────────────────── */
-  .promo-slide {
+  .hb-slide {
     flex: 0 0 100%;
     width: 100%;
-    box-sizing: border-box;
-    padding: 0 3px;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* ── INDEPENDENT ROUNDED CARD ────────────────────────────── */
-  .promo-card {
-    width: 100%;
     height: 100%;
-    flex: 1;
-    border-radius: 18px;
-    background: #ffffff;
-    border: 1px solid rgba(226, 218, 206, 0.75);
-    box-shadow:
-      0 6px 22px -4px rgba(45, 56, 46, 0.08),
-      0 2px 6px rgba(60, 50, 30, 0.03);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
     box-sizing: border-box;
-  }
-
-  /* ── Card Grid Layout ────────────────────────────────────── */
-  .promo-card-grid {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    flex: 1;
-  }
-
-  /* ── Left Content (Text & Actions) ───────────────────────── */
-  .promo-card-left {
-    display: flex;
-    flex-direction: column;
-    padding: 1.25rem 1.25rem 1.5rem;
-    background: #ffffff;
-    text-align: left;
-    box-sizing: border-box;
-    order: 2; /* On mobile, image is first, text is second */
-  }
-
-  .promo-badge-wrap {
-    margin-bottom: 0.65rem;
-  }
-
-  .promo-badge-pill {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.35rem 0.85rem;
-    border-radius: 999px;
-    background: #fcedea;
-    color: #9b1b30;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    line-height: 1.2;
-    white-space: nowrap;
-  }
-
-  .promo-badge--ongkir {
-    background: #eef5ea;
-    color: #2e6930;
-  }
-
-  .promo-badge--tanaman {
-    background: #fbf4eb;
-    color: #967849;
-  }
-
-  .promo-heading {
-    margin: 0 0 0.65rem;
-    font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
-    font-size: 1.35rem;
-    font-weight: 800;
-    line-height: 1.18;
-    color: #18211b;
-    letter-spacing: -0.02em;
-  }
-
-  .promo-heading-link {
-    color: inherit;
-    text-decoration: none;
-    transition: color 0.2s ease;
-  }
-
-  .promo-heading-link:hover {
-    color: #9b1b30;
-  }
-
-  .promo-caption {
-    margin: 0 0 1.25rem;
-    font-size: 0.84rem;
-    line-height: 1.55;
-    color: #556056;
-  }
-
-  /* Action Buttons Bar */
-  .promo-cta-bar {
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
-    width: 100%;
-  }
-
-  .promo-btn-primary {
-    flex: 1;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.72rem 1.2rem;
-    background: #9b1b30; /* Prestisa deep crimson */
-    color: #ffffff;
-    border-radius: 999px;
-    font-size: 0.86rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    text-decoration: none;
-    box-shadow: 0 4px 14px rgba(155, 27, 48, 0.25);
-    transition:
-      background 0.2s ease,
-      transform 0.2s cubic-bezier(0.25, 1, 0.5, 1),
-      box-shadow 0.2s ease;
-    -webkit-font-smoothing: antialiased;
-    white-space: nowrap;
-  }
-
-  .promo-btn-primary:hover {
-    background: #851628;
-    transform: translateY(-1.5px);
-    box-shadow: 0 6px 18px rgba(155, 27, 48, 0.32);
-  }
-
-  .promo-btn-secondary {
-    flex: 1;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.45rem;
-    padding: 0.72rem 1.1rem;
-    background: #0b825d; /* Prestisa vibrant emerald */
-    color: #ffffff;
-    border-radius: 999px;
-    font-size: 0.86rem;
-    font-weight: 700;
-    text-decoration: none;
-    box-shadow: 0 4px 14px rgba(11, 130, 93, 0.22);
-    transition:
-      background 0.2s ease,
-      transform 0.2s cubic-bezier(0.25, 1, 0.5, 1),
-      box-shadow 0.2s ease;
-    -webkit-font-smoothing: antialiased;
-    white-space: nowrap;
-  }
-
-  .promo-btn-secondary:hover {
-    background: #086d4d;
-    transform: translateY(-1.5px);
-    box-shadow: 0 6px 18px rgba(11, 130, 93, 0.3);
-  }
-
-  .promo-chat-icon {
-    width: 17px;
-    height: 17px;
-    flex-shrink: 0;
-  }
-
-  /* ── Right Visual (Authentic Floral Photograph) ──────────── */
-  .promo-card-right {
     position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 11;
     overflow: hidden;
-    background: #fbf9f5;
-    order: 1; /* On mobile, image is first */
   }
 
-  .promo-img-link {
+  .hb-ambient {
+    position: absolute;
+    inset: -15px;
+    background-size: cover;
+    background-position: center;
+    filter: blur(22px);
+    opacity: 0.5;
+    transform: scale(1.08);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  @media (min-width: 1024px) {
+    .hb-ambient { display: none; }
+  }
+
+  .hb-picture {
     display: block;
     width: 100%;
     height: 100%;
-    text-decoration: none;
-    outline: none;
+    position: relative;
+    z-index: 2;
   }
 
-  .promo-img {
+  .hb-img {
+    position: relative;
+    z-index: 2;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    object-position: center;
     display: block;
     pointer-events: none;
-    transition: transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+    object-fit: cover;
+    object-position: center;
   }
 
-  .promo-card:hover .promo-img {
-    transform: scale(1.025);
+  @media (max-width: 1023px) {
+    .hb-slide[data-real-index="1"] .hb-img,
+    .hb-slide[data-real-index="2"] .hb-img {
+      object-fit: contain;
+    }
   }
 
-  /* ── Centered Dot / Pill Indicators ──────────────────────── */
-  .promo-indicators {
+  @media (min-width: 1024px) {
+    .hb-img { object-fit: cover !important; }
+  }
+
+  /* Slide Link */
+  .hb-slide-link {
+    display: block;
+    width: 100%;
+    height: 100%;
     position: relative;
-    margin: 0.85rem auto 0.2rem;
+    z-index: 2;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  /* Desktop CTA Buttons (Placed in the empty space of the banner graphic) */
+  .hb-desktop-cta {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .hb-desktop-cta {
+      display: flex;
+      position: absolute;
+      left: clamp(1.75rem, 3.5vw, 2.75rem);
+      bottom: clamp(1.5rem, 2.8vw, 2.25rem);
+      z-index: 10;
+      pointer-events: none;
+    }
+    .hb-desktop-cta a {
+      pointer-events: auto;
+    }
+  }
+
+  .hb-btn-row {
     display: flex;
     align-items: center;
+    gap: 0.6rem;
+    flex-wrap: nowrap;
+  }
+
+  .hb-btn {
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
-    gap: 0.45rem;
+    border-radius: 8px;
+    font-size: clamp(0.74rem, 0.9vw, 0.82rem);
+    font-weight: 700;
+    padding: 0.55rem 1.15rem;
+    text-decoration: none;
+    transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+  }
+
+  .hb-btn--primary {
+    background: #9b1b30;
+    color: #ffffff;
+    box-shadow: 0 3px 12px rgba(155, 27, 48, 0.28);
+  }
+
+  .hb-btn--primary:hover {
+    background: #7e1527;
+    box-shadow: 0 4px 16px rgba(155, 27, 48, 0.38);
+    transform: translateY(-1px);
+  }
+
+  .hb-btn--secondary {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #18211b;
+    border: 1.5px solid rgba(24, 33, 27, 0.22);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .hb-btn--secondary:hover {
+    border-color: #9b1b30;
+    color: #9b1b30;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
+  }
+
+  /* Dot Indicators */
+  .hb-dots {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.22rem 0.45rem;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(226, 218, 206, 0.9);
+    border-radius: 999px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
     z-index: 20;
   }
 
-  .promo-indicator-pill {
+  @media (min-width: 1024px) {
+    .hb-dots {
+      left: auto;
+      right: 18px;
+      bottom: 18px;
+      transform: none;
+    }
+  }
+
+  .hb-dot {
     position: relative;
     padding: 0;
     margin: 0;
@@ -460,20 +430,18 @@ const displaySlides = [
     height: 12px;
   }
 
-  .promo-pill-track {
+  .hb-dot-track {
     position: relative;
     display: block;
-    width: 8px;
-    height: 6px;
+    width: 7px;
+    height: 5px;
     border-radius: 999px;
-    background: #e2e8f0;
+    background: #d1cdc7;
     overflow: hidden;
-    transition:
-      width 0.35s cubic-bezier(0.25, 1, 0.5, 1),
-      background 0.35s ease;
+    transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), background 0.3s ease;
   }
 
-  .promo-pill-progress {
+  .hb-dot-fill {
     position: absolute;
     top: 0;
     left: 0;
@@ -484,189 +452,170 @@ const displaySlides = [
     transition: width 0.1s linear;
   }
 
-  .promo-indicator-pill.is-active .promo-pill-track {
-    width: 28px;
+  .hb-dot.is-active .hb-dot-track {
+    width: 24px;
     background: #9b1b30;
   }
 
-  .promo-indicator-pill.is-active .promo-pill-progress {
+  .hb-dot.is-active .hb-dot-fill {
     width: 100%;
     background: #9b1b30;
   }
 
-  .promo-indicator-pill:hover:not(.is-active) .promo-pill-track {
-    background: #cbd5e1;
-  }
-
-  /* Autoplay progress animation on active pill */
-  .promo-indicator-pill.is-active.is-animating .promo-pill-progress {
+  .hb-dot.is-active.is-animating .hb-dot-fill {
     width: 0%;
-    animation: pillAutoplayProgress var(--ap-duration, 5000ms) linear forwards;
+    animation: dotAutoplay var(--ap-dur, 5000ms) linear forwards;
   }
 
-  @keyframes pillAutoplayProgress {
+  @keyframes dotAutoplay {
     0% { width: 0%; }
     100% { width: 100%; }
   }
 
-  /* ── Arrow Controls ──────────────────────────────────────── */
-  .promo-nav-arrow {
-    display: none; /* Hidden on mobile */
-  }
+  /* Arrow navigation */
+  .hb-arrow { display: none; }
 
-  /* ── DESKTOP STYLES (>= 768px / 1024px) ──────────────────── */
-  @media (min-width: 768px) {
-    .promo-slide {
-      padding: 0 4px;
-    }
-
-    .promo-card {
-      border-radius: 18px;
-      height: 100%;
-    }
-
-    /* Side-by-side flex grid layout matching Prestisa */
-    .promo-card-grid {
-      flex-direction: row;
-      align-items: stretch;
-      min-height: 380px;
-    }
-
-    .promo-card-left {
-      order: 1;
-      flex: 1.15;
-      padding: 2.25rem 2rem 2.25rem 2.5rem;
-      justify-content: center;
-    }
-
-    .promo-badge-pill {
-      font-size: 0.78rem;
-      padding: 0.38rem 0.95rem;
-    }
-
-    .promo-heading {
-      font-size: clamp(1.7rem, 2.35vw, 2.35rem);
-      line-height: 1.14;
-      margin: 0.85rem 0 0.85rem;
-    }
-
-    .promo-caption {
-      font-size: 0.88rem;
-      line-height: 1.6;
-      max-width: 400px;
-      margin-bottom: 1.85rem;
-    }
-
-    .promo-cta-bar {
-      width: auto;
-      gap: 0.85rem;
-    }
-
-    .promo-btn-primary {
-      flex: 0 0 auto;
-      padding: 0.78rem 1.75rem;
-      font-size: 0.92rem;
-    }
-
-    .promo-btn-secondary {
-      flex: 0 0 auto;
-      padding: 0.78rem 1.6rem;
-      font-size: 0.92rem;
-    }
-
-    .promo-card-right {
-      order: 2;
-      flex: 0.95;
-      aspect-ratio: auto;
-      height: 100%;
-      background: #ffffff;
-      /* Soft fade mask to blend seamlessly into white card background */
-      mask-image: linear-gradient(to right, transparent 0%, black 14%, black 100%);
-      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 14%, black 100%);
-    }
-
-    .promo-img {
-      height: 100%;
-    }
-
-    /* Arrow Navigation */
-    .promo-nav-arrow {
+  @media (min-width: 1024px) {
+    .hb-arrow {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       z-index: 20;
-      width: 42px;
-      height: 42px;
+      width: 38px;
+      height: 38px;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(226, 218, 206, 0.9);
+      background: rgba(255, 255, 255, 0.92);
       color: #18211b;
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       cursor: pointer;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-      transition:
-        background 0.2s ease,
-        color 0.2s ease,
-        transform 0.2s cubic-bezier(0.25, 1, 0.5, 1),
-        box-shadow 0.2s ease;
-      opacity: 0.88;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+      transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease, opacity 0.2s ease;
+      opacity: 0;
       padding: 0;
     }
 
-    .promo-nav-arrow svg {
-      width: 20px;
-      height: 20px;
-    }
+    .hero-banner-wrap:hover .hb-arrow { opacity: 1; }
 
-    .promo-nav-arrow:hover {
+    .hb-arrow svg { width: 16px; height: 16px; }
+
+    .hb-arrow:hover {
       background: #ffffff;
       color: #9b1b30;
-      opacity: 1;
-      transform: translateY(-50%) scale(1.08);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
     }
 
-    .promo-nav-arrow--prev {
-      left: 1rem;
-    }
-
-    .promo-nav-arrow--next {
-      right: 1rem;
-    }
-
-    /* Position Indicators inside or below banner */
-    .promo-indicators {
-      position: absolute;
-      bottom: 1.15rem;
-      left: 2.5rem;
-      transform: none;
-      margin: 0;
-      padding: 0.25rem 0.5rem;
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      border: 1px solid rgba(0, 0, 0, 0.08);
-      border-radius: 999px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    }
+    .hb-arrow--prev { left: 14px; }
+    .hb-arrow--next { right: 14px; }
   }
 
-  /* ── Reduced Motion ──────────────────────────────────────── */
+  /* Mobile CTA strip */
+  .hb-mobile-cta {
+    display: block;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 0 0 14px 14px;
+    border: 1px solid rgba(226, 218, 206, 0.88);
+    border-top: none;
+    padding: 1rem 1rem 1.15rem;
+    box-sizing: border-box;
+    margin-top: -1px;
+  }
+
+  @media (min-width: 1024px) {
+    .hb-mobile-cta { display: none; }
+  }
+
+  .hb-mobile-panel { display: none; flex-direction: column; }
+  .hb-mobile-panel.is-active { display: flex; }
+
+  .hb-m-badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #9b1b30;
+    background: rgba(155, 27, 48, 0.07);
+    border: 1px solid rgba(155, 27, 48, 0.15);
+    border-radius: 999px;
+    padding: 0.18rem 0.6rem;
+    margin-bottom: 0.5rem;
+    width: fit-content;
+  }
+
+  .hb-m-title {
+    font-family: var(--font-serif, "Playfair Display", Georgia, serif);
+    font-size: clamp(1.1rem, 5vw, 1.45rem);
+    font-weight: 800;
+    color: #18211b;
+    line-height: 1.2;
+    margin: 0 0 0.4rem;
+    letter-spacing: -0.01em;
+  }
+
+  .hb-m-desc {
+    font-size: 0.81rem;
+    color: #556056;
+    line-height: 1.5;
+    margin: 0 0 0.8rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  .hb-m-btns {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+
+  .hb-m-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 0.83rem;
+    font-weight: 700;
+    padding: 0.62rem 1.1rem;
+    text-decoration: none;
+    transition: background 0.18s ease, color 0.18s ease;
+    white-space: nowrap;
+  }
+
+  .hb-m-btn--primary {
+    background: #9b1b30;
+    color: #ffffff;
+    flex: 1;
+  }
+
+  .hb-m-btn--primary:active { background: #7e1527; }
+
+  .hb-m-btn--ghost {
+    background: transparent;
+    color: #556056;
+    border: 1.5px solid rgba(85, 96, 86, 0.25);
+    flex-shrink: 0;
+  }
+
+  .hb-m-btn--ghost:active {
+    border-color: #9b1b30;
+    color: #9b1b30;
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .promo-track,
-    .promo-pill-track,
-    .promo-img,
-    .promo-nav-arrow,
-    .promo-btn-primary,
-    .promo-btn-secondary {
-      transition: none !important;
-      animation: none !important;
-    }
-    .promo-indicator-pill.is-active.is-animating .promo-pill-progress {
+    .hb-track,
+    .hb-dot-track,
+    .hb-img,
+    .hb-arrow,
+    .hb-btn { transition: none !important; animation: none !important; }
+
+    .hb-dot.is-active.is-animating .hb-dot-fill {
       animation: none !important;
       width: 100% !important;
     }
@@ -674,302 +623,236 @@ const displaySlides = [
 </style>
 
 <script>
-  (function () {
+  function initHeroBanner() {
     const AUTOPLAY_MS = 5000;
-    const TRANSITION_MS = 550;
+    const TRANSITION_MS = 480;
     const SWIPE_THRESHOLD_PX = 36;
     const SWIPE_RATIO = 0.08;
 
     const container = document.getElementById('hero-banner');
-    const track = document.getElementById('promo-track');
-    const prevBtn = document.getElementById('promo-arrow-prev');
-    const nextBtn = document.getElementById('promo-arrow-next');
-    const pills = Array.from(document.querySelectorAll('.promo-indicator-pill'));
+    const track = document.getElementById('hb-track');
+    const prevBtn = document.getElementById('hb-arrow-prev');
+    const nextBtn = document.getElementById('hb-arrow-next');
+    const dots = Array.from(document.querySelectorAll('.hb-dot'));
+    const mobilePanels = Array.from(document.querySelectorAll('.hb-mobile-panel'));
 
     if (!(container instanceof HTMLElement) || !(track instanceof HTMLElement)) return;
+    if (container.dataset.hbInit === 'true') return;
+    container.dataset.hbInit = 'true';
 
-    const slides = Array.from(track.querySelectorAll('.promo-slide'));
-    const TOTAL_TRACK_SLIDES = slides.length;
-    const REAL_SLIDE_COUNT = pills.length;
+    const slides = Array.from(track.querySelectorAll('.hb-slide'));
+    const TOTAL_SLIDES = slides.length;
+    const REAL_COUNT = dots.length;
 
-    if (REAL_SLIDE_COUNT < 2) return;
+    if (REAL_COUNT < 2) return;
 
-    // Start at track index 1 (real slide 0)
-    let currentTrackIndex = 1;
-    let isTransitioning = false;
-    let autoplayTimer = null;
+    let current = 1;
+    let transitioning = false;
+    let autoTimer = null;
     let didDrag = false;
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-    function getRealIndex(trackIdx) {
-      if (trackIdx === 0) return REAL_SLIDE_COUNT - 1;
-      if (trackIdx === TOTAL_TRACK_SLIDES - 1) return 0;
+    function getRealIdx(trackIdx) {
+      if (trackIdx === 0) return REAL_COUNT - 1;
+      if (trackIdx === TOTAL_SLIDES - 1) return 0;
       return trackIdx - 1;
     }
 
-    function setTranslate(trackIdx, animate) {
-      const dur = prefersReducedMotion.matches ? 0 : (animate ? TRANSITION_MS : 0);
+    function setTranslate(idx, animate) {
+      const dur = prefersReduced.matches ? 0 : (animate ? TRANSITION_MS : 0);
       track.style.transition = dur > 0 ? `transform ${dur}ms cubic-bezier(0.25, 1, 0.5, 1)` : 'none';
-      track.style.transform = `translateX(-${trackIdx * 100}%)`;
+      track.style.transform = `translateX(-${idx * 100}%)`;
     }
 
-    function updateIndicators(realIdx) {
-      pills.forEach((pill, idx) => {
-        const isActive = idx === realIdx;
-        pill.classList.toggle('is-active', isActive);
-        pill.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    function updateDots(realIdx) {
+      dots.forEach((dot, i) => {
+        const active = i === realIdx;
+        dot.classList.toggle('is-active', active);
+        dot.setAttribute('aria-selected', active ? 'true' : 'false');
       });
     }
 
-    function updateSlideAria(realIdx) {
-      slides.forEach((slide) => {
-        const slideReal = Number(slide.getAttribute('data-real-index'));
-        const isClone = slide.getAttribute('data-track-index') === '0' ||
-                        slide.getAttribute('data-track-index') === String(TOTAL_TRACK_SLIDES - 1);
-        const isActive = !isClone && slideReal === realIdx;
-        slide.setAttribute('aria-hidden', isActive ? 'false' : 'true');
-
-        // Toggle interactive focusability
-        const focusable = slide.querySelectorAll('a, button');
-        focusable.forEach((el) => {
-          el.setAttribute('tabindex', isActive ? '0' : '-1');
+    function updateMobilePanels(realIdx) {
+      mobilePanels.forEach((panel, i) => {
+        const active = i === realIdx;
+        panel.classList.toggle('is-active', active);
+        panel.setAttribute('aria-hidden', active ? 'false' : 'true');
+        panel.querySelectorAll('a').forEach(function(a) {
+          a.setAttribute('tabindex', active ? '0' : '-1');
         });
       });
     }
 
-    /* ── Autoplay Animation on Active Pill ── */
-    function startPillAnimation(realIdx) {
-      if (prefersReducedMotion.matches) return;
-      pills.forEach((p) => p.classList.remove('is-animating'));
-      const activePill = pills[realIdx];
-      if (activePill instanceof HTMLElement) {
-        activePill.classList.remove('is-animating');
-        void activePill.offsetWidth; // Force reflow
-        activePill.style.setProperty('--ap-duration', `${AUTOPLAY_MS}ms`);
-        activePill.classList.add('is-animating');
+    function updateSlideAria(realIdx) {
+      slides.forEach(function(slide) {
+        const slideReal = Number(slide.getAttribute('data-real-index'));
+        const trackIdx = Number(slide.getAttribute('data-track-index'));
+        const isClone = trackIdx === 0 || trackIdx === TOTAL_SLIDES - 1;
+        const isActive = !isClone && slideReal === realIdx;
+        slide.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+        slide.querySelectorAll('a').forEach(function(a) {
+          a.setAttribute('tabindex', isActive ? '0' : '-1');
+        });
+      });
+    }
+
+    function startDotAnim(realIdx) {
+      if (prefersReduced.matches) return;
+      dots.forEach(function(d) { d.classList.remove('is-animating'); });
+      const d = dots[realIdx];
+      if (d instanceof HTMLElement) {
+        void d.offsetWidth;
+        d.style.setProperty('--ap-dur', `${AUTOPLAY_MS}ms`);
+        d.classList.add('is-animating');
       }
     }
 
-    function stopPillAnimation() {
-      pills.forEach((p) => p.classList.remove('is-animating'));
+    function stopDotAnim() {
+      dots.forEach(function(d) { d.classList.remove('is-animating'); });
     }
 
-    /* ── Slide Navigation ── */
-    function moveToTrackIndex(targetTrackIdx, animate = true) {
-      if (isTransitioning) return;
-      isTransitioning = true;
-      currentTrackIndex = targetTrackIdx;
+    function moveTo(targetIdx, animate) {
+      if (animate === undefined) animate = true;
+      if (transitioning) return;
+      transitioning = true;
+      current = targetIdx;
+      setTranslate(current, animate);
 
-      setTranslate(currentTrackIndex, animate);
-
-      const realIdx = getRealIndex(currentTrackIndex);
-      updateIndicators(realIdx);
+      const realIdx = getRealIdx(current);
+      updateDots(realIdx);
+      updateMobilePanels(realIdx);
       updateSlideAria(realIdx);
 
-      if (animate && !prefersReducedMotion.matches) {
-        startPillAnimation(realIdx);
-      }
+      if (animate && !prefersReduced.matches) startDotAnim(realIdx);
 
-      // Handle seamless infinite loop jump at cloned boundaries
-      const transitionTime = prefersReducedMotion.matches ? 10 : TRANSITION_MS;
-      setTimeout(() => {
-        if (currentTrackIndex === TOTAL_TRACK_SLIDES - 1) {
-          currentTrackIndex = 1;
-          setTranslate(currentTrackIndex, false);
-        } else if (currentTrackIndex === 0) {
-          currentTrackIndex = TOTAL_TRACK_SLIDES - 2;
-          setTranslate(currentTrackIndex, false);
+      const wait = prefersReduced.matches ? 10 : TRANSITION_MS;
+      setTimeout(function() {
+        if (current === TOTAL_SLIDES - 1) {
+          current = 1;
+          setTranslate(current, false);
+        } else if (current === 0) {
+          current = TOTAL_SLIDES - 2;
+          setTranslate(current, false);
         }
-        isTransitioning = false;
-      }, transitionTime + 30);
+        transitioning = false;
+      }, wait + 30);
     }
 
-    function goNext() {
-      moveToTrackIndex(currentTrackIndex + 1, true);
-    }
+    function goNext() { moveTo(current + 1, true); }
+    function goPrev() { moveTo(current - 1, true); }
 
-    function goPrev() {
-      moveToTrackIndex(currentTrackIndex - 1, true);
-    }
-
-    function goToRealIndex(realIdx) {
-      if (isTransitioning) return;
-      const targetTrackIdx = realIdx + 1;
-      if (targetTrackIdx === currentTrackIndex) return;
-      moveToTrackIndex(targetTrackIdx, true);
-    }
-
-    /* ── Autoplay Control ── */
     function stopAutoplay() {
-      if (autoplayTimer !== null) {
-        clearInterval(autoplayTimer);
-        autoplayTimer = null;
-      }
-      stopPillAnimation();
+      if (autoTimer !== null) { clearInterval(autoTimer); autoTimer = null; }
+      stopDotAnim();
     }
 
     function startAutoplay() {
       stopAutoplay();
-      if (prefersReducedMotion.matches) return;
-      const realIdx = getRealIndex(currentTrackIndex);
-      startPillAnimation(realIdx);
-      autoplayTimer = setInterval(() => {
-        goNext();
-      }, AUTOPLAY_MS);
+      if (prefersReduced.matches) return;
+      startDotAnim(getRealIdx(current));
+      autoTimer = setInterval(goNext, AUTOPLAY_MS);
     }
 
-    function restartAutoplay() {
-      stopAutoplay();
-      startAutoplay();
-    }
+    function restartAutoplay() { stopAutoplay(); startAutoplay(); }
 
-    /* ── Event Listeners: Navigation Controls ── */
     if (prevBtn) {
-      prevBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        goPrev();
-        restartAutoplay();
-      });
+      prevBtn.addEventListener('click', function(e) { e.stopPropagation(); goPrev(); restartAutoplay(); });
     }
-
     if (nextBtn) {
-      nextBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        goNext();
-        restartAutoplay();
-      });
+      nextBtn.addEventListener('click', function(e) { e.stopPropagation(); goNext(); restartAutoplay(); });
     }
 
-    pills.forEach((pill, idx) => {
-      pill.addEventListener('click', (e) => {
+    dots.forEach(function(dot, idx) {
+      dot.addEventListener('click', function(e) {
         e.stopPropagation();
-        goToRealIndex(idx);
+        var target = idx + 1;
+        if (target !== current) moveTo(target, true);
         restartAutoplay();
       });
     });
 
-    /* ── Pause on Hover & Focus ── */
     container.addEventListener('mouseenter', stopAutoplay);
     container.addEventListener('mouseleave', startAutoplay);
     container.addEventListener('focusin', stopAutoplay);
     container.addEventListener('focusout', startAutoplay);
 
-    /* ── Keyboard Navigation ── */
-    container.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') {
-        e.preventDefault();
-        goPrev();
-        restartAutoplay();
-      } else if (e.key === 'ArrowRight') {
-        e.preventDefault();
-        goNext();
-        restartAutoplay();
-      }
+    container.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); goPrev(); restartAutoplay(); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); goNext(); restartAutoplay(); }
     });
 
-    /* ── Click Guard During Drag Gesture ── */
-    const allLinks = container.querySelectorAll('a');
-    allLinks.forEach((link) => {
-      link.addEventListener('click', (e) => {
-        if (didDrag) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-      });
+    container.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', function(e) { if (didDrag) { e.preventDefault(); e.stopPropagation(); } });
     });
 
-    /* ── Touch & Pointer Drag / Swipe ── */
-    let dragData = null;
+    var drag = null;
 
-    container.addEventListener('pointerdown', (e) => {
-      if (e.button !== 0) return;
-      if (isTransitioning) return;
-
-      dragData = {
-        pointerId: e.pointerId,
-        startX: e.clientX,
-        startY: e.clientY,
-        currentX: e.clientX,
-        isDragging: false,
-        isLocked: false,
-      };
-
+    container.addEventListener('pointerdown', function(e) {
+      if (e.button !== 0 || transitioning) return;
+      drag = { pointerId: e.pointerId, startX: e.clientX, startY: e.clientY, currentX: e.clientX, isDragging: false, isLocked: false };
       container.setPointerCapture(e.pointerId);
       stopAutoplay();
     });
 
-    container.addEventListener('pointermove', (e) => {
-      if (!dragData || e.pointerId !== dragData.pointerId) return;
+    container.addEventListener('pointermove', function(e) {
+      if (!drag || e.pointerId !== drag.pointerId) return;
+      var dx = e.clientX - drag.startX;
+      var dy = e.clientY - drag.startY;
 
-      const diffX = e.clientX - dragData.startX;
-      const diffY = e.clientY - dragData.startY;
-
-      if (!dragData.isLocked) {
-        if (Math.abs(diffX) > 6 || Math.abs(diffY) > 6) {
-          if (Math.abs(diffX) >= Math.abs(diffY)) {
-            dragData.isLocked = true;
-            dragData.isDragging = true;
+      if (!drag.isLocked) {
+        if (Math.abs(dx) > 6 || Math.abs(dy) > 6) {
+          if (Math.abs(dx) >= Math.abs(dy)) {
+            drag.isLocked = true;
+            drag.isDragging = true;
             container.classList.add('is-dragging');
           } else {
-            dragData = null;
+            drag = null;
             return;
           }
         }
       }
 
-      if (!dragData.isDragging) return;
-      dragData.currentX = e.clientX;
+      if (!drag.isDragging) return;
+      drag.currentX = e.clientX;
 
-      const offsetPx = diffX;
-      const containerWidth = container.offsetWidth || 1;
-      const offsetPercent = (offsetPx / containerWidth) * 100;
-      const baseTranslate = -(currentTrackIndex * 100);
-
+      var offsetPct = ((e.clientX - drag.startX) / (container.offsetWidth || 1)) * 100;
+      var base = -(current * 100);
       track.style.transition = 'none';
-      track.style.transform = `translateX(calc(${baseTranslate}% + ${offsetPercent}%))`;
+      track.style.transform = `translateX(calc(${base}% + ${offsetPct}%))`;
     });
 
     function handlePointerEnd(e) {
-      if (!dragData || e.pointerId !== dragData.pointerId) return;
-
-      const diffX = dragData.currentX - dragData.startX;
-      const wasDragging = dragData.isDragging;
-
+      if (!drag || e.pointerId !== drag.pointerId) return;
+      var dx = drag.currentX - drag.startX;
+      var wasDragging = drag.isDragging;
       container.classList.remove('is-dragging');
-      dragData = null;
+      drag = null;
 
-      if (!wasDragging) {
-        startAutoplay();
-        return;
-      }
+      if (!wasDragging) { startAutoplay(); return; }
 
       didDrag = true;
-      setTimeout(() => { didDrag = false; }, 220);
+      setTimeout(function() { didDrag = false; }, 220);
 
-      const threshold = Math.max(SWIPE_THRESHOLD_PX, container.offsetWidth * SWIPE_RATIO);
-
-      if (Math.abs(diffX) >= threshold) {
-        if (diffX < 0) {
-          goNext();
-        } else {
-          goPrev();
-        }
+      var threshold = Math.max(SWIPE_THRESHOLD_PX, (container.offsetWidth || 1) * SWIPE_RATIO);
+      if (Math.abs(dx) >= threshold) {
+        dx < 0 ? goNext() : goPrev();
       } else {
-        setTranslate(currentTrackIndex, true);
+        setTranslate(current, true);
       }
-
       startAutoplay();
     }
 
     container.addEventListener('pointerup', handlePointerEnd);
     container.addEventListener('pointercancel', handlePointerEnd);
-    container.addEventListener('dragstart', (e) => e.preventDefault());
+    container.addEventListener('dragstart', function(e) { e.preventDefault(); });
 
-    /* ── Initialize ── */
     setTranslate(1, false);
-    updateIndicators(0);
+    updateDots(0);
+    updateMobilePanels(0);
     updateSlideAria(0);
     startAutoplay();
-  })();
+  }
+
+  initHeroBanner();
+  document.addEventListener('astro:page-load', initHeroBanner);
 </script>
