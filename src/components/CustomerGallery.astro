@@ -1,0 +1,501 @@
+---
+import { withBase } from '../utils/paths';
+
+const ROW_1 = [
+  '/images/galeri/gallery-1.jpeg',
+  '/images/galeri/gallery-3.jpeg',
+  '/images/galeri/gallery-5.jpeg',
+  '/images/galeri/gallery-7.jpeg',
+  '/images/galeri/gallery-9.jpeg',
+  '/images/galeri/gallery-11.jpeg',
+  '/images/galeri/gallery-13.jpeg',
+  '/images/galeri/gallery-15.jpeg',
+  '/images/galeri/gallery-17.jpeg',
+  '/images/galeri/gallery-19.jpeg',
+];
+
+const ROW_2 = [
+  '/images/galeri/gallery-2.jpeg',
+  '/images/galeri/gallery-4.jpeg',
+  '/images/galeri/gallery-6.jpeg',
+  '/images/galeri/gallery-8.jpeg',
+  '/images/galeri/gallery-10.jpeg',
+  '/images/galeri/gallery-12.jpeg',
+  '/images/galeri/gallery-14.jpeg',
+  '/images/galeri/gallery-16.jpeg',
+  '/images/galeri/gallery-18.jpeg',
+  '/images/galeri/gallery-20.jpeg',
+];
+
+const row1 = [...ROW_1, ...ROW_1];
+const row2 = [...ROW_2, ...ROW_2];
+---
+
+<section class="cg-root" aria-label="Galeri Pesanan Pelanggan Floragate" data-gallery-section>
+
+  <!-- ── Header: split layout (left text / right stat) ── -->
+  <div class="cg-intro">
+    <div class="cg-intro-left">
+      <p class="cg-label">Galeri Hasil Jadi Pelanggan</p>
+      <h2 class="cg-heading">Karya Asli,<br/>Bukan Foto Stok</h2>
+    </div>
+
+    <div class="cg-intro-right">
+      <p class="cg-body">
+        Dokumentasi asli dari pesanan pelanggan di Floragate Malang. 
+        Rangkaian bunga rapi, segar, dan selalu difoto sebelum diantar ke lokasi tujuan.
+      </p>
+      <div class="cg-stats">
+        <div class="cg-stat">
+          <span class="cg-stat-num">500+</span>
+          <span class="cg-stat-desc">Pesanan terkirim</span>
+        </div>
+        <div class="cg-stat-divider" aria-hidden="true"></div>
+        <div class="cg-stat">
+          <span class="cg-stat-num">4.9★</span>
+          <span class="cg-stat-desc">Rating rata-rata</span>
+        </div>
+        <div class="cg-stat-divider" aria-hidden="true"></div>
+        <div class="cg-stat">
+          <span class="cg-stat-num">3 jam</span>
+          <span class="cg-stat-desc">Pengerjaan cepat</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Two-row marquee ── -->
+  <div class="cg-stage" data-gallery-marquee>
+
+    <!-- Row 1 → right -->
+    <div class="cg-band" data-gallery-row="right">
+      <div class="cg-strip cg-strip--fwd">
+        {row1.map((src, i) => (
+          <div class="cg-tile">
+            <img
+              src={withBase(src)}
+              alt={`Pesanan pelanggan Floragate Malang ${(i % ROW_1.length) + 1}`}
+              loading="lazy"
+              decoding="async"
+              width="260"
+              height="260"
+              class="cg-photo"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Row 2 ← left -->
+    <div class="cg-band" data-gallery-row="left">
+      <div class="cg-strip cg-strip--rev">
+        {row2.map((src, i) => (
+          <div class="cg-tile">
+            <img
+              src={withBase(src)}
+              alt={`Pesanan pelanggan Floragate Malang ${(i % ROW_2.length) + 11}`}
+              loading="lazy"
+              decoding="async"
+              width="260"
+              height="260"
+              class="cg-photo"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Fade edges -->
+    <div class="cg-veil cg-veil--l" aria-hidden="true"></div>
+    <div class="cg-veil cg-veil--r" aria-hidden="true"></div>
+  </div>
+
+  <!-- ── Footer strip ── -->
+  <div class="cg-footer">
+    <span class="cg-footer-line" aria-hidden="true"></span>
+    <a href={withBase('/katalog/')} class="cg-order-link" id="gallery-katalog-cta">
+      Lihat Katalog &amp; Pesan Sekarang
+      <svg viewBox="0 0 20 20" fill="currentColor" class="cg-order-arrow" aria-hidden="true">
+        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+      </svg>
+    </a>
+    <span class="cg-footer-line" aria-hidden="true"></span>
+  </div>
+
+</section>
+
+<style>
+  /* ═══════════════════════════════════════════════════
+     Root section
+  ═══════════════════════════════════════════════════ */
+  .cg-root {
+    background: #f8f4ee;
+    border-top: 1px solid #e2d8c8;
+    padding: 5rem 0 4rem;
+    overflow: hidden;
+  }
+
+  /* ═══════════════════════════════════════════════════
+     Intro: two-column text header
+  ═══════════════════════════════════════════════════ */
+  .cg-intro {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 3rem 4.5rem;
+    align-items: end;
+    max-width: 1200px;
+    margin: 0 auto 3.5rem;
+    padding: 0 2.5rem;
+  }
+
+  /* Left: vertical label + big heading */
+  .cg-intro-left {
+    /* nothing extra */
+  }
+
+  .cg-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #9aab88;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .cg-label::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1.5px;
+    background: #9aab88;
+    flex-shrink: 0;
+  }
+
+  .cg-heading {
+    font-family: var(--font-serif, Georgia, serif);
+    font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    color: #1a2810;
+    margin: 0;
+  }
+
+  /* Right: body copy + stats */
+  .cg-intro-right {
+    padding-bottom: 0.25rem;
+  }
+
+  .cg-body {
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: #5a6348;
+    max-width: 480px;
+    margin-bottom: 2rem;
+  }
+
+  /* Stats row */
+  .cg-stats {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .cg-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .cg-stat-num {
+    font-family: var(--font-serif, Georgia, serif);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #2c3d20;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .cg-stat-desc {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #9aab88;
+    white-space: nowrap;
+  }
+
+  .cg-stat-divider {
+    width: 1px;
+    height: 36px;
+    background: #d5c9b5;
+    flex-shrink: 0;
+  }
+
+  /* ═══════════════════════════════════════════════════
+     Stage (marquee container)
+  ═══════════════════════════════════════════════════ */
+  .cg-stage {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow: hidden;
+    padding: 4px 0;
+  }
+
+  /* ── Fade veil edges ── */
+  .cg-veil {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: clamp(80px, 12vw, 200px);
+    pointer-events: none;
+    z-index: 4;
+  }
+
+  .cg-veil--l {
+    left: 0;
+    background: linear-gradient(to right, #f8f4ee 0%, transparent 100%);
+  }
+
+  .cg-veil--r {
+    right: 0;
+    background: linear-gradient(to left, #f8f4ee 0%, transparent 100%);
+  }
+
+  /* ── Band (one row) ── */
+  .cg-band {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  /* ── Strip (the moving element) ── */
+  .cg-strip {
+    display: flex;
+    gap: 8px;
+    width: max-content;
+    will-change: transform;
+  }
+
+  .cg-strip--fwd {
+    animation: stripFwd 40s linear infinite;
+    animation-play-state: paused;
+  }
+
+  .cg-strip--rev {
+    animation: stripRev 40s linear infinite;
+    animation-play-state: paused;
+  }
+
+  /* JS toggles .is-playing on [data-gallery-row] */
+  [data-gallery-row].is-playing .cg-strip--fwd,
+  [data-gallery-row].is-playing .cg-strip--rev {
+    animation-play-state: running;
+  }
+
+  /* Pause on hover — intentional UX */
+  .cg-stage:hover .cg-strip--fwd,
+  .cg-stage:hover .cg-strip--rev {
+    animation-play-state: paused !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cg-strip--fwd,
+    .cg-strip--rev {
+      animation: none !important;
+    }
+  }
+
+  @keyframes stripFwd {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @keyframes stripRev {
+    from { transform: translateX(-50%); }
+    to   { transform: translateX(0); }
+  }
+
+  /* ── Tiles ── */
+  .cg-tile {
+    flex-shrink: 0;
+    width: clamp(155px, 18vw, 230px);
+  }
+
+  .cg-photo {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 6px;
+    background: #ddd6c8;
+  }
+
+  /* ═══════════════════════════════════════════════════
+     Footer strip
+  ═══════════════════════════════════════════════════ */
+  .cg-footer {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 3rem auto 0;
+    padding: 0 2.5rem;
+  }
+
+  .cg-footer-line {
+    flex: 1;
+    height: 1px;
+    background: #ddd4c0;
+  }
+
+  .cg-order-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #3d4e36;
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 1.5px solid #3d4e36;
+    padding-bottom: 1px;
+    transition: color 0.18s ease, border-color 0.18s ease;
+  }
+
+  .cg-order-link:hover {
+    color: #1a2810;
+    border-color: #1a2810;
+  }
+
+  .cg-order-arrow {
+    width: 15px;
+    height: 15px;
+    transition: transform 0.2s ease;
+  }
+
+  .cg-order-link:hover .cg-order-arrow {
+    transform: translateX(3px);
+  }
+
+  /* ═══════════════════════════════════════════════════
+     Responsive
+  ═══════════════════════════════════════════════════ */
+  @media (max-width: 768px) {
+    .cg-root {
+      padding: 3.5rem 0 3rem;
+    }
+
+    .cg-intro {
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
+      padding: 0 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .cg-heading {
+      font-size: clamp(2.2rem, 10vw, 3rem);
+    }
+
+    .cg-body {
+      margin-bottom: 1.5rem;
+    }
+
+    .cg-stats {
+      gap: 1.1rem;
+    }
+
+    .cg-tile {
+      width: clamp(128px, 36vw, 170px);
+    }
+
+    .cg-tile:nth-child(3n) {
+      width: clamp(108px, 30vw, 148px);
+    }
+
+    .cg-strip--fwd,
+    .cg-strip--rev {
+      animation-duration: 28s;
+    }
+
+    .cg-footer {
+      padding: 0 1.25rem;
+      margin-top: 2rem;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .cg-stats {
+      flex-wrap: wrap;
+      gap: 0.85rem 1.2rem;
+    }
+
+    .cg-stat-divider {
+      display: none;
+    }
+
+    .cg-tile {
+      width: clamp(118px, 40vw, 155px);
+    }
+  }
+</style>
+
+<script>
+  function initCustomerGallery() {
+    var sections = document.querySelectorAll('[data-gallery-section]');
+
+    sections.forEach(function(section) {
+      if (!(section instanceof HTMLElement)) return;
+      if (section.dataset.galleryReady === 'true') return;
+      section.dataset.galleryReady = 'true';
+
+      var rows = Array.from(section.querySelectorAll('[data-gallery-row]'));
+      if (!rows.length) return;
+
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      function playAll() {
+        if (reduceMotion.matches) return;
+        rows.forEach(function(r) { r.classList.add('is-playing'); });
+      }
+
+      function pauseAll() {
+        rows.forEach(function(r) { r.classList.remove('is-playing'); });
+      }
+
+      /* Start animation only when section is ≥10% in viewport */
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) { playAll(); } else { pauseAll(); }
+        });
+      }, { threshold: 0.1 });
+
+      io.observe(section);
+
+      /* Pause when tab is hidden */
+      document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+          pauseAll();
+        } else {
+          var r = section.getBoundingClientRect();
+          if (r.bottom > 0 && r.top < window.innerHeight) playAll();
+        }
+      });
+
+      reduceMotion.addEventListener('change', function() {
+        if (reduceMotion.matches) { pauseAll(); } else { playAll(); }
+      });
+    });
+  }
+
+  initCustomerGallery();
+  document.addEventListener('astro:page-load', initCustomerGallery);
+</script>
+

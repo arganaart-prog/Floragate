@@ -246,7 +246,7 @@ export const ARTICLES: Article[] = [
     author: 'Tim Florist Floragate',
     authorRole: 'Master Florist & Desainer Ucapan',
     content: {
-      lead: 'Mengirim bunga duka cita adalah salah satu cara paling universal untuk menyampaikan rasa simpati dan belasungkawa. Namun, ada sejumlah etika yang perlu diperhatikan agar gestur baik Anda tidak terasa canggung atau menyinggung pihak keluarga yang sedang berduka.',
+      lead: 'Mengirim bunga duka cita adalah salah satu cara paling universal untuk menyampaikan rasa simpati dan belasungkawa. Namun, ada sejumlah etika yang perlu diperhatikan agar gestur baik Anda tidak terasa canggung atau menyinggung keluarga yang sedang berduka.',
       sections: [
         {
           heading: '1. Pilih Warna yang Tenang dan Penuh Hormat',
@@ -271,7 +271,7 @@ export const ARTICLES: Article[] = [
           ]
         }
       ],
-      conclusion: 'Bunga adalah bahasa universal yang melampaui kata-kata. Kirimkan dengan tulus, dan pihak keluarga yang berduka akan merasakan kehangatan kepedulian Anda.'
+      conclusion: 'Bunga adalah bahasa universal yang melampaui kata-kata. Kirimkan dengan tulus, dan keluarga yang berduka akan merasakan kehangatan kepedulian Anda.'
     },
     tags: ['Duka Cita', 'Bunga Belasungkawa', 'Etika Bunga', 'Florist Malang']
   },
@@ -481,7 +481,7 @@ export const ARTICLES: Article[] = [
           ]
         }
       ],
-      conclusion: 'Mengenal tradisi bunga dalam budaya lokal kita adalah cara untuk menghargai kekayaan warisan leluhur. Di Floragate, kami dengan bangga menjadi bagian dari setiap momen bermakna dalam kehidupan Anda.'
+      conclusion: 'Mengenal tradisi bunga dalam budaya lokal kita adalah cara untuk menghargai kekayaan warisan leluhur. Floragate hadir menjadi bagian dari setiap momen bermakna dalam kehidupan Anda.'
     },
     tags: ['Tradisi Bunga', 'Budaya Jawa', 'Upacara Adat', 'Bunga Indonesia']
   },

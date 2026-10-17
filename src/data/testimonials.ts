@@ -33,7 +33,7 @@ export const TESTIMONIALS: Testimonial[] = [
     location: 'Batu',
     product: 'Standing Flower',
     rating: 5,
-    quote: 'Standing flower untuk grand opening toko kami terlihat premium. Pengerjaan cepat, kurir ramah, dan harga transparan dari awal. Recommended!',
+    quote: 'Standing flower untuk grand opening toko baru terlihat sangat premium. Pengerjaan cepat, kurir ramah, dan harga transparan dari awal. Recommended!',
     initials: 'BS',
   },
   {

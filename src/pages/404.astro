@@ -5,126 +5,395 @@ import { withBase } from '../utils/paths';
 
 Astro.response.status = 404;
 
-const title = 'Halaman Tidak Ditemukan';
-const description = 'Halaman yang Anda cari tidak tersedia di Floragate. Kembali ke katalog toko bunga Malang murah dan berkualitas atau hubungi admin Floragate.';
-const whatsappText = 'Halo Floragate, saya membuka halaman yang tidak ditemukan. Bisa bantu arahkan saya ke katalog atau rekomendasi bunga?';
-const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(whatsappText)}`;
-
-const quickLinks = [
-  {
-    label: 'Katalog Bunga',
-    href: '/katalog/',
-    text: 'Lihat pilihan bunga papan, bouquet, standing flower, dan bunga meja.'
-  },
-  {
-    label: 'Cara Pemesanan',
-    href: '/cara-pesan/',
-    text: 'Ikuti alur pemesanan bunga yang cepat dan mudah via WhatsApp.'
-  },
-  {
-    label: 'Kontak Floragate',
-    href: '/kontak/',
-    text: 'Hubungi admin untuk rekomendasi produk atau cek pengiriman.'
-  }
-];
+const title = 'Halaman Tidak Ditemukan - Floragate';
+const description = 'Halaman yang Anda cari tidak tersedia di Floragate. Kembali ke katalog toko bunga Malang atau hubungi admin WhatsApp.';
+const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Halo Floragate, saya membuka halaman yang tidak ditemukan. Bisa bantu arahkan ke halaman yang tepat?')}`;
 ---
 
 <Layout title={title} description={description} robots="noindex, follow" showTestimonials={false}>
-  <section class="relative overflow-hidden bg-clean-ivory">
-    <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-secondary/60 to-transparent"></div>
-    <div class="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-soft-cream to-transparent"></div>
 
-    <div class="mx-auto grid min-h-[calc(100vh-9rem)] max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-[1.03fr_0.97fr] lg:px-8 lg:py-24">
-      <div class="max-w-2xl">
-        <div class="mb-6 inline-flex items-center gap-3 rounded-full border border-secondary/30 bg-white/80 px-4 py-2 text-xs font-semibold text-primary shadow-xs">
-          <span class="h-2 w-2 rounded-full bg-secondary"></span>
-          Jalur halaman tidak ditemukan
-        </div>
+  <div class="e404-root">
 
-        <p class="font-serif text-[5.5rem] font-bold leading-none text-primary sm:text-[7rem] lg:text-[8rem]">404</p>
-        <h1 class="mt-4 font-serif text-3xl font-bold leading-tight text-slate-900 sm:text-5xl">
-          Halaman ini belum mekar di Floragate.
+    <!-- Left column: editorial content -->
+    <div class="e404-left">
+
+      <!-- Ambient number - decorative, not semantic -->
+      <div class="e404-num" aria-hidden="true">404</div>
+
+      <div class="e404-content">
+        <p class="e404-eyebrow">Halaman tidak ditemukan</p>
+        <h1 class="e404-title">
+          Tampaknya bunga ini<br />sudah dipindah ke tempat lain.
         </h1>
-        <p class="mt-5 max-w-xl text-sm leading-7 text-slate-600 sm:text-base">
-          Link yang Anda buka mungkin sudah berubah, salah ketik, atau produknya sedang kami rapikan. Anda tetap bisa lanjut mencari karangan bunga Malang yang murah, berkualitas, dan siap dipesan cepat.
+        <p class="e404-body">
+          URL yang Anda buka sudah berubah, salah ketik, atau halaman 
+          produk sedang diperbarui. Anda masih bisa menemukan 
+          karangan bunga terbaik dari Floragate melalui tautan di bawah.
         </p>
 
-        <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <a
-            href={withBase('/katalog/')}
-            class="inline-flex items-center justify-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary-dark hover:shadow-lg focus:outline-hidden"
-          >
-            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h10" />
-            </svg>
+        <!-- Primary actions -->
+        <div class="e404-actions">
+          <a href={withBase('/katalog/')} class="e404-btn e404-btn--primary" id="e404-katalog-btn">
             Lihat Katalog
           </a>
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center justify-center gap-2 rounded-full bg-secondary px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-secondary-dark hover:shadow-lg focus:outline-hidden"
-          >
-            <svg class="h-4 w-4 fill-current" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.965C16.588 2.02 14.12 1.022 11.5 1.022c-5.438 0-9.863 4.372-9.867 9.802-.001 1.73.473 3.42 1.37 4.947l-.994 3.63 3.734-.967c1.554.84 3.123 1.282 4.304 1.282zm11.304-6.858c-.31-.155-1.838-.895-2.122-.997-.284-.102-.49-.153-.696.155-.205.308-.796.997-.975 1.199-.179.203-.359.227-.669.073-.31-.155-1.31-.476-2.494-1.516-.922-.811-1.545-1.812-1.725-2.12-.179-.31-.018-.478.137-.631.14-.139.31-.359.464-.539.155-.179.206-.308.31-.513.102-.206.051-.385-.026-.539-.077-.154-.696-1.649-.953-2.263-.25-.596-.503-.515-.69-.525l-.59-.01c-.206 0-.54.077-.822.385-.282.308-1.079 1.052-1.079 2.565 0 1.513 1.103 2.977 1.257 3.182.155.206 2.17 3.267 5.257 4.569.735.31 1.307.495 1.753.634.739.231 1.412.197 1.944.119.593-.087 1.838-.739 2.095-1.453.258-.713.258-1.325.18-1.453-.077-.128-.283-.205-.593-.36z" />
-            </svg>
-            Tanya Admin
+          <a href={withBase('/')} class="e404-btn e404-btn--ghost" id="e404-home-btn">
+            Kembali ke Beranda
           </a>
         </div>
-      </div>
 
-      <div class="relative">
-        <div class="rounded-lg border border-soft-cream/80 bg-white/95 p-5 shadow-[0_24px_70px_rgba(63,75,55,0.13)] sm:p-7">
-          <div class="flex items-center justify-between gap-4 border-b border-soft-cream/70 pb-5">
-            <div class="flex items-center gap-4">
-              <div class="flex h-14 w-14 items-center justify-center rounded-md bg-clean-ivory ring-1 ring-soft-cream/80">
-                <img src={withBase('/images/logo/logo%20Floragate%201.png')} alt="Floragate" class="h-11 w-auto object-contain" loading="eager" decoding="async" fetchpriority="high" />
-              </div>
-              <div>
-                <p class="text-xs font-semibold uppercase text-secondary">Floragate Assist</p>
-                <p class="mt-1 text-sm font-bold text-slate-800">Rute cepat untuk lanjut pesan</p>
-              </div>
-            </div>
-            <span class="rounded-full bg-primary/10 px-3 py-1 text-xs font-bold text-primary">404</span>
-          </div>
-
-          <div class="py-5">
-            <div class="rounded-md bg-clean-ivory/70 px-4 py-4 text-sm text-slate-600 ring-1 ring-soft-cream/70">
-              <p class="font-semibold text-slate-800">Halaman tujuan tidak tersedia.</p>
-              <p class="mt-1 text-xs leading-6">Pilih salah satu jalur berikut untuk kembali ke layanan Floragate.</p>
-            </div>
-          </div>
-
-          <div class="divide-y divide-soft-cream/70 border-y border-soft-cream/70">
-            {quickLinks.map((item) => (
-              <a href={withBase(item.href)} class="group flex items-start justify-between gap-4 py-4 transition-colors hover:text-primary">
-                <span>
-                  <span class="block text-sm font-bold text-slate-800 transition-colors group-hover:text-primary">{item.label}</span>
-                  <span class="mt-1 block text-xs leading-5 text-slate-500">{item.text}</span>
-                </span>
-                <svg class="mt-1 h-4 w-4 flex-none text-secondary transition-transform group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6" />
-                </svg>
+        <!-- Quick nav -->
+        <nav class="e404-nav" aria-label="Navigasi cepat dari halaman 404">
+          <p class="e404-nav-label">Atau langsung ke:</p>
+          <ul class="e404-nav-list">
+            <li>
+              <a href={withBase('/kategori/hand-bouquet-malang/')} class="e404-nav-link">
+                Hand Bouquet
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8h10M9 4l4 4-4 4"/></svg>
               </a>
-            ))}
-          </div>
-
-          <div class="mt-5 grid grid-cols-3 gap-3 text-center">
-            <div class="rounded-md bg-primary/5 px-3 py-3">
-              <p class="font-serif text-lg font-bold text-primary">3 Jam</p>
-              <p class="mt-1 text-[11px] text-slate-500">Pengerjaan</p>
-            </div>
-            <div class="rounded-md bg-secondary/10 px-3 py-3">
-              <p class="font-serif text-lg font-bold text-primary">Gratis</p>
-              <p class="mt-1 text-[11px] text-slate-500">Ongkir kota</p>
-            </div>
-            <div class="rounded-md bg-primary/5 px-3 py-3">
-              <p class="font-serif text-lg font-bold text-primary">Segar</p>
-              <p class="mt-1 text-[11px] text-slate-500">Bunganya</p>
-            </div>
-          </div>
-        </div>
+            </li>
+            <li>
+              <a href={withBase('/kategori/bunga-papan-malang/')} class="e404-nav-link">
+                Bunga Papan
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8h10M9 4l4 4-4 4"/></svg>
+              </a>
+            </li>
+            <li>
+              <a href={withBase('/kategori/standing-flower-malang/')} class="e404-nav-link">
+                Standing Flower
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8h10M9 4l4 4-4 4"/></svg>
+              </a>
+            </li>
+            <li>
+              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" class="e404-nav-link e404-nav-link--wa">
+                Tanya via WhatsApp
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8h10M9 4l4 4-4 4"/></svg>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
-  </section>
+
+    <!-- Right column: botanical visual -->
+    <div class="e404-right" aria-hidden="true">
+      <div class="e404-visual">
+        <!-- Layered circles -->
+        <div class="e404-circle e404-circle--outer"></div>
+        <div class="e404-circle e404-circle--mid"></div>
+        <div class="e404-circle e404-circle--inner"></div>
+        <!-- Botanical SVG illustration -->
+        <svg class="e404-botanical" viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- stem -->
+          <path d="M100 240 C100 200 100 170 100 130" stroke="#8aab6e" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- left branch -->
+          <path d="M100 185 C85 175 70 165 55 160" stroke="#8aab6e" stroke-width="2" stroke-linecap="round"/>
+          <path d="M55 160 C60 152 68 148 75 150 C70 158 62 162 55 160Z" fill="#b5c9a0" opacity="0.8"/>
+          <!-- right branch -->
+          <path d="M100 170 C115 158 130 150 148 148" stroke="#8aab6e" stroke-width="2" stroke-linecap="round"/>
+          <path d="M148 148 C145 138 138 134 130 137 C134 145 141 150 148 148Z" fill="#b5c9a0" opacity="0.8"/>
+          <!-- main flower petals -->
+          <ellipse cx="100" cy="100" rx="18" ry="26" fill="#e8b4b8" opacity="0.85" transform="rotate(-25 100 100)"/>
+          <ellipse cx="100" cy="100" rx="18" ry="26" fill="#e8b4b8" opacity="0.85" transform="rotate(25 100 100)"/>
+          <ellipse cx="100" cy="100" rx="18" ry="26" fill="#d4919a" opacity="0.75" transform="rotate(70 100 100)"/>
+          <ellipse cx="100" cy="100" rx="18" ry="26" fill="#d4919a" opacity="0.75" transform="rotate(-70 100 100)"/>
+          <ellipse cx="100" cy="100" rx="18" ry="26" fill="#e8b4b8" opacity="0.7" transform="rotate(0 100 100)"/>
+          <!-- flower centre -->
+          <circle cx="100" cy="100" r="14" fill="#f5e6c8"/>
+          <circle cx="100" cy="100" r="9" fill="#e8c98a"/>
+          <circle cx="100" cy="100" r="5" fill="#c8a060"/>
+          <!-- small accent flower left -->
+          <circle cx="62" cy="88" r="10" fill="#c8ddb5" opacity="0.6"/>
+          <circle cx="62" cy="88" r="6" fill="#a8c49a" opacity="0.8"/>
+          <circle cx="62" cy="88" r="3" fill="#8aab6e"/>
+          <!-- small accent flower right -->
+          <circle cx="140" cy="82" r="8" fill="#f0cdd5" opacity="0.7"/>
+          <circle cx="140" cy="82" r="5" fill="#e0aab5" opacity="0.85"/>
+          <circle cx="140" cy="82" r="2.5" fill="#c4808e"/>
+          <!-- floating dots -->
+          <circle cx="72" cy="60" r="3" fill="#d4919a" opacity="0.4"/>
+          <circle cx="135" cy="65" r="2" fill="#8aab6e" opacity="0.5"/>
+          <circle cx="120" cy="115" r="2.5" fill="#e8c98a" opacity="0.45"/>
+          <circle cx="78" cy="118" r="2" fill="#c8ddb5" opacity="0.55"/>
+        </svg>
+      </div>
+    </div>
+
+  </div>
+
 </Layout>
+
+<style>
+  /* --------------------------------------------------------------------------`n        Page root: full-viewport two-column`n   -------------------------------------------------------------------------- */
+  .e404-root {
+    min-height: calc(100dvh - 80px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #f7f3ed;
+  }
+
+  /* --------------------------------------------------------------------------`n        Left column`n   -------------------------------------------------------------------------- */
+  .e404-left {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 4rem 5rem 6%;
+    overflow: hidden;
+    border-right: 1px solid #e2d8c8;
+  }
+
+  /* Ghost 404 number behind content */
+  .e404-num {
+    position: absolute;
+    top: -0.1em;
+    left: -0.08em;
+    font-family: var(--font-serif, Georgia, serif);
+    font-size: clamp(10rem, 22vw, 18rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.06em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(138, 171, 110, 0.18);
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+
+  .e404-content {
+    position: relative;
+    z-index: 1;
+    max-width: 520px;
+  }
+
+  .e404-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #9aab88;
+    margin-bottom: 1.25rem;
+  }
+
+  .e404-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1.5px;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+
+  .e404-title {
+    font-family: var(--font-serif, Georgia, serif);
+    font-size: clamp(1.8rem, 3.2vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.18;
+    letter-spacing: -0.025em;
+    color: #1a2810;
+    margin: 0 0 1.1rem;
+  }
+
+  .e404-body {
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: #5a6348;
+    margin-bottom: 2.25rem;
+    max-width: 440px;
+  }
+
+  /* -- Actions -- */
+  .e404-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.75rem;
+  }
+
+  .e404-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    border-radius: 6px;
+    padding: 0.65rem 1.5rem;
+    text-decoration: none;
+    transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+  }
+
+  .e404-btn--primary {
+    background: #3d4e36;
+    color: #fff;
+    box-shadow: 0 2px 10px rgba(61, 78, 54, 0.22);
+  }
+
+  .e404-btn--primary:hover {
+    background: #2c3a27;
+    transform: translateY(-1px);
+  }
+
+  .e404-btn--ghost {
+    background: transparent;
+    color: #3d4e36;
+    border: 1.5px solid #c4baa8;
+  }
+
+  .e404-btn--ghost:hover {
+    border-color: #3d4e36;
+    background: rgba(61, 78, 54, 0.05);
+  }
+
+  /* -- Quick nav -- */
+  .e404-nav {
+    border-top: 1px solid #ddd4c0;
+    padding-top: 1.5rem;
+  }
+
+  .e404-nav-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #b0a690;
+    margin-bottom: 0.85rem;
+  }
+
+  .e404-nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .e404-nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.65rem 0;
+    font-size: 0.855rem;
+    font-weight: 600;
+    color: #3d4e36;
+    text-decoration: none;
+    border-bottom: 1px solid #ece6d8;
+    transition: color 0.15s ease, padding-left 0.15s ease;
+  }
+
+  .e404-nav-link:last-child {
+    border-bottom: none;
+  }
+
+  .e404-nav-link:hover {
+    color: #1a2810;
+    padding-left: 4px;
+  }
+
+  .e404-nav-link svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    opacity: 0.5;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+
+  .e404-nav-link:hover svg {
+    opacity: 1;
+    transform: translateX(2px);
+  }
+
+  .e404-nav-link--wa {
+    color: #1a6a3a;
+  }
+
+  /* --------------------------------------------------------------------------`n        Right column: botanical visual`n   -------------------------------------------------------------------------- */
+  .e404-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f0ebe0 0%, #e8e0d0 100%);
+    padding: 3rem;
+  }
+
+  .e404-visual {
+    position: relative;
+    width: min(400px, 80%);
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Layered circles */
+  .e404-circle {
+    position: absolute;
+    border-radius: 50%;
+  }
+
+  .e404-circle--outer {
+    inset: 0;
+    border: 1.5px solid rgba(138, 171, 110, 0.16);
+    background: rgba(245, 240, 230, 0.5);
+  }
+
+  .e404-circle--mid {
+    inset: 12%;
+    border: 1px solid rgba(138, 171, 110, 0.12);
+    background: rgba(250, 246, 240, 0.6);
+  }
+
+  .e404-circle--inner {
+    inset: 26%;
+    background: rgba(255, 252, 248, 0.9);
+    border: 1px solid rgba(210, 195, 172, 0.3);
+  }
+
+  .e404-botanical {
+    position: relative;
+    z-index: 1;
+    width: 52%;
+    height: auto;
+    filter: drop-shadow(0 8px 24px rgba(60, 50, 30, 0.12));
+  }
+
+  /* --------------------------------------------------------------------------`n        Responsive`n   -------------------------------------------------------------------------- */
+  @media (max-width: 900px) {
+    .e404-root {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .e404-right {
+      display: none; /* hide illustration on smaller screens */
+    }
+
+    .e404-left {
+      border-right: none;
+      border-bottom: 1px solid #e2d8c8;
+      padding: 4rem 1.5rem 4rem;
+      align-items: flex-start;
+    }
+
+    .e404-num {
+      font-size: clamp(8rem, 30vw, 12rem);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .e404-left {
+      padding: 3rem 1.25rem 3.5rem;
+    }
+
+    .e404-actions {
+      flex-direction: column;
+    }
+
+    .e404-btn {
+      justify-content: center;
+    }
+  }
+</style>

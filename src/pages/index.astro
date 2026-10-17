@@ -51,6 +51,7 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
           </div>
           <div>
             <h4 class="text-xs sm:text-sm font-bold text-slate-900 leading-tight">Difoto sebelum diantar</h4>
+
             <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5 leading-tight">Laporan foto hasil jadi sebelum dikirim</p>
           </div>
         </div>
@@ -62,8 +63,8 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
             </svg>
           </div>
           <div>
-            <h4 class="text-xs sm:text-sm font-bold text-slate-900 leading-tight">Pengerjaan cepat 3 jam</h4>
-            <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5 leading-tight">Bisa pesan dadakan untuk hari ini</p>
+            <h4 class="text-xs sm:text-sm font-bold text-slate-900 leading-tight">Selesai 3 jam, siap hari ini</h4>
+            <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5 leading-tight">Bisa pesan dadakan, tidak perlu jauh-jauh hari</p>
           </div>
         </div>
 
@@ -74,8 +75,8 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
             </svg>
           </div>
           <div>
-            <h4 class="text-xs sm:text-sm font-bold text-slate-900 leading-tight">Florist lokal Malang</h4>
-            <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5 leading-tight">Bunga segar dirangkai tim profesional</p>
+            <h4 class="text-xs sm:text-sm font-bold text-slate-900 leading-tight">Bunga Segar Pilihan</h4>
+            <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5 leading-tight">Rangkaian rapi dari bunga berkualitas</p>
           </div>
         </div>
 
@@ -87,7 +88,7 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
           </div>
           <div>
             <h4 class="text-xs sm:text-sm font-bold text-slate-900 leading-tight">Gratis ongkir Malang Kota</h4>
-            <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5 leading-tight">Bebas biaya kirim dengan kurir khusus</p>
+            <p class="text-[11px] sm:text-xs text-slate-500 mt-0.5 leading-tight">Tanpa minimal order, langsung diantar ke lokasi</p>
           </div>
         </div>
       </div>
@@ -99,8 +100,8 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
   <section class="category-transition-section relative py-20 bg-white">
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center max-w-2xl mx-auto mb-16">
-        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-slate-800">Kategori Bunga Pilihan</h2>
-        <p class="text-slate-500 text-sm mt-3 leading-relaxed">Temukan karangan bunga yang tepat untuk mendampingi setiap momen penting Anda, dari rasa duka hingga ungkapan sukacita.</p>
+        <h2 class="font-serif text-3xl sm:text-4xl font-bold text-slate-800">Pilih Berdasarkan Momen</h2>
+        <p class="text-slate-500 text-sm mt-3 leading-relaxed">Duka cita, pernikahan, wisuda, ulang tahun, grand opening &mdash; ada desain yang pas untuk setiap acara.</p>
       </div>
       
       <CategoryCarousel />
@@ -110,11 +111,12 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
   <!-- Featured Products Section -->
   <section class="featured-products-section py-20 bg-white border-y border-soft-cream/60">
     <div class="featured-products-mobile-band" aria-hidden="true"></div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="featured-products-header flex flex-col md:flex-row md:items-end justify-between mb-12">
+    <div class="max-w-7xl mx-auto">
+      <!-- Header: px hanya di sini -->
+      <div class="featured-products-header flex flex-col md:flex-row md:items-end justify-between mb-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-xl">
-          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-slate-800">Produk Unggulan Terpopuler</h2>
-          <p class="text-slate-500 text-sm mt-3 leading-relaxed">Kumpulan desain karangan bunga yang paling sering dipesan oleh pelanggan kami di Malang untuk berbagai keperluan.</p>
+          <h2 class="font-serif text-3xl sm:text-4xl font-bold text-slate-800">Produk Terlaris Minggu Ini</h2>
+          <p class="text-slate-500 text-sm mt-3 leading-relaxed">Paling banyak dipesan pelanggan di Malang. Desain berganti setiap 3 hari.</p>
         </div>
         <a 
           href={withBase('/katalog/')} 
@@ -127,23 +129,44 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
         </a>
       </div>
       
-      <!-- 8 Featured Products Grid (Rotasi Setiap 3 Hari) -->
-      <div id="featured-products-slider" data-featured-products-slider class="featured-products-slider grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-        {candidateProducts.map((product, index) => {
-          const isActive = activeIndicesSet.has(index);
-          const activePos = activeIndices.indexOf(index);
-          const priority = isActive && activePos < 4;
-          return (
-            <ProductCard
-              product={product}
-              variant="classic"
-              priority={priority}
-              class={isActive ? '' : 'hidden'}
-              hidden={!isActive}
-              data-featured-product-index={index}
-            />
-          );
-        })}
+      <!-- Carousel wrapper: full bleed di mobile -->
+      <div class="featured-products-carousel-wrap">
+        <!-- Fade hint di kanan – mobile only -->
+        <div class="featured-products-fade-hint" aria-hidden="true"></div>
+
+        <!-- 8 Featured Products (Rotasi Setiap 3 Hari) -->
+        <div id="featured-products-slider" data-featured-products-slider class="featured-products-slider grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 px-4 sm:px-6 lg:px-8">
+          {candidateProducts.map((product, index) => {
+            const isActive = activeIndicesSet.has(index);
+            const activePos = activeIndices.indexOf(index);
+            const priority = isActive && activePos < 4;
+            return (
+              <ProductCard
+                product={product}
+                variant="classic"
+                priority={priority}
+                class={isActive ? '' : 'hidden'}
+                hidden={!isActive}
+                data-featured-product-index={index}
+              />
+            );
+          })}
+        </div>
+      </div>
+
+      <!-- Dot indicator + CTA – mobile only -->
+      <div class="featured-products-mobile-footer md:hidden px-4">
+        <div id="fp-dots" class="fp-dots" aria-hidden="true"></div>
+        <a
+          href={withBase('/katalog/')}
+          class="fp-lihat-semua"
+          aria-label="Lihat semua produk di katalog"
+        >
+          Lihat Semua
+          <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
       </div>
     </div>
   </section>
@@ -190,57 +213,86 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
       .category-transition-section .text-center {
         margin-bottom: 2rem;
       }
+
+      /* ── Featured Products – Mobile Marketplace Carousel ─────── */
       .featured-products-section {
-        padding-top: 2.5rem;
-        padding-bottom: 2.75rem;
-        background: #f8f5ef;
-        border-color: rgba(234, 219, 198, 0.55);
+        padding-top: 2rem;
+        padding-bottom: 2.5rem;
+        background: linear-gradient(160deg, #faf7f2 0%, #f5f0e8 100%);
+        border-color: rgba(234, 219, 198, 0.6);
       }
 
+      /* Accent bar */
       .featured-products-mobile-band {
         display: block;
         width: 100%;
-        height: 2rem;
-        margin-bottom: 1rem;
-        background: var(--color-primary);
-        opacity: 0.05;
+        height: 3px;
+        margin-bottom: 1.25rem;
+        background: linear-gradient(90deg, var(--color-primary) 0%, #8aab6e 55%, transparent 100%);
+        opacity: 0.5;
       }
 
+      /* Header */
       .featured-products-header {
         display: block;
-        margin-bottom: 2rem;
-        text-align: center;
+        margin-bottom: 1.25rem;
+        text-align: left;
       }
 
       .featured-products-header h2 {
-        font-size: clamp(1.7rem, 7.2vw, 2.1rem);
-        line-height: 1.08;
+        font-size: clamp(1.45rem, 6vw, 1.75rem);
+        line-height: 1.12;
+        letter-spacing: -0.01em;
       }
 
       .featured-products-header p {
-        max-width: 21rem;
-        margin-inline: auto;
-        font-size: 0.86rem;
+        max-width: 100%;
+        font-size: 0.81rem;
+        margin-top: 0.35rem;
+        line-height: 1.55;
+        color: #6b7280;
       }
 
+      /* ── Carousel wrapper: full bleed ────────────────────────── */
+      .featured-products-carousel-wrap {
+        position: relative;
+      }
+
+      /* Fade gradient hint di tepi kanan */
+      .featured-products-fade-hint {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 52px;
+        background: linear-gradient(to left, #f5f0e8 0%, transparent 100%);
+        pointer-events: none;
+        z-index: 2;
+        border-radius: 0 14px 14px 0;
+      }
+
+      /* ── Horizontal scroll carousel ─────────────────────────── */
       .featured-products-slider {
         display: flex;
-        align-items: flex-start;
+        flex-direction: row;
+        align-items: stretch;
         gap: 12px;
-        margin-inline: -1rem;
-        padding: 0.5rem 1rem 0.75rem;
+        padding: 6px 1rem 10px;
         overflow-x: auto;
         overflow-y: visible;
         scroll-behavior: smooth;
-        scroll-padding-inline: 1rem;
         scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
+        /* Extend scroll area untuk peek effect */
+        margin-inline: 0;
       }
 
       .featured-products-slider::-webkit-scrollbar {
         display: none;
       }
 
+      /* Sembunyikan hidden cards */
       .featured-products-slider .classic-product-card.hidden,
       .featured-products-slider .classic-product-card[hidden],
       .classic-product-card.hidden,
@@ -248,131 +300,231 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
         display: none !important;
       }
 
+      /* ── Card: lebar 72% viewport = peek card berikutnya ─────── */
       .featured-products-slider .classic-product-card {
-        flex: 0 0 calc((100% - 24px) / 3);
-        min-width: calc((100% - 24px) / 3);
+        flex: 0 0 72vw;
+        max-width: 280px;
+        min-width: 0;
         display: flex;
         flex-direction: column;
-        align-self: flex-start;
         height: auto;
-        min-height: 0;
-        content-visibility: visible;
-        contain-intrinsic-size: none;
-        border: 2px solid #e7dcc5;
-        border-radius: 12px;
-        box-shadow: 0 5px 16px rgba(15, 23, 42, 0.06);
+        border: 1.5px solid #e8ddc8;
+        border-radius: 16px;
+        background: #fff;
+        box-shadow:
+          0 2px 12px rgba(15, 23, 42, 0.05),
+          0 10px 28px rgba(85, 101, 75, 0.08);
+        overflow: hidden;
         scroll-snap-align: start;
+        scroll-snap-stop: always;
+        transition: transform 0.22s ease, box-shadow 0.22s ease;
+        will-change: transform;
       }
 
-      .featured-products-slider .classic-product-card:hover {
-        transform: none;
+      .featured-products-slider .classic-product-card:active {
+        transform: scale(0.97);
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
       }
 
+      /* Gambar – lebih tinggi agar visual dominan */
       .featured-products-slider .classic-product-image {
-        flex: 0 0 auto;
-        aspect-ratio: 1 / 1.08;
-        border-bottom: 1px solid #efe4cf;
+        display: block;
+        width: 100%;
+        aspect-ratio: 4 / 3.8;
+        border-bottom: 1px solid #ede3d0;
+        overflow: hidden;
+        background: #f3ede3;
+        flex-shrink: 0;
       }
 
+      .featured-products-slider .classic-product-image img {
+        transition: transform 0.4s ease;
+      }
+
+      /* Badge */
       .featured-products-slider .classic-product-badges {
-        top: 6px;
-        right: 6px;
-        left: 6px;
-        max-width: none;
-        justify-content: space-between;
-        gap: 4px;
+        top: 8px;
+        left: 8px;
+        right: auto;
+        max-width: calc(100% - 16px);
+        gap: 5px;
       }
 
       .featured-products-slider .classic-product-badges span {
-        max-width: 48%;
-        overflow: hidden;
-        padding: 2px 5px;
+        padding: 3px 8px;
         border-radius: 999px;
-        font-size: 8px;
-        line-height: 1.05;
-        letter-spacing: 0.02em;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        font-size: 9.5px;
+        line-height: 1.2;
+        letter-spacing: 0.04em;
+        font-weight: 700;
       }
 
+      /* Info area – compact, no min-height */
       .featured-products-slider .classic-product-info {
-        flex: 0 0 auto;
-        height: auto;
-        min-height: 0;
-        padding: 0.38rem 0.45rem 0.55rem;
-        text-align: center;
+        padding: 0.65rem 0.8rem 0.75rem;
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        /* override Tailwind min-h dari komponen */
+        min-height: 0 !important;
+        flex: none;
       }
 
-      .featured-products-slider .classic-product-category,
-      .featured-products-slider .classic-product-price-label {
-        display: none;
+      /* Kategori */
+      .featured-products-slider .classic-product-category {
+        display: block;
+        font-size: 9.5px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #8aab6e;
+        line-height: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 0.25rem;
       }
 
+      /* Judul */
       .featured-products-slider .classic-product-title {
         display: -webkit-box;
-        height: 2.55em;
-        min-height: 2.5em;
-        max-height: 2.55em;
         overflow: hidden;
-        overflow-wrap: anywhere;
-        font-family: var(--font-sans), system-ui, sans-serif;
-        font-size: 11px;
-        font-weight: 700;
-        line-height: 1.15;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 2;
+        font-family: var(--font-serif), Georgia, serif;
+        font-size: 13.5px;
+        font-weight: 700;
+        line-height: 1.35;
+        color: #1e293b;
+        letter-spacing: -0.01em;
+        overflow-wrap: break-word;
+        margin-bottom: 0.55rem;
       }
 
+      /* Area harga – langsung menempel setelah judul */
       .featured-products-slider .classic-product-price-wrap {
-        padding-top: 0.4rem;
+        padding-top: 0;
+        margin-top: 0;
       }
 
       .featured-products-slider .classic-product-price-box {
-        margin-top: 0;
-        padding: 0;
-        border: 0;
-        background: transparent;
+        padding: 0.4rem 0.6rem;
+        border: 1px solid rgba(234, 219, 198, 0.9);
+        border-radius: 10px;
+        background: linear-gradient(135deg, rgba(249, 246, 240, 0.98) 0%, rgba(244, 238, 228, 0.98) 100%);
+      }
+
+      /* Label Harga */
+      .featured-products-slider .classic-product-price-label {
+        display: block;
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #9aab8e;
+        margin-bottom: 2px;
+        line-height: 1;
       }
 
       .featured-products-slider .classic-product-price-row {
         display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.45rem;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px;
       }
 
+      /* Harga */
       .featured-products-slider .classic-product-price {
-        overflow: hidden;
+        font-size: 15px;
+        font-weight: 800;
         color: var(--color-primary);
-        font-size: 12px;
-        line-height: 1.1;
-        text-align: center;
-        text-overflow: ellipsis;
         white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.1;
       }
 
+      /* Tombol Detail */
       .featured-products-slider .classic-product-detail {
-        width: 100%;
-        min-height: 42px;
-        padding: 0.65rem 0.5rem;
+        flex-shrink: 0;
+        width: auto;
+        min-height: 0;
+        padding: 0.38rem 0.8rem;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        box-shadow: 0 4px 12px rgba(85, 101, 75, 0.22);
+        line-height: 1.2;
+      }
+
+      /* ── Footer: dots + link ────────────────────────────────── */
+      .featured-products-mobile-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 1rem;
+        gap: 0.75rem;
+      }
+
+      /* Dot indicator */
+      .fp-dots {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        flex: 1;
+      }
+
+      .fp-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 999px;
+        background: #d5cab6;
+        transition: width 0.28s ease, background 0.28s ease;
+        flex-shrink: 0;
+      }
+
+      .fp-dot.active {
+        width: 18px;
+        background: var(--color-primary);
+      }
+
+      /* Lihat Semua link */
+      .fp-lihat-semua {
         display: inline-flex;
         align-items: center;
-        justify-content: center;
-        border-radius: 6px;
-        box-shadow: none;
-        font-size: 11px;
-        line-height: 1;
+        gap: 0.3rem;
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: var(--color-primary);
+        text-decoration: none;
+        letter-spacing: 0.02em;
+        white-space: nowrap;
+        padding: 0.4rem 0.85rem;
+        border-radius: 999px;
+        border: 1.5px solid var(--color-primary);
+        transition: background 0.18s, color 0.18s;
+      }
+
+      .fp-lihat-semua:active {
+        background: var(--color-primary);
+        color: #fff;
       }
     }
 
     @media (max-width: 380px) {
-      .featured-products-slider .classic-product-title {
-        font-size: 10.5px;
+      .featured-products-slider .classic-product-card {
+        flex: 0 0 78vw;
       }
 
-      .featured-products-slider .classic-product-price,
-      .featured-products-slider .classic-product-detail {
-        font-size: 10.5px;
+      .featured-products-slider .classic-product-title {
+        font-size: 13px;
+      }
+
+      .featured-products-slider .classic-product-price {
+        font-size: 14px;
       }
     }
   </style>
@@ -417,6 +569,80 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
         var reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
         var intervalId = 0;
 
+        /* ── Dot Indicator ─────────────────────────────────────── */
+        var dotsContainer = document.getElementById('fp-dots');
+
+        function getVisibleCards() {
+          return Array.from(slider.querySelectorAll('.classic-product-card')).filter(function(card) {
+            return !card.classList.contains('hidden') && !card.hasAttribute('hidden');
+          });
+        }
+
+        function buildDots() {
+          if (!dotsContainer || !mobileQuery.matches) return;
+          dotsContainer.innerHTML = '';
+          var cards = getVisibleCards();
+          cards.forEach(function(_, i) {
+            var dot = document.createElement('span');
+            dot.className = 'fp-dot' + (i === 0 ? ' active' : '');
+            dot.setAttribute('aria-hidden', 'true');
+            dotsContainer.appendChild(dot);
+          });
+        }
+
+        function updateActiveDot() {
+          if (!dotsContainer || !mobileQuery.matches) return;
+          var cards = getVisibleCards();
+          if (!cards.length) return;
+
+          /* Cari card yang paling terlihat di viewport slider */
+          var sliderLeft = slider.getBoundingClientRect().left;
+          var sliderWidth = slider.clientWidth;
+          var bestIdx = 0;
+          var bestOverlap = -1;
+
+          cards.forEach(function(card, i) {
+            var rect = card.getBoundingClientRect();
+            var visLeft = Math.max(rect.left, sliderLeft);
+            var visRight = Math.min(rect.right, sliderLeft + sliderWidth);
+            var overlap = Math.max(0, visRight - visLeft);
+            if (overlap > bestOverlap) {
+              bestOverlap = overlap;
+              bestIdx = i;
+            }
+          });
+
+          var dots = dotsContainer.querySelectorAll('.fp-dot');
+          dots.forEach(function(dot, i) {
+            dot.classList.toggle('active', i === bestIdx);
+          });
+        }
+
+        /* Rebuild dots setelah card visible berubah */
+        function reinitDots() {
+          buildDots();
+          updateActiveDot();
+        }
+
+        /* Update dot on scroll (throttled) */
+        var scrollTicking = false;
+        slider.addEventListener('scroll', function() {
+          if (!scrollTicking) {
+            window.requestAnimationFrame(function() {
+              updateActiveDot();
+              scrollTicking = false;
+            });
+            scrollTicking = true;
+          }
+        }, { passive: true });
+
+        /* Rebuild saat breakpoint berubah */
+        mobileQuery.addEventListener('change', function() {
+          reinitDots();
+          startAutoSlide();
+        });
+
+        /* ── Auto Slide ──────────────────────────────────────────── */
         function stopAutoSlide() {
           if (!intervalId) return;
           window.clearInterval(intervalId);
@@ -428,9 +654,7 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
           if (!mobileQuery.matches || reduceMotionQuery.matches) return;
 
           intervalId = window.setInterval(function() {
-            var visibleCards = Array.from(slider.querySelectorAll('.classic-product-card')).filter(function(card) {
-              return !card.classList.contains('hidden') && !card.hasAttribute('hidden') && card.style.display !== 'none';
-            });
+            var visibleCards = getVisibleCards();
             var card = visibleCards[0];
             if (!card) return;
 
@@ -440,10 +664,10 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
 
             window.setTimeout(function() {
               if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 15) {
-                slider.scrollLeft = 0;
+                slider.scrollTo({ left: 0, behavior: 'smooth' });
               }
             }, 600);
-          }, 2600);
+          }, 3200);
         }
 
         slider.addEventListener('mouseenter', stopAutoSlide);
@@ -451,17 +675,17 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
         slider.addEventListener('focusin', stopAutoSlide);
         slider.addEventListener('focusout', startAutoSlide);
         slider.addEventListener('touchstart', stopAutoSlide, { passive: true });
-        slider.addEventListener('touchend', startAutoSlide, { passive: true });
-        mobileQuery.addEventListener('change', startAutoSlide);
+        slider.addEventListener('touchend', function() {
+          /* Tunda restart auto-slide agar user sempat baca card */
+          window.setTimeout(startAutoSlide, 3000);
+        }, { passive: true });
         reduceMotionQuery.addEventListener('change', startAutoSlide);
         document.addEventListener('visibilitychange', function() {
-          if (document.hidden) {
-            stopAutoSlide();
-          } else {
-            startAutoSlide();
-          }
+          if (document.hidden) { stopAutoSlide(); } else { startAutoSlide(); }
         });
 
+        /* Init */
+        reinitDots();
         startAutoSlide();
       });
     }
@@ -563,7 +787,7 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
           <span class="text-secondary text-xs font-semibold uppercase tracking-widest block mb-2">Area Layanan Florist</span>
           <h2 class="font-serif text-3xl sm:text-4xl font-bold leading-tight">Pengiriman Karangan Bunga Area Malang Raya & Batu</h2>
           <p class="text-slate-300 text-sm mt-4 leading-relaxed">
-            Floragate melayani pemesanan dan pengantaran bunga untuk wilayah Malang Raya secara menyeluruh. Dengan kurir lokal berpengalaman, kami memastikan karangan bunga Anda tiba tepat waktu dan dalam kondisi prima di lokasi tujuan.
+            Floragate melayani pemesanan dan pengantaran bunga untuk wilayah Malang Raya secara menyeluruh. Didukung kurir lokal berpengalaman, karangan bunga dipastikan tiba tepat waktu dan dalam kondisi prima di lokasi tujuan.
           </p>
           <div class="grid grid-cols-2 gap-4 mt-8">
             <div class="flex items-center space-x-2 text-sm text-slate-200">
@@ -603,7 +827,7 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
               </svg>
             </div>
             <h3 class="font-serif text-xl font-bold">Punya Pertanyaan Khusus?</h3>
-            <p class="text-xs text-slate-300 max-w-sm mx-auto">Tanyakan pada admin apakah alamat tujuan pengiriman Anda masuk dalam jangkauan gratis ongkos kirim kami.</p>
+            <p class="text-xs text-slate-300 max-w-sm mx-auto">Tanyakan pada admin apakah alamat tujuan pengiriman masuk dalam jangkauan gratis ongkos kirim.</p>
           </div>
           <a 
             href={`https://wa.me/${WHATSAPP_NUMBER}?text=Halo%20Floragate,%20apakah%20pengiriman%20bunga%20ke%20alamat%20[Ketik%20Alamat]%20masuk%20gratis%20ongkir?`} 
