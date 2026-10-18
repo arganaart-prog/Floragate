@@ -31,7 +31,7 @@ const RAW_CATEGORIES: Category[] = [
   {
     slug: "bunga-papan-duka-cita-malang",
     name: "Bunga Papan Duka Cita",
-    description: "Ungkapan bela sungkawa terdalam dengan karangan bunga papan elegan, tenang, dan terhormat.",
+    description: "Karangan bunga papan duka cita dengan tata huruf rapi dan nuansa teduh untuk ungkapan belasungkawa.",
     seoTitle: "Bunga Papan Duka Cita Malang Murah & Berkualitas",
     seoDescription: "Pesan bunga papan duka cita Malang murah dan berkualitas di Floragate. Rangkaian elegan, bunga segar, proses cepat 3 jam, dan gratis ongkir area Kota Malang.",
     image: "/images/kategori/duka-cita.webp"
@@ -39,7 +39,7 @@ const RAW_CATEGORIES: Category[] = [
   {
     slug: "bunga-papan-wedding-malang",
     name: "Bunga Papan Wedding",
-    description: "Semarakkan momen bahagia pernikahan kerabat Anda dengan bunga papan bernuansa ceria dan mewah.",
+    description: "Karangan bunga papan pernikahan dengan susunan bunga segar dan warna cerah untuk ucapan selamat menempuh hidup baru.",
     seoTitle: "Bunga Papan Wedding Malang Murah & Berkualitas",
     seoDescription: "Jual bunga papan wedding Malang murah dan berkualitas. Desain elegan, warna menawan, bunga segar, dan pengerjaan cepat oleh florist profesional.",
     image: "/images/kategori/wedding.webp"
@@ -47,7 +47,7 @@ const RAW_CATEGORIES: Category[] = [
   {
     slug: "bunga-papan-congratulations-malang",
     name: "Bunga Papan Congratulations",
-    description: "Apresiasi kesuksesan pembukaan toko, grand opening, kelulusan, atau kenaikan jabatan dengan karangan bunga megah.",
+    description: "Bunga papan ucapan selamat untuk grand opening toko, peresmian kantor cabang, wisuda, dan serah terima jabatan.",
     seoTitle: "Bunga Papan Congratulations Malang Murah & Berkualitas",
     seoDescription: "Kirim bunga papan congratulations Malang murah dan berkualitas untuk grand opening, toko baru, kantor, atau ucapan selamat sukses dengan desain modern.",
     image: "/images/kategori/congratulations.webp"
@@ -55,7 +55,7 @@ const RAW_CATEGORIES: Category[] = [
   {
     slug: "standing-flower-malang",
     name: "Standing Flower",
-    description: "Bunga berdiri eksklusif untuk diletakkan di dalam ruangan, cocok untuk acara formal maupun duka cita.",
+    description: "Rangkaian bunga standing flower untuk diletakkan di area indoor resepsi, lobby gedung kantor, atau rumah duka.",
     seoTitle: "Standing Flower Malang Murah & Berkualitas",
     seoDescription: "Pesan standing flower Malang murah dan berkualitas untuk duka cita, opening, wedding, dan acara formal. Rangkaian segar, elegan, dan pengiriman aman.",
     image: "/images/kategori/standing-flower.webp"
@@ -63,7 +63,7 @@ const RAW_CATEGORIES: Category[] = [
   {
     slug: "hand-bouquet-malang",
     name: "Hand Bouquet",
-    description: "Rangkaian bunga tangan segar nan cantik untuk momen romantis, wisuda, ulang tahun, atau hari ibu.",
+    description: "Buket bunga segar untuk kado wisuda, perayaan ulang tahun, lamaran, dan hari ibu.",
     seoTitle: "Hand Bouquet Malang Murah & Berkualitas",
     seoDescription: "Jual hand bouquet Malang murah dan berkualitas untuk wisuda, lamaran, ulang tahun, Valentine, dan hadiah romantis. Bunga segar, rapi, bisa custom.",
     image: "/images/kategori/hand-bouquet.webp"
@@ -71,7 +71,7 @@ const RAW_CATEGORIES: Category[] = [
   {
     slug: "paper-flower-malang",
     name: "Paper Flower",
-    description: "Kreasi bunga dari kertas berkualitas tinggi yang tahan lama, cocok untuk dekorasi acara, kado spesial, dan pajangan.",
+    description: "Rangkaian bunga kertas tahan lama untuk hadiah wisuda, lamaran, dan hiasan ruangan.",
     seoTitle: "Paper Flower Malang Murah & Berkualitas",
     seoDescription: "Pesan paper flower Malang murah dan berkualitas. Bunga kertas artistik, tahan lama, cantik untuk dekorasi, kado wisuda, lamaran, dan pajangan.",
     image: "/images/kategori/paper-flower.webp"
@@ -79,7 +79,7 @@ const RAW_CATEGORIES: Category[] = [
   {
     slug: "bunga-meja-malang",
     name: "Bunga Meja",
-    description: "Rangkaian bunga segar cantik untuk menghias meja kantor, lobby, ruang tamu, atau meja resepsi acara Anda.",
+    description: "Rangkaian bunga potong segar dalam vas untuk meja resepsi, meja tamu kantor, atau dekorasi acara.",
     seoTitle: "Bunga Meja Malang Murah & Berkualitas",
     seoDescription: "Pesan bunga meja Malang murah dan berkualitas untuk dekorasi lobby, kantor, ruang tamu, meja resepsi, dan acara formal. Segar, cantik, dan elegan.",
     image: "/images/kategori/bunga-meja.svg"
@@ -87,7 +87,7 @@ const RAW_CATEGORIES: Category[] = [
   {
     slug: "tanbulampot-malang",
     name: "Tanbulampot (Pohon Ucapan)",
-    description: "Bunga ucapan tanaman hidup & pohon ucapan bibit buah dalam pot (tanbulampot) eksklusif untuk selamat & sukses, grand opening toko, peresmian kantor, wisuda, atau kado spesial di Malang.",
+    description: "Pohon buah dan tanaman hias hidup dalam pot dengan pita dan kartu ucapan sebagai pilihan kado yang ramah lingkungan dan terus tumbuh.",
     seoTitle: "Bunga Ucapan Tanaman & Pohon Ucapan Tanbulampot Malang",
     seoDescription: "Jual bunga ucapan tanaman, pohon ucapan, ucapan bibit pohon & buah, karangan bibit tanaman (tanbulampot) di Malang. Bunga ucapan tanaman hidup eksklusif, ramah lingkungan, pesan cepat.",
     seoKeywords: "bunga ucapan tanaman, pohon ucapan, ucapan bibit pohon & buah, ucapan tanaman, karangan bibit tanaman, karangan bunga tanaman, bunga ucapan tanaman hidup, tanbulampot malang, tabulampot malang, pohon ucapan malang, kado tanaman hidup malang, hampers tanaman buah malang, standing plant ucapan malang, bibit pohon ucapan selamat",

@@ -13,22 +13,22 @@ const process = [
   {
     num: '01',
     title: 'Pilih & Konsultasi',
-    body: 'Pilih desain bunga yang diminati di katalog atau kirimkan referensi via WhatsApp lengkap dengan ucapan dan alamat tujuan.'
+    body: 'Pilih model bunga di katalog atau kirimkan foto referensi yang Anda miliki via WhatsApp, lengkap dengan teks ucapan dan alamat tujuan.'
   },
   {
     num: '02',
     title: 'Konfirmasi Pesanan',
-    body: 'Admin mengonfirmasi ketersediaan bunga segar hari ini, memastikan tone warna sesuai selera, dan memberikan estimasi waktu pengerjaan.'
+    body: 'Admin mengonfirmasi ketersediaan stok bunga segar hari ini, memastikan nuansa warna sesuai permintaan, dan memberi tahu estimasi waktu selesai.'
   },
   {
     num: '03',
     title: 'Proses Perangkaian',
-    body: 'Pesanan dirangkai rapi oleh florist profesional di Floragate menggunakan tangkai bunga dan tanaman berkualitas prima.'
+    body: 'Pesanan dirangkai langsung di tempat oleh tim florist Floragate dengan susunan rapi dan teks ucapan yang jelas terbaca.'
   },
   {
     num: '04',
     title: 'Foto Hasil & Pengiriman',
-    body: 'Sebelum dikirim, foto asli hasil rangkaian dikirimkan untuk konfirmasi. Setelah disetujui, pesanan langsung diantar ke lokasi tujuan.'
+    body: 'Sebelum berangkat, kami mengirimkan foto hasil jadi ke WhatsApp Anda untuk dicek. Setelah disetujui, kurir langsung mengantar ke lokasi tujuan.'
   }
 ];
 ---
@@ -38,7 +38,7 @@ const process = [
 
   <!-- BREADCRUMB -->
   <div class="ta-breadcrumb">
-    <Breadcrumb items={[{ label: 'Tentang Floragate' }]} />
+    <Breadcrumb items={[{ label: 'Tentang Kami' }]} />
   </div>
 
   <!-- HERO: asymmetric split -->
@@ -46,17 +46,17 @@ const process = [
     <div class="ta-hero-text">
       <p class="ta-label">Toko Bunga Malang</p>
       <h1 class="ta-hero-title">
-        Toko bunga terpercaya di Malang untuk melengkapi setiap momen berharga.
+        Melayani pemesanan kerajinan bunga di Malang untuk ucapan duka cita, pernikahan, dan peresmian.
       </h1>
       <div class="ta-hero-body">
         <p>
-          Floragate adalah toko bunga di Malang yang menyediakan aneka karangan bunga segar, 
-          bunga papan ucapan, buket bunga, standing flower, bunga meja, paper flower, hingga tanaman pohon ucapan.
+          Floragate melayani pemesanan kerajinan bunga di Malang, mulai dari karangan bunga papan, buket bunga segar, standing flower, 
+          bunga meja, paper flower, hingga tanaman pohon ucapan.
         </p>
         <p>
-          Setiap rangkaian dikerjakan dengan rapi menggunakan bunga segar berkualitas. 
-          Floragate hadir untuk memastikan setiap ucapan selamat, rasa syukur, maupun ungkapan duka cita tersampaikan 
-          secara indah, elegan, dan tepat waktu ke seluruh penjuru Malang Raya dan Batu.
+          Setiap pesanan dirangkai menggunakan bunga segar pilihan dengan pengerjaan rata-rata 3 hingga 4 jam. 
+          Sebelum pesanan diberangkatkan, kami selalu mengirimkan foto hasil jadi ke WhatsApp Anda untuk memastikan 
+          ejaan nama, kalimat ucapan, dan kerapian susunan bunga sudah tepat sebelum tiba di lokasi.
         </p>
       </div>
       <div class="ta-hero-stats">
@@ -104,36 +104,35 @@ const process = [
   <!-- VALUES: 3-column editorial grid -->
   <section class="ta-values">
     <div class="ta-values-head">
-      <p class="ta-label">Standar Layanan</p>
-      <h2 class="ta-values-title">Kualitas rangkaian dan kepuasan pelanggan selalu jadi prioritas</h2>
+      <p class="ta-label">Standar Pengerjaan</p>
+      <h2 class="ta-values-title">Komitmen layanan pemesanan bunga di Floragate</h2>
     </div>
 
     <div class="ta-values-grid">
 
       <div class="ta-val">
         <div class="ta-val-num" aria-hidden="true">01</div>
-        <h3 class="ta-val-title">Bunga Segar Berkualitas</h3>
+        <h3 class="ta-val-title">Bunga Segar Pilihan</h3>
         <p class="ta-val-body">
-          Setiap pesanan dirangkai menggunakan bunga segar pilihan dengan penataan yang rapi, harmonis, dan proporsional. 
-          Selalu ada foto hasil jadi sebelum pesanan diberangkatkan.
+          Bunga potong baru dirangkai pada hari pengiriman agar tetap segar selama acara berlangsung. 
+          Kami selalu mengirimkan foto hasil jadi sebelum pesanan diberangkatkan.
         </p>
       </div>
 
       <div class="ta-val">
         <div class="ta-val-num" aria-hidden="true">02</div>
-        <h3 class="ta-val-title">Rangkaian Rapi & Berkelas</h3>
+        <h3 class="ta-val-title">Rangkaian Tertata Rapi</h3>
         <p class="ta-val-body">
-          Dikerjakan langsung oleh florist berpengalaman yang menguasai teknik tata bunga untuk berbagai momen, 
-          mulai dari pernikahan, wisuda, peresmian, hingga duka cita.
+          Setiap karangan bunga dirangkai dengan teliti dan cermat, memastikan kerapian tata letak huruf ucapan dan keserasian kombinasi warna bunga terjaga dengan baik.
         </p>
       </div>
 
       <div class="ta-val">
         <div class="ta-val-num" aria-hidden="true">03</div>
-        <h3 class="ta-val-title">Pengiriman Cepat Tepat Waktu</h3>
+        <h3 class="ta-val-title">Pengantaran Langsung oleh Kurir</h3>
         <p class="ta-val-body">
-          Pengerjaan cepat 3&ndash;4 jam dengan kurir berpengalaman yang siap mengantarkan karangan bunga 
-          ke seluruh area Malang Kota, Kabupaten Malang, dan Kota Batu.
+          Pesanan diantar langsung oleh kurir internal menggunakan kendaraan yang disesuaikan, 
+          menjaga papan bunga atau buket tetap aman dari terpaan angin hingga sampai di lokasi.
         </p>
       </div>
 
@@ -144,7 +143,7 @@ const process = [
   <section class="ta-process">
     <div class="ta-process-head">
       <p class="ta-label">Alur Pemesanan</p>
-      <h2 class="ta-process-title">Proses pemesanan mudah dan transparan hingga bunga tiba di tujuan</h2>
+      <h2 class="ta-process-title">Alur pesan praktis hingga bunga tiba di lokasi tujuan</h2>
     </div>
 
     <div class="ta-steps">
@@ -192,7 +191,7 @@ const process = [
     <div class="ta-photo-caption">
       <p class="ta-label">Dokumentasi Produk</p>
       <p class="ta-photo-body">
-        Setiap foto produk di Floragate merupakan dokumentasi asli dari pesanan yang pernah dibuat dan dikirimkan kepada pelanggan. Rangkaian bunga segar dan rapi siap dikirim untuk momen spesial Anda.
+        Semua foto produk di website ini adalah dokumentasi asli dari pesanan yang dibuat dan dikirimkan oleh Floragate di wilayah Malang Raya dan Batu.
       </p>
       <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" class="ta-cta-link" id="tentang-wa-cta">
         Konsultasi & Pesan Sekarang

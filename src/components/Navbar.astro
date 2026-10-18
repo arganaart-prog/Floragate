@@ -8,8 +8,7 @@ const navItems = [
   { href: '/', label: 'Beranda' },
   { href: '/katalog/', label: 'Kategori', hasDropdown: true },
   { href: '/cara-pesan/', label: 'Cara Pesan' },
-  { href: '/artikel/', label: 'Artikel' },
-  { href: '/tentang/', label: 'Tentang Floragate' },
+  { href: '/tentang/', label: 'Tentang Kami' },
   { href: '/kontak/', label: 'Kontak' }
 ];
 
@@ -331,19 +330,14 @@ const isMobileFaq = currentPath.startsWith('/faq/');
           <span class="mt-1 block text-[0.66rem] font-bold uppercase tracking-[0.2em] opacity-60">Alur pemesanan</span>
         </a>
 
-        <a href={withBase('/artikel/')} class={`block rounded-lg border px-4 py-3.5 transition-colors ${isMobileArtikel ? 'border-secondary/40 bg-[#ead9be] text-primary shadow-sm' : 'border-transparent text-[#4f584a] hover:border-soft-cream/70 hover:bg-primary/5 hover:text-primary'}`}>
-          <span class="block font-serif text-[1.24rem] font-bold leading-tight tracking-wide">Artikel</span>
-          <span class="mt-1 block text-[0.66rem] font-bold uppercase tracking-[0.2em] opacity-60">Tips & wawasan florist</span>
-        </a>
-
         <a href={withBase('/faq/')} class={`block rounded-lg border px-4 py-3.5 transition-colors ${isMobileFaq ? 'border-secondary/40 bg-[#ead9be] text-primary shadow-sm' : 'border-transparent text-[#4f584a] hover:border-soft-cream/70 hover:bg-primary/5 hover:text-primary'}`}>
           <span class="block font-serif text-[1.24rem] font-bold leading-tight tracking-wide">FAQ</span>
           <span class="mt-1 block text-[0.66rem] font-bold uppercase tracking-[0.2em] opacity-60">Bantuan pelanggan</span>
         </a>
 
         <a href={withBase('/tentang/')} class={`block rounded-lg border px-4 py-3.5 transition-colors ${isMobileTentang ? 'border-secondary/40 bg-[#ead9be] text-primary shadow-sm' : 'border-transparent text-[#4f584a] hover:border-soft-cream/70 hover:bg-primary/5 hover:text-primary'}`}>
-          <span class="block font-serif text-[1.24rem] font-bold leading-tight tracking-wide">Tentang</span>
-          <span class="mt-1 block text-[0.66rem] font-bold uppercase tracking-[0.2em] opacity-60">Profil Floragate</span>
+          <span class="block font-serif text-[1.24rem] font-bold leading-tight tracking-wide">Tentang Kami</span>
+          <span class="mt-1 block text-[0.66rem] font-bold uppercase tracking-[0.2em] opacity-60">Profil toko</span>
         </a>
 
         <a href={withBase('/kontak/')} class={`block rounded-lg border px-4 py-3.5 transition-colors ${isMobileKontak ? 'border-secondary/40 bg-[#ead9be] text-primary shadow-sm' : 'border-transparent text-[#4f584a] hover:border-soft-cream/70 hover:bg-primary/5 hover:text-primary'}`}>
