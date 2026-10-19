@@ -108,6 +108,39 @@ const finalSchema = schema || defaultSchema;
       schema={finalSchema}
       robots={robots}
     />
+    <!-- Critical Anti-FOUC CSS: guarantees SVGs and icons remain strictly bounded on hard refresh before external styles finish parsing -->
+    <style is:inline>
+      svg {
+        box-sizing: border-box;
+        max-width: 100%;
+        vertical-align: middle;
+      }
+      /* Pre-apply common utility sizes immediately upon first paint */
+      svg.h-3, svg.w-3 { width: 0.75rem !important; height: 0.75rem !important; }
+      svg.h-3\.5, svg.w-3\.5 { width: 0.875rem !important; height: 0.875rem !important; }
+      svg.h-4, svg.w-4 { width: 1rem !important; height: 1rem !important; }
+      svg.h-5, svg.w-5 { width: 1.25rem !important; height: 1.25rem !important; }
+      svg.h-6, svg.w-6 { width: 1.5rem !important; height: 1.5rem !important; }
+      svg.h-7, svg.w-7 { width: 1.75rem !important; height: 1.75rem !important; }
+      svg.h-8, svg.w-8 { width: 2rem !important; height: 2rem !important; }
+      svg.h-9, svg.w-9 { width: 2.25rem !important; height: 2.25rem !important; }
+      svg.h-10, svg.w-10 { width: 2.5rem !important; height: 2.5rem !important; }
+      svg.h-12, svg.w-12 { width: 3rem !important; height: 3rem !important; }
+      svg.h-16, svg.w-16 { width: 4rem !important; height: 4rem !important; }
+
+      /* Safe bounds for standalone button and link icons */
+      a > svg:not([width]):not(#logo-shield svg),
+      button > svg:not([width]):not(#logo-shield svg) {
+        max-width: 1.5rem;
+        max-height: 1.5rem;
+      }
+
+      /* Keep brand logo shield stable */
+      #logo-shield svg {
+        width: 100% !important;
+        height: 100% !important;
+      }
+    </style>
     <noscript>
       <style>
         [data-image-loader] { opacity: 1 !important; transform: none !important; }

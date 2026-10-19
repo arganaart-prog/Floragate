@@ -10,10 +10,11 @@ interface Props {
   priority?: boolean;
   class?: string;
   hidden?: boolean;
+  aspect?: string;
   [key: string]: any;
 }
 
-const { product, variant = 'modern', priority = false, class: className = '', hidden = false, ...rest } = Astro.props;
+const { product, variant = 'modern', priority = false, class: className = '', hidden = false, aspect, ...rest } = Astro.props;
 const productUrl = withBase(`/produk/${product.slug}/`);
 const imageUrl = withBase(product.image);
 const imageLoading = priority ? 'eager' : 'lazy';
@@ -24,14 +25,19 @@ const imageSizes = variant === 'compact'
 const displayName = getProductDisplayName(product);
 const isPopular = isProductPopular(product);
 const isBungaPapan = product.categorySlug.startsWith('bunga-papan') || product.categoryName.toLowerCase().includes('bunga papan');
+const isHandBouquet = product.categorySlug === 'hand-bouquet-malang' || product.categoryName.toLowerCase().includes('hand bouquet');
 const isLongTitle = isBungaPapan || displayName.length > 25;
+
+const modernAspect = aspect || (isHandBouquet ? 'aspect-[4/5]' : 'aspect-[20/19]');
+const classicAspect = aspect || (isHandBouquet ? 'aspect-[4/5]' : 'aspect-[20/19]');
+const compactAspect = aspect || (isHandBouquet ? 'aspect-[4/5]' : 'aspect-[4/4.5]');
 ---
 
 {variant === 'compact' ? (
   <article class={`product-card-shell compact-product-card group relative h-full flex flex-col overflow-hidden rounded-[14px] border border-soft-cream/70 bg-white shadow-[0_1px_4px_rgba(15,23,42,0.03)] ${className}`} hidden={hidden ? true : undefined} {...rest}>
     <a href={productUrl} class="flex h-full flex-col no-underline">
       <!-- Image frame: full edge-to-edge (no side spaces), naturally proportioned -->
-      <div class="image-load-shell relative aspect-[4/4.5] overflow-hidden bg-clean-ivory border-b border-soft-cream/40" data-image-frame>
+      <div class={`image-load-shell relative ${compactAspect} overflow-hidden bg-clean-ivory border-b border-soft-cream/40`} data-image-frame>
         <span class="image-skeleton" aria-hidden="true"></span>
         <img
           src={imageUrl}
@@ -43,7 +49,7 @@ const isLongTitle = isBungaPapan || displayName.length > 25;
           fetchpriority={imageFetchPriority}
           sizes={imageSizes}
           data-image-loader="true"
-          class="relative z-0 block w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-[1.012]"
+          class={`relative z-0 block w-full h-full object-cover ${isHandBouquet ? 'object-center' : 'object-center'} transition-transform duration-700 ease-out group-hover:scale-[1.012]`}
         />
 
         {isPopular && (
@@ -69,7 +75,7 @@ const isLongTitle = isBungaPapan || displayName.length > 25;
           </div>
           <span class="inline-flex shrink-0 items-center gap-1 rounded-full bg-primary px-3 py-1.5 text-[11px] font-bold text-white shadow-xs transition-colors duration-200 group-hover:bg-primary-dark">
             Detail
-            <svg class="h-3 w-3 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.6" aria-hidden="true">
+            <svg width="12" height="12" class="h-3 w-3 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.6" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </span>
@@ -80,7 +86,7 @@ const isLongTitle = isBungaPapan || displayName.length > 25;
 ) : variant === 'classic' ? (
   <div class={`classic-product-card product-card-shell group bg-white rounded-[14px] border border-soft-cream/70 overflow-hidden shadow-[0_1px_4px_rgba(15,23,42,0.03)] ${className}`} hidden={hidden ? true : undefined} {...rest}>
     <!-- Image Wrapper -->
-    <a href={productUrl} class="classic-product-image image-load-shell block relative aspect-[20/19] bg-slate-100 overflow-hidden" data-image-frame>
+    <a href={productUrl} class={`classic-product-image image-load-shell block relative ${classicAspect} bg-slate-100 overflow-hidden`} data-image-frame>
       <span class="image-skeleton" aria-hidden="true"></span>
       <img
         src={imageUrl}
@@ -92,7 +98,7 @@ const isLongTitle = isBungaPapan || displayName.length > 25;
         fetchpriority={imageFetchPriority}
         sizes={imageSizes}
         data-image-loader="true"
-        class="relative z-0 object-cover object-top w-full h-full transition-transform duration-700 ease-out group-hover:scale-[1.012]"
+        class={`relative z-0 object-cover ${isHandBouquet ? 'object-center' : 'object-top'} w-full h-full transition-transform duration-700 ease-out group-hover:scale-[1.012]`}
       />
       {isPopular && (
         <div class="classic-product-badges absolute top-3 left-3 z-10 flex gap-2">
@@ -131,7 +137,7 @@ const isLongTitle = isBungaPapan || displayName.length > 25;
 ) : (
   <article class={`product-card-shell group relative h-full overflow-hidden rounded-[14px] border border-soft-cream/70 bg-white shadow-[0_1px_4px_rgba(15,23,42,0.03)] ${className}`} hidden={hidden ? true : undefined} {...rest}>
     <a href={productUrl} class="flex h-full flex-col no-underline">
-      <div class="image-load-shell relative -mx-px -mt-px aspect-[20/19] overflow-hidden bg-clean-ivory" data-image-frame>
+      <div class={`image-load-shell relative -mx-px -mt-px ${modernAspect} overflow-hidden bg-clean-ivory`} data-image-frame>
         <span class="image-skeleton" aria-hidden="true"></span>
         <img
           src={imageUrl}
@@ -143,13 +149,17 @@ const isLongTitle = isBungaPapan || displayName.length > 25;
           fetchpriority={imageFetchPriority}
           sizes={imageSizes}
           data-image-loader="true"
-          class="relative z-0 block h-full w-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.012]"
+          class={`relative z-0 block h-full w-full object-cover ${isHandBouquet ? 'object-center' : 'object-top'} transition-transform duration-700 ease-out group-hover:scale-[1.012]`}
         />
 
-        <div class="absolute inset-x-0 bottom-0 z-10 h-20 bg-gradient-to-t from-primary-dark/35 via-primary-dark/5 to-transparent"></div>
+        {isHandBouquet ? (
+          <div class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-12 bg-gradient-to-t from-black/15 to-transparent"></div>
+        ) : (
+          <div class="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-20 bg-gradient-to-t from-primary-dark/35 via-primary-dark/5 to-transparent"></div>
+        )}
 
         <span class="absolute bottom-3 right-3 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/95 text-primary shadow-[0_2px_8px_rgba(15,23,42,0.08)] transition-all duration-200 group-hover:bg-primary group-hover:text-white" aria-hidden="true">
-          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4">
+          <svg width="16" height="16" class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4">
             <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M9 7h8v8" />
           </svg>
         </span>
@@ -170,7 +180,7 @@ const isLongTitle = isBungaPapan || displayName.length > 25;
               <p class="font-sans text-lg sm:text-xl font-extrabold leading-none text-primary">{product.priceLabel}</p>
               <span class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] font-bold text-white shadow-xs transition-colors duration-200 group-hover:bg-primary-dark">
                 Detail
-                <svg class="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.6" aria-hidden="true">
+                <svg width="14" height="14" class="h-3.5 w-3.5 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.6" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                 </svg>
               </span>

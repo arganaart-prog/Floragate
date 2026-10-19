@@ -889,7 +889,7 @@ export const PRODUCTS: Product[] = [
     city: "Malang",
     priceFrom: 150000,
     priceLabel: "Rp 150.000",
-    image: "/images/produk/bouquet/150..webp",
+    image: "/images/produk/bouquet/150-nabati.webp",
     imageWidth: 1122,
     imageHeight: 1402,
     description: "Buket snack Nabati cokelat, Oreo, dan wafer berpadu dengan mawar putih segar dan aster ungu dalam balutan wrapping soft pink manis berpita lavender. Hadiah wisuda favorit yang meriah dan lezat.",
