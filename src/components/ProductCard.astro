@@ -28,7 +28,7 @@ const isLongTitle = isBungaPapan || displayName.length > 25;
 ---
 
 {variant === 'compact' ? (
-  <article class={`product-card-shell compact-product-card group relative h-full flex flex-col overflow-hidden rounded-[14px] border border-soft-cream/80 bg-white shadow-[0_4px_18px_rgba(15,23,42,0.04)] transition-all duration-300 hover:-translate-y-1 hover:border-secondary/80 hover:shadow-[0_12px_28px_rgba(85,101,75,0.12)] ${className}`} hidden={hidden ? true : undefined} {...rest}>
+  <article class={`product-card-shell compact-product-card group relative h-full flex flex-col overflow-hidden rounded-[14px] border border-soft-cream/80 bg-white shadow-[0_2px_10px_rgba(15,23,42,0.035)] transition-all duration-300 hover:-translate-y-1 hover:border-secondary/80 hover:shadow-[0_12px_28px_rgba(15,23,42,0.08)] ${className}`} hidden={hidden ? true : undefined} {...rest}>
     <a href={productUrl} class="flex h-full flex-col no-underline">
       <!-- Image frame: full edge-to-edge (no side spaces), naturally proportioned -->
       <div class="image-load-shell relative aspect-[4/4.5] overflow-hidden bg-clean-ivory border-b border-soft-cream/40" data-image-frame>
@@ -43,7 +43,7 @@ const isLongTitle = isBungaPapan || displayName.length > 25;
           fetchpriority={imageFetchPriority}
           sizes={imageSizes}
           data-image-loader="true"
-          class="relative z-0 block w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-105"
+          class="relative z-0 block w-full h-full object-cover object-center transition-transform duration-600 ease-out group-hover:scale-[1.03]"
         />
 
         {isPopular && (
@@ -67,9 +67,9 @@ const isLongTitle = isBungaPapan || displayName.length > 25;
             <span class="text-[9px] font-bold uppercase tracking-[0.16em] text-slate-400 block leading-none">Harga</span>
             <p class="font-sans text-sm sm:text-base font-extrabold text-primary leading-tight mt-1">{product.priceLabel}</p>
           </div>
-          <span class="inline-flex shrink-0 items-center gap-1 rounded-full bg-primary px-3 py-1.5 text-[11px] font-bold text-white shadow-xs transition-colors duration-200 group-hover:bg-secondary group-hover:text-primary-dark">
+          <span class="inline-flex shrink-0 items-center gap-1 rounded-full bg-primary px-3 py-1.5 text-[11px] font-bold text-white shadow-xs transition-all duration-200 group-hover:bg-primary-dark group-hover:shadow-[0_4px_12px_rgba(63,75,55,0.25)]">
             Detail
-            <svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.6" aria-hidden="true">
+            <svg class="h-3 w-3 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.6" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </span>
@@ -78,9 +78,9 @@ const isLongTitle = isBungaPapan || displayName.length > 25;
     </a>
   </article>
 ) : variant === 'classic' ? (
-  <div class={`classic-product-card product-card-shell group bg-white rounded-[14px] border border-soft-cream/60 overflow-hidden hover-gold-grow ${className}`} hidden={hidden ? true : undefined} {...rest}>
+  <div class={`classic-product-card product-card-shell group bg-white rounded-[14px] border border-soft-cream/70 overflow-hidden shadow-[0_2px_10px_rgba(15,23,42,0.035)] transition-all duration-300 hover:-translate-y-1 hover:border-secondary/80 hover:shadow-[0_12px_28px_rgba(15,23,42,0.08)] ${className}`} hidden={hidden ? true : undefined} {...rest}>
     <!-- Image Wrapper -->
-    <a href={productUrl} class="classic-product-image image-load-shell block relative aspect-[20/19] bg-slate-100 overflow-hidden premium-image-hover" data-image-frame>
+    <a href={productUrl} class="classic-product-image image-load-shell block relative aspect-[20/19] bg-slate-100 overflow-hidden" data-image-frame>
       <span class="image-skeleton" aria-hidden="true"></span>
       <img
         src={imageUrl}
@@ -92,7 +92,7 @@ const isLongTitle = isBungaPapan || displayName.length > 25;
         fetchpriority={imageFetchPriority}
         sizes={imageSizes}
         data-image-loader="true"
-        class="relative z-0 object-cover object-top w-full h-full"
+        class="relative z-0 object-cover object-top w-full h-full transition-transform duration-600 ease-out group-hover:scale-[1.03]"
       />
       {isPopular && (
         <div class="classic-product-badges absolute top-3 left-3 z-10 flex gap-2">
@@ -119,7 +119,7 @@ const isLongTitle = isBungaPapan || displayName.length > 25;
             <p class="classic-product-price font-sans text-lg sm:text-xl font-extrabold leading-none text-primary">{product.priceLabel}</p>
             <a
               href={productUrl}
-              class="classic-product-detail inline-flex shrink-0 items-center justify-center rounded-full bg-primary px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] font-bold text-white shadow-[0_10px_24px_rgba(85,101,75,0.18)] transition-colors duration-300 hover:bg-secondary hover:text-primary-dark"
+              class="classic-product-detail inline-flex shrink-0 items-center justify-center rounded-full bg-primary px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] font-bold text-white shadow-xs transition-all duration-200 group-hover:bg-primary-dark group-hover:shadow-[0_4px_12px_rgba(63,75,55,0.25)]"
             >
               Detail
             </a>
@@ -129,9 +129,9 @@ const isLongTitle = isBungaPapan || displayName.length > 25;
     </div>
   </div>
 ) : (
-  <article class={`product-card-shell group relative h-full overflow-hidden rounded-[14px] border border-soft-cream/70 bg-white shadow-[0_14px_38px_rgba(15,23,42,0.06)] transition-all duration-300 hover:-translate-y-1 hover:border-secondary/70 hover:shadow-[0_24px_60px_rgba(85,101,75,0.15)] ${className}`} hidden={hidden ? true : undefined} {...rest}>
+  <article class={`product-card-shell group relative h-full overflow-hidden rounded-[14px] border border-soft-cream/70 bg-white shadow-[0_2px_10px_rgba(15,23,42,0.035)] transition-all duration-300 hover:-translate-y-1 hover:border-secondary/80 hover:shadow-[0_12px_28px_rgba(15,23,42,0.08)] ${className}`} hidden={hidden ? true : undefined} {...rest}>
     <a href={productUrl} class="flex h-full flex-col no-underline">
-      <div class="image-load-shell relative -mx-px -mt-px aspect-[20/19] overflow-hidden bg-clean-ivory premium-image-hover" data-image-frame>
+      <div class="image-load-shell relative -mx-px -mt-px aspect-[20/19] overflow-hidden bg-clean-ivory" data-image-frame>
         <span class="image-skeleton" aria-hidden="true"></span>
         <img
           src={imageUrl}
@@ -143,13 +143,12 @@ const isLongTitle = isBungaPapan || displayName.length > 25;
           fetchpriority={imageFetchPriority}
           sizes={imageSizes}
           data-image-loader="true"
-          class="relative z-0 block h-full w-full object-cover object-top"
+          class="relative z-0 block h-full w-full object-cover object-top transition-transform duration-600 ease-out group-hover:scale-[1.03]"
         />
 
         <div class="absolute inset-x-0 bottom-0 z-10 h-20 bg-gradient-to-t from-primary-dark/35 via-primary-dark/5 to-transparent"></div>
 
-
-        <span class="absolute bottom-3 right-3 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/95 text-primary shadow-[0_10px_24px_rgba(15,23,42,0.16)] transition-colors duration-300 group-hover:bg-primary group-hover:text-white" aria-hidden="true">
+        <span class="absolute bottom-3 right-3 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/95 text-primary shadow-[0_4px_14px_rgba(15,23,42,0.1)] transition-all duration-200 group-hover:bg-primary group-hover:text-white group-hover:scale-105" aria-hidden="true">
           <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4">
             <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M9 7h8v8" />
           </svg>
@@ -169,9 +168,9 @@ const isLongTitle = isBungaPapan || displayName.length > 25;
             <p class="text-[10px] font-bold uppercase tracking-[0.18em] text-secondary-dark">Harga</p>
             <div class="mt-1.5 flex items-end justify-between gap-2.5 sm:gap-3">
               <p class="font-sans text-lg sm:text-xl font-extrabold leading-none text-primary">{product.priceLabel}</p>
-              <span class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] font-bold text-white shadow-[0_10px_24px_rgba(85,101,75,0.2)] transition-colors duration-300 group-hover:bg-secondary group-hover:text-primary-dark">
+              <span class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 sm:px-3.5 sm:py-2 text-[11px] font-bold text-white shadow-xs transition-all duration-200 group-hover:bg-primary-dark group-hover:shadow-[0_4px_12px_rgba(63,75,55,0.25)]">
                 Detail
-                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.6" aria-hidden="true">
+                <svg class="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.6" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
                 </svg>
               </span>
