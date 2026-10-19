@@ -12,6 +12,8 @@ const ROW_1 = [
   '/images/galeri/gallery-15.jpeg',
   '/images/galeri/gallery-17.jpeg',
   '/images/galeri/gallery-19.jpeg',
+  '/images/galeri/gallery-21.jpeg',
+  '/images/galeri/gallery-23.jpeg',
 ];
 
 const ROW_2 = [
@@ -24,7 +26,9 @@ const ROW_2 = [
   '/images/galeri/gallery-14.jpeg',
   '/images/galeri/gallery-16.jpeg',
   '/images/galeri/gallery-18.jpeg',
-  '/images/galeri/gallery-20.jpeg',
+  '/images/galeri/gallery-20.jpg',
+  '/images/galeri/gallery-22.jpeg',
+  '/images/galeri/gallery-24.jpeg',
 ];
 
 const row1 = [...ROW_1, ...ROW_1];
@@ -93,7 +97,7 @@ const row2 = [...ROW_2, ...ROW_2];
           <div class="cg-tile">
             <img
               src={withBase(src)}
-              alt={`Pesanan pelanggan Floragate Malang ${(i % ROW_2.length) + 11}`}
+              alt={`Pesanan pelanggan Floragate Malang ${(i % ROW_2.length) + ROW_1.length + 1}`}
               loading="lazy"
               decoding="async"
               width="260"
