@@ -19,15 +19,13 @@ export async function getStaticPaths() {
 const { product } = Astro.props;
 const displayName = getProductDisplayName(product);
 
-// Filter produk terkait (kategori sama, kecuali produk aktif) hingga 12 produk.
-// Jika dalam kategori yang sama kurang dari 12, lengkapi dengan produk dari kategori lain.
+// Filter produk terkait hanya dari kategori yang sama (kecuali produk yang sedang aktif).
+// Jika produk di kategori mencukupi, batas maksimal (12 produk) tetap berlaku.
+// Jika tidak mencukupi, hanya tampilkan produk dari kategori yang sama tanpa mencampur produk dari kategori lain yang tidak relevan.
 const sameCategoryProducts = PRODUCTS.filter(
   p => p.categorySlug === product.categorySlug && p.id !== product.id
 );
-const otherProducts = PRODUCTS.filter(
-  p => p.id !== product.id && p.categorySlug !== product.categorySlug
-);
-const relatedProducts = [...sameCategoryProducts, ...otherProducts].slice(0, 12);
+const relatedProducts = sameCategoryProducts.slice(0, 12);
 
 
 // SEO Meta
