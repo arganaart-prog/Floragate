@@ -129,14 +129,16 @@ const finalSchema = schema || defaultSchema;
       svg.h-16, svg.w-16 { width: 4rem !important; height: 4rem !important; }
 
       /* Safe bounds for standalone button and link icons */
-      a > svg:not([width]):not(#logo-shield svg),
-      button > svg:not([width]):not(#logo-shield svg) {
+      a > svg:not([width]):not(#logo-shield svg):not(#mobile-logo-shield svg):not(.brand-shield svg),
+      button > svg:not([width]):not(#logo-shield svg):not(#mobile-logo-shield svg):not(.brand-shield svg) {
         max-width: 1.5rem;
         max-height: 1.5rem;
       }
 
       /* Keep brand logo shield stable */
-      #logo-shield svg {
+      #logo-shield svg,
+      #mobile-logo-shield svg,
+      .brand-shield svg {
         width: 100% !important;
         height: 100% !important;
       }
