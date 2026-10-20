@@ -5,7 +5,7 @@ import { TESTIMONIALS } from '../data/testimonials';
 <section class="py-20 bg-accent-bg/60 border-t border-soft-cream/40 overflow-hidden" aria-labelledby="testimonials-heading">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center max-w-2xl mx-auto mb-12">
-      <span class="text-secondary font-semibold text-xs tracking-widest uppercase block mb-2">Ulasan Pelanggan</span>
+      <span class="text-secondary-dark font-bold text-xs tracking-widest uppercase block mb-2">Ulasan Pelanggan</span>
       <h2 id="testimonials-heading" class="font-serif text-3xl sm:text-4xl font-bold text-slate-800 leading-tight">
         Sudah Dipercaya Ratusan Pelanggan di Malang
       </h2>
@@ -17,7 +17,7 @@ import { TESTIMONIALS } from '../data/testimonials';
     <div class="testimonial-carousel relative" data-testimonial-carousel>
       <button
         type="button"
-        class="testimonial-carousel-prev absolute left-0 top-1/2 z-10 -translate-y-1/2 -translate-x-1/2 sm:translate-x-0 flex h-10 w-10 items-center justify-center rounded-full bg-white text-primary shadow-[0_2px_12px_rgba(0,0,0,0.12)] transition-all duration-200 hover:shadow-[0_4px_16px_rgba(0,0,0,0.16)] hover:text-secondary disabled:opacity-30 disabled:pointer-events-none cursor-pointer"
+        class="testimonial-carousel-prev absolute left-0 top-1/2 z-10 -translate-y-1/2 -translate-x-1/2 sm:translate-x-0 flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-white text-primary shadow-[0_2px_12px_rgba(0,0,0,0.12)] transition-all duration-200 hover:shadow-[0_4px_16px_rgba(0,0,0,0.16)] hover:text-secondary disabled:opacity-30 disabled:pointer-events-none cursor-pointer"
         aria-label="Testimoni sebelumnya"
       >
         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -36,7 +36,7 @@ import { TESTIMONIALS } from '../data/testimonials';
           >
             <article class="flex flex-col h-full justify-between">
               <div>
-                <div class="flex gap-1 mb-4" aria-label={`Rating ${testimonial.rating} dari 5`}>
+                <div class="flex gap-1 mb-4" role="img" aria-label={`Rating ${testimonial.rating} dari 5`}>
                   {Array.from({ length: testimonial.rating }).map((_, starIndex) => (
                     <svg class="w-4 h-4 text-secondary" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
@@ -52,7 +52,7 @@ import { TESTIMONIALS } from '../data/testimonials';
                 <div>
                   <cite class="not-italic block font-serif font-bold text-slate-800 text-sm">{testimonial.name}</cite>
                   <p class="text-xs text-slate-500 mt-0.5">{testimonial.location}</p>
-                  <p class="text-[11px] text-secondary font-medium mt-1">{testimonial.product}</p>
+                  <p class="text-[11px] text-secondary-dark font-bold mt-1">{testimonial.product}</p>
                 </div>
               </footer>
             </article>
@@ -62,7 +62,7 @@ import { TESTIMONIALS } from '../data/testimonials';
 
       <button
         type="button"
-        class="testimonial-carousel-next absolute right-0 top-1/2 z-10 -translate-y-1/2 translate-x-1/2 sm:translate-x-0 flex h-10 w-10 items-center justify-center rounded-full bg-white text-primary shadow-[0_2px_12px_rgba(0,0,0,0.12)] transition-all duration-200 hover:shadow-[0_4px_16px_rgba(0,0,0,0.16)] hover:text-secondary disabled:opacity-30 disabled:pointer-events-none cursor-pointer"
+        class="testimonial-carousel-next absolute right-0 top-1/2 z-10 -translate-y-1/2 translate-x-1/2 sm:translate-x-0 flex h-11 w-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-white text-primary shadow-[0_2px_12px_rgba(0,0,0,0.12)] transition-all duration-200 hover:shadow-[0_4px_16px_rgba(0,0,0,0.16)] hover:text-secondary disabled:opacity-30 disabled:pointer-events-none cursor-pointer"
         aria-label="Testimoni berikutnya"
       >
         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -70,7 +70,7 @@ import { TESTIMONIALS } from '../data/testimonials';
         </svg>
       </button>
 
-      <div class="testimonial-carousel-dots flex justify-center gap-2 mt-8" aria-label="Indikator testimoni"></div>
+      <div class="testimonial-carousel-dots flex justify-center gap-1 mt-8"></div>
     </div>
   </div>
 </section>
@@ -151,10 +151,13 @@ import { TESTIMONIALS } from '../data/testimonials';
       function updateDots() {
         dots.forEach((dot, i) => {
           const active = i === currentIndex;
-          dot.classList.toggle('bg-primary', active);
-          dot.classList.toggle('w-5', active);
-          dot.classList.toggle('bg-slate-300', !active);
-          dot.classList.toggle('w-2', !active);
+          const pill = dot.querySelector('span');
+          if (pill) {
+            pill.classList.toggle('bg-primary', active);
+            pill.classList.toggle('w-5', active);
+            pill.classList.toggle('bg-slate-400', !active);
+            pill.classList.toggle('w-2', !active);
+          }
           dot.setAttribute('aria-label', `Testimoni ${i + 1}${active ? ' (Aktif)' : ''}`);
         });
       }
@@ -179,9 +182,13 @@ import { TESTIMONIALS } from '../data/testimonials';
           const dot = document.createElement('button');
           dot.type = 'button';
           dot.className =
-            'h-2 w-2 rounded-full transition-all duration-300 cursor-pointer relative ' +
-            (i === currentIndex ? 'bg-primary w-5' : 'bg-slate-300 hover:bg-slate-400');
+            'min-w-[44px] min-h-[44px] inline-flex items-center justify-center p-2 cursor-pointer bg-transparent border-0';
           dot.setAttribute('aria-label', `Testimoni ${i + 1}${i === currentIndex ? ' (Aktif)' : ''}`);
+          const pill = document.createElement('span');
+          pill.className =
+            'block h-2 rounded-full transition-all duration-300 ' +
+            (i === currentIndex ? 'bg-primary w-5' : 'bg-slate-400 w-2');
+          dot.appendChild(pill);
           dot.addEventListener('click', () => {
             stopAutoplay();
             scrollToIndex(i);

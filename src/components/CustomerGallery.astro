@@ -2,33 +2,33 @@
 import { withBase } from '../utils/paths';
 
 const ROW_1 = [
-  '/images/galeri/gallery-1.jpeg',
-  '/images/galeri/gallery-3.jpeg',
-  '/images/galeri/gallery-5.jpeg',
-  '/images/galeri/gallery-7.jpeg',
-  '/images/galeri/gallery-9.jpeg',
-  '/images/galeri/gallery-11.jpeg',
-  '/images/galeri/gallery-13.jpeg',
-  '/images/galeri/gallery-15.jpeg',
-  '/images/galeri/gallery-17.jpeg',
-  '/images/galeri/gallery-19.jpeg',
-  '/images/galeri/gallery-21.jpeg',
-  '/images/galeri/gallery-23.jpeg',
+  '/images/galeri/gallery-1.webp',
+  '/images/galeri/gallery-3.webp',
+  '/images/galeri/gallery-5.webp',
+  '/images/galeri/gallery-7.webp',
+  '/images/galeri/gallery-9.webp',
+  '/images/galeri/gallery-11.webp',
+  '/images/galeri/gallery-13.webp',
+  '/images/galeri/gallery-15.webp',
+  '/images/galeri/gallery-17.webp',
+  '/images/galeri/gallery-19.webp',
+  '/images/galeri/gallery-21.webp',
+  '/images/galeri/gallery-23.webp',
 ];
 
 const ROW_2 = [
-  '/images/galeri/gallery-2.jpeg',
-  '/images/galeri/gallery-4.jpeg',
-  '/images/galeri/gallery-6.jpeg',
-  '/images/galeri/gallery-8.jpeg',
-  '/images/galeri/gallery-10.jpeg',
-  '/images/galeri/gallery-12.jpeg',
-  '/images/galeri/gallery-14.jpeg',
-  '/images/galeri/gallery-16.jpeg',
-  '/images/galeri/gallery-18.jpeg',
-  '/images/galeri/gallery-20.jpg',
-  '/images/galeri/gallery-22.jpeg',
-  '/images/galeri/gallery-24.jpeg',
+  '/images/galeri/gallery-2.webp',
+  '/images/galeri/gallery-4.webp',
+  '/images/galeri/gallery-6.webp',
+  '/images/galeri/gallery-8.webp',
+  '/images/galeri/gallery-10.webp',
+  '/images/galeri/gallery-12.webp',
+  '/images/galeri/gallery-14.webp',
+  '/images/galeri/gallery-16.webp',
+  '/images/galeri/gallery-18.webp',
+  '/images/galeri/gallery-20.webp',
+  '/images/galeri/gallery-22.webp',
+  '/images/galeri/gallery-24.webp',
 ];
 
 const row1 = [...ROW_1, ...ROW_1];
@@ -137,6 +137,8 @@ const row2 = [...ROW_2, ...ROW_2];
     border-top: 1px solid #e2d8c8;
     padding: 5rem 0 4rem;
     overflow: hidden;
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 700px;
   }
 
   /* ═══════════════════════════════════════════════════
@@ -162,7 +164,7 @@ const row2 = [...ROW_2, ...ROW_2];
     font-weight: 700;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: #9aab88;
+    color: #435435;
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
@@ -174,7 +176,7 @@ const row2 = [...ROW_2, ...ROW_2];
     display: inline-block;
     width: 24px;
     height: 1.5px;
-    background: #9aab88;
+    background: #435435;
     flex-shrink: 0;
   }
 
@@ -196,7 +198,7 @@ const row2 = [...ROW_2, ...ROW_2];
   .cg-body {
     font-size: 0.9rem;
     line-height: 1.75;
-    color: #5a6348;
+    color: #3b462c;
     max-width: 480px;
     margin-bottom: 2rem;
   }
@@ -228,7 +230,7 @@ const row2 = [...ROW_2, ...ROW_2];
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #9aab88;
+    color: #435435;
     white-space: nowrap;
   }
 

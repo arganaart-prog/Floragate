@@ -75,13 +75,14 @@ const displaySlides = [
 ];
 ---
 
-<div class="hero-banner-wrap" id="hero-banner" aria-label="Promo Banner Floragate" aria-roledescription="carousel" tabindex="0">
+<section class="hero-banner-wrap" id="hero-banner" role="region" aria-label="Promo Banner Floragate" aria-roledescription="carousel" tabindex="0">
 
   <div class="hb-viewport" id="hb-viewport">
     <div class="hb-track" id="hb-track" aria-live="off">
       {displaySlides.map((slide, trackIndex) => (
         <div
           class="hb-slide"
+          role="group"
           data-track-index={trackIndex}
           data-real-index={slide.realIndex}
           aria-roledescription="slide"
@@ -205,7 +206,7 @@ const displaySlides = [
       <polyline points="9 18 15 12 9 6"></polyline>
     </svg>
   </button>
-</div>
+</section>
 
 <style>
   .hero-banner-wrap {
@@ -244,6 +245,7 @@ const displaySlides = [
     gap: var(--hb-gap, 12px);
     will-change: transform;
     cursor: grab;
+    transform: translateX(calc(-1 * (100% + var(--hb-gap, 12px))));
   }
 
   .hero-banner-wrap.is-dragging .hb-track {
@@ -498,6 +500,7 @@ const displaySlides = [
     font-size: 0.83rem;
     font-weight: 700;
     padding: 0.62rem 1.1rem;
+    min-height: 44px;
     text-decoration: none;
     transition: background 0.18s ease, color 0.18s ease;
     white-space: nowrap;
@@ -561,11 +564,23 @@ const displaySlides = [
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 18px;
-    width: 18px;
+    min-height: 44px;
+    min-width: 22px;
+    height: 44px;
+    width: 22px;
     outline: none;
     -webkit-tap-highlight-color: transparent;
     transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .hb-dot::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 44px;
+    height: 44px;
   }
 
   .hb-dot:focus-visible .hb-dot-track {
