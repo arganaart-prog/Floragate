@@ -93,11 +93,13 @@ const displaySlides = [
           <article class="hb-card">
             <!-- Media Section (Banner Image) -->
             <div class="hb-card-media">
-              <div
-                class="hb-ambient"
-                style={`background-image: url('${slide.mobileImage}');`}
-                aria-hidden="true"
-              />
+              {!slide.isClone && (
+                <div
+                  class="hb-ambient"
+                  style={`background-image: url('${slide.mobileImage}');`}
+                  aria-hidden="true"
+                />
+              )}
               <a
                 href={slide.ctaPrimary.href}
                 target={slide.ctaPrimary.external ? '_blank' : undefined}
@@ -500,7 +502,6 @@ const displaySlides = [
     font-size: 0.83rem;
     font-weight: 700;
     padding: 0.62rem 1.1rem;
-    min-height: 44px;
     text-decoration: none;
     transition: background 0.18s ease, color 0.18s ease;
     white-space: nowrap;
@@ -564,23 +565,11 @@ const displaySlides = [
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 44px;
-    min-width: 22px;
-    height: 44px;
-    width: 22px;
+    height: 18px;
+    width: 18px;
     outline: none;
     -webkit-tap-highlight-color: transparent;
     transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-  }
-
-  .hb-dot::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 44px;
-    height: 44px;
   }
 
   .hb-dot:focus-visible .hb-dot-track {

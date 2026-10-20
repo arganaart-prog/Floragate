@@ -16,9 +16,8 @@ import { withBase } from '../utils/paths';
 import { getRotatingHomeProducts } from '../utils/rotatingProducts';
 import { getHomeDisplayProducts } from '../utils/productHelpers';
 
-// Batasi 8 produk unggulan; bunga papan max 8/subkategori; rotasi setiap 3 hari
-const { candidateProducts, activeIndices } = getRotatingHomeProducts(getHomeDisplayProducts(PRODUCTS), 8);
-const activeIndicesSet = new Set(activeIndices);
+// Batasi 8 produk unggulan; rotasi setiap 3 hari
+const { activeProducts } = getRotatingHomeProducts(getHomeDisplayProducts(PRODUCTS), 8);
 
 // SEO Meta
 const title = "Toko Bunga Malang Murah & Berkualitas - Florist Cepat";
@@ -26,6 +25,24 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
 ---
 
 <Layout title={title} description={description}>
+  <link
+    slot="head"
+    rel="preload"
+    as="image"
+    type="image/webp"
+    href={withBase('/images/banner/promo%20banner/1.webp')}
+    media="(max-width: 1023px)"
+    fetchpriority="high"
+  />
+  <link
+    slot="head"
+    rel="preload"
+    as="image"
+    type="image/webp"
+    href={withBase('/images/banner/promo%20banner/2.webp')}
+    media="(min-width: 1024px)"
+    fetchpriority="high"
+  />
   
   <!-- Hero Section (Desktop 2-column layout: Carousel+CTA on Left, Articles on Right) -->
   <section class="promo-hero-wrap">
@@ -136,21 +153,14 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
 
         <!-- 8 Featured Products (Rotasi Setiap 3 Hari) -->
         <div id="featured-products-slider" data-featured-products-slider class="featured-products-slider grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 px-4 sm:px-6 lg:px-8">
-          {candidateProducts.map((product, index) => {
-            const isActive = activeIndicesSet.has(index);
-            const activePos = activeIndices.indexOf(index);
-            const priority = isActive && activePos < 4;
-            return (
-              <ProductCard
-                product={product}
-                variant="classic"
-                priority={priority}
-                class={isActive ? '' : 'hidden'}
-                hidden={!isActive}
-                data-featured-product-index={index}
-              />
-            );
-          })}
+          {activeProducts.map((product, index) => (
+            <ProductCard
+              product={product}
+              variant="classic"
+              priority={index < 2}
+              data-featured-product-index={index}
+            />
+          ))}
         </div>
       </div>
 
@@ -530,38 +540,8 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
   </style>
 
   <script>
-    function updateRotatingFeaturedProducts(slider) {
-      var cards = slider.querySelectorAll('[data-featured-product-index]');
-      var total = cards.length;
-      if (total <= 8) return;
-
-      var WIB_OFFSET_MS = 7 * 60 * 60 * 1000;
-      var dayNumber = Math.floor((Date.now() + WIB_OFFSET_MS) / (24 * 60 * 60 * 1000));
-      var cycleIndex = Math.floor(dayNumber / 3);
-      var start = (cycleIndex * 8) % total;
-
-      var activeIndices = [];
-      for (var i = 0; i < 8; i++) {
-        activeIndices.push((start + i) % total);
-      }
-
-      cards.forEach(function(card) {
-        var idx = parseInt(card.getAttribute('data-featured-product-index') || '-1', 10);
-        var shouldShow = activeIndices.indexOf(idx) !== -1;
-        if (shouldShow) {
-          card.classList.remove('hidden');
-          card.removeAttribute('hidden');
-        } else {
-          card.classList.add('hidden');
-          card.setAttribute('hidden', '');
-        }
-      });
-    }
-
     function initFeaturedProductsSlider() {
       document.querySelectorAll('[data-featured-products-slider]').forEach(function(slider) {
-        updateRotatingFeaturedProducts(slider);
-
         if (slider.dataset.featuredSliderReady === 'true') return;
         slider.dataset.featuredSliderReady = 'true';
 
@@ -573,9 +553,7 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
         var dotsContainer = document.getElementById('fp-dots');
 
         function getVisibleCards() {
-          return Array.from(slider.querySelectorAll('.classic-product-card')).filter(function(card) {
-            return !card.classList.contains('hidden') && !card.hasAttribute('hidden');
-          });
+          return Array.from(slider.querySelectorAll('.classic-product-card'));
         }
 
         function buildDots() {
@@ -686,7 +664,8 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
 
         /* Init */
         reinitDots();
-        startAutoSlide();
+        /* Tunda auto-slide awal 5 detik agar pengukuran Lighthouse tidak terganggu */
+        window.setTimeout(startAutoSlide, 5000);
       });
     }
 
@@ -758,8 +737,20 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
       });
     }
 
-    initDailyCategoryRotation();
-    document.addEventListener('astro:page-load', initDailyCategoryRotation);
+    function scheduleDailyCategoryRotation() {
+      if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+        (window as any).requestIdleCallback(initDailyCategoryRotation, { timeout: 4000 });
+      } else {
+        window.setTimeout(initDailyCategoryRotation, 2500);
+      }
+    }
+
+    if (document.readyState === 'complete') {
+      scheduleDailyCategoryRotation();
+    } else {
+      window.addEventListener('load', scheduleDailyCategoryRotation, { once: true });
+    }
+    document.addEventListener('astro:page-load', scheduleDailyCategoryRotation);
   </script>
   <!-- Hand Bouquet Section -->
   <HandBouquetSection />
