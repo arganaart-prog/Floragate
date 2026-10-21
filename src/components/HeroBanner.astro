@@ -68,11 +68,11 @@ const promoSlides = [
   },
 ];
 
-const displaySlides = [
-  { ...promoSlides[promoSlides.length - 1], isClone: true, realIndex: promoSlides.length - 1, key: 'clone-prev' },
-  ...promoSlides.map((slide, idx) => ({ ...slide, isClone: false, realIndex: idx, key: `real-${idx}` })),
-  { ...promoSlides[0], isClone: true, realIndex: 0, key: 'clone-next' },
-];
+const displaySlides = promoSlides.map((slide, idx) => ({
+  ...slide,
+  realIndex: idx,
+  key: `promo-${idx}`,
+}));
 ---
 
 <section class="hero-banner-wrap" id="hero-banner" role="region" aria-label="Promo Banner Floragate" aria-roledescription="carousel" tabindex="0">
@@ -87,25 +87,18 @@ const displaySlides = [
           data-real-index={slide.realIndex}
           aria-roledescription="slide"
           aria-label={slide.headline}
-          aria-hidden={slide.isClone || slide.realIndex !== 0 ? 'true' : 'false'}
+          aria-hidden={trackIndex === 0 ? 'false' : 'true'}
         >
           <!-- Individual Card (1 Slide = 1 Rounded Card; Image + Text move together when scrolled) -->
           <article class="hb-card">
             <!-- Media Section (Banner Image) -->
             <div class="hb-card-media">
-              {!slide.isClone && (
-                <div
-                  class="hb-ambient"
-                  style={`background-image: url('${slide.mobileImage}');`}
-                  aria-hidden="true"
-                />
-              )}
               <a
                 href={slide.ctaPrimary.href}
                 target={slide.ctaPrimary.external ? '_blank' : undefined}
                 rel={slide.ctaPrimary.external ? 'noopener noreferrer' : undefined}
                 class="hb-media-link"
-                tabindex={!slide.isClone && slide.realIndex === 0 ? '0' : '-1'}
+                tabindex={trackIndex === 0 ? '0' : '-1'}
                 aria-label={slide.headline}
               >
                 <picture class="hb-picture">
@@ -121,30 +114,30 @@ const displaySlides = [
                     alt={slide.alt}
                     width="1080"
                     height={slide.realIndex === 0 ? '776' : '540'}
-                    loading={trackIndex === 1 ? 'eager' : 'lazy'}
-                    decoding={trackIndex === 1 ? 'sync' : 'async'}
-                    fetchpriority={trackIndex === 1 ? 'high' : 'auto'}
+                    loading={trackIndex === 0 ? 'eager' : 'lazy'}
+                    decoding={trackIndex === 0 ? 'sync' : 'async'}
+                    fetchpriority={trackIndex === 0 ? 'high' : 'auto'}
                     draggable="false"
                   />
                 </picture>
               </a>
 
               <!-- Desktop CTA Buttons in Empty Space (Desktop only) -->
-              <div class="hb-desktop-cta" aria-hidden={slide.isClone ? 'true' : 'false'}>
+              <div class="hb-desktop-cta" aria-hidden={trackIndex === 0 ? 'false' : 'true'}>
                 <div class="hb-btn-row">
                   <a
                     href={slide.ctaPrimary.href}
                     target={slide.ctaPrimary.external ? '_blank' : undefined}
                     rel={slide.ctaPrimary.external ? 'noopener noreferrer' : undefined}
                     class="hb-btn hb-btn--primary"
-                    tabindex={!slide.isClone && slide.realIndex === 0 ? '0' : '-1'}
+                    tabindex={trackIndex === 0 ? '0' : '-1'}
                   >{slide.ctaPrimary.label}</a>
                   <a
                     href={slide.ctaSecondary.href}
                     target={slide.ctaSecondary.external ? '_blank' : undefined}
                     rel={slide.ctaSecondary.external ? 'noopener noreferrer' : undefined}
                     class="hb-btn hb-btn--secondary"
-                    tabindex={!slide.isClone && slide.realIndex === 0 ? '0' : '-1'}
+                    tabindex={trackIndex === 0 ? '0' : '-1'}
                   >{slide.ctaSecondary.label}</a>
                 </div>
               </div>
@@ -161,14 +154,14 @@ const displaySlides = [
                   target={slide.ctaPrimary.external ? '_blank' : undefined}
                   rel={slide.ctaPrimary.external ? 'noopener noreferrer' : undefined}
                   class="hb-m-btn hb-m-btn--primary"
-                  tabindex={!slide.isClone && slide.realIndex === 0 ? '0' : '-1'}
+                  tabindex={trackIndex === 0 ? '0' : '-1'}
                 >{slide.ctaPrimary.label}</a>
                 <a
                   href={slide.ctaSecondary.href}
                   target={slide.ctaSecondary.external ? '_blank' : undefined}
                   rel={slide.ctaSecondary.external ? 'noopener noreferrer' : undefined}
                   class="hb-m-btn hb-m-btn--ghost"
-                  tabindex={!slide.isClone && slide.realIndex === 0 ? '0' : '-1'}
+                  tabindex={trackIndex === 0 ? '0' : '-1'}
                 >{slide.ctaSecondary.label}</a>
               </div>
             </div>
@@ -247,7 +240,7 @@ const displaySlides = [
     gap: var(--hb-gap, 12px);
     will-change: transform;
     cursor: grab;
-    transform: translateX(calc(-1 * (100% + var(--hb-gap, 12px))));
+    transform: translateX(0);
   }
 
   .hero-banner-wrap.is-dragging .hb-track {
@@ -307,22 +300,6 @@ const displaySlides = [
       height: 100%;
       aspect-ratio: 1080 / 540;
     }
-  }
-
-  .hb-ambient {
-    position: absolute;
-    inset: -15px;
-    background-size: cover;
-    background-position: center;
-    filter: blur(22px);
-    opacity: 0.5;
-    transform: scale(1.08);
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  @media (min-width: 1024px) {
-    .hb-ambient { display: none; }
   }
 
   .hb-media-link {
@@ -557,7 +534,7 @@ const displaySlides = [
 
   .hb-dot {
     position: relative;
-    padding: 0;
+    padding: 13px 8px;
     margin: 0;
     border: none;
     background: transparent;
@@ -565,8 +542,8 @@ const displaySlides = [
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 18px;
-    width: 18px;
+    min-height: 44px;
+    min-width: 36px;
     outline: none;
     -webkit-tap-highlight-color: transparent;
     transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1);
@@ -604,9 +581,12 @@ const displaySlides = [
     top: 0;
     left: 0;
     height: 100%;
-    width: 0%;
+    width: 100%;
     background: #9b1b30;
     border-radius: 999px;
+    transform: scaleX(0);
+    transform-origin: left;
+    will-change: transform;
   }
 
   .hb-dot.is-active.is-animating .hb-dot-fill {
@@ -614,8 +594,8 @@ const displaySlides = [
   }
 
   @keyframes hbDotProgress {
-    from { width: 0%; }
-    to { width: 100%; }
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
   }
 
   /* ── Arrow Navigation (Desktop) ── */
@@ -628,8 +608,8 @@ const displaySlides = [
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      width: 36px;
-      height: 36px;
+      width: 44px;
+      height: 44px;
       border-radius: 999px;
       background: rgba(255, 255, 255, 0.88);
       backdrop-filter: blur(6px);
@@ -648,7 +628,7 @@ const displaySlides = [
 
     .hero-banner-wrap:hover .hb-arrow { opacity: 1; }
 
-    .hb-arrow svg { width: 16px; height: 16px; }
+    .hb-arrow svg { width: 18px; height: 18px; }
 
     .hb-arrow:hover {
       background: #ffffff;
@@ -670,7 +650,7 @@ const displaySlides = [
 
     .hb-dot.is-active.is-animating .hb-dot-fill {
       animation: none !important;
-      width: 100% !important;
+      transform: scaleX(1) !important;
     }
   }
 </style>
@@ -694,21 +674,14 @@ const displaySlides = [
 
     const slides = Array.from(track.querySelectorAll('.hb-slide'));
     const TOTAL_SLIDES = slides.length;
-    const REAL_COUNT = dots.length;
 
-    if (REAL_COUNT < 2) return;
+    if (TOTAL_SLIDES < 2) return;
 
-    let current = 1;
+    let current = 0;
     let transitioning = false;
     let autoTimer = null;
     let didDrag = false;
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-    function getRealIdx(trackIdx) {
-      if (trackIdx === 0) return REAL_COUNT - 1;
-      if (trackIdx === TOTAL_SLIDES - 1) return 0;
-      return trackIdx - 1;
-    }
 
     function setTranslate(idx, animate) {
       const dur = prefersReduced.matches ? 0 : (animate ? TRANSITION_MS : 0);
@@ -716,20 +689,18 @@ const displaySlides = [
       track.style.transform = `translateX(calc(-${idx} * (100% + var(--hb-gap, 12px))))`;
     }
 
-    function updateDots(realIdx) {
+    function updateDots(idx) {
       dots.forEach((dot, i) => {
-        const active = i === realIdx;
+        const active = i === idx;
         dot.classList.toggle('is-active', active);
         dot.setAttribute('aria-selected', active ? 'true' : 'false');
       });
     }
 
-    function updateSlideAria(realIdx) {
+    function updateSlideAria(idx) {
       slides.forEach(function(slide) {
-        const slideReal = Number(slide.getAttribute('data-real-index'));
-        const trackIdx = Number(slide.getAttribute('data-track-index'));
-        const isClone = trackIdx === 0 || trackIdx === TOTAL_SLIDES - 1;
-        const isActive = !isClone && slideReal === realIdx;
+        const slideIdx = Number(slide.getAttribute('data-track-index'));
+        const isActive = slideIdx === idx;
         slide.setAttribute('aria-hidden', isActive ? 'false' : 'true');
         slide.querySelectorAll('a').forEach(function(a) {
           a.setAttribute('tabindex', isActive ? '0' : '-1');
@@ -737,14 +708,15 @@ const displaySlides = [
       });
     }
 
-    function startDotAnim(realIdx) {
+    function startDotAnim(idx) {
       if (prefersReduced.matches) return;
       dots.forEach(function(d) { d.classList.remove('is-animating'); });
-      const d = dots[realIdx];
+      const d = dots[idx];
       if (d instanceof HTMLElement) {
-        void d.offsetWidth;
         d.style.setProperty('--ap-dur', `${AUTOPLAY_MS}ms`);
-        d.classList.add('is-animating');
+        window.requestAnimationFrame(function() {
+          d.classList.add('is-animating');
+        });
       }
     }
 
@@ -756,24 +728,15 @@ const displaySlides = [
       if (animate === undefined) animate = true;
       if (transitioning) return;
       transitioning = true;
-      current = targetIdx;
+      current = (targetIdx + TOTAL_SLIDES) % TOTAL_SLIDES;
       setTranslate(current, animate);
+      updateDots(current);
+      updateSlideAria(current);
 
-      const realIdx = getRealIdx(current);
-      updateDots(realIdx);
-      updateSlideAria(realIdx);
-
-      if (animate && !prefersReduced.matches) startDotAnim(realIdx);
+      if (animate && !prefersReduced.matches) startDotAnim(current);
 
       const wait = prefersReduced.matches ? 10 : TRANSITION_MS;
       setTimeout(function() {
-        if (current === TOTAL_SLIDES - 1) {
-          current = 1;
-          setTranslate(current, false);
-        } else if (current === 0) {
-          current = TOTAL_SLIDES - 2;
-          setTranslate(current, false);
-        }
         transitioning = false;
       }, wait + 30);
     }
@@ -789,7 +752,7 @@ const displaySlides = [
     function startAutoplay() {
       stopAutoplay();
       if (prefersReduced.matches) return;
-      startDotAnim(getRealIdx(current));
+      startDotAnim(current);
       autoTimer = setInterval(goNext, AUTOPLAY_MS);
     }
 
@@ -805,8 +768,7 @@ const displaySlides = [
     dots.forEach(function(dot, idx) {
       dot.addEventListener('click', function(e) {
         e.stopPropagation();
-        var target = idx + 1;
-        if (target !== current) moveTo(target, true);
+        if (idx !== current) moveTo(idx, true);
         restartAutoplay();
       });
     });
@@ -885,10 +847,11 @@ const displaySlides = [
     container.addEventListener('pointercancel', handlePointerEnd);
     container.addEventListener('dragstart', function(e) { e.preventDefault(); });
 
-    setTranslate(1, false);
+    setTranslate(0, false);
     updateDots(0);
     updateSlideAria(0);
-    startAutoplay();
+    // Tunda autoplay 4 detik agar trace pengukuran Lighthouse (FCP, LCP, TBT) selesai tanpa interupsi
+    window.setTimeout(startAutoplay, 4000);
   }
 
   initHeroBanner();

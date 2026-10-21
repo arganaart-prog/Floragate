@@ -20,16 +20,18 @@ const inspirasi = ARTICLES.filter(a =>
         <span class="aw-eyebrow">Artikel Florist</span>
         <h3 class="aw-heading">Tips & Wawasan</h3>
       </div>
-      <nav class="aw-nav" role="tablist" aria-label="Pilih topik artikel">
-        <button type="button" role="tab" aria-selected="true" class="aw-tab is-active" data-tab="pair-1" id="tab-articles-1">Panduan</button>
-        <button type="button" role="tab" aria-selected="false" class="aw-tab" data-tab="pair-2" id="tab-articles-2">Inspirasi</button>
+      <div class="aw-nav">
+        <div role="tablist" aria-label="Pilih topik artikel" class="aw-tabs-wrap">
+          <button type="button" role="tab" aria-selected="true" class="aw-tab is-active" data-tab="pair-1" id="tab-articles-1" aria-controls="panel-pair-1">Panduan</button>
+          <button type="button" role="tab" aria-selected="false" class="aw-tab" data-tab="pair-2" id="tab-articles-2" aria-controls="panel-pair-2">Inspirasi</button>
+        </div>
         <a href={withBase('/artikel/')} class="aw-all-link" aria-label="Semua artikel">
           Semua
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="9 18 15 12 9 6"/>
           </svg>
         </a>
-      </nav>
+      </div>
     </div>
   </div>
 
@@ -167,6 +169,11 @@ const inspirasi = ARTICLES.filter(a =>
     align-items: center;
     gap: 0;
     flex-shrink: 0;
+  }
+
+  .aw-tabs-wrap {
+    display: flex;
+    align-items: center;
   }
 
   .aw-tab {

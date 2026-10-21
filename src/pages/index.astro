@@ -39,7 +39,7 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
     rel="preload"
     as="image"
     type="image/webp"
-    href={withBase('/images/banner/promo%20banner/2.webp')}
+    imagesrcset={withBase('/images/banner/promo%20banner/2.webp')}
     media="(min-width: 1024px)"
     fetchpriority="high"
   />
@@ -388,7 +388,7 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
         font-weight: 700;
         letter-spacing: 0.1em;
         text-transform: uppercase;
-        color: #8aab6e;
+        color: #3b5a26;
         line-height: 1;
         white-space: nowrap;
         overflow: hidden;
@@ -432,7 +432,7 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
         font-weight: 700;
         letter-spacing: 0.12em;
         text-transform: uppercase;
-        color: #9aab8e;
+        color: #485a3c;
         margin-bottom: 2px;
         line-height: 1;
       }
@@ -512,7 +512,8 @@ const description = "Floragate adalah toko bunga Malang murah dan berkualitas un
         text-decoration: none;
         letter-spacing: 0.02em;
         white-space: nowrap;
-        padding: 0.4rem 0.85rem;
+        min-height: 44px;
+        padding: 0.5rem 1rem;
         border-radius: 999px;
         border: 1.5px solid var(--color-primary);
         transition: background 0.18s, color 0.18s;

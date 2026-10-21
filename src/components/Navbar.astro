@@ -431,7 +431,7 @@ const isMobileFaq = currentPath.startsWith('/faq/');
   };
 
   const measureDesktopStickyNav = () => {
-    if (!desktopStickyNav || !desktopNavSpacer) return;
+    if (!desktopStickyNav || !desktopNavSpacer || !desktopNavQuery.matches) return;
     desktopStickyNav.classList.remove('is-fixed');
     desktopNavSpacer.classList.remove('is-active');
     desktopStickyOffset = desktopStickyNav.getBoundingClientRect().top + window.scrollY;

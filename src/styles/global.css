@@ -6,7 +6,7 @@
   --color-primary-dark: #3F4B37;
   --color-secondary: #BFA77A;
   --color-secondary-light: #D6C29C;
-  --color-secondary-dark: #785E34;
+  --color-secondary-dark: #544120;
   --color-accent-bg: #F7F4EF;
   --color-dusty-rose: #DDB5A6;
   --color-soft-cream: #EADBC6;
@@ -105,33 +105,24 @@
   transition: opacity 0.45s ease;
 }
 
-.image-skeleton::after {
+.image-load-shell.is-loading .image-skeleton::after {
   content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(105deg, transparent 28%, rgba(255, 255, 255, 0.58) 44%, transparent 62%);
   transform: translateX(-120%);
   animation: imageSkeletonSweep 1.35s ease-in-out infinite;
+  will-change: transform;
 }
 
 .image-load-shell img[data-image-loader] {
-  opacity: 0;
-  transform: scale(1.015);
-  transition:
-    opacity 0.45s ease,
-    transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
+  opacity: 1;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .image-load-shell.is-loaded .image-skeleton,
 .image-load-shell.is-error .image-skeleton {
-  opacity: 0;
-}
-
-.image-load-shell.is-loaded img[data-image-loader],
-.image-load-shell.is-error img[data-image-loader] {
-  opacity: 1;
-  transform: scale(1);
+  display: none;
 }
 
 .product-card-shell,
