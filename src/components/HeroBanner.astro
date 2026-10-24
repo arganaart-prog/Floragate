@@ -93,6 +93,13 @@ const displaySlides = promoSlides.map((slide, idx) => ({
           <article class="hb-card">
             <!-- Media Section (Banner Image) -->
             <div class="hb-card-media">
+              {trackIndex !== undefined && (
+                <div
+                  class="hb-ambient"
+                  style={`background-image: url('${slide.mobileImage}');`}
+                  aria-hidden="true"
+                />
+              )}
               <a
                 href={slide.ctaPrimary.href}
                 target={slide.ctaPrimary.external ? '_blank' : undefined}
@@ -300,6 +307,22 @@ const displaySlides = promoSlides.map((slide, idx) => ({
       height: 100%;
       aspect-ratio: 1080 / 540;
     }
+  }
+
+  .hb-ambient {
+    position: absolute;
+    inset: -15px;
+    background-size: cover;
+    background-position: center;
+    filter: blur(22px);
+    opacity: 0.5;
+    transform: scale(1.08);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  @media (min-width: 1024px) {
+    .hb-ambient { display: none; }
   }
 
   .hb-media-link {
@@ -534,7 +557,7 @@ const displaySlides = promoSlides.map((slide, idx) => ({
 
   .hb-dot {
     position: relative;
-    padding: 13px 8px;
+    padding: 0;
     margin: 0;
     border: none;
     background: transparent;
@@ -542,8 +565,8 @@ const displaySlides = promoSlides.map((slide, idx) => ({
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 44px;
-    min-width: 36px;
+    height: 18px;
+    width: 18px;
     outline: none;
     -webkit-tap-highlight-color: transparent;
     transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1);
@@ -581,12 +604,9 @@ const displaySlides = promoSlides.map((slide, idx) => ({
     top: 0;
     left: 0;
     height: 100%;
-    width: 100%;
+    width: 0%;
     background: #9b1b30;
     border-radius: 999px;
-    transform: scaleX(0);
-    transform-origin: left;
-    will-change: transform;
   }
 
   .hb-dot.is-active.is-animating .hb-dot-fill {
@@ -594,8 +614,8 @@ const displaySlides = promoSlides.map((slide, idx) => ({
   }
 
   @keyframes hbDotProgress {
-    from { transform: scaleX(0); }
-    to { transform: scaleX(1); }
+    from { width: 0%; }
+    to { width: 100%; }
   }
 
   /* ── Arrow Navigation (Desktop) ── */
@@ -650,7 +670,7 @@ const displaySlides = promoSlides.map((slide, idx) => ({
 
     .hb-dot.is-active.is-animating .hb-dot-fill {
       animation: none !important;
-      transform: scaleX(1) !important;
+      width: 100% !important;
     }
   }
 </style>
