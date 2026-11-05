@@ -8,6 +8,9 @@ export default defineConfig({
   // GitHub Pages project site: https://arganaart-prog.github.io/Floragate/
   base: '/',
   devToolbar: { enabled: false },
+  build: {
+    inlineStylesheets: 'always',
+  },
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],
