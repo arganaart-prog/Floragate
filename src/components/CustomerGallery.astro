@@ -492,7 +492,19 @@ const row2 = [...ROW_2, ...ROW_2];
     });
   }
 
-  initCustomerGallery();
-  document.addEventListener('astro:page-load', initCustomerGallery);
+  if (typeof window !== 'undefined') {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(initCustomerGallery, { timeout: 3000 });
+    } else {
+      window.setTimeout(initCustomerGallery, 600);
+    }
+    document.addEventListener('astro:page-load', () => {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(initCustomerGallery, { timeout: 3000 });
+      } else {
+        window.setTimeout(initCustomerGallery, 600);
+      }
+    });
+  }
 </script>
 

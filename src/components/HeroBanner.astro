@@ -313,6 +313,7 @@ const displaySlides = promoSlides.map((slide, idx) => ({
     position: relative;
     width: 100%;
     aspect-ratio: 1080 / 776;
+    min-height: clamp(220px, 60vw, 340px);
     background: #f4ede3;
     overflow: hidden;
     box-sizing: border-box;
@@ -890,7 +891,6 @@ const displaySlides = promoSlides.map((slide, idx) => ({
     container.addEventListener('pointercancel', handlePointerEnd);
     container.addEventListener('dragstart', function(e) { e.preventDefault(); });
 
-    setTranslate(0, false);
     updateDots(0);
     updateSlideAria(0);
     // Jalankan autoplay untuk pengunjung setelah 8 detik agar tidak mengganggu LCP awal & kenyamanan membaca
@@ -899,6 +899,18 @@ const displaySlides = promoSlides.map((slide, idx) => ({
     }
   }
 
-  initHeroBanner();
-  document.addEventListener('astro:page-load', initHeroBanner);
+  if (typeof window !== 'undefined') {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(initHeroBanner, { timeout: 3000 });
+    } else {
+      window.setTimeout(initHeroBanner, 500);
+    }
+    document.addEventListener('astro:page-load', () => {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(initHeroBanner, { timeout: 3000 });
+      } else {
+        window.setTimeout(initHeroBanner, 500);
+      }
+    });
+  }
 </script>
