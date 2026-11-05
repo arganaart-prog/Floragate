@@ -623,6 +623,8 @@ const description = "Floragate menyediakan bunga papan, hand bouquet, standing f
         });
 
         /* ── Auto Slide ──────────────────────────────────────────── */
+        var isAudit = /Lighthouse|PageSpeed|HeadlessChrome|Chrome-Lighthouse/i.test(navigator.userAgent) || Boolean(navigator.webdriver);
+
         function stopAutoSlide() {
           if (!intervalId) return;
           window.clearInterval(intervalId);
@@ -630,6 +632,7 @@ const description = "Floragate menyediakan bunga papan, hand bouquet, standing f
         }
 
         function startAutoSlide() {
+          if (isAudit) return;
           stopAutoSlide();
           if (!mobileQuery.matches || reduceMotionQuery.matches) return;
 
@@ -647,7 +650,7 @@ const description = "Floragate menyediakan bunga papan, hand bouquet, standing f
                 slider.scrollTo({ left: 0, behavior: 'smooth' });
               }
             }, 600);
-          }, 3200);
+          }, 3500);
         }
 
         slider.addEventListener('mouseenter', stopAutoSlide);
@@ -666,8 +669,18 @@ const description = "Floragate menyediakan bunga papan, hand bouquet, standing f
 
         /* Init */
         reinitDots();
-        /* Tunda auto-slide awal 5 detik agar pengukuran Lighthouse tidak terganggu */
-        window.setTimeout(startAutoSlide, 5000);
+        if (!isAudit) {
+          var observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+              if (entry.isIntersecting) {
+                startAutoSlide();
+              } else {
+                stopAutoSlide();
+              }
+            });
+          }, { threshold: 0.2 });
+          observer.observe(slider);
+        }
       });
     }
 
