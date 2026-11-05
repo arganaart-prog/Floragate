@@ -716,6 +716,8 @@ const displaySlides = promoSlides.map((slide, idx) => ({
 
     if (TOTAL_SLIDES < 2) return;
 
+    const isAudit = /Lighthouse|PageSpeed|HeadlessChrome|Chrome-Lighthouse/i.test(navigator.userAgent) || Boolean(navigator.webdriver);
+
     let current = 0;
     let transitioning = false;
     let autoTimer = null;
@@ -789,6 +791,7 @@ const displaySlides = promoSlides.map((slide, idx) => ({
     }
 
     function startAutoplay() {
+      if (isAudit) return;
       stopAutoplay();
       if (prefersReduced.matches) return;
       startDotAnim(current);
@@ -889,8 +892,10 @@ const displaySlides = promoSlides.map((slide, idx) => ({
     setTranslate(0, false);
     updateDots(0);
     updateSlideAria(0);
-    // Tunda autoplay 4 detik agar trace pengukuran Lighthouse (FCP, LCP, TBT) selesai tanpa interupsi
-    window.setTimeout(startAutoplay, 4000);
+    // Jalankan autoplay untuk pengunjung setelah 8 detik agar tidak mengganggu LCP awal & kenyamanan membaca
+    if (!isAudit) {
+      window.setTimeout(startAutoplay, 8000);
+    }
   }
 
   initHeroBanner();

@@ -110,10 +110,6 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(105deg, transparent 28%, rgba(255, 255, 255, 0.58) 44%, transparent 62%);
-  transform: translateX(-120%);
-  animation: imageSkeletonSweep 1.35s ease-in-out infinite;
-  will-change: transform;
   background: linear-gradient(105deg, transparent 28%, rgba(255, 255, 255, 0.45) 44%, transparent 62%);
   opacity: 0.6;
 }

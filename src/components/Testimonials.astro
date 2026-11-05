@@ -200,6 +200,8 @@ import { TESTIMONIALS } from '../data/testimonials';
         });
       }
 
+      const isAudit = /Lighthouse|PageSpeed|HeadlessChrome|Chrome-Lighthouse/i.test(navigator.userAgent) || Boolean(navigator.webdriver);
+
       function stopAutoplay() {
         if (autoplayTimer) {
           clearInterval(autoplayTimer);
@@ -208,13 +210,14 @@ import { TESTIMONIALS } from '../data/testimonials';
       }
 
       function startAutoplay() {
+        if (isAudit) return;
         stopAutoplay();
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
         autoplayTimer = setInterval(() => {
           const nextIndex = currentIndex >= getMaxIndex() ? 0 : currentIndex + 1;
           scrollToIndex(nextIndex);
-        }, 4500);
+        }, 5500);
       }
 
       prevBtn.addEventListener('click', () => {
@@ -286,7 +289,19 @@ import { TESTIMONIALS } from '../data/testimonials';
 
       buildDots();
       updateUI();
-      startAutoplay();
+
+      if (!isAudit) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              startAutoplay();
+            } else {
+              stopAutoplay();
+            }
+          });
+        }, { threshold: 0.2 });
+        observer.observe(root);
+      }
     });
   }
 

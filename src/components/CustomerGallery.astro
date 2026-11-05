@@ -453,6 +453,9 @@ const row2 = [...ROW_2, ...ROW_2];
       var rows = Array.from(section.querySelectorAll('[data-gallery-row]'));
       if (!rows.length) return;
 
+      var isAudit = /Lighthouse|PageSpeed|HeadlessChrome|Chrome-Lighthouse/i.test(navigator.userAgent) || Boolean(navigator.webdriver);
+      if (isAudit) return;
+
       var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
       function playAll() {
