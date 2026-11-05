@@ -17,9 +17,10 @@ interface Props {
   schema?: Record<string, any>;
   robots?: string;
   showTestimonials?: boolean;
+  showGallery?: boolean;
 }
 
-const { title, description, keywords, image, type = 'website', schema, robots, showTestimonials = true } = Astro.props;
+const { title, description, keywords, image, type = 'website', schema, robots, showTestimonials = true, showGallery = false } = Astro.props;
 
 // Default Schema: Florist di Malang
 const defaultSchema = {
@@ -90,10 +91,19 @@ const finalSchema = schema || defaultSchema;
       gtag('js', new Date());
       gtag('config', 'G-BK1L7D9N5D');
       window.addEventListener('load', function() {
-        var s = document.createElement('script');
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-BK1L7D9N5D';
-        s.async = true;
-        document.head.appendChild(s);
+        var loadGTM = function() {
+          if (window._gtmLoaded) return;
+          window._gtmLoaded = true;
+          var s = document.createElement('script');
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=G-BK1L7D9N5D';
+          s.async = true;
+          document.head.appendChild(s);
+        };
+        if ('requestIdleCallback' in window) {
+          window.requestIdleCallback(loadGTM, { timeout: 3500 });
+        } else {
+          window.setTimeout(loadGTM, 2500);
+        }
       }, { once: true });
     </script>
 
@@ -164,7 +174,7 @@ const finalSchema = schema || defaultSchema;
       <slot />
     </main>
     {showTestimonials && <Testimonials />}
-    {showTestimonials && <CustomerGallery />}
+    {showGallery && <CustomerGallery />}
     <Footer />
     <script>
       function initImageLoaders() {

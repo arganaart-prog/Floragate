@@ -19,6 +19,7 @@ const productUrl = withBase(`/produk/${product.slug}/`);
 const imageUrl = withBase(product.image);
 const imageLoading = priority ? 'eager' : 'lazy';
 const imageFetchPriority = priority ? 'high' : 'low';
+const imageDecoding = priority ? 'sync' : 'async';
 const imageSizes = variant === 'compact'
   ? '(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw'
   : '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw';
@@ -45,7 +46,7 @@ const compactAspect = aspect || (isHandBouquet ? 'aspect-[4/5]' : 'aspect-[4/4.5
           width={product.imageWidth}
           height={product.imageHeight}
           loading={imageLoading}
-          decoding="async"
+          decoding={imageDecoding}
           fetchpriority={imageFetchPriority}
           sizes={imageSizes}
           data-image-loader={!priority ? "true" : undefined}
@@ -94,7 +95,7 @@ const compactAspect = aspect || (isHandBouquet ? 'aspect-[4/5]' : 'aspect-[4/4.5
         width={product.imageWidth}
         height={product.imageHeight}
         loading={imageLoading}
-        decoding="async"
+        decoding={imageDecoding}
         fetchpriority={imageFetchPriority}
         sizes={imageSizes}
         data-image-loader={!priority ? "true" : undefined}
@@ -146,7 +147,7 @@ const compactAspect = aspect || (isHandBouquet ? 'aspect-[4/5]' : 'aspect-[4/4.5
           width={product.imageWidth}
           height={product.imageHeight}
           loading={imageLoading}
-          decoding="async"
+          decoding={imageDecoding}
           fetchpriority={imageFetchPriority}
           sizes={imageSizes}
           data-image-loader={!priority ? "true" : undefined}

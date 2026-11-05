@@ -65,9 +65,17 @@ const description = "Bunga papan, hand bouquet, standing flower, dan tanaman uca
           data-name={getProductDisplayName(product).toLowerCase()}
           data-description={product.description.toLowerCase()}
         >
-          <ProductCard product={product} priority={index < 2} />
+          <ProductCard product={product} priority={index === 0} />
         </div>
       ))}
+    </div>
+    
+    <!-- Pagination Controls -->
+    <div id="pagination-wrapper" class="mt-12 flex flex-col items-center gap-3">
+      <nav id="pagination-nav" class="flex flex-wrap justify-center items-center gap-2" aria-label="Navigasi Halaman Produk">
+        <!-- Buttons injected by script -->
+      </nav>
+      <p id="pagination-info" class="text-xs text-slate-500 font-medium"></p>
     </div>
     
     <!-- Empty State -->
@@ -83,10 +91,13 @@ const description = "Bunga papan, hand bouquet, standing flower, dan tanaman uca
 </Layout>
 
 <script>
-  // Filter & Search Logic
+  // Filter & Search Logic with Pagination
   const buttons = document.querySelectorAll('.filter-btn');
   const items = document.querySelectorAll('.product-item-wrapper');
   const emptyState = document.getElementById('empty-state');
+  const ITEMS_PER_PAGE = 12;
+  let currentPage = 1;
+  let matchingItems: HTMLElement[] = [];
 
   // Read URL query parameters
   const urlParams = new URLSearchParams(window.location.search);
@@ -106,14 +117,12 @@ const description = "Bunga papan, hand bouquet, standing flower, dan tanaman uca
         const target = e.target as HTMLInputElement;
         currentSearch = target.value.toLowerCase().slice(0, 80);
         
-        // Sync all other search inputs
         searchInputs.forEach(otherInput => {
           if (otherInput !== target && otherInput instanceof HTMLInputElement) {
             otherInput.value = target.value;
           }
         });
 
-        // Update URL query string without reloading page
         const newUrl = new URL(window.location.href);
         if (currentSearch) {
           newUrl.searchParams.set('search', currentSearch);
@@ -127,7 +136,6 @@ const description = "Bunga papan, hand bouquet, standing flower, dan tanaman uca
     }
   });
 
-  // Intercept search forms to prevent full reload on katalog page
   const searchForms = document.querySelectorAll('form[action$="/katalog/"]');
   searchForms.forEach(form => {
     form.addEventListener('submit', (e) => {
@@ -136,8 +144,89 @@ const description = "Bunga papan, hand bouquet, standing flower, dan tanaman uca
     });
   });
 
+  function renderPagination(totalPages: number, totalItems: number) {
+    const nav = document.getElementById('pagination-nav');
+    const info = document.getElementById('pagination-info');
+    if (!nav || !info) return;
+
+    if (totalItems <= ITEMS_PER_PAGE) {
+      nav.innerHTML = '';
+      info.textContent = totalItems > 0 ? `Menampilkan ${totalItems} produk` : '';
+      return;
+    }
+
+    const startIdx = (currentPage - 1) * ITEMS_PER_PAGE + 1;
+    const endIdx = Math.min(currentPage * ITEMS_PER_PAGE, totalItems);
+    info.textContent = `Menampilkan ${startIdx}-${endIdx} dari ${totalItems} produk`;
+
+    let html = '';
+
+    html += `<button type="button" class="pagination-btn px-3.5 h-10 flex items-center justify-center rounded-lg border border-soft-cream/80 bg-white text-slate-700 font-semibold text-xs transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed shadow-xs" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''} aria-label="Halaman sebelumnya">
+      <svg class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg> Sebelumnya
+    </button>`;
+
+    for (let p = 1; p <= totalPages; p++) {
+      const isActive = p === currentPage;
+      if (
+        p === 1 ||
+        p === totalPages ||
+        (p >= currentPage - 1 && p <= currentPage + 1)
+      ) {
+        html += `<button type="button" class="pagination-btn min-w-[40px] h-10 px-3 flex items-center justify-center rounded-lg border text-xs font-bold transition-colors cursor-pointer shadow-xs ${isActive ? 'border-primary bg-primary text-white' : 'border-soft-cream/80 bg-white text-slate-700 hover:border-primary hover:text-primary'}" data-page="${p}" aria-current="${isActive ? 'page' : 'false'}" aria-label="Halaman ${p}">
+          ${p}
+        </button>`;
+      } else if (
+        (p === currentPage - 2 && p > 1) ||
+        (p === currentPage + 2 && p < totalPages)
+      ) {
+        html += `<span class="px-2 text-slate-400 select-none">...</span>`;
+      }
+    }
+
+    html += `<button type="button" class="pagination-btn px-3.5 h-10 flex items-center justify-center rounded-lg border border-soft-cream/80 bg-white text-slate-700 font-semibold text-xs transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed shadow-xs" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''} aria-label="Halaman berikutnya">
+      Berikutnya <svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+    </button>`;
+
+    nav.innerHTML = html;
+
+    nav.querySelectorAll('.pagination-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetPage = parseInt((btn as HTMLElement).getAttribute('data-page') || '1', 10);
+        if (targetPage && targetPage !== currentPage && targetPage >= 1 && targetPage <= totalPages) {
+          currentPage = targetPage;
+          updatePageItems();
+          const grid = document.getElementById('products-grid');
+          if (grid) {
+            const offset = grid.getBoundingClientRect().top + window.scrollY - 100;
+            window.scrollTo({ top: Math.max(0, offset), behavior: 'smooth' });
+          }
+        }
+      });
+    });
+  }
+
+  function updatePageItems() {
+    const totalPages = Math.ceil(matchingItems.length / ITEMS_PER_PAGE) || 1;
+    if (currentPage > totalPages) currentPage = 1;
+
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    const end = start + ITEMS_PER_PAGE;
+
+    items.forEach(item => {
+      if (item instanceof HTMLElement) item.classList.add('hidden');
+    });
+
+    matchingItems.forEach((item, idx) => {
+      if (idx >= start && idx < end) {
+        item.classList.remove('hidden');
+      }
+    });
+
+    renderPagination(totalPages, matchingItems.length);
+  }
+
   function applyFilters() {
-    let visibleCount = 0;
+    matchingItems = [];
 
     items.forEach(item => {
       if (!(item instanceof HTMLElement)) return;
@@ -152,21 +241,20 @@ const description = "Bunga papan, hand bouquet, standing flower, dan tanaman uca
                             itemDesc.includes(currentSearch);
 
       if (matchesCategory && matchesSearch) {
-        item.classList.remove('hidden');
-        visibleCount++;
-      } else {
-        item.classList.add('hidden');
+        matchingItems.push(item);
       }
     });
 
-    // Show empty state if no matching products
     if (emptyState) {
-      if (visibleCount === 0) {
+      if (matchingItems.length === 0) {
         emptyState.classList.remove('hidden');
       } else {
         emptyState.classList.add('hidden');
       }
     }
+
+    currentPage = 1;
+    updatePageItems();
   }
 
   // Initial Run
@@ -175,7 +263,6 @@ const description = "Bunga papan, hand bouquet, standing flower, dan tanaman uca
   // Category filter buttons click handlers
   buttons.forEach(button => {
     button.addEventListener('click', () => {
-      // 1. Update button styling
       buttons.forEach(btn => {
         btn.classList.remove('bg-primary', 'text-white', 'border-primary');
         btn.classList.add('bg-white', 'text-slate-600', 'border-soft-cream');
@@ -183,10 +270,7 @@ const description = "Bunga papan, hand bouquet, standing flower, dan tanaman uca
       button.classList.remove('bg-white', 'text-slate-600', 'border-soft-cream');
       button.classList.add('bg-primary', 'text-white', 'border-primary');
 
-      // 2. Set new category filter
       currentCategory = button.getAttribute('data-filter') || 'all';
-
-      // 3. Apply changes
       applyFilters();
     });
   });

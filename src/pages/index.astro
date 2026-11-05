@@ -24,7 +24,7 @@ const title = "Toko Bunga Malang Murah & Berkualitas - Florist Cepat";
 const description = "Floragate menyediakan bunga papan, hand bouquet, standing flower, dan tanaman ucapan di Malang. Pengerjaan 3 jam, difoto sebelum dikirim, gratis ongkir Malang Kota.";
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} showGallery={true}>
   <!-- Preload LCP banner: mobile (1.webp) on mobile, desktop (2.webp) on desktop -->
   <link
     slot="head"
@@ -158,7 +158,7 @@ const description = "Floragate menyediakan bunga papan, hand bouquet, standing f
             <ProductCard
               product={product}
               variant="classic"
-              priority={index < 2}
+              priority={false}
               data-featured-product-index={index}
             />
           ))}

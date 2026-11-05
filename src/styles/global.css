@@ -23,10 +23,16 @@
     text-size-adjust: 100%;
   }
 
+  html,
   body {
     max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
     overflow-x: clip;
     @apply bg-white text-slate-800 font-sans antialiased selection:bg-primary/20 selection:text-primary;
+    scroll-behavior: smooth;
   }
 }
 
@@ -104,12 +110,17 @@
   content: "";
   position: absolute;
   inset: 0;
+  background: linear-gradient(105deg, transparent 28%, rgba(255, 255, 255, 0.58) 44%, transparent 62%);
+  transform: translateX(-120%);
+  animation: imageSkeletonSweep 1.35s ease-in-out infinite;
+  will-change: transform;
   background: linear-gradient(105deg, transparent 28%, rgba(255, 255, 255, 0.45) 44%, transparent 62%);
   opacity: 0.6;
 }
 
 .image-load-shell img[data-image-loader] {
   opacity: 1;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .image-load-shell.is-loaded .image-skeleton,
@@ -117,6 +128,29 @@
   display: none;
 }
 
+.product-card-shell:not([data-priority="true"]),
+.product-item-wrapper,
+.category-product-card,
+.bunga-papan-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 520px;
+}
+@media (max-width: 767px) {
+  /* Mobile browsers can reserve the intrinsic size inside sliders; keep cards measured from real content. */
+  .product-card-shell,
+  .product-item-wrapper,
+  .category-product-card,
+  .bunga-papan-card {
+    content-visibility: visible;
+    contain-intrinsic-size: none;
+  }
+}
+
+@keyframes imageSkeletonSweep {
+  to {
+    transform: translateX(120%);
+  }
+}
 /* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
   *, ::before, ::after {
