@@ -236,22 +236,32 @@ const displaySlides = promoSlides.map((slide, idx) => ({
 
   .hb-viewport {
     width: 100%;
-    height: 100%;
     overflow: hidden;
     position: relative;
     padding: 2px 0 6px;
     margin: -2px 0 -6px;
   }
 
+  @media (min-width: 1024px) {
+    .hb-viewport {
+      height: 100%;
+    }
+  }
+
   .hb-track {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 100%;
     gap: var(--hb-gap, 12px);
     will-change: transform;
     cursor: grab;
     transform: translateX(0);
+  }
+
+  @media (min-width: 1024px) {
+    .hb-track {
+      height: 100%;
+    }
   }
 
   .hero-banner-wrap.is-dragging .hb-track {
