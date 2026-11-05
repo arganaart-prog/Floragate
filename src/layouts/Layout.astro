@@ -95,8 +95,11 @@ const finalSchema = schema || defaultSchema;
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href={withBase('/favicon-transparent.png')} />
-    <link rel="apple-touch-icon" href={withBase('/favicon-transparent.png')} />
+    <link rel="icon" href={withBase('/favicon.ico')} sizes="any" />
+    <link rel="icon" type="image/png" sizes="48x48" href={withBase('/favicon-48x48.png')} />
+    <link rel="icon" type="image/png" sizes="96x96" href={withBase('/favicon-96x96.png')} />
+    <link rel="icon" type="image/png" sizes="192x192" href={withBase('/favicon-192x192.png')} />
+    <link rel="apple-touch-icon" sizes="180x180" href={withBase('/apple-touch-icon.png')} />
     <meta name="generator" content={Astro.generator} />
 
     <SEOHead
