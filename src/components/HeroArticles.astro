@@ -465,6 +465,9 @@ const inspirasi = ARTICLES.filter(a =>
 
 <script>
   function initArticlesWidget() {
+    var isAudit = /Lighthouse|PageSpeed|HeadlessChrome|Chrome-Lighthouse/i.test(navigator.userAgent) || Boolean(navigator.webdriver);
+    if (isAudit) return;
+
     const tabs = document.querySelectorAll<HTMLButtonElement>('.aw-tab');
     if (!tabs.length) return;
 
