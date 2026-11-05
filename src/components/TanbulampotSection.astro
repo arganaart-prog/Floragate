@@ -28,7 +28,7 @@ const categoryHref = '/kategori/tanbulampot-malang/';
     >
       {tanbulampotProducts.map((product, index) => (
         <div class="daily-product-item h-full" data-product-slug={product.slug}>
-          <HomeOrderProductCard product={product} arch priority={index < 2} />
+          <HomeOrderProductCard product={product} arch priority={false} />
         </div>
       ))}
     </div>

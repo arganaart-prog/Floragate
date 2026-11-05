@@ -28,7 +28,7 @@ const categoryHref = '/kategori/bunga-meja-malang/';
     >
       {bungaMejaProducts.map((product, index) => (
         <div class="daily-product-item h-full" data-product-slug={product.slug}>
-          <CategoryProductCard product={product} aspect="aspect-square" priority={index < 2} />
+          <CategoryProductCard product={product} aspect="aspect-square" priority={false} />
         </div>
       ))}
     </div>
