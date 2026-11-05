@@ -289,6 +289,18 @@ import { TESTIMONIALS } from '../data/testimonials';
     });
   }
 
-  initTestimonialCarousels();
-  document.addEventListener('astro:page-load', initTestimonialCarousels);
+  if (typeof window !== 'undefined') {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(() => initTestimonialCarousels());
+    } else {
+      window.setTimeout(initTestimonialCarousels, 250);
+    }
+    document.addEventListener('astro:page-load', () => {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(() => initTestimonialCarousels());
+      } else {
+        window.setTimeout(initTestimonialCarousels, 250);
+      }
+    });
+  }
 </script>

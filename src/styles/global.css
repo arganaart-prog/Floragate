@@ -125,7 +125,7 @@
   display: none;
 }
 
-.product-card-shell,
+.product-card-shell:not([data-priority="true"]),
 .product-item-wrapper,
 .category-product-card,
 .bunga-papan-card {

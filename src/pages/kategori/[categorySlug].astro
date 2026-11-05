@@ -77,6 +77,16 @@ const customCategorySchema = {
   keywords={category.seoKeywords}
   schema={customCategorySchema}
 >
+  {products.length > 0 && (
+    <link
+      slot="head"
+      rel="preload"
+      as="image"
+      type="image/webp"
+      href={withBase(products[0].image)}
+      fetchpriority="high"
+    />
+  )}
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     
     <!-- Breadcrumb -->
@@ -127,7 +137,7 @@ const customCategorySchema = {
         {products.map((product, index) => (
           <ProductCard
             product={product}
-            priority={index < 3}
+            priority={index < 2}
             aspect={isHandBouquet ? 'aspect-[4/5]' : undefined}
           />
         ))}

@@ -4,6 +4,7 @@ import ProductCard from '../components/ProductCard.astro';
 import Breadcrumb from '../components/Breadcrumb.astro';
 import { CATEGORIES, PRODUCTS } from '../data/products';
 import { getProductDisplayName } from '../utils/productHelpers';
+import { withBase } from '../utils/paths';
 
 // SEO Meta
 const title = "Katalog Karangan Bunga Floragate — Toko Bunga Malang";
@@ -11,6 +12,16 @@ const description = "Bunga papan, hand bouquet, standing flower, dan tanaman uca
 ---
 
 <Layout title={title} description={description}>
+  {PRODUCTS.length > 0 && (
+    <link
+      slot="head"
+      rel="preload"
+      as="image"
+      type="image/webp"
+      href={withBase(PRODUCTS[0].image)}
+      fetchpriority="high"
+    />
+  )}
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     
     <!-- Breadcrumb -->
@@ -54,7 +65,7 @@ const description = "Bunga papan, hand bouquet, standing flower, dan tanaman uca
           data-name={getProductDisplayName(product).toLowerCase()}
           data-description={product.description.toLowerCase()}
         >
-          <ProductCard product={product} priority={index < 3} />
+          <ProductCard product={product} priority={index < 2} />
         </div>
       ))}
     </div>

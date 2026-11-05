@@ -83,14 +83,18 @@ const finalSchema = schema || defaultSchema;
 <!doctype html>
 <html lang="id">
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-BK1L7D9N5D"></script>
+    <!-- Google tag (gtag.js) — deferred to avoid render blocking -->
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-BK1L7D9N5D');
+      window.addEventListener('load', function() {
+        var s = document.createElement('script');
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-BK1L7D9N5D';
+        s.async = true;
+        document.head.appendChild(s);
+      }, { once: true });
     </script>
 
     <meta charset="UTF-8" />

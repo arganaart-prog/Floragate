@@ -25,6 +25,7 @@ const description = "Floragate menyediakan bunga papan, hand bouquet, standing f
 ---
 
 <Layout title={title} description={description}>
+  <!-- Preload LCP banner: mobile (1.webp) on mobile, desktop (2.webp) on desktop -->
   <link
     slot="head"
     rel="preload"
@@ -39,7 +40,7 @@ const description = "Floragate menyediakan bunga papan, hand bouquet, standing f
     rel="preload"
     as="image"
     type="image/webp"
-    imagesrcset={withBase('/images/banner/promo%20banner/2.webp')}
+    href={withBase('/images/banner/promo%20banner/2.webp')}
     media="(min-width: 1024px)"
     fetchpriority="high"
   />
@@ -670,8 +671,20 @@ const description = "Floragate menyediakan bunga papan, hand bouquet, standing f
       });
     }
 
-    initFeaturedProductsSlider();
-    document.addEventListener('astro:page-load', initFeaturedProductsSlider);
+    if (typeof window !== 'undefined') {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(initFeaturedProductsSlider);
+      } else {
+        window.setTimeout(initFeaturedProductsSlider, 200);
+      }
+      document.addEventListener('astro:page-load', function() {
+        if ('requestIdleCallback' in window) {
+          window.requestIdleCallback(initFeaturedProductsSlider);
+        } else {
+          window.setTimeout(initFeaturedProductsSlider, 200);
+        }
+      });
+    }
 
     function getWIBDayNumberClient() {
       var WIB_OFFSET_MS = 7 * 60 * 60 * 1000;

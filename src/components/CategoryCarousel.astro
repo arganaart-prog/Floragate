@@ -309,6 +309,18 @@ const categories = CATEGORIES.map((category) => {
     });
   }
 
-  initCategoryCarousels();
-  document.addEventListener('astro:page-load', initCategoryCarousels);
+  if (typeof window !== 'undefined') {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(() => initCategoryCarousels());
+    } else {
+      window.setTimeout(initCategoryCarousels, 150);
+    }
+    document.addEventListener('astro:page-load', () => {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(() => initCategoryCarousels());
+      } else {
+        window.setTimeout(initCategoryCarousels, 150);
+      }
+    });
+  }
 </script>
