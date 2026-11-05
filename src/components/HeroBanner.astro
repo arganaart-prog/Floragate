@@ -93,7 +93,7 @@ const displaySlides = promoSlides.map((slide, idx) => ({
           <article class="hb-card">
             <!-- Media Section (Banner Image) -->
             <div class="hb-card-media">
-              {trackIndex !== undefined && (
+              {trackIndex !== 0 && (
                 <div
                   class="hb-ambient"
                   style={`background-image: url('${slide.mobileImage}');`}
@@ -153,7 +153,11 @@ const displaySlides = promoSlides.map((slide, idx) => ({
             <!-- Mobile Card Body (Text & Buttons inside the card, slides WITH the card!) -->
             <div class="hb-card-body">
               <span class="hb-m-badge">{slide.badge}</span>
-              <h2 class="hb-m-title">{slide.headline}</h2>
+              {trackIndex === 0 ? (
+                <h1 class="hb-m-title">{slide.headline}</h1>
+              ) : (
+                <h2 class="hb-m-title">{slide.headline}</h2>
+              )}
               <p class="hb-m-desc">{slide.description}</p>
               <div class="hb-m-btns">
                 <a
@@ -604,9 +608,12 @@ const displaySlides = promoSlides.map((slide, idx) => ({
     top: 0;
     left: 0;
     height: 100%;
-    width: 0%;
+    width: 100%;
     background: #9b1b30;
     border-radius: 999px;
+    transform: scaleX(0);
+    transform-origin: left;
+    will-change: transform;
   }
 
   .hb-dot.is-active.is-animating .hb-dot-fill {
@@ -614,8 +621,8 @@ const displaySlides = promoSlides.map((slide, idx) => ({
   }
 
   @keyframes hbDotProgress {
-    from { width: 0%; }
-    to { width: 100%; }
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
   }
 
   /* ── Arrow Navigation (Desktop) ── */
@@ -670,7 +677,7 @@ const displaySlides = promoSlides.map((slide, idx) => ({
 
     .hb-dot.is-active.is-animating .hb-dot-fill {
       animation: none !important;
-      width: 100% !important;
+      transform: scaleX(1) !important;
     }
   }
 </style>
