@@ -500,6 +500,18 @@ const inspirasi = ARTICLES.filter(a =>
     });
   }
 
-  initArticlesWidget();
-  document.addEventListener('astro:page-load', initArticlesWidget);
+  if (typeof window !== 'undefined') {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(initArticlesWidget, { timeout: 2000 });
+    } else {
+      window.setTimeout(initArticlesWidget, 400);
+    }
+    document.addEventListener('astro:page-load', () => {
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(initArticlesWidget, { timeout: 2000 });
+      } else {
+        window.setTimeout(initArticlesWidget, 400);
+      }
+    });
+  }
 </script>

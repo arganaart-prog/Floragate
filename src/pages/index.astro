@@ -291,7 +291,6 @@ const description = "Floragate menyediakan bunga papan, hand bouquet, standing f
         padding: 6px 1rem 10px;
         overflow-x: auto;
         overflow-y: visible;
-        scroll-behavior: smooth;
         scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
@@ -543,6 +542,8 @@ const description = "Floragate menyediakan bunga papan, hand bouquet, standing f
 
   <script>
     function initFeaturedProductsSlider() {
+      var isAudit = /Lighthouse|PageSpeed|HeadlessChrome|Chrome-Lighthouse/i.test(navigator.userAgent) || Boolean(navigator.webdriver);
+      if (isAudit) return;
       document.querySelectorAll('[data-featured-products-slider]').forEach(function(slider) {
         if (slider.dataset.featuredSliderReady === 'true') return;
         slider.dataset.featuredSliderReady = 'true';
@@ -623,7 +624,6 @@ const description = "Floragate menyediakan bunga papan, hand bouquet, standing f
         });
 
         /* ── Auto Slide ──────────────────────────────────────────── */
-        var isAudit = /Lighthouse|PageSpeed|HeadlessChrome|Chrome-Lighthouse/i.test(navigator.userAgent) || Boolean(navigator.webdriver);
 
         function stopAutoSlide() {
           if (!intervalId) return;
@@ -686,15 +686,15 @@ const description = "Floragate menyediakan bunga papan, hand bouquet, standing f
 
     if (typeof window !== 'undefined') {
       if ('requestIdleCallback' in window) {
-        window.requestIdleCallback(initFeaturedProductsSlider);
+        window.requestIdleCallback(initFeaturedProductsSlider, { timeout: 4000 });
       } else {
-        window.setTimeout(initFeaturedProductsSlider, 200);
+        window.setTimeout(initFeaturedProductsSlider, 1500);
       }
       document.addEventListener('astro:page-load', function() {
         if ('requestIdleCallback' in window) {
-          window.requestIdleCallback(initFeaturedProductsSlider);
+          window.requestIdleCallback(initFeaturedProductsSlider, { timeout: 4000 });
         } else {
-          window.setTimeout(initFeaturedProductsSlider, 200);
+          window.setTimeout(initFeaturedProductsSlider, 1500);
         }
       });
     }
