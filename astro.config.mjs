@@ -9,7 +9,7 @@ export default defineConfig({
   base: '/',
   devToolbar: { enabled: false },
   build: {
-    inlineStylesheets: 'always',
+    inlineStylesheets: 'auto',
   },
   integrations: [sitemap()],
   vite: {
