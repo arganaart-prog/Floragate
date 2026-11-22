@@ -31,9 +31,10 @@ const RAW_CATEGORIES: Category[] = [
   {
     slug: "bunga-papan-duka-cita-malang",
     name: "Bunga Papan Duka Cita",
-    description: "Karangan bunga papan duka cita dengan tata huruf rapi dan nuansa teduh untuk ungkapan belasungkawa.",
-    seoTitle: "Bunga Papan Duka Cita Malang Murah & Berkualitas",
-    seoDescription: "Pesan bunga papan duka cita Malang murah dan berkualitas di Floragate. Rangkaian elegan, bunga segar, proses cepat 3 jam, dan gratis ongkir area Kota Malang.",
+    description: "Karangan bunga papan duka cita Malang murah dan berkualitas dengan tata huruf rapi dan nuansa teduh untuk ungkapan belasungkawa. Pengerjaan cepat 3 jam, difoto sebelum dikirim, gratis ongkir Malang Kota.",
+    seoTitle: "Bunga Papan Duka Cita Malang — Murah Mulai 400 Ribu | Floragate",
+    seoDescription: "Pesan bunga papan duka cita Malang murah mulai 400 ribu di Floragate. Rangkaian elegan bunga segar, pengerjaan cepat 3 jam, difoto sebelum dikirim, gratis ongkir Malang Kota. Tersedia 11+ desain pilihan.",
+    seoKeywords: "bunga papan duka cita malang, karangan bunga duka cita malang, bunga papan turut berduka cita malang, bunga duka cita malang murah, toko bunga papan duka cita malang, harga bunga papan duka cita malang, bunga papan belasungkawa malang, karangan bunga belasungkawa malang, pesan bunga papan duka cita malang, jual bunga papan duka cita malang",
     image: "/images/kategori/duka-cita.webp"
   },
   {

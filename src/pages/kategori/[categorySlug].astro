@@ -19,6 +19,7 @@ export async function getStaticPaths() {
 const { category, products } = Astro.props;
 const isTanbulampot = category.slug === 'tanbulampot-malang';
 const isHandBouquet = category.slug === 'hand-bouquet-malang';
+const isDukaCita = category.slug === 'bunga-papan-duka-cita-malang';
 
 // Structured Schema untuk Kategori & FAQ
 const categoryUrl = `${SITE_DOMAIN}/kategori/${category.slug}/`;
@@ -67,6 +68,53 @@ const customCategorySchema = {
         }
       ]
     }
+  } : {}),
+  ...(isDukaCita ? {
+    "hasPart": {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Berapa harga bunga papan duka cita di Malang?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Harga bunga papan duka cita di Floragate Malang mulai dari Rp 400.000 hingga Rp 1.500.000, tergantung ukuran papan dan jenis rangkaian bunga yang dipilih. Semua harga sudah termasuk papan, rangkaian bunga segar, tata huruf rapi, dan pengiriman gratis ke area Kota Malang."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Berapa lama pengerjaan bunga papan duka cita?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Pengerjaan bunga papan duka cita di Floragate membutuhkan waktu sekitar 3 jam sejak pesanan dikonfirmasi. Cocok untuk kebutuhan mendesak karena kami memahami momen duka cita sering datang tanpa perencanaan."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Apakah bisa pesan bunga papan duka cita mendadak hari ini di Malang?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Bisa. Floragate menerima pesanan dadakan bunga papan duka cita dengan pengerjaan cepat 3 jam. Hubungi kami via WhatsApp, konfirmasi desain dan ucapan, lalu bunga papan akan disiapkan dan dikirim hari itu juga ke seluruh Kota Malang."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Apa saja warna bunga yang cocok untuk papan duka cita?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Warna bunga yang umum digunakan untuk papan duka cita adalah putih, kuning gading, ungu tua, dan merah marun. Warna-warna teduh ini menyimbolkan rasa hormat, belasungkawa, dan penghormatan terakhir kepada almarhum/almarhumah."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Apakah ada layanan gratis ongkir untuk bunga papan duka cita di Malang?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ya, Floragate memberikan gratis ongkir pengiriman bunga papan duka cita ke seluruh area Kota Malang. Untuk pengiriman ke Kabupaten Malang dan Kota Batu, silakan konsultasikan biaya kirim melalui WhatsApp."
+          }
+        }
+      ]
+    }
   } : {})
 };
 ---
@@ -103,7 +151,7 @@ const customCategorySchema = {
         {isTanbulampot ? 'Kategori Eksklusif Eco-Friendly' : 'Kategori Pilihan'}
       </span>
       <h1 class="font-serif text-3xl sm:text-4xl font-bold text-slate-800">
-        {isTanbulampot ? 'Bunga Ucapan Tanaman & Pohon Ucapan (Tanbulampot) Malang' : `Jual ${category.name} Malang`}
+        {isTanbulampot ? 'Bunga Ucapan Tanaman & Pohon Ucapan (Tanbulampot) Malang' : isDukaCita ? 'Bunga Papan Duka Cita Malang — Murah & Berkualitas' : `Jual ${category.name} Malang`}
       </h1>
       <p class="text-slate-600 text-sm sm:text-base mt-3 leading-relaxed">
         {category.description}
@@ -280,6 +328,140 @@ const customCategorySchema = {
               class="inline-flex items-center px-6 py-3 rounded-full bg-secondary text-primary-dark font-bold text-xs uppercase tracking-wider hover:bg-white transition-colors duration-200 shadow-sm"
             >
               Konsultasi Pohon Ucapan via WhatsApp
+            </a>
+          </div>
+
+        </div>
+      </section>
+    )}
+
+    {/* Dedicated SEO Rich Content Section for Bunga Papan Duka Cita */}
+    {isDukaCita && (
+      <section class="mt-20 pt-16 border-t border-soft-cream/80">
+        <div class="max-w-4xl mx-auto">
+          <div class="text-center mb-12">
+            <span class="text-secondary font-semibold text-xs tracking-widest uppercase block mb-2">Ungkapan Belasungkawa</span>
+            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-800">
+              Pesan Bunga Papan Duka Cita Malang — Cepat &amp; Berkualitas
+            </h2>
+            <p class="text-slate-500 text-sm mt-3 leading-relaxed">
+              Karangan bunga papan duka cita dengan rangkaian bunga segar, tata huruf rapi, dan pengiriman cepat di seluruh Kota Malang.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="p-6 rounded-2xl bg-white border border-soft-cream/70 shadow-xs">
+              <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold mb-4">
+                ⏱️
+              </div>
+              <h3 class="font-serif font-bold text-slate-800 text-base mb-2">Pengerjaan Cepat 3 Jam</h3>
+              <p class="text-xs text-slate-500 leading-relaxed">
+                Momen duka cita sering datang tanpa persiapan. Floragate siap mengerjakan bunga papan duka cita dalam 3 jam, termasuk penataan huruf dan rangkaian bunga segar.
+              </p>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-white border border-soft-cream/70 shadow-xs">
+              <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold mb-4">
+                📸
+              </div>
+              <h3 class="font-serif font-bold text-slate-800 text-base mb-2">Difoto Sebelum Dikirim</h3>
+              <p class="text-xs text-slate-500 leading-relaxed">
+                Setiap bunga papan duka cita akan difoto terlebih dahulu dan dikirim ke pemesan sebagai bukti kualitas sebelum diantar ke lokasi rumah duka.
+              </p>
+            </div>
+
+            <div class="p-6 rounded-2xl bg-white border border-soft-cream/70 shadow-xs">
+              <div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold mb-4">
+                🚚
+              </div>
+              <h3 class="font-serif font-bold text-slate-800 text-base mb-2">Gratis Ongkir Malang Kota</h3>
+              <p class="text-xs text-slate-500 leading-relaxed">
+                Pengiriman bunga papan duka cita gratis ke seluruh area Kota Malang. Untuk Kabupaten Malang dan Kota Batu, hubungi admin untuk info ongkir.
+              </p>
+            </div>
+          </div>
+
+          {/* Editorial Paragraphs for Search Engines & Visitors */}
+          <div class="prose prose-slate max-w-none text-xs sm:text-sm leading-relaxed text-slate-600 space-y-4 bg-accent-bg/40 p-8 rounded-2xl border border-soft-cream/70">
+            <h3 class="font-serif text-lg font-bold text-slate-800">
+              Jual Bunga Papan Duka Cita Malang Murah — Floragate Florist
+            </h3>
+            <p>
+              Floragate menyediakan <strong>bunga papan duka cita Malang</strong> dengan harga mulai dari Rp 400.000. Setiap <strong>karangan bunga duka cita</strong> dikerjakan oleh perangkai bunga berpengalaman menggunakan bunga segar berkualitas seperti krisan putih, mawar, lili, dan anyelir dengan kombinasi dedaunan hijau yang memberikan kesan teduh dan penuh penghormatan.
+            </p>
+            <p>
+              Sebagai <strong>toko bunga papan duka cita Malang</strong> yang terpercaya, Floragate menerima pesanan dadakan dengan pengerjaan cepat 3 jam. Kami memahami bahwa momen belasungkawa sering datang tanpa diduga — cukup kirim pesan via WhatsApp, pilih desain, konfirmasi ucapan, dan <strong>bunga papan turut berduka cita</strong> akan segera dikirimkan ke rumah duka, masjid, gereja, atau lokasi pemakaman di Kota Malang.
+            </p>
+            <p>
+              Semua <strong>karangan bunga belasungkawa Malang</strong> dari Floragate dilengkapi dengan papan kayu berkualitas, tata huruf yang rapi dan terbaca jelas, serta pengiriman gratis ke seluruh Kota Malang. Untuk area Kabupaten Malang dan Kota Batu, kami juga melayani dengan biaya kirim yang terjangkau.
+            </p>
+          </div>
+
+          {/* FAQ Section */}
+          <div class="mt-12 space-y-4">
+            <h3 class="font-serif text-xl font-bold text-slate-800 mb-6 text-center">
+              Pertanyaan Umum Seputar Bunga Papan Duka Cita Malang
+            </h3>
+
+            <div class="p-5 rounded-xl bg-white border border-soft-cream/80">
+              <h4 class="font-bold text-sm text-slate-800 mb-1">
+                Berapa harga bunga papan duka cita di Malang?
+              </h4>
+              <p class="text-xs text-slate-500 leading-relaxed">
+                Harga bunga papan duka cita di Floragate Malang mulai dari Rp 400.000 hingga Rp 1.500.000, tergantung ukuran papan dan jenis rangkaian bunga yang dipilih. Semua harga sudah termasuk papan, rangkaian bunga segar, tata huruf rapi, dan pengiriman gratis ke area Kota Malang.
+              </p>
+            </div>
+
+            <div class="p-5 rounded-xl bg-white border border-soft-cream/80">
+              <h4 class="font-bold text-sm text-slate-800 mb-1">
+                Berapa lama pengerjaan bunga papan duka cita?
+              </h4>
+              <p class="text-xs text-slate-500 leading-relaxed">
+                Pengerjaan bunga papan duka cita di Floragate membutuhkan waktu sekitar 3 jam sejak pesanan dikonfirmasi. Cocok untuk kebutuhan mendesak karena kami memahami momen duka cita sering datang tanpa perencanaan.
+              </p>
+            </div>
+
+            <div class="p-5 rounded-xl bg-white border border-soft-cream/80">
+              <h4 class="font-bold text-sm text-slate-800 mb-1">
+                Apakah bisa pesan bunga papan duka cita mendadak hari ini di Malang?
+              </h4>
+              <p class="text-xs text-slate-500 leading-relaxed">
+                Bisa. Floragate menerima pesanan dadakan bunga papan duka cita dengan pengerjaan cepat 3 jam. Hubungi kami via WhatsApp, konfirmasi desain dan ucapan, lalu bunga papan akan disiapkan dan dikirim hari itu juga ke seluruh Kota Malang.
+              </p>
+            </div>
+
+            <div class="p-5 rounded-xl bg-white border border-soft-cream/80">
+              <h4 class="font-bold text-sm text-slate-800 mb-1">
+                Apa saja warna bunga yang cocok untuk papan duka cita?
+              </h4>
+              <p class="text-xs text-slate-500 leading-relaxed">
+                Warna bunga yang umum digunakan untuk papan duka cita adalah putih, kuning gading, ungu tua, dan merah marun. Warna-warna teduh ini menyimbolkan rasa hormat, belasungkawa, dan penghormatan terakhir kepada almarhum/almarhumah.
+              </p>
+            </div>
+
+            <div class="p-5 rounded-xl bg-white border border-soft-cream/80">
+              <h4 class="font-bold text-sm text-slate-800 mb-1">
+                Apakah ada layanan gratis ongkir untuk bunga papan duka cita di Malang?
+              </h4>
+              <p class="text-xs text-slate-500 leading-relaxed">
+                Ya, Floragate memberikan gratis ongkir pengiriman bunga papan duka cita ke seluruh area Kota Malang. Untuk pengiriman ke Kabupaten Malang dan Kota Batu, silakan konsultasikan biaya kirim melalui WhatsApp.
+              </p>
+            </div>
+          </div>
+
+          {/* Call to Action Banner */}
+          <div class="mt-10 text-center p-8 rounded-2xl bg-primary text-white shadow-md">
+            <h3 class="font-serif text-xl font-bold mb-2">Butuh Bunga Papan Duka Cita Hari Ini?</h3>
+            <p class="text-xs text-slate-200 max-w-md mx-auto mb-6">
+              Hubungi Floragate sekarang via WhatsApp. Pengerjaan cepat 3 jam, difoto sebelum dikirim, gratis ongkir Malang Kota.
+            </p>
+            <a
+              href={`https://wa.me/${WHATSAPP_NUMBER}?text=Halo%20Floragate,%20saya%20ingin%20pesan%20bunga%20papan%20duka%20cita.%20Mohon%20info%20desain%20dan%20harganya.`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center px-6 py-3 rounded-full bg-secondary text-primary-dark font-bold text-xs uppercase tracking-wider hover:bg-white transition-colors duration-200 shadow-sm"
+            >
+              Pesan Bunga Papan Duka Cita via WhatsApp
             </a>
           </div>
 
