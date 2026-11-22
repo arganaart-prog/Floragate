@@ -31,58 +31,58 @@ const RAW_CATEGORIES: Category[] = [
   {
     slug: "bunga-papan-duka-cita-malang",
     name: "Bunga Papan Duka Cita",
-    description: "Karangan bunga papan duka cita Malang murah dan berkualitas dengan tata huruf rapi dan nuansa teduh untuk ungkapan belasungkawa. Pengerjaan cepat 3 jam, difoto sebelum dikirim, gratis ongkir Malang Kota.",
-    seoTitle: "Bunga Papan Duka Cita Malang — Murah Mulai 400 Ribu | Floragate",
-    seoDescription: "Pesan bunga papan duka cita Malang murah mulai 400 ribu di Floragate. Rangkaian elegan bunga segar, pengerjaan cepat 3 jam, difoto sebelum dikirim, gratis ongkir Malang Kota. Tersedia 11+ desain pilihan.",
-    seoKeywords: "bunga papan duka cita malang, karangan bunga duka cita malang, bunga papan turut berduka cita malang, bunga duka cita malang murah, toko bunga papan duka cita malang, harga bunga papan duka cita malang, bunga papan belasungkawa malang, karangan bunga belasungkawa malang, pesan bunga papan duka cita malang, jual bunga papan duka cita malang",
+    description: "Karangan bunga papan duka cita Malang 24 jam dan berkualitas dengan tata huruf rapi dan nuansa teduh untuk ungkapan belasungkawa. Pengerjaan cepat 3 jam, difoto sebelum dikirim, gratis ongkir Malang Kota.",
+    seoTitle: "Bunga Papan Duka Cita Malang 24 Jam — Mulai 400 Ribu | Floragate",
+    seoDescription: "Pesan bunga papan duka cita Malang 24 jam mulai 400 ribu di Floragate. Rangkaian elegan bunga segar, pengerjaan cepat 3 jam, difoto sebelum dikirim, gratis ongkir Malang Kota. Tersedia 11+ desain pilihan.",
+    seoKeywords: "bunga papan duka cita malang, bunga papan duka cita malang 24 jam, karangan bunga duka cita malang, bunga papan turut berduka cita malang, toko bunga papan duka cita malang 24 jam, harga bunga papan duka cita malang, bunga papan belasungkawa malang, karangan bunga belasungkawa malang, pesan bunga papan duka cita malang, jual bunga papan duka cita malang",
     image: "/images/kategori/duka-cita.webp"
   },
   {
     slug: "bunga-papan-wedding-malang",
     name: "Bunga Papan Wedding",
     description: "Karangan bunga papan pernikahan dengan susunan bunga segar dan warna cerah untuk ucapan selamat menempuh hidup baru.",
-    seoTitle: "Bunga Papan Wedding Malang Murah & Berkualitas",
-    seoDescription: "Jual bunga papan wedding Malang murah dan berkualitas. Desain elegan, warna menawan, bunga segar, dan pengerjaan cepat oleh florist profesional.",
+    seoTitle: "Bunga Papan Wedding Malang 24 Jam & Berkualitas",
+    seoDescription: "Jual bunga papan wedding Malang 24 jam dan berkualitas. Desain elegan, warna menawan, bunga segar, dan pengerjaan cepat oleh florist profesional.",
     image: "/images/kategori/wedding.webp"
   },
   {
     slug: "bunga-papan-congratulations-malang",
     name: "Bunga Papan Congratulations",
     description: "Bunga papan ucapan selamat untuk grand opening toko, peresmian kantor cabang, wisuda, dan serah terima jabatan.",
-    seoTitle: "Bunga Papan Congratulations Malang Murah & Berkualitas",
-    seoDescription: "Kirim bunga papan congratulations Malang murah dan berkualitas untuk grand opening, toko baru, kantor, atau ucapan selamat sukses dengan desain modern.",
+    seoTitle: "Bunga Papan Congratulations Malang 24 Jam & Berkualitas",
+    seoDescription: "Kirim bunga papan congratulations Malang 24 jam dan berkualitas untuk grand opening, toko baru, kantor, atau ucapan selamat sukses dengan desain modern.",
     image: "/images/kategori/congratulations.webp"
   },
   {
     slug: "standing-flower-malang",
     name: "Standing Flower",
     description: "Rangkaian bunga standing flower untuk diletakkan di area indoor resepsi, lobby gedung kantor, atau rumah duka.",
-    seoTitle: "Standing Flower Malang Murah & Berkualitas",
-    seoDescription: "Pesan standing flower Malang murah dan berkualitas untuk duka cita, opening, wedding, dan acara formal. Rangkaian segar, elegan, dan pengiriman aman.",
+    seoTitle: "Standing Flower Malang 24 Jam & Berkualitas",
+    seoDescription: "Pesan standing flower Malang 24 jam dan berkualitas untuk duka cita, opening, wedding, dan acara formal. Rangkaian segar, elegan, dan pengiriman aman.",
     image: "/images/kategori/standing-flower.webp"
   },
   {
     slug: "hand-bouquet-malang",
     name: "Hand Bouquet",
     description: "Buket bunga segar untuk kado wisuda, perayaan ulang tahun, lamaran, dan hari ibu.",
-    seoTitle: "Hand Bouquet Malang Murah & Berkualitas",
-    seoDescription: "Jual hand bouquet Malang murah dan berkualitas untuk wisuda, lamaran, ulang tahun, Valentine, dan hadiah romantis. Bunga segar, rapi, bisa custom.",
+    seoTitle: "Hand Bouquet Malang 24 Jam & Berkualitas",
+    seoDescription: "Jual hand bouquet Malang 24 jam dan berkualitas untuk wisuda, lamaran, ulang tahun, Valentine, dan hadiah romantis. Bunga segar, rapi, bisa custom.",
     image: "/images/kategori/hand-bouquet.webp"
   },
   {
     slug: "paper-flower-malang",
     name: "Paper Flower",
     description: "Rangkaian bunga kertas tahan lama untuk hadiah wisuda, lamaran, dan hiasan ruangan.",
-    seoTitle: "Paper Flower Malang Murah & Berkualitas",
-    seoDescription: "Pesan paper flower Malang murah dan berkualitas. Bunga kertas artistik, tahan lama, cantik untuk dekorasi, kado wisuda, lamaran, dan pajangan.",
+    seoTitle: "Paper Flower Malang 24 Jam & Berkualitas",
+    seoDescription: "Pesan paper flower Malang 24 jam dan berkualitas. Bunga kertas artistik, tahan lama, cantik untuk dekorasi, kado wisuda, lamaran, dan pajangan.",
     image: "/images/kategori/paper-flower.webp"
   },
   {
     slug: "bunga-meja-malang",
     name: "Bunga Meja",
     description: "Rangkaian bunga potong segar dalam vas untuk meja resepsi, meja tamu kantor, atau dekorasi acara.",
-    seoTitle: "Bunga Meja Malang Murah & Berkualitas",
-    seoDescription: "Pesan bunga meja Malang murah dan berkualitas untuk dekorasi lobby, kantor, ruang tamu, meja resepsi, dan acara formal. Segar, cantik, dan elegan.",
+    seoTitle: "Bunga Meja Malang 24 Jam & Berkualitas",
+    seoDescription: "Pesan bunga meja Malang 24 jam dan berkualitas untuk dekorasi lobby, kantor, ruang tamu, meja resepsi, dan acara formal. Segar, cantik, dan elegan.",
     image: "/images/kategori/bunga-meja.svg"
   },
   {

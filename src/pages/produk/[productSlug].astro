@@ -29,8 +29,8 @@ const relatedProducts = sameCategoryProducts.slice(0, 12);
 
 
 // SEO Meta
-const title = `${displayName} Malang - Murah & Berkualitas`;
-const description = `Beli ${displayName} di Floragate, toko bunga Malang murah dan berkualitas. ${product.description.substring(0, 110)}... Pengerjaan cepat ${product.processingTime}, gratis ongkir area Kota Malang.`;
+const title = `${displayName} Malang - 24 Jam & Berkualitas`;
+const description = `Beli ${displayName} di Floragate, toko bunga Malang 24 jam dan berkualitas. ${product.description.substring(0, 110)}... Pengerjaan cepat ${product.processingTime}, gratis ongkir area Kota Malang.`;
 
 // JSON-LD Product Schema
 const productSchema = {
@@ -38,7 +38,7 @@ const productSchema = {
   "@type": "Product",
   "name": displayName,
   "image": new URL(withBase(product.image), Astro.site).toString(),
-  "description": `${product.description} Tersedia di Floragate, toko bunga Malang murah dan berkualitas dengan pengerjaan cepat.`,
+  "description": `${product.description} Tersedia di Floragate, toko bunga Malang 24 jam dan berkualitas dengan pengerjaan cepat.`,
   "sku": product.id,
   "mpn": product.id,
   "brand": {
