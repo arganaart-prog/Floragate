@@ -318,24 +318,15 @@ const customCategorySchema = {
     )}
 
     {/* ── Catalog Section Header ── */}
-    <div class="relative rounded-2xl bg-gradient-to-r from-primary-dark via-primary to-primary-light p-5 sm:p-6 mb-8 overflow-hidden shadow-sm">
-      {/* Decorative accent */}
-      <div class="absolute top-0 right-0 w-40 h-full bg-gradient-to-l from-secondary/10 to-transparent pointer-events-none" aria-hidden="true"></div>
-      <div class="absolute bottom-0 left-0 w-24 h-24 bg-secondary/5 rounded-full blur-2xl pointer-events-none" aria-hidden="true"></div>
-
-      <div class="relative flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <h2 class="font-serif text-xl sm:text-2xl font-bold text-white">
-            Pilihan Model &amp; Desain {category.name}
-          </h2>
-          <p class="text-xs text-clean-ivory/70 mt-1 font-medium">
-            Tersedia {products.length} model rangkaian bunga segar &bull; Pengerjaan 3 jam selesai &bull; Foto sebelum kirim
-          </p>
-        </div>
-        <div class="inline-flex items-center gap-1.5 text-xs text-primary-dark bg-secondary/90 px-4 py-2 rounded-full font-bold self-start sm:self-auto shadow-sm whitespace-nowrap">
-          <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-          Semua Produk Siap Dikerjakan
-        </div>
+    <div class="flex items-center gap-4 pb-5 mb-8 border-b border-soft-cream">
+      <div class="w-1 h-8 rounded-full bg-secondary"></div>
+      <div>
+        <h2 class="font-serif text-xl sm:text-2xl font-bold text-slate-800">
+          Pilihan Model &amp; Desain {category.name}
+        </h2>
+        <p class="text-xs text-slate-500 mt-0.5">
+          Rangkaian bunga segar &bull; Pengerjaan 3 jam selesai &bull; Foto sebelum kirim
+        </p>
       </div>
     </div>
 
