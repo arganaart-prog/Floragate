@@ -27,6 +27,8 @@ const fastOrderText = encodeURIComponent(
     : `Halo Floragate, saya butuh kirim ${category.name} cepat hari ini di Malang. Mohon info rekomendasi yang bisa segera diproses.`
 );
 
+const categoryBannerImage = category.bannerImage || (products.length > 0 ? products[0].image : category.image);
+
 // Structured Schema untuk Kategori & FAQ
 const categoryUrl = `${SITE_DOMAIN}/kategori/${category.slug}/`;
 const customCategorySchema = {
@@ -137,11 +139,11 @@ const customCategorySchema = {
       rel="preload"
       as="image"
       type="image/webp"
-      href={withBase(products[0].image)}
+      href={withBase(categoryBannerImage)}
       fetchpriority="high"
     />
   )}
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
     
     <!-- Breadcrumb -->
     <Breadcrumb 
@@ -151,123 +153,71 @@ const customCategorySchema = {
       ]} 
     />
 
-    <!-- Category Header -->
-    <div class="mt-6 mb-8 max-w-3xl">
-      <span class="text-xs font-semibold text-secondary uppercase tracking-widest block mb-2">
-        {isTanbulampot ? 'Kategori Eksklusif Eco-Friendly' : 'Kategori Pilihan'}
-      </span>
-      <h1 class="font-serif text-3xl sm:text-4xl font-bold text-slate-800 leading-tight">
-        {isTanbulampot ? 'Bunga Ucapan Tanaman & Pohon Ucapan (Tanbulampot) Malang' : isDukaCita ? 'Bunga Papan Duka Cita Malang 24 Jam & Berkualitas' : `Jual ${category.name} Malang`}
-      </h1>
-      <p class="text-slate-600 text-sm sm:text-base mt-3 leading-relaxed">
-        {category.description}
-      </p>
-
-      {isTanbulampot && (
-        <!-- Quick Keyword Badges for Crawlers & Visitors -->
-        <div class="mt-4 flex flex-wrap gap-2 pt-2">
-          <span class="inline-flex items-center rounded-full bg-accent-bg px-3 py-1 text-xs font-semibold text-primary-dark border border-soft-cream">
-            Bunga Ucapan Tanaman
+    <!-- Hero Category Banner Card (Sesuai Referensi) -->
+    <section class="mt-4 mb-12 bg-white rounded-3xl border border-soft-cream/90 shadow-sm p-6 sm:p-8 lg:p-10 relative overflow-hidden" aria-label={`Banner Kategori ${category.name}`}>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <!-- Left: Text & Call-To-Action -->
+        <div class="lg:col-span-7 flex flex-col justify-center">
+          <span class="text-xs font-bold text-secondary-dark uppercase tracking-widest block mb-2.5">
+            {isTanbulampot ? 'KATEGORI EKSKLUSIF · ECO-FRIENDLY' : 'BUNGA PAPAN · FLORAGATE MALANG'}
           </span>
-          <span class="inline-flex items-center rounded-full bg-accent-bg px-3 py-1 text-xs font-semibold text-primary-dark border border-soft-cream">
-            Pohon Ucapan
-          </span>
-          <span class="inline-flex items-center rounded-full bg-accent-bg px-3 py-1 text-xs font-semibold text-primary-dark border border-soft-cream">
-            Ucapan Bibit Pohon & Buah
-          </span>
-          <span class="inline-flex items-center rounded-full bg-accent-bg px-3 py-1 text-xs font-semibold text-primary-dark border border-soft-cream">
-            Karangan Bibit Tanaman
-          </span>
-          <span class="inline-flex items-center rounded-full bg-accent-bg px-3 py-1 text-xs font-semibold text-primary-dark border border-soft-cream">
-            Bunga Ucapan Tanaman Hidup
-          </span>
-        </div>
-      )}
-    </div>
+          
+          <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight mb-4">
+            {isDukaCita ? 'Bunga Papan di Malang' : `${category.name} di Malang`}
+          </h1>
 
-    <!-- Express Urgency Hook Banner (Solusi Cepat untuk Pelanggan Mendesak) -->
-    <section class="mb-12 p-5 sm:p-7 rounded-2xl bg-gradient-to-br from-white via-[#faf7f2] to-[#f4ede3] border border-secondary/40 shadow-sm relative overflow-hidden" aria-label="Layanan Pesanan Kilat">
-      <!-- Decorative radial ambient glow -->
-      <div class="absolute -right-10 -bottom-10 w-44 h-44 bg-primary/10 rounded-full blur-2xl pointer-events-none" aria-hidden="true"></div>
-
-      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
-        <div class="max-w-2xl space-y-3.5">
-          <!-- Urgency Live Pulse Badge -->
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-300 text-emerald-800 text-xs font-bold tracking-wide shadow-2xs">
-            <span class="relative flex h-2 w-2">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
-            </span>
-            <span>{isDukaCita ? 'LAYANAN KILAT DUKA CITA 24 JAM · FAST RESPONSE' : 'LAYANAN PESAN KILAT 24 JAM · SIAGA HARI INI'}</span>
-          </div>
-
-          <!-- Main Hook Headline -->
-          <h2 class="font-serif text-xl sm:text-2xl font-bold text-slate-900 leading-snug">
-            {isDukaCita 
-              ? 'Butuh Kirim Bunga Papan Duka Cita Cepat Sampai Hari Ini?' 
-              : `Pesanan Mendadak? Siap Rangkai & Kirim ${category.name} Hari Ini!`}
-          </h2>
-
-          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
-            {isDukaCita
-              ? 'Kabar duka sering datang tiba-tiba. Tim perangkai Floragate siaga merangkai bunga papan rapi dalam 3 jam, difoto sebelum dikirim, dan diantar langsung gratis ke rumah duka atau rumah duka cita se-Malang Kota.'
-              : 'Acara penting mendadak? Tim Floragate siap memproses pesanan kilat dengan rangkaian bunga segar terbaik, pengerjaan 3 jam selesai, difoto sebelum dikirim, dan gratis ongkir area Kota Malang.'}
+          <p class="text-slate-600 text-sm sm:text-base leading-relaxed mb-5 max-w-xl">
+            {category.description}
           </p>
 
-          <!-- 3 Value Proposition Chips -->
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
-            <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-white/90 border border-soft-cream/80 text-xs text-slate-700 font-medium shadow-2xs">
-              <span class="flex items-center justify-center w-6 h-6 rounded-full bg-amber-100 text-amber-700 text-sm font-bold shrink-0">⚡</span>
-              <div>
-                <strong class="block text-slate-800">3 Jam Jadi</strong>
-                <span class="text-[0.68rem] text-slate-500">Bisa order dadakan</span>
-              </div>
-            </div>
-            <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-white/90 border border-soft-cream/80 text-xs text-slate-700 font-medium shadow-2xs">
-              <span class="flex items-center justify-center w-6 h-6 rounded-full bg-blue-100 text-blue-700 text-sm font-bold shrink-0">📸</span>
-              <div>
-                <strong class="block text-slate-800">Difoto Sebelum Kirim</strong>
-                <span class="text-[0.68rem] text-slate-500">Cek tulisan via WA</span>
-              </div>
-            </div>
-            <div class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-white/90 border border-soft-cream/80 text-xs text-slate-700 font-medium shadow-2xs">
-              <span class="flex items-center justify-center w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 text-sm font-bold shrink-0">🚚</span>
-              <div>
-                <strong class="block text-slate-800">Gratis Ongkir</strong>
-                <span class="text-[0.68rem] text-slate-500">Khusus Kota Malang</span>
-              </div>
+          <div class="flex items-center gap-2 text-xs sm:text-sm text-slate-700 mb-6 font-medium">
+            <span>Khusus Pengiriman ke area</span>
+            <span class="font-bold text-primary bg-primary/10 px-2.5 py-0.5 rounded-md">Kota Malang &amp; Sekitarnya</span>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3.5 pt-1">
+            <a
+              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${fastOrderText}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-sm font-bold shadow-md hover:shadow-lg transition-all cursor-pointer group"
+            >
+              <svg class="w-4 h-4 fill-current group-hover:scale-110 transition-transform" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.965C16.588 2.02 14.12 1.022 11.5 1.022c-5.438 0-9.863 4.372-9.867 9.802-.001 1.73.473 3.42 1.37 4.947l-.994 3.63 3.734-.967c1.554.84 3.123 1.282 4.304 1.282zm11.304-6.858c-.31-.155-1.838-.895-2.122-.997-.284-.102-.49-.153-.696.155-.205.308-.796.997-.975 1.199-.179.203-.359.227-.669.073-.31-.155-1.31-.476-2.494-1.516-.922-.811-1.545-1.812-1.725-2.12-.179-.31-.018-.478.137-.631.14-.139.31-.359.464-.539.155-.179.206-.308.31-.513.102-.206.051-.385-.026-.539-.077-.154-.696-1.649-.953-2.263-.25-.596-.503-.515-.69-.525l-.59-.01c-.206 0-.54.077-.822.385-.282.308-1.079 1.052-1.079 2.565 0 1.513 1.103 2.977 1.257 3.182.155.206 2.17 3.267 5.257 4.569.735.31 1.307.495 1.753.634.739.231 1.412.197 1.944.119.593-.087 1.838-.739 2.095-1.453.258-.713.258-1.325.18-1.453-.077-.128-.283-.205-.593-.36z" />
+              </svg>
+              <span>Pesan via WhatsApp</span>
+            </a>
+
+            <div class="inline-flex items-center gap-2 text-xs font-semibold text-slate-700 bg-clean-ivory px-3.5 py-3 rounded-xl border border-soft-cream">
+              <span class="text-base">🚚</span>
+              <span>Bisa Kirim Cepat (3 Jam Selesai)</span>
             </div>
           </div>
         </div>
 
-        <!-- Action Card -->
-        <div class="flex flex-col items-stretch sm:items-center lg:items-end justify-center gap-2 shrink-0 lg:min-w-[250px] pt-2 lg:pt-0 border-t lg:border-t-0 border-soft-cream/80">
-          <a
-            href={`https://wa.me/${WHATSAPP_NUMBER}?text=${fastOrderText}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm tracking-wide shadow-md hover:shadow-lg transition-all duration-200 group text-center cursor-pointer w-full sm:w-auto"
-          >
-            <!-- WhatsApp SVG Icon -->
-            <svg class="w-5 h-5 fill-current shrink-0 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.965C16.588 2.02 14.12 1.022 11.5 1.022c-5.438 0-9.863 4.372-9.867 9.802-.001 1.73.473 3.42 1.37 4.947l-.994 3.63 3.734-.967c1.554.84 3.123 1.282 4.304 1.282zm11.304-6.858c-.31-.155-1.838-.895-2.122-.997-.284-.102-.49-.153-.696.155-.205.308-.796.997-.975 1.199-.179.203-.359.227-.669.073-.31-.155-1.31-.476-2.494-1.516-.922-.811-1.545-1.812-1.725-2.12-.179-.31-.018-.478.137-.631.14-.139.31-.359.464-.539.155-.179.206-.308.31-.513.102-.206.051-.385-.026-.539-.077-.154-.696-1.649-.953-2.263-.25-.596-.503-.515-.69-.525l-.59-.01c-.206 0-.54.077-.822.385-.282.308-1.079 1.052-1.079 2.565 0 1.513 1.103 2.977 1.257 3.182.155.206 2.17 3.267 5.257 4.569.735.31 1.307.495 1.753.634.739.231 1.412.197 1.944.119.593-.087 1.838-.739 2.095-1.453.258-.713.258-1.325.18-1.453-.077-.128-.283-.205-.593-.36z" />
-            </svg>
-            <span>Pesan Kilat via WhatsApp</span>
-          </a>
-          <span class="text-[0.72rem] text-slate-500 text-center flex items-center justify-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
-            Siaga 24 Jam &bull; Respon Cepat &bull; Bebas Antre
-          </span>
+        <!-- Right: Category Banner Image Showcase (User will make & replace attractive banner here) -->
+        <div class="lg:col-span-5">
+          <div class="relative rounded-2xl overflow-hidden aspect-[4/3] lg:aspect-[16/12] bg-slate-100 shadow-sm border border-soft-cream/80 group">
+            <img
+              src={withBase(categoryBannerImage)}
+              alt={`${category.name} di Malang - Floragate Florist`}
+              class="w-full h-full object-cover object-center group-hover:scale-102 transition-transform duration-500"
+              loading="eager"
+              fetchpriority="high"
+              width="800"
+              height="600"
+            />
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Section Heading for Catalog Products -->
+    <!-- Catalog Section Header -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 mb-6 border-b border-soft-cream/80">
       <div>
-        <h3 class="font-serif text-lg sm:text-xl font-bold text-slate-800">
-          Pilihan Desain &amp; Model {category.name}
-        </h3>
+        <h2 class="font-serif text-xl sm:text-2xl font-bold text-slate-800">
+          Pilihan Model &amp; Desain {category.name}
+        </h2>
         <p class="text-xs text-slate-500 mt-0.5">
           Tersedia {products.length} model rangkaian bunga segar &bull; Pengerjaan 3 jam selesai &bull; Foto sebelum kirim
         </p>

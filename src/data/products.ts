@@ -25,6 +25,7 @@ export interface Category {
   seoDescription: string;
   seoKeywords?: string;
   image: string;
+  bannerImage?: string;
 }
 
 const RAW_CATEGORIES: Category[] = [
