@@ -36,7 +36,8 @@ const RAW_CATEGORIES: Category[] = [
     seoTitle: "Bunga Papan Duka Cita Malang 24 Jam | Floragate",
     seoDescription: "Pesan bunga papan duka cita Malang 24 jam mulai 400 ribu. Pengerjaan 3 jam, difoto sebelum dikirim, gratis ongkir Malang Kota.",
     seoKeywords: "bunga papan duka cita malang, bunga papan duka cita malang 24 jam, karangan bunga duka cita malang, bunga papan turut berduka cita malang, toko bunga papan duka cita malang 24 jam, harga bunga papan duka cita malang, bunga papan belasungkawa malang, karangan bunga belasungkawa malang, pesan bunga papan duka cita malang, jual bunga papan duka cita malang",
-    image: "/images/kategori/duka-cita.webp"
+    image: "/images/kategori/duka-cita.webp",
+    bannerImage: "/images/banner/kategori/spanduk-bunga-duka-cita-floragate.webp"
   },
   {
     slug: "bunga-papan-wedding-malang",
