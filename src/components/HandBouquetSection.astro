@@ -2,10 +2,13 @@
 import { PRODUCTS } from '../data/products';
 import ProductCard from './ProductCard.astro';
 import { withBase } from '../utils/paths';
+import { getDailyShuffledProducts } from '../utils/rotatingProducts';
 
-const handBouquetProducts = PRODUCTS.filter(
-  (p) => p.categorySlug === 'hand-bouquet-malang'
-);
+const categorySlug = 'hand-bouquet-malang';
+const handBouquetProducts = getDailyShuffledProducts(
+  PRODUCTS.filter((p) => p.categorySlug === categorySlug),
+  categorySlug
+).slice(0, 8);
 
 const categoryHref = '/kategori/hand-bouquet-malang/';
 ---
@@ -20,9 +23,14 @@ const categoryHref = '/kategori/hand-bouquet-malang/';
       </p>
     </div>
 
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+    <div
+      class="daily-rotate-grid grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"
+      data-daily-rotate-category={categorySlug}
+    >
       {handBouquetProducts.map((product, index) => (
-        <ProductCard product={product} variant="compact" priority={false} />
+        <div class="daily-product-item h-full" data-product-slug={product.slug}>
+          <ProductCard product={product} variant="compact" priority={false} />
+        </div>
       ))}
     </div>
 

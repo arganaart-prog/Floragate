@@ -49,14 +49,17 @@ export function getInterleavedProducts(products: Product[]): Product[] {
 }
 
 /**
- * Menghitung indeks rotasi 3 harian berdasarkan kalender lokal WIB (UTC+7).
- * Berubah setiap 3 hari tepat pada pukul 00:00 WIB.
+ * Menghitung indeks rotasi 2 harian berdasarkan kalender lokal WIB (UTC+7).
+ * Berubah setiap 2 hari tepat pada pukul 00:00 WIB.
  */
-export function getThreeDayCycleIndex(date: Date = new Date()): number {
+export function getTwoDayCycleIndex(date: Date = new Date()): number {
   const WIB_OFFSET_MS = 7 * 60 * 60 * 1000;
   const dayNumber = Math.floor((date.getTime() + WIB_OFFSET_MS) / (24 * 60 * 60 * 1000));
-  return Math.floor(dayNumber / 3);
+  return Math.floor(dayNumber / 2);
 }
+
+/** Alias untuk backward-compatibility */
+export const getThreeDayCycleIndex = getTwoDayCycleIndex;
 
 /**
  * Mengambil indeks 8 produk aktif untuk rotasi saat ini.
@@ -65,7 +68,7 @@ export function getThreeDayCycleIndex(date: Date = new Date()): number {
 export function getRotatingProductIndices(
   totalCount: number,
   limit: number = 8,
-  cycleIndex: number = getThreeDayCycleIndex()
+  cycleIndex: number = getTwoDayCycleIndex()
 ): number[] {
   if (totalCount <= limit) {
     return Array.from({ length: totalCount }, (_, i) => i);
@@ -89,7 +92,7 @@ export function getRotatingHomeProducts(
   date: Date = new Date()
 ) {
   const candidateProducts = getInterleavedProducts(allProducts);
-  const cycleIndex = getThreeDayCycleIndex(date);
+  const cycleIndex = getTwoDayCycleIndex(date);
   const activeIndices = getRotatingProductIndices(candidateProducts.length, limit, cycleIndex);
 
   return {
@@ -132,8 +135,8 @@ export function mulberry32(seed: number) {
 }
 
 /**
- * Mengacak urutan produk dalam 1 kategori secara deterministik setiap 1 hari (00:00 WIB).
- * Menggunakan Fisher-Yates shuffle yang di-seed oleh hari WIB & slug kategori.
+ * Mengacak urutan produk dalam 1 kategori secara deterministik setiap 2 hari (00:00 WIB).
+ * Menggunakan Fisher-Yates shuffle yang di-seed oleh siklus 2 hari WIB & slug kategori.
  */
 export function getDailyShuffledProducts<T extends { slug: string }>(
   products: T[],
@@ -142,8 +145,8 @@ export function getDailyShuffledProducts<T extends { slug: string }>(
 ): T[] {
   if (products.length <= 1) return [...products];
 
-  const dayNumber = getWIBDayNumber(date);
-  const seed = getCategoryDaySeed(categorySlug, dayNumber);
+  const cycleIndex = getTwoDayCycleIndex(date);
+  const seed = getCategoryDaySeed(categorySlug, cycleIndex);
   const rng = mulberry32(seed);
 
   const shuffled = [...products];

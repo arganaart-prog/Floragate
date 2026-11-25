@@ -3,11 +3,20 @@ import type { Product } from '../data/products';
 import { PRODUCTS } from '../data/products';
 import CategoryProductCard from './CategoryProductCard.astro';
 import { withBase } from '../utils/paths';
-import { getHomeBungaPapanProducts } from '../utils/productHelpers';
+import { getDailyShuffledProducts } from '../utils/rotatingProducts';
 
-const dukaCitaProducts = getHomeBungaPapanProducts(PRODUCTS, 'bunga-papan-duka-cita-malang');
-const weddingProducts = getHomeBungaPapanProducts(PRODUCTS, 'bunga-papan-wedding-malang');
-const congratulationsProducts = getHomeBungaPapanProducts(PRODUCTS, 'bunga-papan-congratulations-malang');
+const dukaCitaProducts = getDailyShuffledProducts(
+  PRODUCTS.filter((p) => p.categorySlug === 'bunga-papan-duka-cita-malang'),
+  'bunga-papan-duka-cita-malang'
+).slice(0, 8);
+const weddingProducts = getDailyShuffledProducts(
+  PRODUCTS.filter((p) => p.categorySlug === 'bunga-papan-wedding-malang'),
+  'bunga-papan-wedding-malang'
+).slice(0, 8);
+const congratulationsProducts = getDailyShuffledProducts(
+  PRODUCTS.filter((p) => p.categorySlug === 'bunga-papan-congratulations-malang'),
+  'bunga-papan-congratulations-malang'
+).slice(0, 8);
 
 interface Tab {
   id: string;
@@ -85,9 +94,14 @@ const tabs: Tab[] = [
           data-panel={tab.id}
           class:list={['bunga-papan-panel', index !== 0 && 'hidden']}
         >
-          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div
+            class="daily-rotate-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6"
+            data-daily-rotate-category={`bunga-papan-${tab.id}`}
+          >
             {tab.products.map((product, productIndex) => (
-              <CategoryProductCard product={product} aspect="aspect-square" priority={false} />
+              <div class="daily-product-item h-full" data-product-slug={product.slug}>
+                <CategoryProductCard product={product} aspect="aspect-square" priority={false} />
+              </div>
             ))}
           </div>
 

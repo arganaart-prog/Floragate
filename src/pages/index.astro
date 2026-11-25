@@ -16,7 +16,7 @@ import { withBase } from '../utils/paths';
 import { getRotatingHomeProducts } from '../utils/rotatingProducts';
 import { getHomeDisplayProducts } from '../utils/productHelpers';
 
-// Batasi 8 produk unggulan; rotasi setiap 3 hari
+// Batasi 8 produk unggulan; rotasi setiap 2 hari
 const { activeProducts } = getRotatingHomeProducts(getHomeDisplayProducts(PRODUCTS), 8);
 
 // SEO Meta
@@ -152,7 +152,7 @@ const description = "Floragate toko bunga Malang buka 24 jam. Bunga papan, hand 
         <!-- Fade hint di kanan – mobile only -->
         <div class="featured-products-fade-hint" aria-hidden="true"></div>
 
-        <!-- 8 Featured Products (Rotasi Setiap 3 Hari) -->
+        <!-- 8 Featured Products (Rotasi Setiap 2 Hari) -->
         <div id="featured-products-slider" data-featured-products-slider class="featured-products-slider grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 px-4 sm:px-6 lg:px-8">
           {activeProducts.map((product, index) => (
             <ProductCard
@@ -730,19 +730,20 @@ const description = "Floragate toko bunga Malang buka 24 jam. Bunga papan, hand 
       if (!containers.length) return;
 
       var dayNumber = getWIBDayNumberClient();
+      var cycleNumber = Math.floor(dayNumber / 2);
 
       containers.forEach(function(container) {
         var categorySlug = container.getAttribute('data-daily-rotate-category');
         if (!categorySlug) return;
 
-        if (container.getAttribute('data-daily-rotate-day') === String(dayNumber)) return;
-        container.setAttribute('data-daily-rotate-day', String(dayNumber));
+        if (container.getAttribute('data-daily-rotate-day') === String(cycleNumber)) return;
+        container.setAttribute('data-daily-rotate-day', String(cycleNumber));
 
         var items = Array.from(container.querySelectorAll('[data-product-slug]'));
         if (items.length <= 1) return;
 
         var slugs = items.map(function(el) { return el.getAttribute('data-product-slug'); });
-        var seed = getCategoryDaySeedClient(categorySlug, dayNumber);
+        var seed = getCategoryDaySeedClient(categorySlug, cycleNumber);
         var rng = mulberry32Client(seed);
 
         var shuffledSlugs = slugs.slice();

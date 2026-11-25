@@ -665,7 +665,8 @@ const customCategorySchema = {
     const info = document.getElementById('cat-pagination-info');
     if (!items.length || !nav || !info) return;
 
-    const ITEMS_PER_PAGE = 9;
+    const isMobile = window.innerWidth < 640;
+    const ITEMS_PER_PAGE = isMobile ? 8 : 9;
     const totalItems = items.length;
     if (totalItems <= ITEMS_PER_PAGE) return;
 
