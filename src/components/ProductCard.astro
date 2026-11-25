@@ -8,6 +8,7 @@ interface Props {
   product: Product;
   variant?: 'modern' | 'classic' | 'compact';
   priority?: boolean;
+  eager?: boolean;
   twoColMobile?: boolean;
   class?: string;
   hidden?: boolean;
@@ -15,10 +16,10 @@ interface Props {
   [key: string]: any;
 }
 
-const { product, variant = 'modern', priority = false, twoColMobile = false, class: className = '', hidden = false, aspect, ...rest } = Astro.props;
+const { product, variant = 'modern', priority = false, eager = false, twoColMobile = false, class: className = '', hidden = false, aspect, ...rest } = Astro.props;
 const productUrl = withBase(`/produk/${product.slug}/`);
 const imageUrl = withBase(product.image);
-const imageLoading = priority ? 'eager' : 'lazy';
+const imageLoading = priority || eager ? 'eager' : 'lazy';
 const imageFetchPriority = priority ? 'high' : 'low';
 const imageDecoding = priority ? 'sync' : 'async';
 const imageSizes = variant === 'compact'

@@ -140,15 +140,39 @@ const customCategorySchema = {
   keywords={category.seoKeywords}
   schema={customCategorySchema}
 >
-  {/* Preload hero images — duka cita uses custom banner for mobile and showcase for desktop */}
-  {isDukaCita && products.length >= 2 ? (
-    <>
-      <link slot="head" rel="preload" as="image" type="image/webp" href={withBase('/images/banner/kategori/spanduk-bunga-duka-cita-floragate.webp')} fetchpriority="high" />
-      <link slot="head" rel="preload" as="image" type="image/webp" href={withBase(products[0].image)} />
-    </>
-  ) : products.length > 0 ? (
-    <link slot="head" rel="preload" as="image" type="image/webp" href={withBase(categoryBannerImage)} fetchpriority="high" />
-  ) : null}
+  {/* Preload hero images — direct children of Layout so Astro injects into <slot name="head" /> */}
+  {isDukaCita && (
+    <link
+      slot="head"
+      rel="preload"
+      as="image"
+      type="image/webp"
+      href={withBase('/images/banner/kategori/spanduk-bunga-duka-cita-floragate-mobile.webp')}
+      media="(max-width: 1023px)"
+      fetchpriority="high"
+    />
+  )}
+  {isDukaCita && (
+    <link
+      slot="head"
+      rel="preload"
+      as="image"
+      type="image/webp"
+      href={withBase('/images/banner/kategori/spanduk-bunga-duka-cita-floragate.webp')}
+      media="(min-width: 1024px)"
+      fetchpriority="high"
+    />
+  )}
+  {!isDukaCita && products.length > 0 && (
+    <link
+      slot="head"
+      rel="preload"
+      as="image"
+      type="image/webp"
+      href={withBase(categoryBannerImage)}
+      fetchpriority="high"
+    />
+  )}
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
     
     <!-- Breadcrumb -->
@@ -179,13 +203,14 @@ const customCategorySchema = {
               aria-label="Pesan Bunga Papan Duka Cita via WhatsApp"
             >
               <img
-                src={withBase('/images/banner/kategori/spanduk-bunga-duka-cita-floragate.webp')}
+                src={withBase('/images/banner/kategori/spanduk-bunga-duka-cita-floragate-mobile.webp')}
                 alt="Bunga Papan Duka Cita Malang 24 Jam - Floragate Florist"
                 class="w-full h-auto block"
                 loading="eager"
+                decoding="sync"
                 fetchpriority="high"
-                width="1672"
-                height="941"
+                width="750"
+                height="422"
               />
             </a>
 
@@ -245,10 +270,10 @@ const customCategorySchema = {
                 src={withBase('/images/banner/kategori/spanduk-bunga-duka-cita-floragate.webp')}
                 alt="Bunga Papan Duka Cita Malang 24 Jam - Floragate Florist"
                 class="w-full h-full object-cover"
-                loading="eager"
-                fetchpriority="high"
-                width="1672"
-                height="941"
+                loading="lazy"
+                decoding="async"
+                width="1080"
+                height="608"
               />
             </a>
           </div>
@@ -372,7 +397,8 @@ const customCategorySchema = {
             <div class="category-product-item">
               <ProductCard
                 product={product}
-                priority={index === 0}
+                priority={index === 0 && !isDukaCita}
+                eager={index === 0 && isDukaCita}
                 twoColMobile={isBungaPapan}
                 aspect={isHandBouquet ? 'aspect-[4/5]' : undefined}
               />

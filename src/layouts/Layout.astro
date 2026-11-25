@@ -84,17 +84,9 @@ const finalSchema = schema || defaultSchema;
 <!doctype html>
 <html lang="id">
   <head>
-    <!-- Google Tag Manager -->
-    <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-TV8HKJX8"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-    </script>
-    <!-- End Google Tag Manager -->
-
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <slot name="head" />
     <!-- Preconnect untuk resource penting -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -156,7 +148,14 @@ const finalSchema = schema || defaultSchema;
         .image-skeleton { display: none !important; }
       </style>
     </noscript>
-    <slot name="head" />
+    <!-- Google Tag Manager (di akhir head + fetchpriority low agar tidak menyaingi LCP) -->
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    </script>
+    <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-TV8HKJX8" fetchpriority="low"></script>
+    <!-- End Google Tag Manager -->
   </head>
   <body class="flex flex-col min-h-screen bg-clean-ivory text-slate-800">
     <!-- Google Tag Manager (noscript) -->
