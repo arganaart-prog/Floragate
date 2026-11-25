@@ -57,7 +57,7 @@ const description = "Bunga papan, hand bouquet, standing flower, dan tanaman uca
     </div>
 
     <!-- Products Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="products-grid">
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8" id="products-grid">
       {PRODUCTS.map((product, index) => (
         <div 
           class="product-item-wrapper" 
@@ -65,7 +65,7 @@ const description = "Bunga papan, hand bouquet, standing flower, dan tanaman uca
           data-name={getProductDisplayName(product).toLowerCase()}
           data-description={product.description.toLowerCase()}
         >
-          <ProductCard product={product} priority={index === 0} />
+          <ProductCard product={product} priority={index === 0} twoColMobile />
         </div>
       ))}
     </div>

@@ -5,6 +5,7 @@ import Breadcrumb from '../../components/Breadcrumb.astro';
 import { CATEGORIES, PRODUCTS } from '../../data/products';
 import { WHATSAPP_NUMBER, SITE_DOMAIN } from '../../data/constants';
 import { withBase } from '../../utils/paths';
+import { isBungaPapanCategory } from '../../utils/productHelpers';
 
 export async function getStaticPaths() {
   return CATEGORIES.map(category => {
@@ -20,6 +21,7 @@ const { category, products } = Astro.props;
 const isTanbulampot = category.slug === 'tanbulampot-malang';
 const isHandBouquet = category.slug === 'hand-bouquet-malang';
 const isDukaCita = category.slug === 'bunga-papan-duka-cita-malang';
+const isBungaPapan = isBungaPapanCategory(category.slug);
 
 const fastOrderText = encodeURIComponent(
   isDukaCita
@@ -365,12 +367,13 @@ const customCategorySchema = {
     <!-- Products Grid -->
     {products.length > 0 ? (
       <>
-        <div class={`grid ${isHandBouquet ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'}`} id="category-products-grid">
+        <div class={`grid ${isBungaPapan ? 'grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8' : isHandBouquet ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'}`} id="category-products-grid">
           {products.map((product, index) => (
             <div class="category-product-item">
               <ProductCard
                 product={product}
                 priority={index === 0}
+                twoColMobile={isBungaPapan}
                 aspect={isHandBouquet ? 'aspect-[4/5]' : undefined}
               />
             </div>
