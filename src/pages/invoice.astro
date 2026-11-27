@@ -791,6 +791,73 @@ const catalogItems = PRODUCTS.map((p) => ({
             </button>
           </div>
 
+          <!-- Koneksi File Excel Statis & Sinkronisasi -->
+          <div class="border-b border-soft-cream/70 bg-emerald-50/50 px-5 py-3 space-y-2.5">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="text-xs">
+                <span class="font-bold text-emerald-900">File Excel Statis Terhubung:</span>
+                <span id="excel-link-status" class="ml-1.5 text-slate-600">Belum terhubung (masih tersimpan di browser)</span>
+              </div>
+              <div class="flex flex-wrap items-center gap-1.5">
+                <button
+                  type="button"
+                  id="btn-link-new-excel"
+                  class="rounded-lg bg-emerald-700 hover:bg-emerald-800 px-2.5 py-1.5 text-[11px] font-bold text-white transition-colors cursor-pointer"
+                >
+                  + Buat File Excel Terhubung
+                </button>
+                <button
+                  type="button"
+                  id="btn-link-existing-excel"
+                  class="rounded-lg border border-emerald-600 bg-white hover:bg-emerald-50 px-2.5 py-1.5 text-[11px] font-bold text-emerald-800 transition-colors cursor-pointer"
+                >
+                  Pilih File yang Ada
+                </button>
+                <button
+                  type="button"
+                  id="btn-grant-excel-perm"
+                  class="hidden rounded-lg bg-amber-500 hover:bg-amber-600 px-2.5 py-1.5 text-[11px] font-bold text-white transition-colors cursor-pointer"
+                >
+                  Aktifkan Akses File
+                </button>
+                <button
+                  type="button"
+                  id="btn-unlink-excel"
+                  class="hidden rounded-lg border border-slate-300 bg-white hover:bg-slate-100 px-2.5 py-1.5 text-[11px] font-bold text-slate-600 transition-colors cursor-pointer"
+                >
+                  Putuskan
+                </button>
+              </div>
+            </div>
+
+            <details class="rounded-xl border border-emerald-200/80 bg-white/80 px-3 py-2 text-xs">
+              <summary class="cursor-pointer font-bold text-emerald-900 select-none">
+                Opsional: Hubungkan ke Google Sheets (Untuk Sinkron HP &amp; Laptop)
+              </summary>
+              <div class="mt-2.5 space-y-2">
+                <p class="text-[11px] text-slate-600 leading-relaxed">
+                  Jika ingin data invoice dari HP maupun Laptop masuk ke 1 Google Sheets yang sama secara otomatis, tempel URL Web App Google Apps Script di bawah ini:
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <input
+                    id="f-gsheet-webhook"
+                    type="url"
+                    placeholder="https://script.google.com/macros/s/.../exec"
+                    class="inv-input flex-1 min-w-[220px] bg-white text-xs py-1.5"
+                  />
+                  <button
+                    type="button"
+                    id="btn-copy-gsheet-script"
+                    class="rounded-lg border border-emerald-600 bg-white hover:bg-emerald-50 px-3 py-1.5 text-[11px] font-bold text-emerald-800 cursor-pointer"
+                  >
+                    Copy Script Apps Script
+                  </button>
+                </div>
+                <p id="gsheet-sync-status" class="text-[10px] text-slate-500"></p>
+              </div>
+            </details>
+          </div>
+
           <!-- Summary Stats & Actions -->
           <div class="flex flex-wrap items-center justify-between gap-3 border-b border-soft-cream/70 px-5 py-3 bg-white">
             <div class="flex flex-wrap items-center gap-4 text-xs">
@@ -1886,19 +1953,6 @@ const catalogItems = PRODUCTS.map((p) => ({
       };
     }
 
-    function recordCurrentInvoiceToExcelLog() {
-      const rows = loadExcelLog();
-      const entry = buildCurrentExcelRow();
-      const existingIdx = rows.findIndex((r) => r.invoiceNo === entry.invoiceNo);
-      if (existingIdx >= 0) {
-        rows[existingIdx] = entry;
-      } else {
-        rows.unshift(entry);
-      }
-      saveExcelLog(rows);
-      renderExcelModalTable();
-    }
-
     function renderExcelModalTable() {
       const rows = loadExcelLog();
       const tbody = document.getElementById('excel-table-body');
@@ -1921,7 +1975,9 @@ const catalogItems = PRODUCTS.map((p) => ({
         return;
       }
 
-      rows.forEach((row, idx) => {
+      // Display newest first in modal UI while keeping chronological order (awal -> akhir) in Excel file
+      const displayRows = rows.map((row, idx) => ({ row, idx })).reverse();
+      displayRows.forEach(({ row, idx }) => {
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-clean-ivory/40';
 
@@ -1949,13 +2005,14 @@ const catalogItems = PRODUCTS.map((p) => ({
       });
 
       tbody.querySelectorAll('[data-del-excel-idx]').forEach((btn) => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', async () => {
           const idx = Number(btn.getAttribute('data-del-excel-idx'));
           const current = loadExcelLog();
           if (!Number.isNaN(idx) && idx >= 0 && idx < current.length) {
             current.splice(idx, 1);
             saveExcelLog(current);
             renderExcelModalTable();
+            await syncToLinkedExcelFile(current, true);
           }
         });
       });
@@ -1966,12 +2023,7 @@ const catalogItems = PRODUCTS.map((p) => ({
       return `"${str.replace(/"/g, '""')}"`;
     }
 
-    function exportExcelCsv() {
-      const rows = loadExcelLog();
-      if (rows.length === 0) {
-        recordCurrentInvoiceToExcelLog();
-      }
-      const latestRows = loadExcelLog();
+    function buildCsvContent(rows: InvoiceExcelRow[]): string {
       const headers = [
         'No',
         'No. Invoice',
@@ -2001,7 +2053,7 @@ const catalogItems = PRODUCTS.map((p) => ({
       const csvLines = [
         'sep=;',
         headers.map(escapeCsvCell).join(';'),
-        ...latestRows.map((r, i) =>
+        ...rows.map((r, i) =>
           [
             i + 1,
             r.invoiceNo,
@@ -2032,7 +2084,238 @@ const catalogItems = PRODUCTS.map((p) => ({
         ),
       ];
 
-      const blob = new Blob(['\uFEFF' + csvLines.join('\r\n')], {
+      return '\uFEFF' + csvLines.join('\r\n');
+    }
+
+    function parseCsvLine(line: string, sep: string): string[] {
+      const cells: string[] = [];
+      let cur = '';
+      let inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (ch === '"') {
+          if (inQuotes && line[i + 1] === '"') {
+            cur += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (ch === sep && !inQuotes) {
+          cells.push(cur);
+          cur = '';
+        } else {
+          cur += ch;
+        }
+      }
+      cells.push(cur);
+      return cells;
+    }
+
+    function importRowsFromCsvText(text: string): InvoiceExcelRow[] {
+      const clean = text.replace(/^\uFEFF/, '');
+      const lines = clean.split(/\r?\n/).filter((l) => l.trim().length > 0);
+      if (lines.length === 0) return [];
+      let sep = ';';
+      let startIdx = 0;
+      if (lines[0].toLowerCase().startsWith('sep=')) {
+        sep = lines[0].slice(4, 5) || ';';
+        startIdx = 1;
+      } else if (lines[0].includes(',') && !lines[0].includes(';')) {
+        sep = ',';
+      }
+      if (lines.length <= startIdx + 1) return [];
+      const imported: InvoiceExcelRow[] = [];
+      for (let i = startIdx + 1; i < lines.length; i++) {
+        const c = parseCsvLine(lines[i], sep);
+        if (c.length < 18 || !c[1]) continue;
+        imported.push({
+          invoiceNo: c[1] || '-',
+          poNumber: c[2] || '-',
+          issueDate: c[3] || todayISO,
+          dueDate: c[4] || todayISO,
+          statusLabel: c[5] || 'Belum Dibayar',
+          paymentTerms: c[6] || '-',
+          clientName: c[7] || '-',
+          clientContact: c[8] || '-',
+          clientAddress: c[9] || '-',
+          recipientName: c[10] || '-',
+          deliveryDatetime: c[11] || '-',
+          deliveryAddress: c[12] || '-',
+          itemsSummary: c[13] || '-',
+          subtotal: Number(c[14]) || 0,
+          shippingFee: Number(c[15]) || 0,
+          physicalInvoiceShipping: Number(c[16]) || 0,
+          grandTotal: Number(c[17]) || 0,
+          dpAmount: Number(c[18]) || 0,
+          balanceDue: Number(c[19]) || 0,
+          accountsSummary: c[20] || '-',
+          digitalStamp: c[21] || 'Ya',
+          recordedAt: c[22] || '-',
+        });
+      }
+      return imported;
+    }
+
+    // IndexedDB persistence for FileSystemFileHandle
+    const FS_DB_NAME = 'fg_invoice_fs_db';
+    const FS_STORE_NAME = 'handles';
+    const FS_HANDLE_KEY = 'excelFileHandle';
+    const GSHEET_KEY = 'fg_invoice_gsheet_url_v1';
+    let linkedFileHandle: any = null;
+
+    function openFsDb(): Promise<IDBDatabase> {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(FS_DB_NAME, 1);
+        req.onupgradeneeded = () => {
+          if (!req.result.objectStoreNames.contains(FS_STORE_NAME)) {
+            req.result.createObjectStore(FS_STORE_NAME);
+          }
+        };
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    async function saveLinkedHandle(handle: any) {
+      linkedFileHandle = handle;
+      try {
+        const db = await openFsDb();
+        const tx = db.transaction(FS_STORE_NAME, 'readwrite');
+        tx.objectStore(FS_STORE_NAME).put(handle, FS_HANDLE_KEY);
+      } catch {
+        // Ignore IDB errors
+      }
+      await updateLinkedFileUI();
+    }
+
+    async function clearLinkedHandle() {
+      linkedFileHandle = null;
+      try {
+        const db = await openFsDb();
+        const tx = db.transaction(FS_STORE_NAME, 'readwrite');
+        tx.objectStore(FS_STORE_NAME).delete(FS_HANDLE_KEY);
+      } catch {
+        // Ignore
+      }
+      await updateLinkedFileUI();
+    }
+
+    async function restoreLinkedHandle() {
+      if (typeof indexedDB === 'undefined') return;
+      try {
+        const db = await openFsDb();
+        const tx = db.transaction(FS_STORE_NAME, 'readonly');
+        const req = tx.objectStore(FS_STORE_NAME).get(FS_HANDLE_KEY);
+        req.onsuccess = async () => {
+          if (req.result) {
+            linkedFileHandle = req.result;
+          }
+          await updateLinkedFileUI();
+        };
+      } catch {
+        await updateLinkedFileUI();
+      }
+    }
+
+    async function updateLinkedFileUI() {
+      const statusEl = document.getElementById('excel-link-status');
+      const permBtn = document.getElementById('btn-grant-excel-perm');
+      const unlinkBtn = document.getElementById('btn-unlink-excel');
+      const supportsFs = 'showSaveFilePicker' in window;
+
+      if (!supportsFs) {
+        if (statusEl) statusEl.textContent = 'Browser ini tidak mendukung koneksi file lokal langsung (gunakan Download Excel atau Google Sheets).';
+        document.getElementById('btn-link-new-excel')?.classList.add('hidden');
+        document.getElementById('btn-link-existing-excel')?.classList.add('hidden');
+        permBtn?.classList.add('hidden');
+        unlinkBtn?.classList.add('hidden');
+        return;
+      }
+
+      if (!linkedFileHandle) {
+        if (statusEl) statusEl.textContent = 'Belum terhubung (data tersimpan di browser)';
+        permBtn?.classList.add('hidden');
+        unlinkBtn?.classList.add('hidden');
+        return;
+      }
+
+      unlinkBtn?.classList.remove('hidden');
+      try {
+        const perm = await linkedFileHandle.queryPermission({ mode: 'readwrite' });
+        if (perm === 'granted') {
+          if (statusEl) statusEl.innerHTML = `<span class="font-bold text-emerald-700">Aktif &amp; Terhubung ke: ${linkedFileHandle.name}</span>`;
+          permBtn?.classList.add('hidden');
+        } else {
+          if (statusEl) statusEl.innerHTML = `<span class="font-bold text-amber-700">Terhubung ke ${linkedFileHandle.name} (klik Aktifkan Akses)</span>`;
+          permBtn?.classList.remove('hidden');
+        }
+      } catch {
+        if (statusEl) statusEl.textContent = `Terhubung ke ${linkedFileHandle.name}`;
+      }
+    }
+
+    async function syncToLinkedExcelFile(rows: InvoiceExcelRow[], allowPrompt = false) {
+      if (!linkedFileHandle) return;
+      try {
+        let perm = await linkedFileHandle.queryPermission({ mode: 'readwrite' });
+        if (perm !== 'granted' && allowPrompt) {
+          perm = await linkedFileHandle.requestPermission({ mode: 'readwrite' });
+        }
+        if (perm === 'granted') {
+          const writable = await linkedFileHandle.createWritable();
+          await writable.write(buildCsvContent(rows));
+          await writable.close();
+          await updateLinkedFileUI();
+        }
+      } catch (err) {
+        console.error('Sync to linked Excel file failed:', err);
+      }
+    }
+
+    async function syncRowToGoogleSheet(entry: InvoiceExcelRow) {
+      const gsheetInput = document.getElementById('f-gsheet-webhook') as HTMLInputElement | null;
+      const url = gsheetInput?.value.trim() || localStorage.getItem(GSHEET_KEY) || '';
+      if (!url) return;
+      const statusEl = document.getElementById('gsheet-sync-status');
+      try {
+        await fetch(url, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(entry),
+        });
+        if (statusEl) statusEl.textContent = `Terkirim ke Google Sheets (${entry.invoiceNo}) pada ${new Date().toLocaleTimeString('id-ID')}`;
+      } catch {
+        if (statusEl) statusEl.textContent = 'Gagal mengirim ke Google Sheets. Periksa URL Web App.';
+      }
+    }
+
+    async function recordCurrentInvoiceToExcelLog(allowFilePrompt = true) {
+      const rows = loadExcelLog();
+      const entry = buildCurrentExcelRow();
+      const existingIdx = rows.findIndex((r) => r.invoiceNo === entry.invoiceNo);
+      if (existingIdx >= 0) {
+        rows[existingIdx] = entry;
+      } else {
+        rows.push(entry);
+      }
+      saveExcelLog(rows);
+      renderExcelModalTable();
+      await syncToLinkedExcelFile(rows, allowFilePrompt);
+      syncRowToGoogleSheet(entry);
+    }
+
+    function exportExcelCsv() {
+      const rows = loadExcelLog();
+      if (rows.length === 0) {
+        const entry = buildCurrentExcelRow();
+        rows.push(entry);
+        saveExcelLog(rows);
+        renderExcelModalTable();
+      }
+      const latestRows = loadExcelLog();
+      const csvContent = buildCsvContent(latestRows);
+      const blob = new Blob([csvContent], {
         type: 'text/csv;charset=utf-8;',
       });
       const url = URL.createObjectURL(blob);
@@ -2044,6 +2327,97 @@ const catalogItems = PRODUCTS.map((p) => ({
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     }
+
+    document.getElementById('btn-link-new-excel')?.addEventListener('click', async () => {
+      try {
+        // @ts-ignore File System Access API
+        const handle = await window.showSaveFilePicker({
+          suggestedName: 'Rekap_Invoice_Floragate.csv',
+          types: [{ description: 'Excel CSV File', accept: { 'text/csv': ['.csv'] } }],
+        });
+        await saveLinkedHandle(handle);
+        const rows = loadExcelLog();
+        await syncToLinkedExcelFile(rows, true);
+      } catch {
+        // User cancelled
+      }
+    });
+
+    document.getElementById('btn-link-existing-excel')?.addEventListener('click', async () => {
+      try {
+        // @ts-ignore File System Access API
+        const [handle] = await window.showOpenFilePicker({
+          multiple: false,
+          types: [{ description: 'Excel CSV File', accept: { 'text/csv': ['.csv'] } }],
+        });
+        const file = await handle.getFile();
+        const text = await file.text();
+        const imported = importRowsFromCsvText(text);
+        const current = loadExcelLog();
+        const merged = [...imported];
+        current.forEach((row) => {
+          const idx = merged.findIndex((m) => m.invoiceNo === row.invoiceNo);
+          if (idx >= 0) merged[idx] = row;
+          else merged.push(row);
+        });
+        saveExcelLog(merged);
+        renderExcelModalTable();
+        await saveLinkedHandle(handle);
+        await syncToLinkedExcelFile(merged, true);
+      } catch {
+        // User cancelled
+      }
+    });
+
+    document.getElementById('btn-grant-excel-perm')?.addEventListener('click', async () => {
+      if (!linkedFileHandle) return;
+      try {
+        const perm = await linkedFileHandle.requestPermission({ mode: 'readwrite' });
+        if (perm === 'granted') {
+          await syncToLinkedExcelFile(loadExcelLog(), false);
+        }
+        await updateLinkedFileUI();
+      } catch {
+        // Ignore
+      }
+    });
+
+    document.getElementById('btn-unlink-excel')?.addEventListener('click', clearLinkedHandle);
+
+    const gsheetInputEl = document.getElementById('f-gsheet-webhook') as HTMLInputElement | null;
+    if (gsheetInputEl) {
+      gsheetInputEl.value = localStorage.getItem(GSHEET_KEY) || '';
+      gsheetInputEl.addEventListener('change', () => {
+        localStorage.setItem(GSHEET_KEY, gsheetInputEl.value.trim());
+      });
+    }
+
+    document.getElementById('btn-copy-gsheet-script')?.addEventListener('click', async () => {
+      const scriptCode = `function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = JSON.parse(e.postData.contents);
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(["No. Invoice","PO Number","Tanggal","Jatuh Tempo","Status","Payment Terms","Pemesan","Kontak","Alamat Pemesan","Penerima","Jadwal Kirim","Alamat Kirim","Produk","Subtotal","Ongkir Produk","Ongkir Invoice Fisik","Grand Total","DP","Sisa","Rekening","Stempel","Waktu Dicatat"]);
+  }
+  var vals = sheet.getDataRange().getValues();
+  var rowValues = [data.invoiceNo,data.poNumber,data.issueDate,data.dueDate,data.statusLabel,data.paymentTerms,data.clientName,data.clientContact,data.clientAddress,data.recipientName,data.deliveryDatetime,data.deliveryAddress,data.itemsSummary,data.subtotal,data.shippingFee,data.physicalInvoiceShipping,data.grandTotal,data.dpAmount,data.balanceDue,data.accountsSummary,data.digitalStamp,data.recordedAt];
+  for (var i = 1; i < vals.length; i++) {
+    if (vals[i][0] === data.invoiceNo) {
+      sheet.getRange(i + 1, 1, 1, rowValues.length).setValues([rowValues]);
+      return ContentService.createTextOutput("updated");
+    }
+  }
+  sheet.appendRow(rowValues);
+  return ContentService.createTextOutput("ok");
+}`;
+      try {
+        await navigator.clipboard.writeText(scriptCode);
+        const statusEl = document.getElementById('gsheet-sync-status');
+        if (statusEl) statusEl.textContent = 'Script berhasil disalin! Tempel di Google Sheets -> Extensions -> Apps Script -> Deploy as Web App.';
+      } catch {
+        // Fallback ignore
+      }
+    });
 
     const excelModal = document.getElementById('excel-modal');
     document.getElementById('btn-open-excel-modal')?.addEventListener('click', () => {
@@ -2060,10 +2434,11 @@ const catalogItems = PRODUCTS.map((p) => ({
       recordCurrentInvoiceToExcelLog();
     });
     document.getElementById('btn-export-excel-csv')?.addEventListener('click', exportExcelCsv);
-    document.getElementById('btn-clear-excel-log')?.addEventListener('click', () => {
+    document.getElementById('btn-clear-excel-log')?.addEventListener('click', async () => {
       if (confirm('Hapus semua rekap data invoice yang tersimpan?')) {
         saveExcelLog([]);
         renderExcelModalTable();
+        await syncToLinkedExcelFile([], true);
       }
     });
 
@@ -2155,6 +2530,7 @@ const catalogItems = PRODUCTS.map((p) => ({
     });
 
     updateExcelBadge();
+    restoreLinkedHandle();
     updateStatusButtonsUI();
     renderItemsEditor();
     renderPreview();
