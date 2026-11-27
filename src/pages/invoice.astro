@@ -321,43 +321,55 @@ const catalogItems = PRODUCTS.map((p) => ({
 
             <div class="space-y-3">
               <div class="flex items-center justify-between">
-                <span class="text-[11px] font-bold uppercase tracking-widest text-primary">Rekening Pembayaran Permanen</span>
-                <span class="rounded-full bg-accent-bg px-2.5 py-0.5 text-[10px] font-bold text-secondary-dark border border-secondary/40">4 Akun Aktif</span>
+                <span class="text-[11px] font-bold uppercase tracking-widest text-primary">Pilih Rekening yang Ditampilkan</span>
+                <span class="text-[10px] text-slate-500">Centang rekening yang diinginkan</span>
               </div>
 
-              <!-- List Rekening Permanen -->
-              <div class="grid grid-cols-2 gap-2 text-xs">
-                <div class="rounded-xl border border-soft-cream/80 bg-clean-ivory/40 p-2.5">
-                  <div class="flex items-center justify-between">
-                    <span class="font-bold text-primary-dark">BCA</span>
-                    <span class="text-[10px] uppercase tracking-wider text-slate-400">Bank</span>
+              <!-- List Rekening Pilihan (Pilih salah satu atau lebih) -->
+              <div class="grid grid-cols-2 gap-2 text-xs" id="payment-accounts-selector">
+                <label class="pay-acc-card flex items-start gap-2.5 rounded-xl border border-soft-cream/80 bg-clean-ivory/40 p-2.5 cursor-pointer hover:border-primary/50 transition-all select-none">
+                  <input type="checkbox" data-acc-id="bca" class="mt-0.5 h-4 w-4 rounded border-soft-cream text-primary focus:ring-primary/20 cursor-pointer" checked />
+                  <div class="leading-tight">
+                    <div class="flex items-center gap-1.5">
+                      <span class="font-bold text-primary-dark">BCA</span>
+                      <span class="text-[9px] uppercase tracking-wider text-slate-400 font-medium">Bank</span>
+                    </div>
+                    <p class="font-mono font-bold text-slate-800 text-xs mt-0.5">7265449735</p>
                   </div>
-                  <p class="font-mono font-bold text-slate-800 text-sm mt-0.5">7265449735</p>
-                </div>
+                </label>
 
-                <div class="rounded-xl border border-soft-cream/80 bg-clean-ivory/40 p-2.5">
-                  <div class="flex items-center justify-between">
-                    <span class="font-bold text-primary-dark">Bank Jago</span>
-                    <span class="text-[10px] uppercase tracking-wider text-slate-400">Bank</span>
+                <label class="pay-acc-card flex items-start gap-2.5 rounded-xl border border-soft-cream/80 bg-clean-ivory/40 p-2.5 cursor-pointer hover:border-primary/50 transition-all select-none">
+                  <input type="checkbox" data-acc-id="jago" class="mt-0.5 h-4 w-4 rounded border-soft-cream text-primary focus:ring-primary/20 cursor-pointer" />
+                  <div class="leading-tight">
+                    <div class="flex items-center gap-1.5">
+                      <span class="font-bold text-primary-dark">Bank Jago</span>
+                      <span class="text-[9px] uppercase tracking-wider text-slate-400 font-medium">Bank</span>
+                    </div>
+                    <p class="font-mono font-bold text-slate-800 text-xs mt-0.5">109570891530</p>
                   </div>
-                  <p class="font-mono font-bold text-slate-800 text-sm mt-0.5">109570891530</p>
-                </div>
+                </label>
 
-                <div class="rounded-xl border border-soft-cream/80 bg-clean-ivory/40 p-2.5">
-                  <div class="flex items-center justify-between">
-                    <span class="font-bold text-primary-dark">SeaBank</span>
-                    <span class="text-[10px] uppercase tracking-wider text-slate-400">Bank</span>
+                <label class="pay-acc-card flex items-start gap-2.5 rounded-xl border border-soft-cream/80 bg-clean-ivory/40 p-2.5 cursor-pointer hover:border-primary/50 transition-all select-none">
+                  <input type="checkbox" data-acc-id="seabank" class="mt-0.5 h-4 w-4 rounded border-soft-cream text-primary focus:ring-primary/20 cursor-pointer" />
+                  <div class="leading-tight">
+                    <div class="flex items-center gap-1.5">
+                      <span class="font-bold text-primary-dark">SeaBank</span>
+                      <span class="text-[9px] uppercase tracking-wider text-slate-400 font-medium">Bank</span>
+                    </div>
+                    <p class="font-mono font-bold text-slate-800 text-xs mt-0.5">901097147199</p>
                   </div>
-                  <p class="font-mono font-bold text-slate-800 text-sm mt-0.5">901097147199</p>
-                </div>
+                </label>
 
-                <div class="rounded-xl border border-soft-cream/80 bg-clean-ivory/40 p-2.5">
-                  <div class="flex items-center justify-between">
-                    <span class="font-bold text-primary-dark">DANA</span>
-                    <span class="text-[10px] uppercase tracking-wider text-slate-400">E-Wallet</span>
+                <label class="pay-acc-card flex items-start gap-2.5 rounded-xl border border-soft-cream/80 bg-clean-ivory/40 p-2.5 cursor-pointer hover:border-primary/50 transition-all select-none">
+                  <input type="checkbox" data-acc-id="dana" class="mt-0.5 h-4 w-4 rounded border-soft-cream text-primary focus:ring-primary/20 cursor-pointer" />
+                  <div class="leading-tight">
+                    <div class="flex items-center gap-1.5">
+                      <span class="font-bold text-primary-dark">DANA</span>
+                      <span class="text-[9px] uppercase tracking-wider text-slate-400 font-medium">E-Wallet</span>
+                    </div>
+                    <p class="font-mono font-bold text-slate-800 text-xs mt-0.5">085850027216</p>
                   </div>
-                  <p class="font-mono font-bold text-slate-800 text-sm mt-0.5">085850027216</p>
-                </div>
+                </label>
               </div>
 
               <div>
@@ -512,34 +524,11 @@ const catalogItems = PRODUCTS.map((p) => ({
 
                     <div id="pv-payment-box" class="border-l-2 border-[#6A7B5F] pl-3.5 space-y-2.5 text-[11.5px] text-[#353D34]">
                       <p class="text-[10px] font-bold uppercase tracking-[0.12em] text-[#6A7168]">
-                        TRANSFER BANK &amp; E-WALLET:
+                        TRANSFER PEMBAYARAN:
                       </p>
 
-                      <div class="grid grid-cols-2 gap-x-2.5 gap-y-2">
-                        <!-- BCA -->
-                        <div class="rounded-md border border-[#D9CEB8] bg-[#F4EFE6]/60 p-2">
-                          <span class="block text-[9.5px] font-bold uppercase tracking-wider text-[#3F4B37]">Bank BCA</span>
-                          <span class="font-mono font-bold text-[12px] text-[#1F271E] tracking-wider select-all">7265449735</span>
-                        </div>
-
-                        <!-- Bank Jago -->
-                        <div class="rounded-md border border-[#D9CEB8] bg-[#F4EFE6]/60 p-2">
-                          <span class="block text-[9.5px] font-bold uppercase tracking-wider text-[#3F4B37]">Bank Jago</span>
-                          <span class="font-mono font-bold text-[12px] text-[#1F271E] tracking-wider select-all">109570891530</span>
-                        </div>
-
-                        <!-- SeaBank -->
-                        <div class="rounded-md border border-[#D9CEB8] bg-[#F4EFE6]/60 p-2">
-                          <span class="block text-[9.5px] font-bold uppercase tracking-wider text-[#3F4B37]">SeaBank</span>
-                          <span class="font-mono font-bold text-[12px] text-[#1F271E] tracking-wider select-all">901097147199</span>
-                        </div>
-
-                        <!-- DANA -->
-                        <div class="rounded-md border border-[#D9CEB8] bg-[#F4EFE6]/60 p-2">
-                          <span class="block text-[9.5px] font-bold uppercase tracking-wider text-[#3F4B37]">DANA</span>
-                          <span class="font-mono font-bold text-[12px] text-[#1F271E] tracking-wider select-all">085850027216</span>
-                        </div>
-                      </div>
+                      <!-- Rekening yang dipilih admin akan muncul di sini secara dinamis -->
+                      <div id="pv-selected-accounts" class="space-y-2"></div>
 
                       <p class="text-[11px] text-[#4A5248] pt-0.5 leading-snug">
                         <strong class="font-semibold text-[#1F271E]">A.n:</strong> <span id="pv-bank-holder">Floragate / Argana</span>
@@ -975,6 +964,58 @@ const catalogItems = PRODUCTS.map((p) => ({
     fBankHolder.value = prefs.bankHolder || 'Floragate / Argana';
     fPaymentNote.value = prefs.paymentNote || '*Mohon sertakan nomor invoice atau konfirmasi bukti transfer via WhatsApp.';
 
+    interface MasterAccount {
+      id: string;
+      type: string;
+      name: string;
+      number: string;
+    }
+
+    const MASTER_ACCOUNTS: Record<string, MasterAccount> = {
+      bca: { id: 'bca', type: 'Bank', name: 'BCA', number: '7265449735' },
+      jago: { id: 'jago', type: 'Bank', name: 'Bank Jago', number: '109570891530' },
+      seabank: { id: 'seabank', type: 'Bank', name: 'SeaBank', number: '901097147199' },
+      dana: { id: 'dana', type: 'E-Wallet', name: 'DANA', number: '085850027216' },
+    };
+
+    const initialSelectedAccounts: string[] = Array.isArray(prefs.selectedAccounts) && prefs.selectedAccounts.length > 0
+      ? prefs.selectedAccounts
+      : ['bca'];
+
+    const accountCheckboxes = Array.from(
+      document.querySelectorAll<HTMLInputElement>('#payment-accounts-selector input[type="checkbox"]')
+    );
+
+    function getSelectedAccountIds(): string[] {
+      return accountCheckboxes.filter((cb) => cb.checked).map((cb) => cb.getAttribute('data-acc-id') || '');
+    }
+
+    function updateAccountCardsUI() {
+      accountCheckboxes.forEach((cb) => {
+        const card = cb.closest('.pay-acc-card');
+        if (card) {
+          if (cb.checked) {
+            card.classList.add('border-primary', 'bg-accent-bg/80', 'shadow-xs');
+            card.classList.remove('border-soft-cream/80', 'bg-clean-ivory/40');
+          } else {
+            card.classList.remove('border-primary', 'bg-accent-bg/80', 'shadow-xs');
+            card.classList.add('border-soft-cream/80', 'bg-clean-ivory/40');
+          }
+        }
+      });
+    }
+
+    accountCheckboxes.forEach((cb) => {
+      const id = cb.getAttribute('data-acc-id') || '';
+      cb.checked = initialSelectedAccounts.includes(id);
+      cb.addEventListener('change', () => {
+        updateAccountCardsUI();
+        savePaymentPrefs();
+        renderPreview();
+      });
+    });
+    updateAccountCardsUI();
+
     function savePaymentPrefs() {
       try {
         localStorage.setItem(
@@ -983,6 +1024,7 @@ const catalogItems = PRODUCTS.map((p) => ({
             seq: currentSeq,
             bankHolder: fBankHolder.value,
             paymentNote: fPaymentNote.value,
+            selectedAccounts: getSelectedAccountIds(),
           })
         );
       } catch {
@@ -1202,6 +1244,38 @@ const catalogItems = PRODUCTS.map((p) => ({
       // Payment info
       setText('pv-bank-holder', fBankHolder.value, 'Floragate / Argana');
       setText('pv-payment-note', fPaymentNote.value, '*Mohon sertakan nomor invoice atau konfirmasi bukti transfer via WhatsApp.');
+
+      const selectedIds = getSelectedAccountIds();
+      const activeAccounts = selectedIds.map((id) => MASTER_ACCOUNTS[id]).filter(Boolean);
+      const accountsContainer = document.getElementById('pv-selected-accounts');
+      if (accountsContainer) {
+        accountsContainer.innerHTML = '';
+        if (activeAccounts.length === 0) {
+          accountsContainer.innerHTML = '<p class="text-[11px] italic text-[#6A7168]">(Belum ada rekening pembayaran yang dipilih)</p>';
+        } else if (activeAccounts.length === 1) {
+          const acc = activeAccounts[0];
+          const singleCard = document.createElement('div');
+          singleCard.className = 'rounded-md border border-[#D9CEB8] bg-[#F4EFE6]/70 p-2.5';
+          singleCard.innerHTML = `
+            <span class="block text-[10px] font-bold uppercase tracking-wider text-[#3F4B37]">${acc.type} ${acc.name}</span>
+            <span class="font-mono font-bold text-[13.5px] text-[#1F271E] tracking-wider select-all mt-0.5 block">${acc.number}</span>
+          `;
+          accountsContainer.appendChild(singleCard);
+        } else {
+          const grid = document.createElement('div');
+          grid.className = 'grid grid-cols-2 gap-x-2.5 gap-y-2';
+          activeAccounts.forEach((acc) => {
+            const card = document.createElement('div');
+            card.className = 'rounded-md border border-[#D9CEB8] bg-[#F4EFE6]/60 p-2';
+            card.innerHTML = `
+              <span class="block text-[9.5px] font-bold uppercase tracking-wider text-[#3F4B37]">${acc.name}</span>
+              <span class="font-mono font-bold text-[12px] text-[#1F271E] tracking-wider select-all">${acc.number}</span>
+            `;
+            grid.appendChild(card);
+          });
+          accountsContainer.appendChild(grid);
+        }
+      }
 
       // Digital stamp
       const stampWrap = document.getElementById('pv-stamp-wrap');
