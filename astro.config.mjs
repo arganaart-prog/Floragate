@@ -9,7 +9,11 @@ export default defineConfig({
   build: {
     inlineStylesheets: 'auto',
   },
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      filter: (page) => !page.includes('/invoice'),
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()],
   }

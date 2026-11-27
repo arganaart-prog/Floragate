@@ -1,0 +1,1295 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { PRODUCTS } from '../data/products';
+import { withBase } from '../utils/paths';
+import { getProductDisplayName } from '../utils/productHelpers';
+
+const title = 'Invoice Generator Internal | Floragate';
+const description = 'Halaman internal pembuatan invoice pesanan Floragate Malang.';
+
+const catalogItems = PRODUCTS.map((p) => ({
+  slug: p.slug,
+  name: getProductDisplayName(p),
+  category: p.categoryName,
+  price: p.priceFrom,
+}));
+---
+
+<Layout
+  title={title}
+  description={description}
+  robots="noindex, nofollow"
+  showTestimonials={false}
+  showGallery={false}
+>
+  <div class="invoice-page-wrap max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+    <!-- ==================== LOGIN GATE ==================== -->
+    <section
+      id="invoice-login-gate"
+      class="no-print max-w-md mx-auto my-8 sm:my-14 rounded-2xl border border-soft-cream bg-white p-7 sm:p-9 shadow-[0_20px_50px_rgba(63,75,55,0.08)]"
+      aria-labelledby="login-heading"
+    >
+      <div class="text-center mb-7">
+        <div class="mx-auto mb-4 flex h-20 w-16 items-center justify-center rounded-t-full rounded-b-md border border-secondary/70 bg-accent-bg p-2 shadow-xs">
+          <img
+            src={withBase('/images/logo/logo.webp')}
+            alt="Logo Floragate"
+            class="h-12 w-auto object-contain"
+            width="64"
+            height="62"
+          />
+        </div>
+        <span class="text-[11px] font-bold uppercase tracking-[0.22em] text-secondary-dark">Admin Floragate</span>
+        <h1 id="login-heading" class="mt-1.5 font-serif text-2xl sm:text-3xl font-bold text-primary-dark">
+          Login Pembuat Invoice
+        </h1>
+        <p class="mt-2 text-xs sm:text-sm text-slate-500">
+          Masuk dengan akun admin untuk membuat, mengatur status bayar, dan mencetak invoice pelanggan.
+        </p>
+      </div>
+
+      <form id="invoice-login-form" class="space-y-4" novalidate>
+        <div>
+          <label for="login-email" class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+            Email Admin
+          </label>
+          <input
+            id="login-email"
+            type="email"
+            required
+            autocomplete="username"
+            placeholder="nama@gmail.com"
+            class="w-full rounded-xl border border-soft-cream bg-clean-ivory/40 px-4 py-3 text-sm text-slate-800 placeholder:text-slate-400 focus:border-primary focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/20"
+          />
+        </div>
+
+        <div>
+          <label for="login-password" class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+            Kata Sandi
+          </label>
+          <div class="relative">
+            <input
+              id="login-password"
+              type="password"
+              required
+              autocomplete="current-password"
+              placeholder="Masukkan kata sandi"
+              class="w-full rounded-xl border border-soft-cream bg-clean-ivory/40 px-4 py-3 pr-11 text-sm text-slate-800 placeholder:text-slate-400 focus:border-primary focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/20"
+            />
+            <button
+              type="button"
+              id="toggle-password-btn"
+              class="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 hover:text-primary cursor-pointer"
+              aria-label="Tampilkan atau sembunyikan kata sandi"
+            >
+              <svg id="eye-open-icon" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+              <svg id="eye-closed-icon" class="hidden w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <label class="flex items-center gap-2.5 text-xs text-slate-600 cursor-pointer select-none">
+          <input
+            id="login-remember"
+            type="checkbox"
+            checked
+            class="h-4 w-4 rounded border-soft-cream text-primary focus:ring-primary/30"
+          />
+          <span>Tetap masuk di browser ini</span>
+        </label>
+
+        <p id="login-error" class="hidden rounded-lg border border-red-200 bg-red-50 px-3.5 py-2.5 text-xs font-medium text-red-700" role="alert"></p>
+
+        <button
+          type="submit"
+          class="w-full rounded-xl bg-primary hover:bg-primary-dark px-5 py-3.5 text-sm font-bold text-white shadow-md transition-colors cursor-pointer"
+        >
+          Masuk ke Invoice Builder
+        </button>
+      </form>
+    </section>
+
+    <!-- ==================== INVOICE BUILDER WORKSPACE ==================== -->
+    <section id="invoice-workspace" class="hidden" aria-label="Workspace Pembuat Invoice">
+      <!-- Top Action Bar -->
+      <div class="no-print mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-soft-cream bg-white p-4 sm:px-6 shadow-xs">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-secondary-dark">Floragate Billing</span>
+          <h1 class="font-serif text-xl sm:text-2xl font-bold text-primary-dark">Pembuat Invoice Pelanggan</h1>
+          <p id="active-user-label" class="text-xs text-slate-500 mt-0.5"></p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2.5">
+          <button
+            type="button"
+            id="btn-new-invoice"
+            class="inline-flex items-center gap-1.5 rounded-xl border border-soft-cream bg-accent-bg px-3.5 py-2.5 text-xs font-bold text-primary-dark hover:border-secondary transition-colors cursor-pointer"
+          >
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+            Invoice Baru
+          </button>
+
+          <button
+            type="button"
+            id="btn-print-invoice"
+            class="inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-dark px-4 py-2.5 text-xs font-bold text-white shadow-sm transition-colors cursor-pointer"
+          >
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+            </svg>
+            Cetak / Simpan PDF
+          </button>
+
+          <button
+            type="button"
+            id="btn-logout"
+            class="inline-flex items-center gap-1.5 rounded-xl border border-red-200 bg-red-50/70 hover:bg-red-100 px-3.5 py-2.5 text-xs font-bold text-red-700 transition-colors cursor-pointer"
+          >
+            Keluar
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Tab Switcher (Edit Form vs Preview) -->
+      <div class="no-print xl:hidden grid grid-cols-2 gap-2 mb-5 rounded-xl border border-soft-cream bg-white p-1.5">
+        <button
+          type="button"
+          id="mobile-tab-edit"
+          class="rounded-lg py-2.5 text-xs font-bold bg-primary text-white transition-colors cursor-pointer"
+        >
+          1. Isi Data Invoice
+        </button>
+        <button
+          type="button"
+          id="mobile-tab-preview"
+          class="rounded-lg py-2.5 text-xs font-bold text-slate-600 hover:text-primary transition-colors cursor-pointer"
+        >
+          2. Lihat Preview &amp; PDF
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 xl:grid-cols-12 gap-7 items-start">
+        <!-- ========== LEFT COLUMN: EDITOR FORM ========== -->
+        <aside id="editor-panel" class="no-print xl:col-span-5 space-y-5">
+          <!-- Card 1: Info Invoice & Status Pembayaran -->
+          <div class="rounded-2xl border border-soft-cream bg-white p-5 shadow-xs space-y-4">
+            <h2 class="font-serif text-base font-bold text-primary-dark border-b border-soft-cream/70 pb-2.5">
+              1. Nomor &amp; Status Pembayaran
+            </h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="sm:col-span-2">
+                <label for="f-invoice-no" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">Invoice No.</label>
+                <input id="f-invoice-no" type="text" class="inv-input" />
+              </div>
+              <div>
+                <label for="f-issue-date" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">Issue Date</label>
+                <input id="f-issue-date" type="date" class="inv-input" />
+              </div>
+              <div>
+                <label for="f-due-date" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">Due Date</label>
+                <input id="f-due-date" type="date" class="inv-input" />
+              </div>
+            </div>
+
+            <!-- Status Pembayaran: Sudah Dibayar / DP / Belum Dibayar -->
+            <div>
+              <span class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">Status Pembayaran</span>
+              <div class="grid grid-cols-3 gap-2" role="radiogroup" aria-label="Pilih status pembayaran">
+                <button
+                  type="button"
+                  data-status-btn="paid"
+                  class="status-choice-btn rounded-xl border border-soft-cream bg-clean-ivory/40 px-2.5 py-2.5 text-center text-xs font-bold text-slate-700 transition-all cursor-pointer"
+                >
+                  Sudah Dibayar
+                </button>
+                <button
+                  type="button"
+                  data-status-btn="dp"
+                  class="status-choice-btn rounded-xl border border-soft-cream bg-clean-ivory/40 px-2.5 py-2.5 text-center text-xs font-bold text-slate-700 transition-all cursor-pointer"
+                >
+                  DP (Uang Muka)
+                </button>
+                <button
+                  type="button"
+                  data-status-btn="unpaid"
+                  class="status-choice-btn rounded-xl border border-soft-cream bg-clean-ivory/40 px-2.5 py-2.5 text-center text-xs font-bold text-slate-700 transition-all cursor-pointer"
+                >
+                  Belum Dibayar
+                </button>
+              </div>
+            </div>
+
+            <!-- DP Nominal Input (hanya muncul jika status DP dipilih) -->
+            <div id="dp-input-wrap" class="hidden rounded-xl border border-secondary/50 bg-accent-bg/70 p-3.5 space-y-2.5">
+              <div class="flex items-center justify-between gap-2">
+                <label for="f-dp-amount" class="text-xs font-bold text-secondary-dark">Nominal DP Diterima (Rp)</label>
+                <div class="flex items-center gap-1.5">
+                  <button type="button" data-dp-percent="30" class="dp-preset-btn rounded-md bg-white px-2 py-1 text-[10px] font-bold text-primary-dark border border-soft-cream hover:border-primary cursor-pointer">DP 30%</button>
+                  <button type="button" data-dp-percent="50" class="dp-preset-btn rounded-md bg-white px-2 py-1 text-[10px] font-bold text-primary-dark border border-soft-cream hover:border-primary cursor-pointer">DP 50%</button>
+                </div>
+              </div>
+              <input id="f-dp-amount" type="number" min="0" step="5000" placeholder="Contoh: 350000" class="inv-input bg-white" />
+              <p class="text-[11px] text-slate-500">Sisa tagihan otomatis dihitung di rincian invoice.</p>
+            </div>
+          </div>
+
+          <!-- Card 2: Data Pemesan (Billed To) & Pengiriman (Delivery Details) -->
+          <div class="rounded-2xl border border-soft-cream bg-white p-5 shadow-xs space-y-4">
+            <h2 class="font-serif text-base font-bold text-primary-dark border-b border-soft-cream/70 pb-2.5">
+              2. Data Pemesan &amp; Pengiriman
+            </h2>
+
+            <div class="space-y-3">
+              <p class="text-[11px] font-bold uppercase tracking-widest text-primary">Billed To (Pemesan)</p>
+              <input id="f-client-name" type="text" placeholder="Nama pemesan / perusahaan" class="inv-input" />
+              <input id="f-client-contact" type="text" placeholder="No. WhatsApp / Email pemesan" class="inv-input" />
+              <input id="f-client-address" type="text" placeholder="Alamat pemesan / kota" class="inv-input" />
+            </div>
+
+            <div class="pt-2 border-t border-soft-cream/50 space-y-3">
+              <p class="text-[11px] font-bold uppercase tracking-widest text-primary">Delivery Details (Pengiriman)</p>
+              <input id="f-recipient-name" type="text" placeholder="Nama penerima / keluarga / instansi" class="inv-input" />
+              <input id="f-delivery-datetime" type="text" placeholder="Tanggal & jam kirim (mis: 28 Nov 2026, 09.00 WIB)" class="inv-input" />
+              <input id="f-delivery-address" type="text" placeholder="Alamat lengkap pengiriman di Malang" class="inv-input" />
+            </div>
+          </div>
+
+          <!-- Card 3: Daftar Produk (Nama Produk, Harga, Jumlah) -->
+          <div class="rounded-2xl border border-soft-cream bg-white p-5 shadow-xs space-y-4">
+            <div class="flex items-center justify-between gap-2 border-b border-soft-cream/70 pb-2.5">
+              <h2 class="font-serif text-base font-bold text-primary-dark">
+                3. Produk &amp; Ongkir
+              </h2>
+              <button
+                type="button"
+                id="btn-add-item"
+                class="inline-flex items-center gap-1 rounded-lg bg-primary hover:bg-primary-dark px-3 py-1.5 text-xs font-bold text-white transition-colors cursor-pointer"
+              >
+                + Tambah Produk
+              </button>
+            </div>
+
+            <!-- Quick Pick from Catalog -->
+            <div class="rounded-xl border border-soft-cream/80 bg-accent-bg/50 p-3 space-y-2">
+              <label for="catalog-quick-select" class="block text-[11px] font-bold text-secondary-dark">
+                Pilih Cepat dari Katalog (Opsional)
+              </label>
+              <div class="flex gap-2">
+                <select id="catalog-quick-select" class="inv-input bg-white text-xs">
+                  <option value="">-- Pilih produk katalog --</option>
+                  {catalogItems.map((item) => (
+                    <option value={item.slug} data-name={item.name} data-price={item.price}>
+                      {item.name} — Rp {item.price.toLocaleString('id-ID')}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  id="btn-insert-catalog"
+                  class="shrink-0 rounded-lg border border-primary bg-white px-3 py-2 text-xs font-bold text-primary hover:bg-primary hover:text-white transition-colors cursor-pointer"
+                >
+                  Tambah
+                </button>
+              </div>
+            </div>
+
+            <!-- Dynamic Items Editor List -->
+            <div id="items-editor-list" class="space-y-3"></div>
+
+            <!-- Ongkir -->
+            <div class="pt-2 border-t border-soft-cream/60">
+              <label for="f-shipping-fee" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                Biaya Pengiriman / Shipping Fee (Rp) — 0 = Gratis Ongkir
+              </label>
+              <input id="f-shipping-fee" type="number" min="0" step="5000" value="0" class="inv-input" />
+            </div>
+          </div>
+
+          <!-- Card 4: Pembayaran & Stempel -->
+          <div class="rounded-2xl border border-soft-cream bg-white p-5 shadow-xs space-y-4">
+            <h2 class="font-serif text-base font-bold text-primary-dark border-b border-soft-cream/70 pb-2.5">
+              4. Pembayaran &amp; Stempel Digital
+            </h2>
+
+            <div class="space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-bold uppercase tracking-widest text-primary">Bank Transfer</span>
+                <label class="inline-flex items-center gap-1.5 text-xs text-slate-600 cursor-pointer">
+                  <input id="f-show-bank" type="checkbox" checked class="h-3.5 w-3.5 rounded text-primary" />
+                  Tampilkan
+                </label>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                <input id="f-bank-name" type="text" placeholder="Nama Bank (mis: BCA / Mandiri)" class="inv-input" />
+                <input id="f-bank-acc" type="text" placeholder="No. Rekening" class="inv-input" />
+              </div>
+              <input id="f-bank-holder" type="text" placeholder="Atas Nama Rekening" class="inv-input" />
+            </div>
+
+            <div class="pt-2 border-t border-soft-cream/50 space-y-2.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[11px] font-bold uppercase tracking-widest text-primary">QRIS Payment</span>
+                <label class="inline-flex items-center gap-1.5 text-xs text-slate-600 cursor-pointer">
+                  <input id="f-show-qris" type="checkbox" checked class="h-3.5 w-3.5 rounded text-primary" />
+                  Tampilkan
+                </label>
+              </div>
+              <input id="f-qris-nmid" type="text" placeholder="Merchant ID / NMID QRIS" class="inv-input" />
+            </div>
+
+            <div class="pt-2 border-t border-soft-cream/50 flex flex-wrap items-center justify-between gap-3">
+              <label class="inline-flex items-center gap-2 text-xs font-bold text-primary-dark cursor-pointer">
+                <input id="f-show-stamp" type="checkbox" checked class="h-4 w-4 rounded text-primary" />
+                Tampilkan Stempel Digital Floragate
+              </label>
+
+              <label class="inline-flex items-center gap-2 text-xs text-slate-600">
+                <span>Teks Stempel:</span>
+                <select id="f-stamp-rotation" class="rounded-lg border border-soft-cream bg-clean-ivory/40 px-2 py-1 text-xs">
+                  <option value="-6">Miring Natural</option>
+                  <option value="0">Lurus (0°)</option>
+                  <option value="-12">Miring Dinamis</option>
+                </select>
+              </label>
+            </div>
+          </div>
+        </aside>
+
+        <!-- ========== RIGHT COLUMN: LIVE A4 INVOICE SHEET ========== -->
+        <div id="preview-panel" class="hidden xl:block xl:col-span-7">
+          <div class="overflow-x-auto pb-4">
+            <div
+              id="invoice-sheet"
+              class="mx-auto w-[794px] min-h-[1123px] bg-[#FAF7F0] text-[#222922] px-11 py-10 shadow-[0_24px_60px_rgba(15,23,42,0.12)] border border-[#E6DEC8] flex flex-col justify-between"
+            >
+              <div>
+                <!-- TOP HEADER -->
+                <header class="flex items-start justify-between gap-6 pb-6 border-b-[1.5px] border-[#BFA77A]">
+                  <div class="flex items-start gap-5">
+                    <!-- Orchid & Arch Logo Box -->
+                    <div class="shrink-0 w-[68px] h-[82px] rounded-t-full rounded-b-sm border border-dashed border-[#BFA77A] bg-[#F3EDE0] flex flex-col items-center justify-center p-2">
+                      <img
+                        src={withBase('/images/logo/logo.webp')}
+                        alt="Logo Floragate"
+                        class="w-11 h-11 object-contain"
+                        width="64"
+                        height="62"
+                      />
+                    </div>
+                    <div>
+                      <h2 class="font-serif text-[32px] font-normal tracking-[0.22em] text-[#1F271E] leading-none">
+                        FLORAGATE
+                      </h2>
+                      <p class="mt-2 font-serif italic text-[14px] text-[#3F4B37]">
+                        The Gateway to Meaningful Moments
+                      </p>
+                      <p class="mt-2 text-[11.5px] text-[#4A5248] leading-snug">
+                        Website: tokobungamurahmalang.web.id<br />
+                        Location: Malang, Indonesia
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="text-right min-w-[235px]">
+                    <p class="font-serif text-[30px] font-normal tracking-[0.22em] text-[#1F271E] leading-none">
+                      INVOICE
+                    </p>
+                    <div class="mt-2.5 flex justify-end">
+                      <span
+                        id="pv-status-badge"
+                        class="inline-block border px-3.5 py-1 text-[11px] font-bold uppercase tracking-[0.18em]"
+                      >
+                        BELUM DIBAYAR
+                      </span>
+                    </div>
+
+                    <div class="mt-3.5 space-y-1 text-[11.5px]">
+                      <div class="grid grid-cols-[100px_1fr] gap-2 items-baseline">
+                        <span class="text-left font-bold tracking-[0.1em] text-[#6A7168] uppercase text-[10.5px]">INVOICE NO.</span>
+                        <span id="pv-invoice-no" class="font-medium text-[#222922]">INV-FG-001</span>
+                      </div>
+                      <div class="grid grid-cols-[100px_1fr] gap-2 items-baseline">
+                        <span class="text-left font-bold tracking-[0.1em] text-[#6A7168] uppercase text-[10.5px]">ISSUE DATE</span>
+                        <span id="pv-issue-date" class="font-medium text-[#222922]">-</span>
+                      </div>
+                      <div class="grid grid-cols-[100px_1fr] gap-2 items-baseline">
+                        <span class="text-left font-bold tracking-[0.1em] text-[#6A7168] uppercase text-[10.5px]">DUE DATE</span>
+                        <span id="pv-due-date" class="font-medium text-[#222922]">-</span>
+                      </div>
+                    </div>
+                  </div>
+                </header>
+
+                <!-- BILLED TO & DELIVERY DETAILS -->
+                <section class="grid grid-cols-2 gap-8 py-6">
+                  <div class="pr-4 border-r border-[#D9CEB8]">
+                    <h3 class="text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#6A7168] mb-2.5">
+                      BILLED TO
+                    </h3>
+                    <p id="pv-client-name" class="text-[14px] font-semibold text-[#1F271E] leading-snug">-</p>
+                    <p id="pv-client-contact" class="mt-1 text-[12.5px] text-[#4A5248] leading-snug">-</p>
+                    <p id="pv-client-address" class="mt-1 text-[12.5px] text-[#4A5248] leading-snug">-</p>
+                  </div>
+
+                  <div class="pl-1">
+                    <h3 class="text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#6A7168] mb-2.5">
+                      DELIVERY DETAILS
+                    </h3>
+                    <p id="pv-recipient-name" class="text-[14px] font-semibold text-[#1F271E] leading-snug">-</p>
+                    <p id="pv-delivery-datetime" class="mt-1 text-[12.5px] text-[#4A5248] leading-snug">-</p>
+                    <p id="pv-delivery-address" class="mt-1 text-[12.5px] text-[#4A5248] leading-snug">-</p>
+                  </div>
+                </section>
+
+                <!-- ITEMS TABLE -->
+                <section class="mt-1">
+                  <table class="w-full border-collapse">
+                    <thead>
+                      <tr class="bg-[#88937E] text-white">
+                        <th class="py-2.5 px-4 text-left text-[10.5px] font-bold uppercase tracking-[0.14em] w-[50%]">
+                          ITEM DESCRIPTION
+                        </th>
+                        <th class="py-2.5 px-3 text-center text-[10.5px] font-bold uppercase tracking-[0.14em] w-[10%]">
+                          QTY
+                        </th>
+                        <th class="py-2.5 px-3 text-right text-[10.5px] font-bold uppercase tracking-[0.14em] w-[20%]">
+                          UNIT PRICE
+                        </th>
+                        <th class="py-2.5 px-4 text-right text-[10.5px] font-bold uppercase tracking-[0.14em] w-[20%]">
+                          TOTAL
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody id="pv-items-tbody" class="text-[12.5px] text-[#222922]"></tbody>
+                  </table>
+                </section>
+
+                <!-- PAYMENT INSTRUCTIONS & TOTALS -->
+                <section class="mt-8 pt-6 border-t-[1.5px] border-[#BFA77A] grid grid-cols-12 gap-8 items-start">
+                  <!-- Left: Payment Method -->
+                  <div class="col-span-6">
+                    <h3 class="text-[10.5px] font-bold uppercase tracking-[0.15em] text-[#6A7168] mb-3">
+                      PAYMENT METHOD &amp; INSTRUCTIONS
+                    </h3>
+
+                    <div id="pv-payment-box" class="border-l-2 border-[#6A7B5F] pl-4 space-y-4 text-[12px] text-[#353D34]">
+                      <div id="pv-bank-block">
+                        <p class="text-[10.5px] font-bold uppercase tracking-[0.12em] text-[#6A7168] mb-1">
+                          BANK TRANSFER
+                        </p>
+                        <p><strong class="font-semibold text-[#1F271E]">Bank:</strong> <span id="pv-bank-name">-</span></p>
+                        <p><strong class="font-semibold text-[#1F271E]">Account No.:</strong> <span id="pv-bank-acc">-</span></p>
+                        <p><strong class="font-semibold text-[#1F271E]">Account Name:</strong> <span id="pv-bank-holder">-</span></p>
+                      </div>
+
+                      <div id="pv-qris-block">
+                        <p class="text-[10.5px] font-bold uppercase tracking-[0.12em] text-[#6A7168] mb-1">
+                          QRIS PAYMENT
+                        </p>
+                        <p><strong class="font-semibold text-[#1F271E]">Merchant ID / NMID:</strong> <span id="pv-qris-nmid">-</span></p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Right: Totals -->
+                  <div class="col-span-6 pl-4">
+                    <div class="space-y-2.5 text-[12.5px]">
+                      <div class="flex items-center justify-between">
+                        <span class="font-bold uppercase tracking-[0.1em] text-[#6A7168] text-[11px]">SUBTOTAL</span>
+                        <span id="pv-subtotal" class="font-medium text-[#222922]">Rp 0</span>
+                      </div>
+                      <div class="flex items-center justify-between">
+                        <span class="font-bold uppercase tracking-[0.1em] text-[#6A7168] text-[11px]">SHIPPING FEE</span>
+                        <span id="pv-shipping-fee" class="font-medium text-[#222922]">Rp 0</span>
+                      </div>
+                    </div>
+
+                    <div class="mt-3 pt-3 border-t border-[#222922] flex items-baseline justify-between">
+                      <span class="font-serif font-bold tracking-[0.06em] text-[#1F271E] text-[14px]">GRAND TOTAL</span>
+                      <span id="pv-grand-total" class="font-serif font-bold text-[#1F271E] text-[20px]">Rp 0</span>
+                    </div>
+
+                    <!-- DP & Remaining Breakdown -->
+                    <div id="pv-dp-breakdown" class="hidden mt-3 pt-2.5 border-t border-dashed border-[#BFA77A] space-y-1.5 text-[12px]">
+                      <div class="flex items-center justify-between text-[#7C5C24]">
+                        <span class="font-bold uppercase tracking-[0.08em] text-[10.5px]">DP / UANG MUKA</span>
+                        <span id="pv-dp-amount" class="font-bold">- Rp 0</span>
+                      </div>
+                      <div class="flex items-center justify-between text-[#1F271E] pt-1">
+                        <span class="font-bold uppercase tracking-[0.08em] text-[11px]">SISA PEMBAYARAN</span>
+                        <span id="pv-balance-due" class="font-serif font-bold text-[15px]">Rp 0</span>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+
+              <!-- BOTTOM SIGNATURE, STAMP & FOOTER -->
+              <footer class="mt-14 pt-4">
+                <div class="flex items-end justify-between gap-8 pb-6">
+                  <div class="max-w-[340px]">
+                    <p class="font-serif italic text-[13px] text-[#353D34] leading-relaxed">
+                      Thank you for entrusting FLORAGATE with your floral arrangements.<br />
+                      Every bloom is curated with care for your meaningful moments.
+                    </p>
+                  </div>
+
+                  <div class="w-[240px] text-center relative">
+                    <div id="pv-stamp-wrap" class="mx-auto mb-1 flex h-[108px] items-center justify-center pointer-events-none select-none">
+                      <img
+                        id="pv-stamp-img"
+                        src={withBase('/images/invoice/stempel-floragate.webp')}
+                        alt="Stempel Digital Floragate"
+                        class="h-[106px] w-[106px] object-contain opacity-90 -rotate-6 mix-blend-multiply"
+                        width="106"
+                        height="106"
+                      />
+                    </div>
+                    <div class="border-t border-[#222922] pt-2">
+                      <p class="text-[10px] font-bold uppercase tracking-[0.14em] text-[#4A5248] leading-snug">
+                        AUTHORIZED SIGNATURE &bull;<br />
+                        FLORAGATE
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="border-t border-[#D9CEB8] pt-3 flex items-center justify-between text-[11px] text-[#6A7168]">
+                  <span>FLORAGATE — tokobungamurahmalang.web.id &bull; Malang, Indonesia</span>
+                  <span>Page 1 of 1</span>
+                </div>
+              </footer>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>
+
+<style is:global>
+  .inv-input {
+    width: 100%;
+    border-radius: 0.65rem;
+    border: 1px solid #eadbc6;
+    background-color: rgba(247, 244, 239, 0.45);
+    padding: 0.55rem 0.75rem;
+    font-size: 0.8125rem;
+    color: #1e293b;
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+  }
+  .inv-input:focus {
+    outline: none;
+    border-color: #55654b;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 2px rgba(85, 101, 75, 0.14);
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  @media print {
+    html,
+    body {
+      background: #faf7f0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 210mm !important;
+      height: auto !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    body > *:not(main) {
+      display: none !important;
+    }
+
+    main {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    .invoice-page-wrap {
+      max-width: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    .no-print {
+      display: none !important;
+    }
+
+    #invoice-workspace,
+    #preview-panel {
+      display: block !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    #preview-panel > div {
+      overflow: visible !important;
+      padding: 0 !important;
+    }
+
+    #invoice-sheet {
+      width: 210mm !important;
+      min-height: 296mm !important;
+      margin: 0 !important;
+      border: none !important;
+      box-shadow: none !important;
+      page-break-after: avoid;
+      break-inside: avoid;
+    }
+  }
+</style>
+
+<script>
+  const AUTH_SESSION_KEY = 'fg_invoice_auth_v1';
+  const PREFS_KEY = 'fg_invoice_prefs_v1';
+  const EXPECTED_CRED_HASH = 'f6279a1caffbb9b2da7089512c9a12f806d0c63cb66f3eee046e21692b0dc08d';
+
+  // Pure-JS SHA-256 fallback for non-HTTPS contexts
+  function sha256Fallback(ascii: string): string {
+    const rightRotate = (value: number, amount: number) => (value >>> amount) | (value << (32 - amount));
+    const mathPow = Math.pow;
+    const maxWord = mathPow(2, 32);
+    let result = '';
+    const words: number[] = [];
+    const asciiBitLength = ascii.length * 8;
+    const hash: number[] = [];
+    const k: number[] = [];
+    let primeCounter = 0;
+
+    const isComposite: Record<number, boolean> = {};
+    for (let candidate = 2; primeCounter < 64; candidate++) {
+      if (!isComposite[candidate]) {
+        for (let i = 0; i < 313; i += candidate) isComposite[i] = true;
+        hash[primeCounter] = (mathPow(candidate, 0.5) * maxWord) | 0;
+        k[primeCounter++] = (mathPow(candidate, 1 / 3) * maxWord) | 0;
+      }
+    }
+
+    ascii += '\x80';
+    while ((ascii.length % 64) - 56) ascii += '\x00';
+    for (let i = 0; i < ascii.length; i++) {
+      const j = ascii.charCodeAt(i);
+      if (j >> 8) return '';
+      words[i >> 2] |= j << (((3 - i) % 4) * 8);
+    }
+    words[words.length] = (asciiBitLength / maxWord) | 0;
+    words[words.length] = asciiBitLength;
+
+    for (let j = 0; j < words.length; ) {
+      const w = words.slice(j, (j += 16));
+      const oldHash = hash.slice(0);
+      for (let i = 0; i < 64; i++) {
+        const w15 = w[i - 15];
+        const w2 = w[i - 2];
+        const a = hash[0];
+        const e = hash[4];
+        const temp1 =
+          hash[7] +
+          (rightRotate(e, 6) ^ rightRotate(e, 11) ^ rightRotate(e, 25)) +
+          ((e & hash[5]) ^ (~e & hash[6])) +
+          k[i] +
+          (w[i] =
+            i < 16
+              ? w[i]
+              : (w[i - 16] +
+                  (rightRotate(w15, 7) ^ rightRotate(w15, 18) ^ (w15 >>> 3)) +
+                  w[i - 7] +
+                  (rightRotate(w2, 17) ^ rightRotate(w2, 19) ^ (w2 >>> 10))) |
+                0);
+        const temp2 =
+          (rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22)) +
+          ((a & hash[1]) ^ (a & hash[2]) ^ (hash[1] & hash[2]));
+        hash.unshift((temp1 + temp2) | 0);
+        hash[4] = (hash[4] + temp1) | 0;
+        hash.pop();
+      }
+      for (let i = 0; i < 8; i++) hash[i] = (hash[i] + oldHash[i]) | 0;
+    }
+
+    for (let i = 0; i < 8; i++) {
+      for (let j = 3; j + 1; j--) {
+        const b = (hash[i] >> (j * 8)) & 255;
+        result += (b < 16 ? '0' : '') + b.toString(16);
+      }
+    }
+    return result;
+  }
+
+  async function hashCredential(email: string, password: string): Promise<string> {
+    const normalized = `${email.trim().toLowerCase()}::${password}`;
+    if (typeof window !== 'undefined' && window.crypto?.subtle) {
+      const data = new TextEncoder().encode(normalized);
+      const digest = await window.crypto.subtle.digest('SHA-256', data);
+      return Array.from(new Uint8Array(digest))
+        .map((b) => b.toString(16).padStart(2, '0'))
+        .join('');
+    }
+    return sha256Fallback(normalized);
+  }
+
+  function formatRupiah(num: number): string {
+    const safe = Number.isFinite(num) ? Math.max(0, Math.round(num)) : 0;
+    return `Rp ${safe.toLocaleString('id-ID')}`;
+  }
+
+  function formatDateID(isoDate: string): string {
+    if (!isoDate) return '-';
+    const d = new Date(`${isoDate}T00:00:00`);
+    if (Number.isNaN(d.getTime())) return isoDate;
+    return d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+
+  function generateInvoiceNumber(seq = 1): string {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    return `INV-FG-${y}${m}${d}-${String(seq).padStart(3, '0')}`;
+  }
+
+  interface LineItem {
+    name: string;
+    note: string;
+    price: number;
+    qty: number;
+  }
+
+  type PaymentStatus = 'paid' | 'dp' | 'unpaid';
+
+  function initInvoicePage() {
+    const gate = document.getElementById('invoice-login-gate');
+    const workspace = document.getElementById('invoice-workspace');
+    const loginForm = document.getElementById('invoice-login-form') as HTMLFormElement | null;
+    const emailInput = document.getElementById('login-email') as HTMLInputElement | null;
+    const passInput = document.getElementById('login-password') as HTMLInputElement | null;
+    const rememberInput = document.getElementById('login-remember') as HTMLInputElement | null;
+    const loginError = document.getElementById('login-error');
+    const activeUserLabel = document.getElementById('active-user-label');
+    const togglePassBtn = document.getElementById('toggle-password-btn');
+    const eyeOpen = document.getElementById('eye-open-icon');
+    const eyeClosed = document.getElementById('eye-closed-icon');
+
+    if (!gate || !workspace || !loginForm || !emailInput || !passInput) return;
+
+    function getSavedSession(): string | null {
+      try {
+        return localStorage.getItem(AUTH_SESSION_KEY) || sessionStorage.getItem(AUTH_SESSION_KEY);
+      } catch {
+        return null;
+      }
+    }
+
+    function setAuthenticated(email: string, persist: boolean) {
+      try {
+        if (persist) {
+          localStorage.setItem(AUTH_SESSION_KEY, email);
+          sessionStorage.removeItem(AUTH_SESSION_KEY);
+        } else {
+          sessionStorage.setItem(AUTH_SESSION_KEY, email);
+          localStorage.removeItem(AUTH_SESSION_KEY);
+        }
+      } catch {
+        // Ignore storage errors in private mode
+      }
+      showWorkspace(email);
+    }
+
+    function showWorkspace(email: string) {
+      gate!.classList.add('hidden');
+      workspace!.classList.remove('hidden');
+      if (activeUserLabel) activeUserLabel.textContent = `Masuk sebagai ${email}`;
+    }
+
+    function showLoginGate() {
+      workspace!.classList.add('hidden');
+      gate!.classList.remove('hidden');
+      if (loginError) loginError.classList.add('hidden');
+    }
+
+    const existingUser = getSavedSession();
+    if (existingUser) {
+      showWorkspace(existingUser);
+    }
+
+    togglePassBtn?.addEventListener('click', () => {
+      const showing = passInput.type === 'text';
+      passInput.type = showing ? 'password' : 'text';
+      eyeOpen?.classList.toggle('hidden', !showing);
+      eyeClosed?.classList.toggle('hidden', showing);
+    });
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = emailInput.value.trim();
+      const pass = passInput.value;
+      const hashed = await hashCredential(email, pass);
+
+      if (hashed === EXPECTED_CRED_HASH) {
+        if (loginError) loginError.classList.add('hidden');
+        setAuthenticated(email.toLowerCase(), Boolean(rememberInput?.checked));
+        passInput.value = '';
+      } else if (loginError) {
+        loginError.textContent = 'Email atau kata sandi tidak sesuai.';
+        loginError.classList.remove('hidden');
+      }
+    });
+
+    document.getElementById('btn-logout')?.addEventListener('click', () => {
+      try {
+        localStorage.removeItem(AUTH_SESSION_KEY);
+        sessionStorage.removeItem(AUTH_SESSION_KEY);
+      } catch {
+        // Ignore
+      }
+      showLoginGate();
+    });
+
+    // Mobile tab switching
+    const mobileEditBtn = document.getElementById('mobile-tab-edit');
+    const mobilePreviewBtn = document.getElementById('mobile-tab-preview');
+    const editorPanel = document.getElementById('editor-panel');
+    const previewPanel = document.getElementById('preview-panel');
+
+    function setMobileTab(mode: 'edit' | 'preview') {
+      if (!editorPanel || !previewPanel || !mobileEditBtn || !mobilePreviewBtn) return;
+      const isEdit = mode === 'edit';
+      editorPanel.classList.toggle('hidden', !isEdit);
+      previewPanel.classList.toggle('hidden', isEdit);
+      mobileEditBtn.classList.toggle('bg-primary', isEdit);
+      mobileEditBtn.classList.toggle('text-white', isEdit);
+      mobileEditBtn.classList.toggle('text-slate-600', !isEdit);
+      mobilePreviewBtn.classList.toggle('bg-primary', !isEdit);
+      mobilePreviewBtn.classList.toggle('text-white', !isEdit);
+      mobilePreviewBtn.classList.toggle('text-slate-600', isEdit);
+    }
+
+    mobileEditBtn?.addEventListener('click', () => setMobileTab('edit'));
+    mobilePreviewBtn?.addEventListener('click', () => setMobileTab('preview'));
+
+    // ========== INVOICE STATE & RENDERER ==========
+    let prefs: Record<string, any> = {};
+    try {
+      prefs = JSON.parse(localStorage.getItem(PREFS_KEY) || '{}') || {};
+    } catch {
+      prefs = {};
+    }
+
+    const todayISO = new Date().toISOString().slice(0, 10);
+    let currentSeq = Number(prefs.seq) || 1;
+    let status: PaymentStatus = 'unpaid';
+    let items: LineItem[] = [
+      {
+        name: 'Bunga Papan Duka Cita Malang 001',
+        note: '',
+        price: 675000,
+        qty: 1,
+      },
+    ];
+
+    const fInvoiceNo = document.getElementById('f-invoice-no') as HTMLInputElement;
+    const fIssueDate = document.getElementById('f-issue-date') as HTMLInputElement;
+    const fDueDate = document.getElementById('f-due-date') as HTMLInputElement;
+    const fDpAmount = document.getElementById('f-dp-amount') as HTMLInputElement;
+    const fClientName = document.getElementById('f-client-name') as HTMLInputElement;
+    const fClientContact = document.getElementById('f-client-contact') as HTMLInputElement;
+    const fClientAddress = document.getElementById('f-client-address') as HTMLInputElement;
+    const fRecipientName = document.getElementById('f-recipient-name') as HTMLInputElement;
+    const fDeliveryDatetime = document.getElementById('f-delivery-datetime') as HTMLInputElement;
+    const fDeliveryAddress = document.getElementById('f-delivery-address') as HTMLInputElement;
+    const fShippingFee = document.getElementById('f-shipping-fee') as HTMLInputElement;
+    const fBankName = document.getElementById('f-bank-name') as HTMLInputElement;
+    const fBankAcc = document.getElementById('f-bank-acc') as HTMLInputElement;
+    const fBankHolder = document.getElementById('f-bank-holder') as HTMLInputElement;
+    const fQrisNmid = document.getElementById('f-qris-nmid') as HTMLInputElement;
+    const fShowBank = document.getElementById('f-show-bank') as HTMLInputElement;
+    const fShowQris = document.getElementById('f-show-qris') as HTMLInputElement;
+    const fShowStamp = document.getElementById('f-show-stamp') as HTMLInputElement;
+    const fStampRotation = document.getElementById('f-stamp-rotation') as HTMLSelectElement;
+
+    // Seed defaults
+    fInvoiceNo.value = generateInvoiceNumber(currentSeq);
+    fIssueDate.value = todayISO;
+    fDueDate.value = todayISO;
+    fBankName.value = prefs.bankName || 'BCA';
+    fBankAcc.value = prefs.bankAcc || '';
+    fBankHolder.value = prefs.bankHolder || 'Floragate Florist';
+    fQrisNmid.value = prefs.qrisNmid || '';
+    fShowBank.checked = prefs.showBank !== false;
+    fShowQris.checked = prefs.showQris !== false;
+
+    function savePaymentPrefs() {
+      try {
+        localStorage.setItem(
+          PREFS_KEY,
+          JSON.stringify({
+            seq: currentSeq,
+            bankName: fBankName.value,
+            bankAcc: fBankAcc.value,
+            bankHolder: fBankHolder.value,
+            qrisNmid: fQrisNmid.value,
+            showBank: fShowBank.checked,
+            showQris: fShowQris.checked,
+          })
+        );
+      } catch {
+        // Ignore
+      }
+    }
+
+    function getTotals() {
+      const subtotal = items.reduce((sum, item) => sum + (Number(item.price) || 0) * (Number(item.qty) || 0), 0);
+      const shipping = Math.max(0, Number(fShippingFee.value) || 0);
+      const grandTotal = subtotal + shipping;
+      const dpAmount = status === 'dp' ? Math.min(grandTotal, Math.max(0, Number(fDpAmount.value) || 0)) : 0;
+      const balanceDue = Math.max(0, grandTotal - dpAmount);
+      return { subtotal, shipping, grandTotal, dpAmount, balanceDue };
+    }
+
+    function renderItemsEditor() {
+      const container = document.getElementById('items-editor-list');
+      if (!container) return;
+
+      container.innerHTML = '';
+      items.forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.className = 'rounded-xl border border-soft-cream bg-clean-ivory/35 p-3 space-y-2.5';
+
+        const topRow = document.createElement('div');
+        topRow.className = 'flex items-center justify-between gap-2';
+
+        const label = document.createElement('span');
+        label.className = 'text-[11px] font-bold uppercase tracking-wider text-primary-dark';
+        label.textContent = `Item #${idx + 1}`;
+        topRow.appendChild(label);
+
+        if (items.length > 1) {
+          const delBtn = document.createElement('button');
+          delBtn.type = 'button';
+          delBtn.className = 'text-xs font-bold text-red-600 hover:text-red-800 px-2 py-0.5 rounded cursor-pointer';
+          delBtn.textContent = 'Hapus';
+          delBtn.addEventListener('click', () => {
+            items.splice(idx, 1);
+            renderItemsEditor();
+            renderPreview();
+          });
+          topRow.appendChild(delBtn);
+        }
+
+        const nameInput = document.createElement('input');
+        nameInput.type = 'text';
+        nameInput.placeholder = 'Nama produk (mis: Bunga Papan Wedding Malang 001)';
+        nameInput.className = 'inv-input bg-white';
+        nameInput.value = item.name;
+        nameInput.addEventListener('input', () => {
+          items[idx].name = nameInput.value;
+          renderPreview();
+        });
+
+        const noteInput = document.createElement('input');
+        noteInput.type = 'text';
+        noteInput.placeholder = 'Keterangan / ucapan singkat (opsional)';
+        noteInput.className = 'inv-input bg-white text-xs';
+        noteInput.value = item.note;
+        noteInput.addEventListener('input', () => {
+          items[idx].note = noteInput.value;
+          renderPreview();
+        });
+
+        const gridRow = document.createElement('div');
+        gridRow.className = 'grid grid-cols-2 gap-2.5';
+
+        const priceWrap = document.createElement('div');
+        const priceLbl = document.createElement('label');
+        priceLbl.className = 'block text-[10px] font-bold uppercase text-slate-500 mb-1';
+        priceLbl.textContent = 'Harga (Rp)';
+        const priceInput = document.createElement('input');
+        priceInput.type = 'number';
+        priceInput.min = '0';
+        priceInput.step = '5000';
+        priceInput.className = 'inv-input bg-white';
+        priceInput.value = String(item.price);
+        priceInput.addEventListener('input', () => {
+          items[idx].price = Math.max(0, Number(priceInput.value) || 0);
+          renderPreview();
+        });
+        priceWrap.append(priceLbl, priceInput);
+
+        const qtyWrap = document.createElement('div');
+        const qtyLbl = document.createElement('label');
+        qtyLbl.className = 'block text-[10px] font-bold uppercase text-slate-500 mb-1';
+        qtyLbl.textContent = 'Jumlah (Qty)';
+        const qtyInput = document.createElement('input');
+        qtyInput.type = 'number';
+        qtyInput.min = '1';
+        qtyInput.step = '1';
+        qtyInput.className = 'inv-input bg-white';
+        qtyInput.value = String(item.qty);
+        qtyInput.addEventListener('input', () => {
+          items[idx].qty = Math.max(1, parseInt(qtyInput.value || '1', 10) || 1);
+          renderPreview();
+        });
+        qtyWrap.append(qtyLbl, qtyInput);
+
+        gridRow.append(priceWrap, qtyWrap);
+        card.append(topRow, nameInput, noteInput, gridRow);
+        container.appendChild(card);
+      });
+    }
+
+    function updateStatusButtonsUI() {
+      document.querySelectorAll('.status-choice-btn').forEach((btn) => {
+        const val = btn.getAttribute('data-status-btn');
+        const active = val === status;
+        btn.classList.toggle('border-primary', active);
+        btn.classList.toggle('bg-primary', active);
+        btn.classList.toggle('text-white', active);
+        btn.classList.toggle('shadow-xs', active);
+        btn.classList.toggle('border-soft-cream', !active);
+        btn.classList.toggle('bg-clean-ivory/40', !active);
+        btn.classList.toggle('text-slate-700', !active);
+      });
+      document.getElementById('dp-input-wrap')?.classList.toggle('hidden', status !== 'dp');
+    }
+
+    function renderPreview() {
+      const setText = (id: string, val: string, fallback = '-') => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val.trim() || fallback;
+      };
+
+      setText('pv-invoice-no', fInvoiceNo.value, 'INV-FG-001');
+      setText('pv-issue-date', formatDateID(fIssueDate.value));
+      setText('pv-due-date', formatDateID(fDueDate.value));
+
+      setText('pv-client-name', fClientName.value, '[Nama Pemesan]');
+      setText('pv-client-contact', fClientContact.value, '[No. WA / Email]');
+      setText('pv-client-address', fClientAddress.value, '[Alamat Pemesan]');
+
+      setText('pv-recipient-name', fRecipientName.value, '[Nama Penerima]');
+      setText('pv-delivery-datetime', fDeliveryDatetime.value, '[Tanggal & Jam Kirim]');
+      setText('pv-delivery-address', fDeliveryAddress.value, '[Alamat Pengiriman, Malang]');
+
+      // Status badge on invoice
+      const badge = document.getElementById('pv-status-badge');
+      if (badge) {
+        if (status === 'paid') {
+          badge.textContent = 'SUDAH DIBAYAR / PAID';
+          badge.className = 'inline-block border border-[#3F4B37] bg-[#E8EFE3] text-[#2F3B28] px-3.5 py-1 text-[10.5px] font-bold uppercase tracking-[0.16em]';
+        } else if (status === 'dp') {
+          badge.textContent = 'DP / DOWN PAYMENT';
+          badge.className = 'inline-block border border-[#9E824D] bg-[#FAF1DE] text-[#6B5021] px-3.5 py-1 text-[10.5px] font-bold uppercase tracking-[0.16em]';
+        } else {
+          badge.textContent = 'BELUM DIBAYAR / UNPAID';
+          badge.className = 'inline-block border border-[#9B2C2C] bg-[#FDECEC] text-[#8B1E1E] px-3.5 py-1 text-[10.5px] font-bold uppercase tracking-[0.16em]';
+        }
+      }
+
+      // Line items table rows
+      const tbody = document.getElementById('pv-items-tbody');
+      if (tbody) {
+        tbody.innerHTML = '';
+        items.forEach((item) => {
+          const rowTotal = (Number(item.price) || 0) * (Number(item.qty) || 0);
+          const tr = document.createElement('tr');
+          tr.className = 'border-b border-[#D9CEB8]';
+
+          const tdDesc = document.createElement('td');
+          tdDesc.className = 'py-3 px-4 align-top';
+          const titleEl = document.createElement('p');
+          titleEl.className = 'font-medium text-[#1F271E] leading-snug';
+          titleEl.textContent = item.name.trim() || 'Item Produk';
+          tdDesc.appendChild(titleEl);
+          if (item.note.trim()) {
+            const noteEl = document.createElement('p');
+            noteEl.className = 'mt-0.5 text-[11px] text-[#6A7168] leading-snug';
+            noteEl.textContent = item.note.trim();
+            tdDesc.appendChild(noteEl);
+          }
+
+          const tdQty = document.createElement('td');
+          tdQty.className = 'py-3 px-3 text-center align-top';
+          tdQty.textContent = String(item.qty || 0);
+
+          const tdPrice = document.createElement('td');
+          tdPrice.className = 'py-3 px-3 text-right align-top whitespace-nowrap';
+          tdPrice.textContent = formatRupiah(item.price);
+
+          const tdTotal = document.createElement('td');
+          tdTotal.className = 'py-3 px-4 text-right align-top font-semibold text-[#1F271E] whitespace-nowrap';
+          tdTotal.textContent = formatRupiah(rowTotal);
+
+          tr.append(tdDesc, tdQty, tdPrice, tdTotal);
+          tbody.appendChild(tr);
+        });
+
+        // Pad empty ruled lines up to 5 rows total to preserve airy template elegance
+        const emptyRows = Math.max(0, 5 - items.length);
+        for (let i = 0; i < emptyRows; i++) {
+          const trEmpty = document.createElement('tr');
+          trEmpty.className = 'border-b border-[#D9CEB8]';
+          trEmpty.innerHTML = '<td class="py-4 px-4">&nbsp;</td><td></td><td></td><td></td>';
+          tbody.appendChild(trEmpty);
+        }
+      }
+
+      // Totals
+      const { subtotal, shipping, grandTotal, dpAmount, balanceDue } = getTotals();
+      setText('pv-subtotal', formatRupiah(subtotal));
+      setText('pv-shipping-fee', shipping === 0 ? 'Rp 0 (Gratis Ongkir)' : formatRupiah(shipping));
+      setText('pv-grand-total', formatRupiah(grandTotal));
+
+      const dpBreakdown = document.getElementById('pv-dp-breakdown');
+      if (dpBreakdown) {
+        dpBreakdown.classList.toggle('hidden', status !== 'dp');
+        setText('pv-dp-amount', `- ${formatRupiah(dpAmount)}`);
+        setText('pv-balance-due', formatRupiah(balanceDue));
+      }
+
+      // Payment info
+      const showBank = fShowBank.checked;
+      const showQris = fShowQris.checked;
+      document.getElementById('pv-bank-block')?.classList.toggle('hidden', !showBank);
+      document.getElementById('pv-qris-block')?.classList.toggle('hidden', !showQris);
+      document.getElementById('pv-payment-box')?.classList.toggle('hidden', !showBank && !showQris);
+
+      setText('pv-bank-name', fBankName.value, '[Nama Bank]');
+      setText('pv-bank-acc', fBankAcc.value, '[No. Rekening]');
+      setText('pv-bank-holder', fBankHolder.value, '[Atas Nama]');
+      setText('pv-qris-nmid', fQrisNmid.value, '[NMID QRIS]');
+
+      // Digital stamp
+      const stampWrap = document.getElementById('pv-stamp-wrap');
+      const stampImg = document.getElementById('pv-stamp-img');
+      if (stampWrap) stampWrap.classList.toggle('opacity-0', !fShowStamp.checked);
+      if (stampImg) {
+        stampImg.style.transform = `rotate(${fStampRotation.value}deg)`;
+      }
+
+      // Document title when saving PDF
+      const cleanInv = (fInvoiceNo.value || 'Invoice').replace(/[^\w\-]+/g, '_');
+      const cleanClient = (fClientName.value || 'Floragate').replace(/[^\w\-]+/g, '_');
+      document.title = `${cleanInv}_${cleanClient}`;
+    }
+
+    // Attach listeners
+    document.querySelectorAll('.status-choice-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        status = (btn.getAttribute('data-status-btn') as PaymentStatus) || 'unpaid';
+        if (status === 'dp' && (!fDpAmount.value || Number(fDpAmount.value) === 0)) {
+          const { grandTotal } = getTotals();
+          fDpAmount.value = String(Math.round(grandTotal * 0.5));
+        }
+        updateStatusButtonsUI();
+        renderPreview();
+      });
+    });
+
+    document.querySelectorAll('.dp-preset-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const pct = Number(btn.getAttribute('data-dp-percent') || '50');
+        const { grandTotal } = getTotals();
+        fDpAmount.value = String(Math.round((grandTotal * pct) / 100));
+        renderPreview();
+      });
+    });
+
+    document.getElementById('btn-add-item')?.addEventListener('click', () => {
+      items.push({ name: '', note: '', price: 0, qty: 1 });
+      renderItemsEditor();
+      renderPreview();
+    });
+
+    document.getElementById('btn-insert-catalog')?.addEventListener('click', () => {
+      const select = document.getElementById('catalog-quick-select') as HTMLSelectElement | null;
+      if (!select || !select.value) return;
+      const opt = select.selectedOptions[0];
+      const name = opt?.getAttribute('data-name') || '';
+      const price = Number(opt?.getAttribute('data-price') || '0');
+      if (name) {
+        // Replace single blank item if untouched, else push new row
+        if (items.length === 1 && !items[0].name.trim() && items[0].price === 0) {
+          items[0] = { name, note: '', price, qty: 1 };
+        } else {
+          items.push({ name, note: '', price, qty: 1 });
+        }
+        renderItemsEditor();
+        renderPreview();
+        select.value = '';
+      }
+    });
+
+    [
+      fInvoiceNo,
+      fIssueDate,
+      fDueDate,
+      fDpAmount,
+      fClientName,
+      fClientContact,
+      fClientAddress,
+      fRecipientName,
+      fDeliveryDatetime,
+      fDeliveryAddress,
+      fShippingFee,
+      fBankName,
+      fBankAcc,
+      fBankHolder,
+      fQrisNmid,
+      fShowBank,
+      fShowQris,
+      fShowStamp,
+      fStampRotation,
+    ].forEach((el) => {
+      el?.addEventListener('input', () => {
+        savePaymentPrefs();
+        renderPreview();
+      });
+      el?.addEventListener('change', () => {
+        savePaymentPrefs();
+        renderPreview();
+      });
+    });
+
+    document.getElementById('btn-new-invoice')?.addEventListener('click', () => {
+      currentSeq += 1;
+      savePaymentPrefs();
+      fInvoiceNo.value = generateInvoiceNumber(currentSeq);
+      fClientName.value = '';
+      fClientContact.value = '';
+      fClientAddress.value = '';
+      fRecipientName.value = '';
+      fDeliveryDatetime.value = '';
+      fDeliveryAddress.value = '';
+      fShippingFee.value = '0';
+      fDpAmount.value = '';
+      status = 'unpaid';
+      items = [{ name: '', note: '', price: 0, qty: 1 }];
+      updateStatusButtonsUI();
+      renderItemsEditor();
+      renderPreview();
+    });
+
+    document.getElementById('btn-print-invoice')?.addEventListener('click', () => {
+      window.print();
+    });
+
+    updateStatusButtonsUI();
+    renderItemsEditor();
+    renderPreview();
+  }
+
+  initInvoicePage();
+</script>
