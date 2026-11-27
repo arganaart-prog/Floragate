@@ -316,33 +316,63 @@ const catalogItems = PRODUCTS.map((p) => ({
           <!-- Card 4: Pembayaran & Stempel -->
           <div class="rounded-2xl border border-soft-cream bg-white p-5 shadow-xs space-y-4">
             <h2 class="font-serif text-base font-bold text-primary-dark border-b border-soft-cream/70 pb-2.5">
-              4. Pembayaran &amp; Stempel Digital
+              4. Rekening Pembayaran &amp; Stempel Digital
             </h2>
 
             <div class="space-y-3">
               <div class="flex items-center justify-between">
-                <span class="text-[11px] font-bold uppercase tracking-widest text-primary">Bank Transfer</span>
-                <label class="inline-flex items-center gap-1.5 text-xs text-slate-600 cursor-pointer">
-                  <input id="f-show-bank" type="checkbox" checked class="h-3.5 w-3.5 rounded text-primary" />
-                  Tampilkan
-                </label>
+                <span class="text-[11px] font-bold uppercase tracking-widest text-primary">Rekening Pembayaran Permanen</span>
+                <span class="rounded-full bg-accent-bg px-2.5 py-0.5 text-[10px] font-bold text-secondary-dark border border-secondary/40">4 Akun Aktif</span>
               </div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                <input id="f-bank-name" type="text" placeholder="Nama Bank (mis: BCA / Mandiri)" class="inv-input" />
-                <input id="f-bank-acc" type="text" placeholder="No. Rekening" class="inv-input" />
-              </div>
-              <input id="f-bank-holder" type="text" placeholder="Atas Nama Rekening" class="inv-input" />
-            </div>
 
-            <div class="pt-2 border-t border-soft-cream/50 space-y-2.5">
-              <div class="flex items-center justify-between">
-                <span class="text-[11px] font-bold uppercase tracking-widest text-primary">QRIS Payment</span>
-                <label class="inline-flex items-center gap-1.5 text-xs text-slate-600 cursor-pointer">
-                  <input id="f-show-qris" type="checkbox" checked class="h-3.5 w-3.5 rounded text-primary" />
-                  Tampilkan
-                </label>
+              <!-- List Rekening Permanen -->
+              <div class="grid grid-cols-2 gap-2 text-xs">
+                <div class="rounded-xl border border-soft-cream/80 bg-clean-ivory/40 p-2.5">
+                  <div class="flex items-center justify-between">
+                    <span class="font-bold text-primary-dark">BCA</span>
+                    <span class="text-[10px] uppercase tracking-wider text-slate-400">Bank</span>
+                  </div>
+                  <p class="font-mono font-bold text-slate-800 text-sm mt-0.5">7265449735</p>
+                </div>
+
+                <div class="rounded-xl border border-soft-cream/80 bg-clean-ivory/40 p-2.5">
+                  <div class="flex items-center justify-between">
+                    <span class="font-bold text-primary-dark">Bank Jago</span>
+                    <span class="text-[10px] uppercase tracking-wider text-slate-400">Bank</span>
+                  </div>
+                  <p class="font-mono font-bold text-slate-800 text-sm mt-0.5">109570891530</p>
+                </div>
+
+                <div class="rounded-xl border border-soft-cream/80 bg-clean-ivory/40 p-2.5">
+                  <div class="flex items-center justify-between">
+                    <span class="font-bold text-primary-dark">SeaBank</span>
+                    <span class="text-[10px] uppercase tracking-wider text-slate-400">Bank</span>
+                  </div>
+                  <p class="font-mono font-bold text-slate-800 text-sm mt-0.5">901097147199</p>
+                </div>
+
+                <div class="rounded-xl border border-soft-cream/80 bg-clean-ivory/40 p-2.5">
+                  <div class="flex items-center justify-between">
+                    <span class="font-bold text-primary-dark">DANA</span>
+                    <span class="text-[10px] uppercase tracking-wider text-slate-400">E-Wallet</span>
+                  </div>
+                  <p class="font-mono font-bold text-slate-800 text-sm mt-0.5">085850027216</p>
+                </div>
               </div>
-              <input id="f-qris-nmid" type="text" placeholder="Merchant ID / NMID QRIS" class="inv-input" />
+
+              <div>
+                <label for="f-bank-holder" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                  Atas Nama Rekening (a.n.)
+                </label>
+                <input id="f-bank-holder" type="text" placeholder="Atas Nama Rekening (mis: Floragate / Argana)" class="inv-input" />
+              </div>
+
+              <div>
+                <label for="f-payment-note" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                  Catatan Pembayaran Tambahan (Opsional)
+                </label>
+                <input id="f-payment-note" type="text" placeholder="Contoh: Kirim bukti transfer via WhatsApp" class="inv-input" />
+              </div>
             </div>
 
             <div class="pt-2 border-t border-soft-cream/50 flex flex-wrap items-center justify-between gap-3">
@@ -352,11 +382,11 @@ const catalogItems = PRODUCTS.map((p) => ({
               </label>
 
               <label class="inline-flex items-center gap-2 text-xs text-slate-600">
-                <span>Teks Stempel:</span>
+                <span>Rotasi Stempel:</span>
                 <select id="f-stamp-rotation" class="rounded-lg border border-soft-cream bg-clean-ivory/40 px-2 py-1 text-xs">
-                  <option value="-6">Miring Natural</option>
+                  <option value="-6">Miring Natural (-6°)</option>
                   <option value="0">Lurus (0°)</option>
-                  <option value="-12">Miring Dinamis</option>
+                  <option value="-12">Miring Dinamis (-12°)</option>
                 </select>
               </label>
             </div>
@@ -476,26 +506,48 @@ const catalogItems = PRODUCTS.map((p) => ({
                 <section class="mt-8 pt-6 border-t-[1.5px] border-[#BFA77A] grid grid-cols-12 gap-8 items-start">
                   <!-- Left: Payment Method -->
                   <div class="col-span-6">
-                    <h3 class="text-[10.5px] font-bold uppercase tracking-[0.15em] text-[#6A7168] mb-3">
+                    <h3 class="text-[10.5px] font-bold uppercase tracking-[0.15em] text-[#6A7168] mb-2.5">
                       PAYMENT METHOD &amp; INSTRUCTIONS
                     </h3>
 
-                    <div id="pv-payment-box" class="border-l-2 border-[#6A7B5F] pl-4 space-y-4 text-[12px] text-[#353D34]">
-                      <div id="pv-bank-block">
-                        <p class="text-[10.5px] font-bold uppercase tracking-[0.12em] text-[#6A7168] mb-1">
-                          BANK TRANSFER
-                        </p>
-                        <p><strong class="font-semibold text-[#1F271E]">Bank:</strong> <span id="pv-bank-name">-</span></p>
-                        <p><strong class="font-semibold text-[#1F271E]">Account No.:</strong> <span id="pv-bank-acc">-</span></p>
-                        <p><strong class="font-semibold text-[#1F271E]">Account Name:</strong> <span id="pv-bank-holder">-</span></p>
+                    <div id="pv-payment-box" class="border-l-2 border-[#6A7B5F] pl-3.5 space-y-2.5 text-[11.5px] text-[#353D34]">
+                      <p class="text-[10px] font-bold uppercase tracking-[0.12em] text-[#6A7168]">
+                        TRANSFER BANK &amp; E-WALLET:
+                      </p>
+
+                      <div class="grid grid-cols-2 gap-x-2.5 gap-y-2">
+                        <!-- BCA -->
+                        <div class="rounded-md border border-[#D9CEB8] bg-[#F4EFE6]/60 p-2">
+                          <span class="block text-[9.5px] font-bold uppercase tracking-wider text-[#3F4B37]">Bank BCA</span>
+                          <span class="font-mono font-bold text-[12px] text-[#1F271E] tracking-wider select-all">7265449735</span>
+                        </div>
+
+                        <!-- Bank Jago -->
+                        <div class="rounded-md border border-[#D9CEB8] bg-[#F4EFE6]/60 p-2">
+                          <span class="block text-[9.5px] font-bold uppercase tracking-wider text-[#3F4B37]">Bank Jago</span>
+                          <span class="font-mono font-bold text-[12px] text-[#1F271E] tracking-wider select-all">109570891530</span>
+                        </div>
+
+                        <!-- SeaBank -->
+                        <div class="rounded-md border border-[#D9CEB8] bg-[#F4EFE6]/60 p-2">
+                          <span class="block text-[9.5px] font-bold uppercase tracking-wider text-[#3F4B37]">SeaBank</span>
+                          <span class="font-mono font-bold text-[12px] text-[#1F271E] tracking-wider select-all">901097147199</span>
+                        </div>
+
+                        <!-- DANA -->
+                        <div class="rounded-md border border-[#D9CEB8] bg-[#F4EFE6]/60 p-2">
+                          <span class="block text-[9.5px] font-bold uppercase tracking-wider text-[#3F4B37]">DANA</span>
+                          <span class="font-mono font-bold text-[12px] text-[#1F271E] tracking-wider select-all">085850027216</span>
+                        </div>
                       </div>
 
-                      <div id="pv-qris-block">
-                        <p class="text-[10.5px] font-bold uppercase tracking-[0.12em] text-[#6A7168] mb-1">
-                          QRIS PAYMENT
-                        </p>
-                        <p><strong class="font-semibold text-[#1F271E]">Merchant ID / NMID:</strong> <span id="pv-qris-nmid">-</span></p>
-                      </div>
+                      <p class="text-[11px] text-[#4A5248] pt-0.5 leading-snug">
+                        <strong class="font-semibold text-[#1F271E]">A.n:</strong> <span id="pv-bank-holder">Floragate / Argana</span>
+                      </p>
+
+                      <p id="pv-payment-note" class="text-[10px] italic text-[#6A7168] leading-tight">
+                        *Mohon sertakan nomor invoice atau konfirmasi bukti transfer via WhatsApp.
+                      </p>
                     </div>
                   </div>
 
@@ -911,12 +963,8 @@ const catalogItems = PRODUCTS.map((p) => ({
     const fDeliveryDatetime = document.getElementById('f-delivery-datetime') as HTMLInputElement;
     const fDeliveryAddress = document.getElementById('f-delivery-address') as HTMLInputElement;
     const fShippingFee = document.getElementById('f-shipping-fee') as HTMLInputElement;
-    const fBankName = document.getElementById('f-bank-name') as HTMLInputElement;
-    const fBankAcc = document.getElementById('f-bank-acc') as HTMLInputElement;
     const fBankHolder = document.getElementById('f-bank-holder') as HTMLInputElement;
-    const fQrisNmid = document.getElementById('f-qris-nmid') as HTMLInputElement;
-    const fShowBank = document.getElementById('f-show-bank') as HTMLInputElement;
-    const fShowQris = document.getElementById('f-show-qris') as HTMLInputElement;
+    const fPaymentNote = document.getElementById('f-payment-note') as HTMLInputElement;
     const fShowStamp = document.getElementById('f-show-stamp') as HTMLInputElement;
     const fStampRotation = document.getElementById('f-stamp-rotation') as HTMLSelectElement;
 
@@ -924,12 +972,8 @@ const catalogItems = PRODUCTS.map((p) => ({
     fInvoiceNo.value = generateInvoiceNumber(currentSeq);
     fIssueDate.value = todayISO;
     fDueDate.value = todayISO;
-    fBankName.value = prefs.bankName || 'BCA';
-    fBankAcc.value = prefs.bankAcc || '';
-    fBankHolder.value = prefs.bankHolder || 'Floragate Florist';
-    fQrisNmid.value = prefs.qrisNmid || '';
-    fShowBank.checked = prefs.showBank !== false;
-    fShowQris.checked = prefs.showQris !== false;
+    fBankHolder.value = prefs.bankHolder || 'Floragate / Argana';
+    fPaymentNote.value = prefs.paymentNote || '*Mohon sertakan nomor invoice atau konfirmasi bukti transfer via WhatsApp.';
 
     function savePaymentPrefs() {
       try {
@@ -937,12 +981,8 @@ const catalogItems = PRODUCTS.map((p) => ({
           PREFS_KEY,
           JSON.stringify({
             seq: currentSeq,
-            bankName: fBankName.value,
-            bankAcc: fBankAcc.value,
             bankHolder: fBankHolder.value,
-            qrisNmid: fQrisNmid.value,
-            showBank: fShowBank.checked,
-            showQris: fShowQris.checked,
+            paymentNote: fPaymentNote.value,
           })
         );
       } catch {
@@ -1160,16 +1200,8 @@ const catalogItems = PRODUCTS.map((p) => ({
       }
 
       // Payment info
-      const showBank = fShowBank.checked;
-      const showQris = fShowQris.checked;
-      document.getElementById('pv-bank-block')?.classList.toggle('hidden', !showBank);
-      document.getElementById('pv-qris-block')?.classList.toggle('hidden', !showQris);
-      document.getElementById('pv-payment-box')?.classList.toggle('hidden', !showBank && !showQris);
-
-      setText('pv-bank-name', fBankName.value, '[Nama Bank]');
-      setText('pv-bank-acc', fBankAcc.value, '[No. Rekening]');
-      setText('pv-bank-holder', fBankHolder.value, '[Atas Nama]');
-      setText('pv-qris-nmid', fQrisNmid.value, '[NMID QRIS]');
+      setText('pv-bank-holder', fBankHolder.value, 'Floragate / Argana');
+      setText('pv-payment-note', fPaymentNote.value, '*Mohon sertakan nomor invoice atau konfirmasi bukti transfer via WhatsApp.');
 
       // Digital stamp
       const stampWrap = document.getElementById('pv-stamp-wrap');
@@ -1244,12 +1276,8 @@ const catalogItems = PRODUCTS.map((p) => ({
       fDeliveryDatetime,
       fDeliveryAddress,
       fShippingFee,
-      fBankName,
-      fBankAcc,
       fBankHolder,
-      fQrisNmid,
-      fShowBank,
-      fShowQris,
+      fPaymentNote,
       fShowStamp,
       fStampRotation,
     ].forEach((el) => {
