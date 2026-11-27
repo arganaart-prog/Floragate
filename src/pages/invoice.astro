@@ -158,20 +158,20 @@ const catalogItems = PRODUCTS.map((p) => ({
       </div>
 
       <!-- Mobile Tab Switcher (Edit Form vs Preview) -->
-      <div class="no-print xl:hidden grid grid-cols-2 gap-2 mb-5 rounded-xl border border-soft-cream bg-white p-1.5">
+      <div class="no-print xl:hidden grid grid-cols-2 gap-2 mb-5 rounded-2xl border border-soft-cream bg-white p-1.5 shadow-sm sticky top-3 z-30">
         <button
           type="button"
           id="mobile-tab-edit"
-          class="rounded-lg py-2.5 text-xs font-bold bg-primary text-white transition-colors cursor-pointer"
+          class="rounded-xl py-2.5 text-xs font-bold bg-primary text-white shadow-xs transition-colors cursor-pointer"
         >
-          1. Isi Data Invoice
+          ✏️ 1. Isi Data Invoice
         </button>
         <button
           type="button"
           id="mobile-tab-preview"
-          class="rounded-lg py-2.5 text-xs font-bold text-slate-600 hover:text-primary transition-colors cursor-pointer"
+          class="rounded-xl py-2.5 text-xs font-bold text-slate-600 hover:text-primary transition-colors cursor-pointer"
         >
-          2. Lihat Preview &amp; PDF
+          📄 2. Lihat Invoice &amp; PDF
         </button>
       </div>
 
@@ -190,12 +190,22 @@ const catalogItems = PRODUCTS.map((p) => ({
                 <input id="f-invoice-no" type="text" class="inv-input" />
               </div>
               <div>
-                <label for="f-issue-date" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">Issue Date</label>
-                <input id="f-issue-date" type="date" class="inv-input" />
+                <div class="flex items-center justify-between mb-1">
+                  <label for="f-issue-date" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500">Tanggal Terbit</label>
+                  <button type="button" id="btn-issue-today" class="text-[10px] font-bold text-primary hover:underline cursor-pointer">Set Hari Ini</button>
+                </div>
+                <input id="f-issue-date" type="date" class="inv-input bg-white cursor-pointer" />
               </div>
               <div>
-                <label for="f-due-date" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">Due Date</label>
-                <input id="f-due-date" type="date" class="inv-input" />
+                <div class="flex items-center justify-between mb-1">
+                  <label for="f-due-date" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500">Jatuh Tempo</label>
+                  <div class="flex items-center gap-1.5 text-[10px]">
+                    <button type="button" data-due-offset="0" class="due-preset-btn font-bold text-primary hover:underline cursor-pointer">Hari Ini</button>
+                    <span class="text-slate-300">&bull;</span>
+                    <button type="button" data-due-offset="1" class="due-preset-btn font-bold text-primary hover:underline cursor-pointer">+1 Hari</button>
+                  </div>
+                </div>
+                <input id="f-due-date" type="date" class="inv-input bg-white cursor-pointer" />
               </div>
             </div>
 
@@ -257,7 +267,47 @@ const catalogItems = PRODUCTS.map((p) => ({
             <div class="pt-2 border-t border-soft-cream/50 space-y-3">
               <p class="text-[11px] font-bold uppercase tracking-widest text-primary">Delivery Details (Pengiriman)</p>
               <input id="f-recipient-name" type="text" placeholder="Nama penerima / keluarga / instansi" class="inv-input" />
-              <input id="f-delivery-datetime" type="text" placeholder="Tanggal & jam kirim (mis: 28 Nov 2026, 09.00 WIB)" class="inv-input" />
+              
+              <!-- Fitur Set Jadwal Pengiriman (Pilih Tanggal & Jam Tanpa Ngetik Manual) -->
+              <div class="rounded-xl border border-soft-cream/90 bg-clean-ivory/35 p-3 space-y-2.5">
+                <span class="block text-[11px] font-bold uppercase tracking-wider text-slate-600">
+                  Set Jadwal Pengiriman (Tinggal Pilih)
+                </span>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                  <div>
+                    <label for="f-delivery-date" class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                      Pilih Tanggal Kirim
+                    </label>
+                    <input id="f-delivery-date" type="date" class="inv-input bg-white cursor-pointer" />
+                  </div>
+                  <div>
+                    <label for="f-delivery-time" class="block text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                      Pilih Jam Kirim (WIB)
+                    </label>
+                    <input id="f-delivery-time" type="time" value="09:00" class="inv-input bg-white cursor-pointer" />
+                  </div>
+                </div>
+
+                <!-- Tombol Cepat Tanggal & Jam -->
+                <div class="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-soft-cream/60">
+                  <div class="flex items-center gap-1.5 flex-wrap">
+                    <span class="text-[10px] font-bold text-slate-500">Pilih Tanggal:</span>
+                    <button type="button" data-deliv-date-offset="0" class="deliv-date-preset rounded-md border border-soft-cream bg-white px-2 py-0.5 text-[10px] font-bold text-primary-dark hover:border-primary cursor-pointer">Hari Ini</button>
+                    <button type="button" data-deliv-date-offset="1" class="deliv-date-preset rounded-md border border-soft-cream bg-white px-2 py-0.5 text-[10px] font-bold text-primary-dark hover:border-primary cursor-pointer">Besok</button>
+                    <button type="button" data-deliv-date-offset="2" class="deliv-date-preset rounded-md border border-soft-cream bg-white px-2 py-0.5 text-[10px] font-bold text-primary-dark hover:border-primary cursor-pointer">Lusa</button>
+                  </div>
+
+                  <div class="flex items-center gap-1.5 flex-wrap">
+                    <span class="text-[10px] font-bold text-slate-500">Pilih Jam:</span>
+                    <button type="button" data-deliv-time="09:00" class="deliv-time-preset rounded-md border border-soft-cream bg-white px-1.5 py-0.5 text-[10px] font-bold text-slate-700 hover:border-primary cursor-pointer">09.00</button>
+                    <button type="button" data-deliv-time="13:00" class="deliv-time-preset rounded-md border border-soft-cream bg-white px-1.5 py-0.5 text-[10px] font-bold text-slate-700 hover:border-primary cursor-pointer">13.00</button>
+                    <button type="button" data-deliv-time="15:00" class="deliv-time-preset rounded-md border border-soft-cream bg-white px-1.5 py-0.5 text-[10px] font-bold text-slate-700 hover:border-primary cursor-pointer">15.00</button>
+                    <button type="button" data-deliv-time="19:00" class="deliv-time-preset rounded-md border border-soft-cream bg-white px-1.5 py-0.5 text-[10px] font-bold text-slate-700 hover:border-primary cursor-pointer">19.00</button>
+                  </div>
+                </div>
+              </div>
+
               <input id="f-delivery-address" type="text" placeholder="Alamat lengkap pengiriman di Malang" class="inv-input" />
             </div>
           </div>
@@ -404,10 +454,37 @@ const catalogItems = PRODUCTS.map((p) => ({
 
         <!-- ========== RIGHT COLUMN: LIVE A4 INVOICE SHEET ========== -->
         <div id="preview-panel" class="hidden xl:block xl:col-span-7">
-          <div class="overflow-x-auto pb-4">
+          <!-- Mobile Preview Actions Toolbar -->
+          <div class="no-print xl:hidden mb-4 flex items-center justify-between gap-2 p-3 bg-white rounded-2xl border border-soft-cream shadow-xs">
+            <div>
+              <span class="block text-[11px] font-bold text-primary-dark">Pratinjau Lembar A4</span>
+              <span class="text-[10px] text-slate-500">Standar Cetak 210 x 297 mm</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button
+                type="button"
+                id="btn-toggle-fit"
+                class="rounded-xl border border-soft-cream bg-clean-ivory/50 px-2.5 py-2 text-xs font-bold text-slate-700 hover:border-primary cursor-pointer select-none"
+              >
+                📱 Pas Layar HP
+              </button>
+              <button
+                type="button"
+                id="btn-mobile-print"
+                class="rounded-xl bg-primary hover:bg-primary-dark px-3 py-2 text-xs font-bold text-white shadow-xs cursor-pointer flex items-center gap-1.5"
+              >
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                Cetak / PDF
+              </button>
+            </div>
+          </div>
+
+          <div id="sheet-scaler-wrap" class="overflow-x-auto pb-6 flex justify-center">
             <div
               id="invoice-sheet"
-              class="mx-auto w-[794px] min-h-[1123px] bg-[#FAF7F0] text-[#222922] px-11 py-10 shadow-[0_24px_60px_rgba(15,23,42,0.12)] border border-[#E6DEC8] flex flex-col justify-between"
+              class="mx-auto w-[794px] min-h-[1123px] bg-[#FAF7F0] text-[#222922] px-11 py-10 shadow-[0_24px_60px_rgba(15,23,42,0.12)] border border-[#E6DEC8] flex flex-col justify-between transition-transform duration-200"
             >
               <div>
                 <!-- TOP HEADER -->
@@ -612,19 +689,19 @@ const catalogItems = PRODUCTS.map((p) => ({
 <style is:global>
   .inv-input {
     width: 100%;
-    border-radius: 0.65rem;
+    border-radius: 0.75rem;
     border: 1px solid #eadbc6;
     background-color: rgba(247, 244, 239, 0.45);
-    padding: 0.55rem 0.75rem;
-    font-size: 0.8125rem;
+    padding: 0.65rem 0.85rem;
+    font-size: 0.875rem;
     color: #1e293b;
-    transition: border-color 0.15s ease, background-color 0.15s ease;
+    transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
   }
   .inv-input:focus {
     outline: none;
     border-color: #55654b;
     background-color: #ffffff;
-    box-shadow: 0 0 0 2px rgba(85, 101, 75, 0.14);
+    box-shadow: 0 0 0 3px rgba(85, 101, 75, 0.15);
   }
 
   @page {
@@ -633,13 +710,21 @@ const catalogItems = PRODUCTS.map((p) => ({
   }
 
   @media print {
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box !important;
+    }
+
     html,
     body {
       background: #faf7f0 !important;
       margin: 0 !important;
       padding: 0 !important;
       width: 210mm !important;
-      height: auto !important;
+      height: 297mm !important;
+      max-height: 297mm !important;
+      overflow: hidden !important;
       -webkit-print-color-adjust: exact !important;
       print-color-adjust: exact !important;
     }
@@ -651,12 +736,16 @@ const catalogItems = PRODUCTS.map((p) => ({
     main {
       margin: 0 !important;
       padding: 0 !important;
+      width: 210mm !important;
+      height: 297mm !important;
     }
 
     .invoice-page-wrap {
       max-width: none !important;
       margin: 0 !important;
       padding: 0 !important;
+      width: 210mm !important;
+      height: 297mm !important;
     }
 
     .no-print {
@@ -668,21 +757,33 @@ const catalogItems = PRODUCTS.map((p) => ({
       display: block !important;
       margin: 0 !important;
       padding: 0 !important;
+      width: 210mm !important;
+      height: 297mm !important;
     }
 
-    #preview-panel > div {
+    #preview-panel > div,
+    #sheet-scaler-wrap {
       overflow: visible !important;
       padding: 0 !important;
+      margin: 0 !important;
+      width: 210mm !important;
+      height: 297mm !important;
     }
 
     #invoice-sheet {
       width: 210mm !important;
-      min-height: 296mm !important;
+      height: 297mm !important;
+      min-height: 297mm !important;
+      max-height: 297mm !important;
       margin: 0 !important;
+      padding: 12mm 14mm !important;
       border: none !important;
       box-shadow: none !important;
-      page-break-after: avoid;
-      break-inside: avoid;
+      page-break-after: avoid !important;
+      page-break-inside: avoid !important;
+      break-inside: avoid !important;
+      overflow: hidden !important;
+      transform: none !important;
     }
   }
 </style>
@@ -785,6 +886,35 @@ const catalogItems = PRODUCTS.map((p) => ({
     const d = new Date(`${isoDate}T00:00:00`);
     if (Number.isNaN(d.getTime())) return isoDate;
     return d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+
+  function getISODateWithOffset(offsetDays = 0): string {
+    const d = new Date();
+    d.setDate(d.getDate() + offsetDays);
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  }
+
+  function formatDeliveryDateTime(dateISO: string, timeStr: string): string {
+    if (!dateISO) return '-';
+    const parts = dateISO.split('-').map(Number);
+    if (parts.length < 3) return dateISO;
+    const [y, m, d] = parts;
+    const dateObj = new Date(y, m - 1, d);
+    if (isNaN(dateObj.getTime())) return dateISO;
+
+    const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const months = [
+      'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+      'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    ];
+    const dayName = days[dateObj.getDay()];
+    const monthName = months[dateObj.getMonth()];
+    const formattedDate = `${dayName}, ${d} ${monthName} ${y}`;
+    const timeFormatted = timeStr ? `${timeStr.replace(':', '.')} WIB` : '';
+    return timeFormatted ? `${formattedDate} • ${timeFormatted}` : formattedDate;
   }
 
   function generateInvoiceNumber(seq = 1): string {
@@ -892,11 +1022,38 @@ const catalogItems = PRODUCTS.map((p) => ({
       showLoginGate();
     });
 
-    // Mobile tab switching
+    // Mobile tab switching & Responsive scaling
     const mobileEditBtn = document.getElementById('mobile-tab-edit');
     const mobilePreviewBtn = document.getElementById('mobile-tab-preview');
     const editorPanel = document.getElementById('editor-panel');
     const previewPanel = document.getElementById('preview-panel');
+    let isFitMobile = true;
+
+    function fitMobileSheet() {
+      const sheet = document.getElementById('invoice-sheet');
+      const fitBtn = document.getElementById('btn-toggle-fit');
+      if (!sheet) return;
+
+      if (window.innerWidth < 1280) {
+        if (isFitMobile) {
+          const availWidth = Math.max(280, window.innerWidth - 24);
+          const scale = Math.min(1, Math.max(0.32, availWidth / 800));
+          sheet.style.transform = `scale(${scale})`;
+          sheet.style.transformOrigin = 'top center';
+          sheet.style.marginBottom = `-${Math.round((1 - scale) * 1123)}px`;
+          if (fitBtn) fitBtn.textContent = '🔍 Perbesar (100%)';
+        } else {
+          sheet.style.transform = 'none';
+          sheet.style.transformOrigin = '';
+          sheet.style.marginBottom = '';
+          if (fitBtn) fitBtn.textContent = '📱 Pas Layar HP';
+        }
+      } else {
+        sheet.style.transform = 'none';
+        sheet.style.transformOrigin = '';
+        sheet.style.marginBottom = '';
+      }
+    }
 
     function setMobileTab(mode: 'edit' | 'preview') {
       if (!editorPanel || !previewPanel || !mobileEditBtn || !mobilePreviewBtn) return;
@@ -909,10 +1066,23 @@ const catalogItems = PRODUCTS.map((p) => ({
       mobilePreviewBtn.classList.toggle('bg-primary', !isEdit);
       mobilePreviewBtn.classList.toggle('text-white', !isEdit);
       mobilePreviewBtn.classList.toggle('text-slate-600', isEdit);
+
+      if (!isEdit) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(fitMobileSheet, 60);
+      }
     }
 
     mobileEditBtn?.addEventListener('click', () => setMobileTab('edit'));
     mobilePreviewBtn?.addEventListener('click', () => setMobileTab('preview'));
+    document.getElementById('btn-toggle-fit')?.addEventListener('click', () => {
+      isFitMobile = !isFitMobile;
+      fitMobileSheet();
+    });
+    document.getElementById('btn-mobile-print')?.addEventListener('click', () => {
+      window.print();
+    });
+    window.addEventListener('resize', fitMobileSheet);
 
     // ========== INVOICE STATE & RENDERER ==========
     let prefs: Record<string, any> = {};
@@ -942,7 +1112,8 @@ const catalogItems = PRODUCTS.map((p) => ({
     const fClientContact = document.getElementById('f-client-contact') as HTMLInputElement;
     const fClientAddress = document.getElementById('f-client-address') as HTMLInputElement;
     const fRecipientName = document.getElementById('f-recipient-name') as HTMLInputElement;
-    const fDeliveryDatetime = document.getElementById('f-delivery-datetime') as HTMLInputElement;
+    const fDeliveryDate = document.getElementById('f-delivery-date') as HTMLInputElement;
+    const fDeliveryTime = document.getElementById('f-delivery-time') as HTMLInputElement;
     const fDeliveryAddress = document.getElementById('f-delivery-address') as HTMLInputElement;
     const fShippingFee = document.getElementById('f-shipping-fee') as HTMLInputElement;
     const fPaymentNote = document.getElementById('f-payment-note') as HTMLInputElement;
@@ -953,6 +1124,8 @@ const catalogItems = PRODUCTS.map((p) => ({
     fInvoiceNo.value = generateInvoiceNumber(currentSeq);
     fIssueDate.value = todayISO;
     fDueDate.value = todayISO;
+    fDeliveryDate.value = getISODateWithOffset(0);
+    fDeliveryTime.value = '09:00';
     fPaymentNote.value = prefs.paymentNote || '*Mohon sertakan nomor invoice atau konfirmasi bukti transfer via WhatsApp.';
 
     interface MasterAccount {
@@ -1153,7 +1326,7 @@ const catalogItems = PRODUCTS.map((p) => ({
       setText('pv-client-address', fClientAddress.value, '[Alamat Pemesan]');
 
       setText('pv-recipient-name', fRecipientName.value, '[Nama Penerima]');
-      setText('pv-delivery-datetime', fDeliveryDatetime.value, '[Tanggal & Jam Kirim]');
+      setText('pv-delivery-datetime', formatDeliveryDateTime(fDeliveryDate.value, fDeliveryTime.value), '[Pilih Tanggal & Jam Kirim]');
       setText('pv-delivery-address', fDeliveryAddress.value, '[Alamat Pengiriman, Malang]');
 
       // Status badge on invoice
@@ -1181,7 +1354,7 @@ const catalogItems = PRODUCTS.map((p) => ({
           tr.className = 'border-b border-[#D9CEB8]';
 
           const tdDesc = document.createElement('td');
-          tdDesc.className = 'py-3 px-4 align-top';
+          tdDesc.className = 'py-2.5 px-4 align-top';
           const titleEl = document.createElement('p');
           titleEl.className = 'font-medium text-[#1F271E] leading-snug';
           titleEl.textContent = item.name.trim() || 'Item Produk';
@@ -1194,27 +1367,28 @@ const catalogItems = PRODUCTS.map((p) => ({
           }
 
           const tdQty = document.createElement('td');
-          tdQty.className = 'py-3 px-3 text-center align-top';
+          tdQty.className = 'py-2.5 px-3 text-center align-top';
           tdQty.textContent = String(item.qty || 0);
 
           const tdPrice = document.createElement('td');
-          tdPrice.className = 'py-3 px-3 text-right align-top whitespace-nowrap';
+          tdPrice.className = 'py-2.5 px-3 text-right align-top whitespace-nowrap';
           tdPrice.textContent = formatRupiah(item.price);
 
           const tdTotal = document.createElement('td');
-          tdTotal.className = 'py-3 px-4 text-right align-top font-semibold text-[#1F271E] whitespace-nowrap';
+          tdTotal.className = 'py-2.5 px-4 text-right align-top font-semibold text-[#1F271E] whitespace-nowrap';
           tdTotal.textContent = formatRupiah(rowTotal);
 
           tr.append(tdDesc, tdQty, tdPrice, tdTotal);
           tbody.appendChild(tr);
         });
 
-        // Pad empty ruled lines up to 5 rows total to preserve airy template elegance
-        const emptyRows = Math.max(0, 5 - items.length);
+        // Pad empty ruled lines up to 4 rows total
+        const maxRuled = items.length <= 2 ? 4 : (items.length <= 4 ? 4 : items.length);
+        const emptyRows = Math.max(0, maxRuled - items.length);
         for (let i = 0; i < emptyRows; i++) {
           const trEmpty = document.createElement('tr');
           trEmpty.className = 'border-b border-[#D9CEB8]';
-          trEmpty.innerHTML = '<td class="py-4 px-4">&nbsp;</td><td></td><td></td><td></td>';
+          trEmpty.innerHTML = '<td class="py-2.5 px-4">&nbsp;</td><td></td><td></td><td></td>';
           tbody.appendChild(trEmpty);
         }
       }
@@ -1307,6 +1481,36 @@ const catalogItems = PRODUCTS.map((p) => ({
       });
     });
 
+    // Quick presets for dates & times
+    document.getElementById('btn-issue-today')?.addEventListener('click', () => {
+      fIssueDate.value = getISODateWithOffset(0);
+      renderPreview();
+    });
+
+    document.querySelectorAll('.due-preset-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const offset = Number(btn.getAttribute('data-due-offset') || '0');
+        fDueDate.value = getISODateWithOffset(offset);
+        renderPreview();
+      });
+    });
+
+    document.querySelectorAll('.deliv-date-preset').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const offset = Number(btn.getAttribute('data-deliv-date-offset') || '0');
+        fDeliveryDate.value = getISODateWithOffset(offset);
+        renderPreview();
+      });
+    });
+
+    document.querySelectorAll('.deliv-time-preset').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const timeVal = btn.getAttribute('data-deliv-time') || '09:00';
+        fDeliveryTime.value = timeVal;
+        renderPreview();
+      });
+    });
+
     document.getElementById('btn-add-item')?.addEventListener('click', () => {
       items.push({ name: '', note: '', price: 0, qty: 1 });
       renderItemsEditor();
@@ -1320,7 +1524,6 @@ const catalogItems = PRODUCTS.map((p) => ({
       const name = opt?.getAttribute('data-name') || '';
       const price = Number(opt?.getAttribute('data-price') || '0');
       if (name) {
-        // Replace single blank item if untouched, else push new row
         if (items.length === 1 && !items[0].name.trim() && items[0].price === 0) {
           items[0] = { name, note: '', price, qty: 1 };
         } else {
@@ -1341,7 +1544,8 @@ const catalogItems = PRODUCTS.map((p) => ({
       fClientContact,
       fClientAddress,
       fRecipientName,
-      fDeliveryDatetime,
+      fDeliveryDate,
+      fDeliveryTime,
       fDeliveryAddress,
       fShippingFee,
       fPaymentNote,
@@ -1366,7 +1570,8 @@ const catalogItems = PRODUCTS.map((p) => ({
       fClientContact.value = '';
       fClientAddress.value = '';
       fRecipientName.value = '';
-      fDeliveryDatetime.value = '';
+      fDeliveryDate.value = getISODateWithOffset(0);
+      fDeliveryTime.value = '09:00';
       fDeliveryAddress.value = '';
       fShippingFee.value = '0';
       fDpAmount.value = '';
