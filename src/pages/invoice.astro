@@ -160,6 +160,17 @@ const catalogItems = PRODUCTS.map((p) => ({
 
           <button
             type="button"
+            id="btn-open-excel-modal"
+            class="inline-flex items-center gap-1.5 rounded-xl border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 px-3.5 py-2.5 text-xs font-bold text-emerald-800 transition-colors cursor-pointer"
+          >
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Data Excel (<span id="excel-count-badge">0</span>)
+          </button>
+
+          <button
+            type="button"
             id="btn-logout"
             class="inline-flex items-center gap-1.5 rounded-xl border border-red-200 bg-red-50/70 hover:bg-red-100 px-3 py-2.5 text-xs font-bold text-red-700 transition-colors cursor-pointer"
           >
@@ -381,11 +392,31 @@ const catalogItems = PRODUCTS.map((p) => ({
             <div id="items-editor-list" class="space-y-3"></div>
 
             <!-- Ongkir -->
-            <div class="pt-2 border-t border-soft-cream/60">
-              <label for="f-shipping-fee" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
-                Biaya Pengiriman / Shipping Fee (Rp) — 0 = Gratis Ongkir
-              </label>
-              <input id="f-shipping-fee" type="number" min="0" step="5000" value="0" class="inv-input" />
+            <div class="pt-2 border-t border-soft-cream/60 space-y-3">
+              <div>
+                <label for="f-shipping-fee" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                  Biaya Pengiriman Produk / Shipping Fee (Rp) — 0 = Gratis Ongkir
+                </label>
+                <input id="f-shipping-fee" type="number" min="0" step="5000" value="0" class="inv-input" />
+              </div>
+
+              <!-- Toggle Ongkir Pengiriman File Fisik Invoice -->
+              <div class="rounded-xl border border-soft-cream/80 bg-clean-ivory/40 p-3 space-y-2.5">
+                <label class="flex items-center justify-between gap-3 cursor-pointer select-none">
+                  <div>
+                    <span class="block text-xs font-bold text-primary-dark">Ongkir Pengiriman File Fisik Invoice</span>
+                    <span class="block text-[10px] text-slate-500">Aktifkan jika mengirim invoice cetak fisik ke alamat pemesan</span>
+                  </div>
+                  <input id="f-invoice-shipping-toggle" type="checkbox" class="h-4 w-4 rounded border-soft-cream text-primary focus:ring-primary/20 cursor-pointer shrink-0" />
+                </label>
+
+                <div id="invoice-shipping-wrap" class="hidden pt-2 border-t border-soft-cream/60">
+                  <label for="f-invoice-shipping-fee" class="block text-[10px] font-bold uppercase tracking-wider text-secondary-dark mb-1">
+                    Masukkan Harga Ongkir Invoice Fisik (Rp)
+                  </label>
+                  <input id="f-invoice-shipping-fee" type="number" min="0" step="1000" value="0" placeholder="Contoh: 15000" class="inv-input bg-white" />
+                </div>
+              </div>
             </div>
           </div>
 
@@ -460,20 +491,25 @@ const catalogItems = PRODUCTS.map((p) => ({
               </div>
             </div>
 
-            <div class="pt-2 border-t border-soft-cream/50 flex flex-wrap items-center justify-between gap-3">
-              <label class="inline-flex items-center gap-2 text-xs font-bold text-primary-dark cursor-pointer">
-                <input id="f-show-stamp" type="checkbox" checked class="h-4 w-4 rounded text-primary" />
-                Tampilkan Stempel Digital Floragate
-              </label>
+            <div class="pt-2 border-t border-soft-cream/50 space-y-2">
+              <div class="flex flex-wrap items-center justify-between gap-3">
+                <label class="inline-flex items-center gap-2 text-xs font-bold text-primary-dark cursor-pointer select-none">
+                  <input id="f-show-stamp" type="checkbox" checked class="h-4 w-4 rounded text-primary cursor-pointer" />
+                  Aktifkan Stempel Digital Floragate
+                </label>
 
-              <label class="inline-flex items-center gap-2 text-xs text-slate-600">
-                <span>Rotasi Stempel:</span>
-                <select id="f-stamp-rotation" class="rounded-lg border border-soft-cream bg-clean-ivory/40 px-2 py-1 text-xs">
-                  <option value="-6">Miring Natural (-6°)</option>
-                  <option value="0">Lurus (0°)</option>
-                  <option value="-12">Miring Dinamis (-12°)</option>
-                </select>
-              </label>
+                <label id="stamp-rotation-wrap" class="inline-flex items-center gap-2 text-xs text-slate-600">
+                  <span>Rotasi Stempel:</span>
+                  <select id="f-stamp-rotation" class="rounded-lg border border-soft-cream bg-clean-ivory/40 px-2 py-1 text-xs">
+                    <option value="-6">Miring Natural (-6°)</option>
+                    <option value="0">Lurus (0°)</option>
+                    <option value="-12">Miring Dinamis (-12°)</option>
+                  </select>
+                </label>
+              </div>
+              <p class="text-[10px] text-slate-500">
+                Jika dinonaktifkan, area stempel pada invoice akan dikosongkan agar bisa dicap/stempel fisik secara manual.
+              </p>
             </div>
           </div>
         </aside>
@@ -668,6 +704,10 @@ const catalogItems = PRODUCTS.map((p) => ({
                         <span class="font-bold uppercase tracking-[0.1em] text-[#6A7168] text-[11px]">SHIPPING FEE</span>
                         <span id="pv-shipping-fee" class="font-medium text-[#222922]">Rp 0</span>
                       </div>
+                      <div id="pv-invoice-shipping-row" class="hidden flex items-center justify-between">
+                        <span class="font-bold uppercase tracking-[0.1em] text-[#6A7168] text-[11px]">PHYSICAL INVOICE SHIPPING</span>
+                        <span id="pv-invoice-shipping-fee" class="font-medium text-[#222922]">Rp 0</span>
+                      </div>
                     </div>
 
                     <div class="mt-3 pt-3 border-t border-[#222922] flex items-baseline justify-between">
@@ -725,6 +765,90 @@ const catalogItems = PRODUCTS.map((p) => ({
                   <span>Page 1 of 1</span>
                 </div>
               </footer>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Rekap Data Excel -->
+      <div id="excel-modal" class="no-print hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-xs p-3 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="excel-modal-title">
+        <div class="w-full max-w-5xl max-h-[90vh] flex flex-col rounded-2xl border border-soft-cream bg-white shadow-2xl overflow-hidden">
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-soft-cream bg-clean-ivory/70 px-5 py-4">
+            <div>
+              <h2 id="excel-modal-title" class="font-serif text-lg font-bold text-primary-dark">
+                Rekap Data Invoice (Excel)
+              </h2>
+              <p class="text-xs text-slate-600 mt-0.5">
+                Setiap invoice yang diunduh PDF / dicetak otomatis tercatat di sini dan bisa diunduh sebagai file Excel.
+              </p>
+            </div>
+            <button
+              type="button"
+              id="btn-close-excel-modal"
+              class="rounded-xl border border-soft-cream bg-white px-3 py-1.5 text-xs font-bold text-slate-600 hover:bg-slate-100 cursor-pointer"
+            >
+              Tutup ✕
+            </button>
+          </div>
+
+          <!-- Summary Stats & Actions -->
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-soft-cream/70 px-5 py-3 bg-white">
+            <div class="flex flex-wrap items-center gap-4 text-xs">
+              <div>
+                <span class="text-slate-500">Total Invoice:</span>
+                <strong id="excel-stat-count" class="ml-1 text-primary-dark">0</strong>
+              </div>
+              <div>
+                <span class="text-slate-500">Total Omzet:</span>
+                <strong id="excel-stat-total" class="ml-1 text-primary-dark">Rp 0</strong>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                id="btn-save-current-excel"
+                class="rounded-xl border border-primary bg-white hover:bg-accent-bg px-3 py-2 text-xs font-bold text-primary transition-colors cursor-pointer"
+              >
+                + Catat Invoice Ini
+              </button>
+              <button
+                type="button"
+                id="btn-export-excel-csv"
+                class="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 px-3.5 py-2 text-xs font-bold text-white shadow-xs transition-colors cursor-pointer"
+              >
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Download Excel (.csv)
+              </button>
+              <button
+                type="button"
+                id="btn-clear-excel-log"
+                class="rounded-xl border border-red-200 bg-red-50 hover:bg-red-100 px-3 py-2 text-xs font-bold text-red-700 transition-colors cursor-pointer"
+              >
+                Kosongkan Data
+              </button>
+            </div>
+          </div>
+
+          <!-- Table -->
+          <div class="flex-1 overflow-auto p-4 sm:p-5">
+            <div class="overflow-x-auto rounded-xl border border-soft-cream">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead>
+                  <tr class="bg-clean-ivory text-[10px] font-bold uppercase tracking-wider text-slate-600 border-b border-soft-cream">
+                    <th class="py-2.5 px-3">No. Invoice</th>
+                    <th class="py-2.5 px-3">Tanggal</th>
+                    <th class="py-2.5 px-3">Pemesan</th>
+                    <th class="py-2.5 px-3">Produk</th>
+                    <th class="py-2.5 px-3 text-right">Grand Total</th>
+                    <th class="py-2.5 px-3 text-center">Status</th>
+                    <th class="py-2.5 px-3 text-center">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="excel-table-body" class="divide-y divide-soft-cream/70"></tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -840,6 +964,7 @@ const catalogItems = PRODUCTS.map((p) => ({
 <script>
   const AUTH_SESSION_KEY = 'fg_invoice_auth_v1';
   const PREFS_KEY = 'fg_invoice_prefs_v1';
+  const EXCEL_LOG_KEY = 'fg_invoice_excel_log_v1';
   const EXPECTED_CRED_HASH = 'f6279a1caffbb9b2da7089512c9a12f806d0c63cb66f3eee046e21692b0dc08d';
 
   // Pure-JS SHA-256 fallback for non-HTTPS contexts
@@ -1129,6 +1254,7 @@ const catalogItems = PRODUCTS.map((p) => ({
       fitMobileSheet();
     });
     document.getElementById('btn-mobile-print')?.addEventListener('click', () => {
+      recordCurrentInvoiceToExcelLog();
       window.print();
     });
     window.addEventListener('resize', fitMobileSheet);
@@ -1167,6 +1293,9 @@ const catalogItems = PRODUCTS.map((p) => ({
     const fDeliveryTime = document.getElementById('f-delivery-time') as HTMLInputElement;
     const fDeliveryAddress = document.getElementById('f-delivery-address') as HTMLInputElement;
     const fShippingFee = document.getElementById('f-shipping-fee') as HTMLInputElement;
+    const fInvoiceShippingToggle = document.getElementById('f-invoice-shipping-toggle') as HTMLInputElement;
+    const fInvoiceShippingFee = document.getElementById('f-invoice-shipping-fee') as HTMLInputElement;
+    const invoiceShippingWrap = document.getElementById('invoice-shipping-wrap');
     const fPaymentNote = document.getElementById('f-payment-note') as HTMLInputElement;
     const fShowStamp = document.getElementById('f-show-stamp') as HTMLInputElement;
     const fStampRotation = document.getElementById('f-stamp-rotation') as HTMLSelectElement;
@@ -1252,10 +1381,13 @@ const catalogItems = PRODUCTS.map((p) => ({
     function getTotals() {
       const subtotal = items.reduce((sum, item) => sum + (Number(item.price) || 0) * (Number(item.qty) || 0), 0);
       const shipping = Math.max(0, Number(fShippingFee.value) || 0);
-      const grandTotal = subtotal + shipping;
+      const physicalInvoiceShipping = fInvoiceShippingToggle?.checked
+        ? Math.max(0, Number(fInvoiceShippingFee.value) || 0)
+        : 0;
+      const grandTotal = subtotal + shipping + physicalInvoiceShipping;
       const dpAmount = status === 'dp' ? Math.min(grandTotal, Math.max(0, Number(fDpAmount.value) || 0)) : 0;
       const balanceDue = Math.max(0, grandTotal - dpAmount);
-      return { subtotal, shipping, grandTotal, dpAmount, balanceDue };
+      return { subtotal, shipping, physicalInvoiceShipping, grandTotal, dpAmount, balanceDue };
     }
 
     function renderItemsEditor() {
@@ -1449,9 +1581,15 @@ const catalogItems = PRODUCTS.map((p) => ({
       }
 
       // Totals
-      const { subtotal, shipping, grandTotal, dpAmount, balanceDue } = getTotals();
+      const { subtotal, shipping, physicalInvoiceShipping, grandTotal, dpAmount, balanceDue } = getTotals();
       setText('pv-subtotal', formatRupiah(subtotal));
       setText('pv-shipping-fee', shipping === 0 ? 'Rp 0 (Gratis Ongkir)' : formatRupiah(shipping));
+
+      const invShipRow = document.getElementById('pv-invoice-shipping-row');
+      if (invShipRow) {
+        invShipRow.classList.toggle('hidden', !fInvoiceShippingToggle?.checked);
+      }
+      setText('pv-invoice-shipping-fee', formatRupiah(physicalInvoiceShipping));
       setText('pv-grand-total', formatRupiah(grandTotal));
 
       const dpBreakdown = document.getElementById('pv-dp-breakdown');
@@ -1500,12 +1638,16 @@ const catalogItems = PRODUCTS.map((p) => ({
         }
       }
 
-      // Digital stamp
-      const stampWrap = document.getElementById('pv-stamp-wrap');
+      // Digital stamp (hide image when disabled so space stays blank for manual physical stamp)
       const stampImg = document.getElementById('pv-stamp-img');
-      if (stampWrap) stampWrap.classList.toggle('opacity-0', !fShowStamp.checked);
+      const stampRotationWrap = document.getElementById('stamp-rotation-wrap');
+      const showStamp = Boolean(fShowStamp?.checked);
       if (stampImg) {
+        stampImg.classList.toggle('hidden', !showStamp);
         stampImg.style.transform = `rotate(${fStampRotation.value}deg)`;
+      }
+      if (stampRotationWrap) {
+        stampRotationWrap.classList.toggle('hidden', !showStamp);
       }
 
       // Document title when saving PDF
@@ -1614,6 +1756,8 @@ const catalogItems = PRODUCTS.map((p) => ({
       fDeliveryTime,
       fDeliveryAddress,
       fShippingFee,
+      fInvoiceShippingToggle,
+      fInvoiceShippingFee,
       fPaymentNote,
       fShowStamp,
       fStampRotation,
@@ -1623,6 +1767,9 @@ const catalogItems = PRODUCTS.map((p) => ({
         renderPreview();
       });
       el?.addEventListener('change', () => {
+        if (el === fInvoiceShippingToggle && invoiceShippingWrap) {
+          invoiceShippingWrap.classList.toggle('hidden', !fInvoiceShippingToggle.checked);
+        }
         savePaymentPrefs();
         renderPreview();
       });
@@ -1641,6 +1788,9 @@ const catalogItems = PRODUCTS.map((p) => ({
       fDeliveryTime.value = '09:00';
       fDeliveryAddress.value = '';
       fShippingFee.value = '0';
+      if (fInvoiceShippingToggle) fInvoiceShippingToggle.checked = false;
+      if (fInvoiceShippingFee) fInvoiceShippingFee.value = '0';
+      invoiceShippingWrap?.classList.add('hidden');
       fDpAmount.value = '';
       status = 'unpaid';
       items = [{ name: '', note: '', price: 0, qty: 1 }];
@@ -1649,7 +1799,276 @@ const catalogItems = PRODUCTS.map((p) => ({
       renderPreview();
     });
 
+    // ========== EXCEL LOG & EXPORT ==========
+    interface InvoiceExcelRow {
+      invoiceNo: string;
+      poNumber: string;
+      issueDate: string;
+      dueDate: string;
+      statusLabel: string;
+      paymentTerms: string;
+      clientName: string;
+      clientContact: string;
+      clientAddress: string;
+      recipientName: string;
+      deliveryDatetime: string;
+      deliveryAddress: string;
+      itemsSummary: string;
+      subtotal: number;
+      shippingFee: number;
+      physicalInvoiceShipping: number;
+      grandTotal: number;
+      dpAmount: number;
+      balanceDue: number;
+      accountsSummary: string;
+      digitalStamp: string;
+      recordedAt: string;
+    }
+
+    function loadExcelLog(): InvoiceExcelRow[] {
+      try {
+        const raw = localStorage.getItem(EXCEL_LOG_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveExcelLog(rows: InvoiceExcelRow[]) {
+      try {
+        localStorage.setItem(EXCEL_LOG_KEY, JSON.stringify(rows));
+      } catch {
+        // Ignore storage quota errors
+      }
+      updateExcelBadge();
+    }
+
+    function updateExcelBadge() {
+      const badgeEl = document.getElementById('excel-count-badge');
+      if (badgeEl) badgeEl.textContent = String(loadExcelLog().length);
+    }
+
+    function buildCurrentExcelRow(): InvoiceExcelRow {
+      const { subtotal, shipping, physicalInvoiceShipping, grandTotal, dpAmount, balanceDue } = getTotals();
+      const statusLabel =
+        status === 'paid' ? 'Sudah Dibayar' : status === 'dp' ? 'DP' : 'Belum Dibayar';
+      const itemsSummary = items
+        .map((it) => `${it.name.trim() || 'Item Produk'} (${it.qty}x Rp ${Number(it.price || 0).toLocaleString('id-ID')})`)
+        .join('; ');
+      const accountsSummary = getSelectedAccountIds()
+        .map((id) => MASTER_ACCOUNTS[id]?.name || id)
+        .join(', ');
+
+      return {
+        invoiceNo: fInvoiceNo.value.trim() || generateInvoiceNumber(currentSeq),
+        poNumber: fPoNumber.value.trim() || '-',
+        issueDate: fIssueDate.value || todayISO,
+        dueDate: fDueDate.value || todayISO,
+        statusLabel,
+        paymentTerms: fPaymentTerms.value.trim() || '-',
+        clientName: fClientName.value.trim() || '-',
+        clientContact: fClientContact.value.trim() || '-',
+        clientAddress: fClientAddress.value.trim() || '-',
+        recipientName: fRecipientName.value.trim() || '-',
+        deliveryDatetime: formatDeliveryDateTime(fDeliveryDate.value, fDeliveryTime.value),
+        deliveryAddress: fDeliveryAddress.value.trim() || '-',
+        itemsSummary,
+        subtotal,
+        shippingFee: shipping,
+        physicalInvoiceShipping,
+        grandTotal,
+        dpAmount,
+        balanceDue,
+        accountsSummary: accountsSummary || '-',
+        digitalStamp: fShowStamp?.checked ? 'Ya' : 'Kosong (Manual)',
+        recordedAt: new Date().toLocaleString('id-ID'),
+      };
+    }
+
+    function recordCurrentInvoiceToExcelLog() {
+      const rows = loadExcelLog();
+      const entry = buildCurrentExcelRow();
+      const existingIdx = rows.findIndex((r) => r.invoiceNo === entry.invoiceNo);
+      if (existingIdx >= 0) {
+        rows[existingIdx] = entry;
+      } else {
+        rows.unshift(entry);
+      }
+      saveExcelLog(rows);
+      renderExcelModalTable();
+    }
+
+    function renderExcelModalTable() {
+      const rows = loadExcelLog();
+      const tbody = document.getElementById('excel-table-body');
+      const statCount = document.getElementById('excel-stat-count');
+      const statTotal = document.getElementById('excel-stat-total');
+
+      if (statCount) statCount.textContent = String(rows.length);
+      if (statTotal) {
+        const sumTotal = rows.reduce((acc, r) => acc + (Number(r.grandTotal) || 0), 0);
+        statTotal.textContent = formatRupiah(sumTotal);
+      }
+
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      if (rows.length === 0) {
+        const emptyTr = document.createElement('tr');
+        emptyTr.innerHTML = '<td colspan="7" class="py-8 text-center text-slate-400 italic">Belum ada data invoice tercatat. Klik "Simpan / Unduh PDF", "Cetak", atau "+ Catat Invoice Ini".</td>';
+        tbody.appendChild(emptyTr);
+        return;
+      }
+
+      rows.forEach((row, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-clean-ivory/40';
+
+        const statusBadgeClass =
+          row.statusLabel === 'Sudah Dibayar'
+            ? 'bg-emerald-100 text-emerald-800'
+            : row.statusLabel === 'DP'
+            ? 'bg-amber-100 text-amber-800'
+            : 'bg-red-100 text-red-800';
+
+        tr.innerHTML = `
+          <td class="py-2.5 px-3 font-mono font-bold text-primary-dark whitespace-nowrap">${row.invoiceNo}</td>
+          <td class="py-2.5 px-3 text-slate-600 whitespace-nowrap">${row.issueDate}</td>
+          <td class="py-2.5 px-3 font-medium text-slate-800">${row.clientName}</td>
+          <td class="py-2.5 px-3 text-slate-600 max-w-[240px] truncate" title="${row.itemsSummary.replace(/"/g, '&quot;')}">${row.itemsSummary}</td>
+          <td class="py-2.5 px-3 text-right font-bold text-slate-800 whitespace-nowrap">${formatRupiah(row.grandTotal)}</td>
+          <td class="py-2.5 px-3 text-center whitespace-nowrap">
+            <span class="inline-block rounded-full px-2 py-0.5 text-[10px] font-bold ${statusBadgeClass}">${row.statusLabel}</span>
+          </td>
+          <td class="py-2.5 px-3 text-center whitespace-nowrap">
+            <button type="button" data-del-excel-idx="${idx}" class="text-[11px] font-bold text-red-600 hover:text-red-800 cursor-pointer">Hapus</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      tbody.querySelectorAll('[data-del-excel-idx]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const idx = Number(btn.getAttribute('data-del-excel-idx'));
+          const current = loadExcelLog();
+          if (!Number.isNaN(idx) && idx >= 0 && idx < current.length) {
+            current.splice(idx, 1);
+            saveExcelLog(current);
+            renderExcelModalTable();
+          }
+        });
+      });
+    }
+
+    function escapeCsvCell(val: unknown): string {
+      const str = String(val ?? '').replace(/\r?\n/g, ' ');
+      return `"${str.replace(/"/g, '""')}"`;
+    }
+
+    function exportExcelCsv() {
+      const rows = loadExcelLog();
+      if (rows.length === 0) {
+        recordCurrentInvoiceToExcelLog();
+      }
+      const latestRows = loadExcelLog();
+      const headers = [
+        'No',
+        'No. Invoice',
+        'PO Number',
+        'Tanggal Invoice',
+        'Jatuh Tempo',
+        'Status Pembayaran',
+        'Payment Terms',
+        'Nama Pemesan',
+        'Kontak Pemesan',
+        'Alamat Pemesan',
+        'Nama Penerima',
+        'Jadwal Pengiriman',
+        'Alamat Pengiriman',
+        'Daftar Produk',
+        'Subtotal (Rp)',
+        'Ongkir Produk (Rp)',
+        'Ongkir Invoice Fisik (Rp)',
+        'Grand Total (Rp)',
+        'DP Dibayar (Rp)',
+        'Sisa Pembayaran (Rp)',
+        'Rekening Dipilih',
+        'Stempel Digital',
+        'Waktu Dicatat',
+      ];
+
+      const csvLines = [
+        'sep=;',
+        headers.map(escapeCsvCell).join(';'),
+        ...latestRows.map((r, i) =>
+          [
+            i + 1,
+            r.invoiceNo,
+            r.poNumber,
+            r.issueDate,
+            r.dueDate,
+            r.statusLabel,
+            r.paymentTerms,
+            r.clientName,
+            r.clientContact,
+            r.clientAddress,
+            r.recipientName,
+            r.deliveryDatetime,
+            r.deliveryAddress,
+            r.itemsSummary,
+            r.subtotal,
+            r.shippingFee,
+            r.physicalInvoiceShipping,
+            r.grandTotal,
+            r.dpAmount,
+            r.balanceDue,
+            r.accountsSummary,
+            r.digitalStamp,
+            r.recordedAt,
+          ]
+            .map(escapeCsvCell)
+            .join(';')
+        ),
+      ];
+
+      const blob = new Blob(['\uFEFF' + csvLines.join('\r\n')], {
+        type: 'text/csv;charset=utf-8;',
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Rekap_Invoice_Floragate_${todayISO}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    const excelModal = document.getElementById('excel-modal');
+    document.getElementById('btn-open-excel-modal')?.addEventListener('click', () => {
+      renderExcelModalTable();
+      excelModal?.classList.remove('hidden');
+    });
+    document.getElementById('btn-close-excel-modal')?.addEventListener('click', () => {
+      excelModal?.classList.add('hidden');
+    });
+    excelModal?.addEventListener('click', (e) => {
+      if (e.target === excelModal) excelModal.classList.add('hidden');
+    });
+    document.getElementById('btn-save-current-excel')?.addEventListener('click', () => {
+      recordCurrentInvoiceToExcelLog();
+    });
+    document.getElementById('btn-export-excel-csv')?.addEventListener('click', exportExcelCsv);
+    document.getElementById('btn-clear-excel-log')?.addEventListener('click', () => {
+      if (confirm('Hapus semua rekap data invoice yang tersimpan?')) {
+        saveExcelLog([]);
+        renderExcelModalTable();
+      }
+    });
+
     async function downloadPdf() {
+      recordCurrentInvoiceToExcelLog();
       const sheet = document.getElementById('invoice-sheet');
       if (!sheet) return;
 
@@ -1731,9 +2150,11 @@ const catalogItems = PRODUCTS.map((p) => ({
     document.getElementById('btn-mobile-download-pdf')?.addEventListener('click', downloadPdf);
 
     document.getElementById('btn-print-invoice')?.addEventListener('click', () => {
+      recordCurrentInvoiceToExcelLog();
       window.print();
     });
 
+    updateExcelBadge();
     updateStatusButtonsUI();
     renderItemsEditor();
     renderPreview();
