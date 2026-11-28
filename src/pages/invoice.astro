@@ -1637,6 +1637,7 @@ const catalogItems = PRODUCTS.map((p) => ({
     });
     document.getElementById('btn-mobile-print')?.addEventListener('click', () => {
       if (activeDocMode === 'invoice') recordCurrentInvoiceToExcelLog();
+      else recordCurrentKwitansiToExcelLog();
       printCurrentDocument();
     });
     window.addEventListener('resize', fitMobileSheet);
@@ -2830,7 +2831,11 @@ const catalogItems = PRODUCTS.map((p) => ({
       if (e.target === excelModal) excelModal.classList.add('hidden');
     });
     document.getElementById('btn-save-current-excel')?.addEventListener('click', () => {
-      recordCurrentInvoiceToExcelLog();
+      if (activeDocMode === 'kwitansi') {
+        recordCurrentKwitansiToExcelLog();
+      } else {
+        recordCurrentInvoiceToExcelLog();
+      }
     });
     document.getElementById('btn-export-excel-csv')?.addEventListener('click', exportExcelCsv);
     document.getElementById('btn-clear-excel-log')?.addEventListener('click', async () => {
@@ -2988,9 +2993,58 @@ const catalogItems = PRODUCTS.map((p) => ({
       }, 300);
     }
 
+    async function recordCurrentKwitansiToExcelLog(allowFilePrompt = true) {
+      const rows = loadExcelLog();
+      const nominal = Math.max(0, Number(kAmount?.value) || 0);
+      const kwtNo = kNo?.value.trim() || `KWT-${fInvoiceNo.value.trim() || generateInvoiceNumber(currentSeq)}`;
+      const refInv = kRefInvoice?.value.trim() || fInvoiceNo.value.trim() || '-';
+      const dateVal = kDate?.value || todayISO;
+      const receivedFrom = kReceivedFrom?.value.trim() || fClientName.value.trim() || '-';
+      const terbilangVal = kTerbilang?.value.trim() || terbilangRupiah(nominal);
+      const payFor = kPaymentFor?.value.trim() || '-';
+
+      const entry: InvoiceExcelRow = {
+        invoiceNo: kwtNo,
+        poNumber: `Ref: ${refInv}`,
+        issueDate: dateVal,
+        dueDate: dateVal,
+        statusLabel: `Kwitansi (${kPaymentMethod})`,
+        paymentTerms: kPaymentMethod,
+        clientName: receivedFrom,
+        clientContact: fClientContact.value.trim() || '-',
+        clientAddress: fClientAddress.value.trim() || 'Kab. Malang',
+        recipientName: receivedFrom,
+        deliveryDatetime: '-',
+        deliveryAddress: '-',
+        itemsSummary: `[KWITANSI] ${payFor} (Terbilang: ${terbilangVal})`,
+        subtotal: nominal,
+        shippingFee: 0,
+        physicalInvoiceShipping: 0,
+        grandTotal: nominal,
+        dpAmount: 0,
+        balanceDue: 0,
+        accountsSummary: kPaymentMethod,
+        digitalStamp: kShowStamp?.checked ? 'Ya' : 'Kosong (Manual)',
+        recordedAt: new Date().toLocaleString('id-ID'),
+      };
+
+      const existingIdx = rows.findIndex((r) => r.invoiceNo === entry.invoiceNo);
+      if (existingIdx >= 0) {
+        rows[existingIdx] = entry;
+      } else {
+        rows.push(entry);
+      }
+      saveExcelLog(rows);
+      renderExcelModalTable();
+      await syncToLinkedExcelFile(rows, allowFilePrompt);
+      syncRowToGoogleSheet(entry);
+    }
+
     async function downloadPdf() {
       const isKwitansi = activeDocMode === 'kwitansi';
-      if (!isKwitansi) {
+      if (isKwitansi) {
+        recordCurrentKwitansiToExcelLog();
+      } else {
         recordCurrentInvoiceToExcelLog();
       }
       const sheet = document.getElementById(isKwitansi ? 'kwitansi-sheet' : 'invoice-sheet');
@@ -3075,6 +3129,7 @@ const catalogItems = PRODUCTS.map((p) => ({
 
     document.getElementById('btn-print-invoice')?.addEventListener('click', () => {
       if (activeDocMode === 'invoice') recordCurrentInvoiceToExcelLog();
+      else recordCurrentKwitansiToExcelLog();
       printCurrentDocument();
     });
 

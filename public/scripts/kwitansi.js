@@ -625,12 +625,38 @@ async function syncToGoogleSheet(entry) {
   const url = localStorage.getItem(GSHEET_KEY) || DEFAULT_GSHEET_WEBHOOK;
   if (!url) return;
 
+  const methodLabel =
+    entry.paymentMethod === 'qris'
+      ? 'QRIS'
+      : entry.paymentMethod === 'cash'
+      ? 'Tunai'
+      : 'Transfer Bank';
+
   try {
-    // Add type identifier for the webhook to distinguish kwitansi from invoice
+    // Format payload to match the shared Google Apps Script spreadsheet columns
     const payload = {
-      ...entry,
-      type: 'kwitansi',
-      timestamp: new Date().toISOString()
+      invoiceNo: entry.kwitansiNo !== '-' ? entry.kwitansiNo : `KWT-FG-${Date.now()}`,
+      poNumber: `Ref: ${entry.invoiceRef}`,
+      issueDate: entry.receiptDate,
+      dueDate: entry.receiptDate,
+      statusLabel: `Kwitansi (${methodLabel})`,
+      paymentTerms: methodLabel,
+      clientName: entry.receivedFrom,
+      clientContact: '-',
+      clientAddress: entry.location || 'Kab. Malang',
+      recipientName: entry.receivedFrom,
+      deliveryDatetime: '-',
+      deliveryAddress: '-',
+      itemsSummary: `[KWITANSI] ${entry.paymentFor} (Terbilang: ${entry.amountWords})`,
+      subtotal: Number(entry.amount) || 0,
+      shippingFee: 0,
+      physicalInvoiceShipping: 0,
+      grandTotal: Number(entry.amount) || 0,
+      dpAmount: 0,
+      balanceDue: 0,
+      accountsSummary: methodLabel,
+      digitalStamp: entry.useDigitalStamp === 'Ya' ? 'Ya' : 'Kosong (Manual)',
+      recordedAt: new Date().toLocaleString('id-ID'),
     };
 
     await fetch(url, {
