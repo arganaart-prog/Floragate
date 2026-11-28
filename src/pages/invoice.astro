@@ -211,6 +211,7 @@ const catalogItems = PRODUCTS.map((p) => ({
       <div class="grid grid-cols-1 xl:grid-cols-12 gap-7 items-start">
         <!-- ========== LEFT COLUMN: EDITOR FORM ========== -->
         <aside id="editor-panel" class="no-print xl:col-span-5 space-y-5">
+          <div id="invoice-editor-cards" class="space-y-5">
           <!-- Card 1: Info Invoice & Status Pembayaran -->
           <div class="rounded-2xl border border-soft-cream bg-white p-5 shadow-xs space-y-4">
             <h2 class="font-serif text-base font-bold text-primary-dark border-b border-soft-cream/70 pb-2.5">
@@ -523,6 +524,102 @@ const catalogItems = PRODUCTS.map((p) => ({
               </p>
             </div>
           </div>
+          </div>
+
+          <!-- Kwitansi Editor Panel (terintegrasi dengan data Invoice aktif) -->
+          <div id="kwitansi-editor-panel" class="hidden space-y-5">
+            <div class="rounded-2xl border border-amber-200 bg-white p-5 shadow-xs space-y-4">
+              <div class="flex flex-wrap items-center justify-between gap-2 border-b border-soft-cream/70 pb-2.5">
+                <div>
+                  <h2 class="font-serif text-base font-bold text-primary-dark">
+                    Pembuat Kwitansi Resmi
+                  </h2>
+                  <p class="text-[11px] text-slate-500">Data otomatis terisi dari Invoice yang sedang dibuat.</p>
+                </div>
+                <button
+                  type="button"
+                  id="btn-sync-kwitansi-from-invoice"
+                  class="rounded-lg border border-amber-300 bg-amber-50 hover:bg-amber-100 px-2.5 py-1.5 text-[11px] font-bold text-amber-900 cursor-pointer"
+                >
+                  🔄 Ambil Ulang dari Invoice
+                </button>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label for="k-no" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                    No. Kwitansi
+                  </label>
+                  <input id="k-no" type="text" class="inv-input" />
+                </div>
+                <div>
+                  <label for="k-ref-invoice" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                    Ref. No. Invoice
+                  </label>
+                  <input id="k-ref-invoice" type="text" class="inv-input" />
+                </div>
+              </div>
+
+              <div>
+                <label for="k-date" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                  Tanggal Kwitansi
+                </label>
+                <input id="k-date" type="date" class="inv-input cursor-pointer" />
+              </div>
+
+              <div>
+                <label for="k-received-from" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                  Telah Terima Dari (Received From)
+                </label>
+                <input id="k-received-from" type="text" placeholder="Nama pemesan / instansi" class="inv-input" />
+              </div>
+
+              <div>
+                <label for="k-amount" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                  Jumlah Nominal Diterima (Rp)
+                </label>
+                <input id="k-amount" type="number" min="0" step="1000" class="inv-input font-bold" />
+              </div>
+
+              <div>
+                <label for="k-terbilang" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                  Uang Sejumlah (Terbilang Otomatis)
+                </label>
+                <input id="k-terbilang" type="text" class="inv-input italic" />
+              </div>
+
+              <div>
+                <label for="k-payment-for" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                  Untuk Pembayaran (Payment For)
+                </label>
+                <textarea id="k-payment-for" rows="3" class="inv-input resize-y"></textarea>
+              </div>
+
+              <div>
+                <span class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">
+                  Metode Pembayaran
+                </span>
+                <div class="grid grid-cols-3 gap-2">
+                  <button type="button" data-k-method="Transfer Bank" class="k-method-btn rounded-xl border border-primary bg-primary px-2.5 py-2 text-xs font-bold text-white cursor-pointer">
+                    Transfer Bank
+                  </button>
+                  <button type="button" data-k-method="QRIS" class="k-method-btn rounded-xl border border-soft-cream bg-clean-ivory/40 px-2.5 py-2 text-xs font-bold text-slate-700 cursor-pointer">
+                    QRIS
+                  </button>
+                  <button type="button" data-k-method="Tunai" class="k-method-btn rounded-xl border border-soft-cream bg-clean-ivory/40 px-2.5 py-2 text-xs font-bold text-slate-700 cursor-pointer">
+                    Tunai
+                  </button>
+                </div>
+              </div>
+
+              <div class="pt-2 border-t border-soft-cream/60">
+                <label class="inline-flex items-center gap-2 text-xs font-bold text-primary-dark cursor-pointer select-none">
+                  <input id="k-show-stamp" type="checkbox" checked class="h-4 w-4 rounded text-primary cursor-pointer" />
+                  Tampilkan Stempel Digital Floragate di Kwitansi
+                </label>
+              </div>
+            </div>
+          </div>
         </aside>
 
         <!-- ========== RIGHT COLUMN: LIVE A4 INVOICE SHEET ========== -->
@@ -531,8 +628,8 @@ const catalogItems = PRODUCTS.map((p) => ({
           <div class="no-print xl:hidden mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-white rounded-2xl border border-soft-cream shadow-xs">
             <div class="flex items-center justify-between">
               <div>
-                <span class="block text-[11px] font-bold text-primary-dark">Pratinjau Lembar A4</span>
-                <span class="text-[10px] text-slate-500">Standar Cetak 210 x 297 mm</span>
+                <span id="preview-sheet-label" class="block text-[11px] font-bold text-primary-dark">Pratinjau Lembar A4</span>
+                <span id="preview-sheet-sublabel" class="text-[10px] text-slate-500">Standar Cetak 210 x 297 mm</span>
               </div>
               <button
                 type="button"
@@ -777,6 +874,162 @@ const catalogItems = PRODUCTS.map((p) => ({
                 </div>
               </footer>
             </div>
+
+            <!-- KWITANSI / OFFICIAL RECEIPT SHEET (A5 Landscape / 800x564 proportions) -->
+            <div
+              id="kwitansi-sheet"
+              class="hidden mx-auto w-[800px] min-h-[564px] bg-[#FAF6EF] text-[#222922] p-7 shadow-[0_24px_60px_rgba(15,23,42,0.12)] border border-[#E6DEC8] flex flex-col justify-between transition-transform duration-200"
+            >
+              <!-- Outer Gold Frame -->
+              <div class="border-[1.25px] border-[#BFA77A] px-7 py-6 flex-1 flex flex-col justify-between">
+                <div>
+                  <!-- Header -->
+                  <header class="flex items-start justify-between gap-6 pb-4 border-b border-[#BFA77A]">
+                    <div class="flex items-start gap-4">
+                      <div class="shrink-0 w-[62px] h-[74px] rounded-t-full rounded-b-sm border border-dashed border-[#BFA77A] bg-[#F3EDE0] flex flex-col items-center justify-center p-1.5">
+                        <img
+                          src={withBase('/images/logo/logo.webp')}
+                          alt="Logo Floragate"
+                          class="w-10 h-10 object-contain"
+                          width="64"
+                          height="62"
+                        />
+                      </div>
+                      <div>
+                        <h2 class="font-serif text-[25px] font-bold tracking-[0.16em] text-[#1F271E] leading-none">
+                          FLORAGATE
+                        </h2>
+                        <p class="mt-1.5 font-serif italic text-[12.5px] text-[#3F4B37]">
+                          The Gateway to Meaningful Moments
+                        </p>
+                        <p class="mt-1.5 text-[10.5px] text-[#4A5248] leading-snug">
+                          Website: tokobungamurahmalang.web.id<br />
+                          Location: Kab. Malang, Indonesia
+                        </p>
+                      </div>
+                    </div>
+
+                    <div class="text-right min-w-[265px]">
+                      <p class="font-serif text-[20px] leading-tight tracking-[0.08em] text-[#1F271E]">
+                        <strong class="font-bold">KWITANSI</strong>
+                        <span class="font-normal text-[#5B6359]"> / OFFICIAL</span><br />
+                        <span class="font-normal text-[#5B6359]">RECEIPT</span>
+                      </p>
+
+                      <div class="mt-3 space-y-1.5 text-[10.5px]">
+                        <div class="flex items-baseline justify-end gap-2">
+                          <span class="font-bold tracking-[0.08em] text-[#6A7168] uppercase text-[9.5px] w-[92px] text-left">NO. KWITANSI</span>
+                          <span id="pv-k-no" class="flex-1 text-right font-medium text-[#1F271E] border-b border-[#7C8A73] pb-0.5">KWT-FG-001</span>
+                        </div>
+                        <div class="flex items-baseline justify-end gap-2">
+                          <span class="font-bold tracking-[0.08em] text-[#6A7168] uppercase text-[9.5px] w-[92px] text-left">REF. INVOICE</span>
+                          <span id="pv-k-ref" class="flex-1 text-right font-medium text-[#1F271E] border-b border-[#7C8A73] pb-0.5">INV-FG-001</span>
+                        </div>
+                      </div>
+                    </div>
+                  </header>
+
+                  <!-- Form Rows -->
+                  <div class="mt-5 space-y-4 text-[12.5px]">
+                    <div class="grid grid-cols-[175px_12px_1fr] items-baseline">
+                      <div>
+                        <p class="font-serif font-bold text-[13px] text-[#1F271E] leading-tight">Telah Terima Dari</p>
+                        <p class="italic text-[10.5px] text-[#6A7168]">Received From</p>
+                      </div>
+                      <span class="font-bold text-[#1F271E]">:</span>
+                      <div id="pv-k-received-from" class="border-b border-[#7C8A73] pb-1 font-medium text-[13.5px] text-[#1F271E]">-</div>
+                    </div>
+
+                    <div class="grid grid-cols-[175px_12px_1fr] items-center">
+                      <div>
+                        <p class="font-serif font-bold text-[13px] text-[#1F271E] leading-tight">Uang Sejumlah</p>
+                        <p class="italic text-[10.5px] text-[#6A7168]">Amount in Words / Terbilang</p>
+                      </div>
+                      <span class="font-bold text-[#1F271E]">:</span>
+                      <div class="bg-[#EAECE6] border border-[#7C8A73] px-3.5 py-2.5 min-h-[42px] flex items-center">
+                        <span id="pv-k-terbilang" class="font-serif italic font-semibold text-[13px] text-[#1F271E] leading-snug">-</span>
+                      </div>
+                    </div>
+
+                    <div class="grid grid-cols-[175px_12px_1fr] items-start">
+                      <div class="pt-0.5">
+                        <p class="font-serif font-bold text-[13px] text-[#1F271E] leading-tight">Untuk Pembayaran</p>
+                        <p class="italic text-[10.5px] text-[#6A7168]">Payment For</p>
+                      </div>
+                      <span class="font-bold text-[#1F271E] pt-0.5">:</span>
+                      <div class="min-h-[54px] border-b border-[#7C8A73] pb-1.5">
+                        <p id="pv-k-payment-for" class="text-[12.5px] text-[#1F271E] leading-[1.65] whitespace-pre-line">-</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Bottom Nominal, Method & Stamp -->
+                <div class="mt-6 grid grid-cols-12 gap-6 items-end">
+                  <!-- Left: Nominal Box & Payment Method -->
+                  <div class="col-span-7 space-y-3">
+                    <div class="border border-[#BFA77A] px-4 py-2.5 bg-[#FAF6EF]">
+                      <p class="text-[9.5px] font-bold uppercase tracking-[0.12em] text-[#5B6359]">
+                        JUMLAH NOMINAL (RP) &bull; TOTAL AMOUNT RECEIVED
+                      </p>
+                      <p id="pv-k-amount" class="mt-1 font-serif font-bold text-[22px] text-[#1F271E] tracking-tight">
+                        Rp 0
+                      </p>
+                    </div>
+
+                    <div>
+                      <p class="text-[9.5px] font-bold uppercase tracking-[0.12em] text-[#5B6359] mb-1.5">
+                        METODE PEMBAYARAN / PAYMENT METHOD
+                      </p>
+                      <div class="flex flex-wrap items-center gap-4 text-[12px] text-[#1F271E]">
+                        <span class="inline-flex items-center gap-1.5">
+                          <span id="pv-k-chk-transfer" class="inline-flex h-3.5 w-3.5 items-center justify-center border border-[#5B6359] text-[10px] font-bold leading-none">✓</span>
+                          Transfer Bank
+                        </span>
+                        <span class="inline-flex items-center gap-1.5">
+                          <span id="pv-k-chk-qris" class="inline-flex h-3.5 w-3.5 items-center justify-center border border-[#5B6359] text-[10px] font-bold leading-none"></span>
+                          QRIS
+                        </span>
+                        <span class="inline-flex items-center gap-1.5">
+                          <span id="pv-k-chk-tunai" class="inline-flex h-3.5 w-3.5 items-center justify-center border border-[#5B6359] text-[10px] font-bold leading-none"></span>
+                          Tunai
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Right: Date & Stamp -->
+                  <div class="col-span-5 text-center">
+                    <p class="text-[11.5px] text-[#1F271E] mb-2">
+                      Kab. Malang, <span id="pv-k-date" class="inline-block min-w-[115px] border-b border-[#7C8A73] pb-0.5 font-medium">-</span>
+                    </p>
+                    <div class="border border-[#BFA77A] px-4 py-2">
+                      <div class="mx-auto flex h-[84px] items-center justify-center pointer-events-none select-none">
+                        <img
+                          id="pv-k-stamp-img"
+                          src={withBase('/images/invoice/stempel-floragate.webp')}
+                          alt="Stempel Digital Floragate"
+                          class="h-[82px] w-[82px] object-contain opacity-90 -rotate-6 mix-blend-multiply"
+                          width="82"
+                          height="82"
+                        />
+                      </div>
+                      <div class="border-t border-[#5B6359] pt-1.5">
+                        <p class="text-[9.5px] font-bold uppercase tracking-[0.14em] text-[#4A5248]">
+                          PENERIMA / FLORAGATE
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Footer below gold frame -->
+              <div class="pt-2.5 flex items-center justify-between text-[10.5px] text-[#6A7168]">
+                <span>FLORAGATE — Official Payment Receipt (Kwitansi)</span>
+                <span>Page 1 of 1</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -814,6 +1067,13 @@ const catalogItems = PRODUCTS.map((p) => ({
                 <span id="gsheet-sync-status" class="text-slate-500"></span>
               </div>
               <div class="flex flex-wrap items-center gap-1.5">
+                <button
+                  type="button"
+                  id="btn-sync-gsheet-now"
+                  class="inline-flex items-center gap-1 rounded-lg border border-emerald-600 bg-white hover:bg-emerald-50 px-2.5 py-1.5 text-[11px] font-bold text-emerald-800 transition-colors cursor-pointer"
+                >
+                  🔄 Sinkronkan HP ↔ Laptop
+                </button>
                 <a
                   href="https://docs.google.com/spreadsheets/d/1FlRef9VF0GTHWjtiwpGXiONv3xKPCRAMLf7KZMCl8TY/edit"
                   target="_blank"
@@ -1040,6 +1300,20 @@ const catalogItems = PRODUCTS.map((p) => ({
       overflow: hidden !important;
       transform: none !important;
     }
+
+    body.printing-kwitansi #invoice-sheet {
+      display: none !important;
+    }
+
+    body.printing-kwitansi #kwitansi-sheet {
+      display: flex !important;
+      width: 210mm !important;
+      min-height: 148mm !important;
+      margin: 0 !important;
+      border: none !important;
+      box-shadow: none !important;
+      transform: none !important;
+    }
   }
 </style>
 
@@ -1134,9 +1408,28 @@ const catalogItems = PRODUCTS.map((p) => ({
     return sha256Fallback(normalized);
   }
 
-  function formatRupiah(num: number): string {
+    function formatRupiah(num: number): string {
     const safe = Number.isFinite(num) ? Math.max(0, Math.round(num)) : 0;
     return `Rp ${safe.toLocaleString('id-ID')}`;
+  }
+
+  function terbilangRupiah(nilai: number): string {
+    const angka = Math.max(0, Math.round(Number(nilai) || 0));
+    if (angka === 0) return 'Nol Rupiah';
+    const satuan = ['', 'Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan', 'Sepuluh', 'Sebelas'];
+    const konversi = (n: number): string => {
+      if (n < 12) return satuan[n];
+      if (n < 20) return `${konversi(n - 10)} Belas`;
+      if (n < 100) return `${konversi(Math.floor(n / 10))} Puluh ${konversi(n % 10)}`.trim();
+      if (n < 200) return `Seratus ${konversi(n - 100)}`.trim();
+      if (n < 1000) return `${konversi(Math.floor(n / 100))} Ratus ${konversi(n % 100)}`.trim();
+      if (n < 2000) return `Seribu ${konversi(n - 1000)}`.trim();
+      if (n < 1000000) return `${konversi(Math.floor(n / 1000))} Ribu ${konversi(n % 1000)}`.trim();
+      if (n < 1000000000) return `${konversi(Math.floor(n / 1000000))} Juta ${konversi(n % 1000000)}`.trim();
+      if (n < 1000000000000) return `${konversi(Math.floor(n / 1000000000))} Miliar ${konversi(n % 1000000000)}`.trim();
+      return `${konversi(Math.floor(n / 1000000000000))} Triliun ${konversi(n % 1000000000000)}`.trim();
+    };
+    return `${konversi(angka).replace(/\s+/g, ' ').trim()} Rupiah`;
   }
 
   function formatDateID(isoDate: string): string {
@@ -1234,6 +1527,9 @@ const catalogItems = PRODUCTS.map((p) => ({
       gate!.classList.add('hidden');
       workspace!.classList.remove('hidden');
       if (activeUserLabel) activeUserLabel.textContent = `Masuk sebagai ${email}`;
+      if (typeof pullFromGoogleSheet === 'function') {
+        pullFromGoogleSheet(false);
+      }
     }
 
     function showLoginGate() {
@@ -1288,17 +1584,19 @@ const catalogItems = PRODUCTS.map((p) => ({
     let isFitMobile = true;
 
     function fitMobileSheet() {
-      const sheet = document.getElementById('invoice-sheet');
+      const sheetId = activeDocMode === 'kwitansi' ? 'kwitansi-sheet' : 'invoice-sheet';
+      const sheet = document.getElementById(sheetId);
       const fitBtn = document.getElementById('btn-toggle-fit');
       if (!sheet) return;
 
+      const baseHeight = activeDocMode === 'kwitansi' ? 564 : 1123;
       if (window.innerWidth < 1280) {
         if (isFitMobile) {
           const availWidth = Math.max(280, window.innerWidth - 24);
           const scale = Math.min(1, Math.max(0.32, availWidth / 800));
           sheet.style.transform = `scale(${scale})`;
           sheet.style.transformOrigin = 'top center';
-          sheet.style.marginBottom = `-${Math.round((1 - scale) * 1123)}px`;
+          sheet.style.marginBottom = `-${Math.round((1 - scale) * baseHeight)}px`;
           if (fitBtn) fitBtn.textContent = '🔍 Perbesar (100%)';
         } else {
           sheet.style.transform = 'none';
@@ -1338,12 +1636,13 @@ const catalogItems = PRODUCTS.map((p) => ({
       fitMobileSheet();
     });
     document.getElementById('btn-mobile-print')?.addEventListener('click', () => {
-      recordCurrentInvoiceToExcelLog();
-      window.print();
+      if (activeDocMode === 'invoice') recordCurrentInvoiceToExcelLog();
+      printCurrentDocument();
     });
     window.addEventListener('resize', fitMobileSheet);
 
     // ========== INVOICE STATE & RENDERER ==========
+    let activeDocMode: 'invoice' | 'kwitansi' = 'invoice';
     let prefs: Record<string, any> = {};
     try {
       prefs = JSON.parse(localStorage.getItem(PREFS_KEY) || '{}') || {};
@@ -2195,33 +2494,38 @@ const catalogItems = PRODUCTS.map((p) => ({
         sep = ',';
       }
       if (lines.length <= startIdx + 1) return [];
+      const headerCols = parseCsvLine(lines[startIdx], sep).map((h) => h.trim().toLowerCase());
+      // Local CSV has 'No' at col 0 and 'No. Invoice' at col 1; Google Sheet has 'No. Invoice' at col 0
+      const offset = headerCols[0] === 'no' ? 1 : 0;
+
       const imported: InvoiceExcelRow[] = [];
       for (let i = startIdx + 1; i < lines.length; i++) {
         const c = parseCsvLine(lines[i], sep);
-        if (c.length < 18 || !c[1]) continue;
+        const invNo = (c[0 + offset] || '').trim();
+        if (!invNo || invNo === '-') continue;
         imported.push({
-          invoiceNo: c[1] || '-',
-          poNumber: c[2] || '-',
-          issueDate: c[3] || todayISO,
-          dueDate: c[4] || todayISO,
-          statusLabel: c[5] || 'Belum Dibayar',
-          paymentTerms: c[6] || '-',
-          clientName: c[7] || '-',
-          clientContact: c[8] || '-',
-          clientAddress: c[9] || '-',
-          recipientName: c[10] || '-',
-          deliveryDatetime: c[11] || '-',
-          deliveryAddress: c[12] || '-',
-          itemsSummary: c[13] || '-',
-          subtotal: Number(c[14]) || 0,
-          shippingFee: Number(c[15]) || 0,
-          physicalInvoiceShipping: Number(c[16]) || 0,
-          grandTotal: Number(c[17]) || 0,
-          dpAmount: Number(c[18]) || 0,
-          balanceDue: Number(c[19]) || 0,
-          accountsSummary: c[20] || '-',
-          digitalStamp: c[21] || 'Ya',
-          recordedAt: c[22] || '-',
+          invoiceNo: invNo,
+          poNumber: c[1 + offset] || '-',
+          issueDate: c[2 + offset] || todayISO,
+          dueDate: c[3 + offset] || todayISO,
+          statusLabel: c[4 + offset] || 'Belum Dibayar',
+          paymentTerms: c[5 + offset] || '-',
+          clientName: c[6 + offset] || '-',
+          clientContact: c[7 + offset] || '-',
+          clientAddress: c[8 + offset] || '-',
+          recipientName: c[9 + offset] || '-',
+          deliveryDatetime: c[10 + offset] || '-',
+          deliveryAddress: c[11 + offset] || '-',
+          itemsSummary: c[12 + offset] || '-',
+          subtotal: Number(c[13 + offset]) || 0,
+          shippingFee: Number(c[14 + offset]) || 0,
+          physicalInvoiceShipping: Number(c[15 + offset]) || 0,
+          grandTotal: Number(c[16 + offset]) || 0,
+          dpAmount: Number(c[17 + offset]) || 0,
+          balanceDue: Number(c[18 + offset]) || 0,
+          accountsSummary: c[19 + offset] || '-',
+          digitalStamp: c[20 + offset] || 'Ya',
+          recordedAt: c[21 + offset] || '-',
         });
       }
       return imported;
@@ -2232,6 +2536,7 @@ const catalogItems = PRODUCTS.map((p) => ({
     const FS_STORE_NAME = 'handles';
     const FS_HANDLE_KEY = 'excelFileHandle';
     const GSHEET_KEY = 'fg_invoice_gsheet_url_v1';
+    const GSHEET_ID = '1FlRef9VF0GTHWjtiwpGXiONv3xKPCRAMLf7KZMCl8TY';
     const DEFAULT_GSHEET_WEBHOOK = 'https://script.google.com/macros/s/AKfycbwPaMi4dmVdY_KvXv2-QQ07K8jFw_nlJ_HWFJseyKC7xzZRUl4gvYf1y4hGESUnQmdL/exec';
     let linkedFileHandle: any = null;
 
@@ -2355,9 +2660,63 @@ const catalogItems = PRODUCTS.map((p) => ({
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify(entry),
         });
-        if (statusEl) statusEl.textContent = `✓ Sinkron: ${entry.invoiceNo} (${new Date().toLocaleTimeString('id-ID')})`;
+        if (statusEl) statusEl.textContent = `✓ Terkirim: ${entry.invoiceNo} (${new Date().toLocaleTimeString('id-ID')})`;
       } catch {
-        if (statusEl) statusEl.textContent = '✗ Gagal sinkron. Periksa koneksi internet.';
+        if (statusEl) statusEl.textContent = '✗ Gagal kirim. Periksa koneksi internet.';
+      }
+    }
+
+    function advanceSeqFromRows(rows: InvoiceExcelRow[]) {
+      const todayPrefix = generateInvoiceNumber(0).slice(0, -3); // e.g. INV-FG-20261128-
+      let maxSeq = 0;
+      rows.forEach((r) => {
+        if (r.invoiceNo.startsWith(todayPrefix)) {
+          const num = parseInt(r.invoiceNo.slice(todayPrefix.length), 10);
+          if (!Number.isNaN(num) && num > maxSeq) maxSeq = num;
+        }
+      });
+      if (maxSeq >= currentSeq) {
+        currentSeq = maxSeq + 1;
+        savePaymentPrefs();
+        if (!fClientName.value.trim()) {
+          fInvoiceNo.value = generateInvoiceNumber(currentSeq);
+          renderPreview();
+        }
+      }
+    }
+
+    async function pullFromGoogleSheet(showFeedback = false) {
+      const statusEl = document.getElementById('gsheet-sync-status');
+      if (showFeedback && statusEl) {
+        statusEl.textContent = '⏳ Menyinkronkan data dari Google Sheets...';
+      }
+      try {
+        const csvUrl = `https://docs.google.com/spreadsheets/d/${GSHEET_ID}/gviz/tq?tqx=out:csv&t=${Date.now()}`;
+        const res = await fetch(csvUrl);
+        const text = await res.text();
+        if (res.ok && text && !text.trim().startsWith('<')) {
+          const remoteRows = importRowsFromCsvText(text);
+          const localRows = loadExcelLog();
+          const merged = [...remoteRows];
+          localRows.forEach((lr) => {
+            const idx = merged.findIndex((m) => m.invoiceNo === lr.invoiceNo);
+            if (idx < 0) merged.push(lr);
+          });
+          saveExcelLog(merged);
+          renderExcelModalTable();
+          advanceSeqFromRows(merged);
+          if (statusEl) {
+            statusEl.textContent = `✓ Tersinkron (${merged.length} invoice) • ${new Date().toLocaleTimeString('id-ID')}`;
+          }
+          return;
+        }
+        if (showFeedback && statusEl) {
+          statusEl.textContent = '⚠ Agar HP & Laptop saling baca data, atur Share Google Sheets ke "Siapa saja yang memiliki link (Viewer)".';
+        }
+      } catch {
+        if (showFeedback && statusEl) {
+          statusEl.textContent = '⚠ Tidak dapat membaca Google Sheets (periksa koneksi atau izin Share Viewer).';
+        }
       }
     }
 
@@ -2459,6 +2818,10 @@ const catalogItems = PRODUCTS.map((p) => ({
     document.getElementById('btn-open-excel-modal')?.addEventListener('click', () => {
       renderExcelModalTable();
       excelModal?.classList.remove('hidden');
+      pullFromGoogleSheet(true);
+    });
+    document.getElementById('btn-sync-gsheet-now')?.addEventListener('click', () => {
+      pullFromGoogleSheet(true);
     });
     document.getElementById('btn-close-excel-modal')?.addEventListener('click', () => {
       excelModal?.classList.add('hidden');
@@ -2478,14 +2841,164 @@ const catalogItems = PRODUCTS.map((p) => ({
       }
     });
 
+    // ========== KWITANSI INTEGRATION ==========
+    const kNo = document.getElementById('k-no') as HTMLInputElement;
+    const kRefInvoice = document.getElementById('k-ref-invoice') as HTMLInputElement;
+    const kDate = document.getElementById('k-date') as HTMLInputElement;
+    const kReceivedFrom = document.getElementById('k-received-from') as HTMLInputElement;
+    const kAmount = document.getElementById('k-amount') as HTMLInputElement;
+    const kTerbilang = document.getElementById('k-terbilang') as HTMLInputElement;
+    const kPaymentFor = document.getElementById('k-payment-for') as HTMLTextAreaElement;
+    const kShowStamp = document.getElementById('k-show-stamp') as HTMLInputElement;
+    let kPaymentMethod = 'Transfer Bank';
+
+    function updateKwitansiMethodUI() {
+      document.querySelectorAll('.k-method-btn').forEach((btn) => {
+        const active = btn.getAttribute('data-k-method') === kPaymentMethod;
+        btn.classList.toggle('border-primary', active);
+        btn.classList.toggle('bg-primary', active);
+        btn.classList.toggle('text-white', active);
+        btn.classList.toggle('border-soft-cream', !active);
+        btn.classList.toggle('bg-clean-ivory/40', !active);
+        btn.classList.toggle('text-slate-700', !active);
+      });
+    }
+
+    function syncKwitansiFromInvoice() {
+      const invNo = fInvoiceNo.value.trim() || generateInvoiceNumber(currentSeq);
+      if (kNo) kNo.value = invNo.startsWith('INV-') ? invNo.replace(/^INV-/, 'KWT-') : `KWT-${invNo}`;
+      if (kRefInvoice) kRefInvoice.value = invNo;
+      if (kDate) kDate.value = fIssueDate.value || todayISO;
+      if (kReceivedFrom) kReceivedFrom.value = fClientName.value.trim();
+
+      const { grandTotal, dpAmount } = getTotals();
+      const nominal = status === 'dp' && dpAmount > 0 ? dpAmount : grandTotal;
+      if (kAmount) kAmount.value = String(nominal);
+      if (kTerbilang) kTerbilang.value = terbilangRupiah(nominal);
+
+      const itemDesc = items
+        .map((it) => `${it.name.trim() || 'Karangan Bunga Floragate'} (${it.qty} pcs)`)
+        .join(', ');
+      const prefix =
+        status === 'dp'
+          ? `Uang Muka (DP) Invoice ${invNo}`
+          : status === 'paid'
+          ? `Pelunasan Pembayaran Invoice ${invNo}`
+          : `Pembayaran Invoice ${invNo}`;
+      if (kPaymentFor) kPaymentFor.value = `${prefix} — ${itemDesc}`;
+      if (kShowStamp) kShowStamp.checked = Boolean(fShowStamp?.checked);
+
+      renderKwitansiPreview();
+    }
+
+    function renderKwitansiPreview() {
+      const setK = (id: string, val: string, fallback = '-') => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val.trim() || fallback;
+      };
+      setK('pv-k-no', kNo?.value || '', 'KWT-FG-001');
+      setK('pv-k-ref', kRefInvoice?.value || '', 'INV-FG-001');
+      setK('pv-k-received-from', kReceivedFrom?.value || '', '[Nama Pemesan]');
+      setK('pv-k-terbilang', kTerbilang?.value || '', 'Nol Rupiah');
+      setK('pv-k-payment-for', kPaymentFor?.value || '', '[Keterangan Pembayaran]');
+      setK('pv-k-amount', formatRupiah(Number(kAmount?.value) || 0));
+
+      const dateFormatted = kDate?.value
+        ? new Date(`${kDate.value}T00:00:00`).toLocaleDateString('id-ID', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric',
+          })
+        : '-';
+      setK('pv-k-date', dateFormatted);
+
+      const chkTransfer = document.getElementById('pv-k-chk-transfer');
+      const chkQris = document.getElementById('pv-k-chk-qris');
+      const chkTunai = document.getElementById('pv-k-chk-tunai');
+      if (chkTransfer) chkTransfer.textContent = kPaymentMethod === 'Transfer Bank' ? '✓' : '';
+      if (chkQris) chkQris.textContent = kPaymentMethod === 'QRIS' ? '✓' : '';
+      if (chkTunai) chkTunai.textContent = kPaymentMethod === 'Tunai' ? '✓' : '';
+
+      const kStampImg = document.getElementById('pv-k-stamp-img');
+      if (kStampImg) {
+        kStampImg.classList.toggle('hidden', !kShowStamp?.checked);
+      }
+    }
+
+    function setDocMode(mode: 'invoice' | 'kwitansi') {
+      activeDocMode = mode;
+      const isKwitansi = mode === 'kwitansi';
+
+      document.getElementById('invoice-editor-cards')?.classList.toggle('hidden', isKwitansi);
+      document.getElementById('kwitansi-editor-panel')?.classList.toggle('hidden', !isKwitansi);
+      document.getElementById('invoice-sheet')?.classList.toggle('hidden', isKwitansi);
+      document.getElementById('kwitansi-sheet')?.classList.toggle('hidden', !isKwitansi);
+
+      const btnKwitansi = document.getElementById('btn-create-kwitansi');
+      if (btnKwitansi) {
+        btnKwitansi.className = isKwitansi
+          ? 'inline-flex items-center gap-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 px-3.5 py-2.5 text-xs font-bold text-white shadow-xs transition-colors cursor-pointer'
+          : 'inline-flex items-center gap-1.5 rounded-xl border border-amber-300 bg-amber-50 hover:bg-amber-100 px-3.5 py-2.5 text-xs font-bold text-amber-900 transition-colors cursor-pointer';
+        btnKwitansi.textContent = isKwitansi ? '← Kembali ke Invoice' : '🧾 Buat Kwitansi';
+      }
+
+      const sheetLabel = document.getElementById('preview-sheet-label');
+      const sheetSub = document.getElementById('preview-sheet-sublabel');
+      if (sheetLabel) sheetLabel.textContent = isKwitansi ? 'Pratinjau Kwitansi' : 'Pratinjau Lembar A4';
+      if (sheetSub) sheetSub.textContent = isKwitansi ? 'Standar Cetak A5 Landscape' : 'Standar Cetak 210 x 297 mm';
+
+      if (mobileEditBtn) mobileEditBtn.textContent = isKwitansi ? '✏️ 1. Isi Data Kwitansi' : '✏️ 1. Isi Data Invoice';
+      if (mobilePreviewBtn) mobilePreviewBtn.textContent = isKwitansi ? '🧾 2. Lihat Kwitansi & PDF' : '📄 2. Lihat Invoice & PDF';
+
+      if (isKwitansi) {
+        syncKwitansiFromInvoice();
+      }
+      setTimeout(fitMobileSheet, 60);
+    }
+
+    document.getElementById('btn-create-kwitansi')?.addEventListener('click', () => {
+      setDocMode(activeDocMode === 'invoice' ? 'kwitansi' : 'invoice');
+    });
+    document.getElementById('btn-sync-kwitansi-from-invoice')?.addEventListener('click', syncKwitansiFromInvoice);
+
+    document.querySelectorAll('.k-method-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        kPaymentMethod = btn.getAttribute('data-k-method') || 'Transfer Bank';
+        updateKwitansiMethodUI();
+        renderKwitansiPreview();
+      });
+    });
+
+    kAmount?.addEventListener('input', () => {
+      if (kTerbilang) kTerbilang.value = terbilangRupiah(Number(kAmount.value) || 0);
+      renderKwitansiPreview();
+    });
+
+    [kNo, kRefInvoice, kDate, kReceivedFrom, kTerbilang, kPaymentFor, kShowStamp].forEach((el) => {
+      el?.addEventListener('input', renderKwitansiPreview);
+      el?.addEventListener('change', renderKwitansiPreview);
+    });
+
+    function printCurrentDocument() {
+      const isKwitansi = activeDocMode === 'kwitansi';
+      document.body.classList.toggle('printing-kwitansi', isKwitansi);
+      window.print();
+      setTimeout(() => {
+        document.body.classList.remove('printing-kwitansi');
+      }, 300);
+    }
+
     async function downloadPdf() {
-      recordCurrentInvoiceToExcelLog();
-      const sheet = document.getElementById('invoice-sheet');
+      const isKwitansi = activeDocMode === 'kwitansi';
+      if (!isKwitansi) {
+        recordCurrentInvoiceToExcelLog();
+      }
+      const sheet = document.getElementById(isKwitansi ? 'kwitansi-sheet' : 'invoice-sheet');
       if (!sheet) return;
 
-      const cleanInv = (fInvoiceNo.value || 'INV-FLORAGATE').replace(/[^\w\-]+/g, '_');
-      const cleanClient = (fClientName.value || 'Pelanggan').replace(/[^\w\-]+/g, '_');
-      const filename = `${cleanInv}_${cleanClient}.pdf`;
+      const cleanDocNo = ((isKwitansi ? kNo?.value : fInvoiceNo.value) || (isKwitansi ? 'KWT-FLORAGATE' : 'INV-FLORAGATE')).replace(/[^\w\-]+/g, '_');
+      const cleanClient = ((isKwitansi ? kReceivedFrom?.value : fClientName.value) || 'Pelanggan').replace(/[^\w\-]+/g, '_');
+      const filename = `${cleanDocNo}_${cleanClient}.pdf`;
 
       const downloadBtns = [
         document.getElementById('btn-download-pdf'),
@@ -2532,18 +3045,18 @@ const catalogItems = PRODUCTS.map((p) => ({
             },
             jsPDF: {
               unit: 'mm',
-              format: 'a4',
-              orientation: 'portrait',
+              format: isKwitansi ? 'a5' : 'a4',
+              orientation: isKwitansi ? 'landscape' : 'portrait',
             },
           };
           // @ts-ignore
           await html2pdf().set(opt).from(sheet).save();
         } else {
-          window.print();
+          printCurrentDocument();
         }
       } catch (err) {
         console.error('Download PDF error:', err);
-        window.print();
+        printCurrentDocument();
       } finally {
         sheet.style.transform = prevTransform;
         sheet.style.marginBottom = prevMarginBottom;
@@ -2561,15 +3074,20 @@ const catalogItems = PRODUCTS.map((p) => ({
     document.getElementById('btn-mobile-download-pdf')?.addEventListener('click', downloadPdf);
 
     document.getElementById('btn-print-invoice')?.addEventListener('click', () => {
-      recordCurrentInvoiceToExcelLog();
-      window.print();
+      if (activeDocMode === 'invoice') recordCurrentInvoiceToExcelLog();
+      printCurrentDocument();
     });
 
     updateExcelBadge();
     restoreLinkedHandle();
     updateStatusButtonsUI();
+    updateKwitansiMethodUI();
     renderItemsEditor();
     renderPreview();
+    syncKwitansiFromInvoice();
+    if (getSavedSession()) {
+      pullFromGoogleSheet(false);
+    }
   }
 
   initInvoicePage();
