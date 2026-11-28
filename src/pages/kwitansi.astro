@@ -1,0 +1,570 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { withBase } from '../utils/paths';
+
+const title = 'Kwitansi Generator Internal | Floragate';
+const description = 'Halaman internal pembuatan kwitansi (official receipt) Floragate Malang.';
+---
+
+<Layout
+  title={title}
+  description={description}
+  robots="noindex, nofollow"
+  showTestimonials={false}
+  showGallery={false}
+>
+  <div class="kwitansi-page-wrap max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+    <!-- ==================== LOGIN GATE ==================== -->
+    <section
+      id="kwitansi-login-gate"
+      class="no-print max-w-md mx-auto my-8 sm:my-14 rounded-2xl border border-soft-cream bg-white p-7 sm:p-9 shadow-[0_20px_50px_rgba(63,75,55,0.08)]"
+      aria-labelledby="login-heading"
+    >
+      <div class="text-center mb-7">
+        <div class="mx-auto mb-4 flex h-20 w-16 items-center justify-center rounded-t-full rounded-b-md border border-secondary/70 bg-accent-bg p-2 shadow-xs">
+          <img
+            src={withBase('/images/logo/logo.webp')}
+            alt="Logo Floragate"
+            class="h-12 w-auto object-contain"
+            width="64"
+            height="62"
+          />
+        </div>
+        <span class="text-[11px] font-bold uppercase tracking-[0.22em] text-secondary-dark">Admin Floragate</span>
+        <h1 id="login-heading" class="mt-1.5 font-serif text-2xl sm:text-3xl font-bold text-primary-dark">
+          Login Pembuat Kwitansi
+        </h1>
+        <p class="mt-2 text-xs sm:text-sm text-slate-500">
+          Masuk dengan akun admin untuk membuat dan mencetak kwitansi (official receipt) pelanggan.
+        </p>
+      </div>
+
+      <form id="kwitansi-login-form" class="space-y-4" novalidate>
+        <div>
+          <label for="login-email" class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+            Email Admin
+          </label>
+          <input
+            id="login-email"
+            type="email"
+            required
+            autocomplete="username"
+            placeholder="nama@gmail.com"
+            class="w-full rounded-xl border border-soft-cream bg-clean-ivory/40 px-4 py-3 text-sm text-slate-800 placeholder:text-slate-400 focus:border-primary focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/20"
+          />
+        </div>
+
+        <div>
+          <label for="login-password" class="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+            Kata Sandi
+          </label>
+          <div class="relative">
+            <input
+              id="login-password"
+              type="password"
+              required
+              autocomplete="current-password"
+              placeholder="Masukkan kata sandi"
+              class="w-full rounded-xl border border-soft-cream bg-clean-ivory/40 px-4 py-3 pr-11 text-sm text-slate-800 placeholder:text-slate-400 focus:border-primary focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/20"
+            />
+            <button
+              type="button"
+              id="toggle-password-btn"
+              class="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-slate-400 hover:text-primary cursor-pointer"
+              aria-label="Tampilkan atau sembunyikan kata sandi"
+            >
+              <svg id="eye-open-icon" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+              <svg id="eye-closed-icon" class="hidden w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <label class="flex items-center gap-2.5 text-xs text-slate-600 cursor-pointer select-none">
+          <input
+            id="login-remember"
+            type="checkbox"
+            checked
+            class="h-4 w-4 rounded border-soft-cream text-primary focus:ring-primary/30"
+          />
+          <span>Tetap masuk di browser ini</span>
+        </label>
+
+        <p id="login-error" class="hidden rounded-lg border border-red-200 bg-red-50 px-3.5 py-2.5 text-xs font-medium text-red-700" role="alert"></p>
+
+        <button
+          type="submit"
+          class="w-full rounded-xl bg-primary hover:bg-primary-dark px-5 py-3.5 text-sm font-bold text-white shadow-md transition-colors cursor-pointer"
+        >
+          Masuk ke Kwitansi Builder
+        </button>
+      </form>
+    </section>
+
+    <!-- ==================== KWITANSI BUILDER WORKSPACE ==================== -->
+    <section id="kwitansi-workspace" class="hidden" aria-label="Workspace Pembuat Kwitansi">
+      <!-- Top Action Bar -->
+      <div class="no-print mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-2xl border border-soft-cream bg-white p-4 sm:px-6 shadow-xs">
+        <div>
+          <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-secondary-dark">Floragate Receipt</span>
+          <h1 class="font-serif text-xl sm:text-2xl font-bold text-primary-dark">Pembuat Kwitansi Pelanggan</h1>
+          <p id="active-user-label" class="text-xs text-slate-500 mt-0.5"></p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <button
+            type="button"
+            id="btn-new-kwitansi"
+            class="inline-flex items-center gap-1.5 rounded-xl border border-soft-cream bg-accent-bg px-3.5 py-2.5 text-xs font-bold text-primary-dark hover:border-secondary transition-colors cursor-pointer"
+          >
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+            </svg>
+            Kwitansi Baru
+          </button>
+
+          <button
+            type="button"
+            id="btn-download-pdf"
+            class="inline-flex items-center gap-2 rounded-xl bg-primary hover:bg-primary-dark px-4 py-2.5 text-xs font-bold text-white shadow-sm transition-colors cursor-pointer"
+          >
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            Simpan / Unduh PDF
+          </button>
+
+          <button
+            type="button"
+            id="btn-print-kwitansi"
+            class="inline-flex items-center gap-2 rounded-xl border border-soft-cream bg-white hover:bg-clean-ivory/60 px-3.5 py-2.5 text-xs font-bold text-slate-700 transition-colors cursor-pointer"
+          >
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+            </svg>
+            Cetak (Print)
+          </button>
+
+          <button
+            type="button"
+            id="btn-logout"
+            class="inline-flex items-center gap-1.5 rounded-xl border border-red-200 bg-red-50/70 hover:bg-red-100 px-3 py-2.5 text-xs font-bold text-red-700 transition-colors cursor-pointer"
+          >
+            Keluar
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Tab Switcher (Edit Form vs Preview) -->
+      <div class="no-print xl:hidden grid grid-cols-2 gap-2 mb-5 rounded-2xl border border-soft-cream bg-white p-1.5 shadow-sm sticky top-3 z-30">
+        <button
+          type="button"
+          id="mobile-tab-edit"
+          class="rounded-xl py-2.5 text-xs font-bold bg-primary text-white shadow-xs transition-colors cursor-pointer"
+        >
+          ✏️ 1. Isi Data Kwitansi
+        </button>
+        <button
+          type="button"
+          id="mobile-tab-preview"
+          class="rounded-xl py-2.5 text-xs font-bold text-slate-600 hover:text-primary transition-colors cursor-pointer"
+        >
+          📄 2. Lihat Kwitansi &amp; PDF
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 xl:grid-cols-12 gap-7 items-start">
+        <!-- ========== LEFT COLUMN: EDITOR FORM ========== -->
+        <aside id="editor-panel" class="no-print xl:col-span-5 space-y-5">
+          <!-- Card 1: Nomor Kwitansi & Invoice Referensi -->
+          <div class="rounded-2xl border border-soft-cream bg-white p-5 shadow-xs space-y-4">
+            <h2 class="font-serif text-base font-bold text-primary-dark border-b border-soft-cream/70 pb-2.5">
+              1. Nomor Kwitansi &amp; Referensi
+            </h2>
+
+            <div class="grid grid-cols-1 gap-3">
+              <div>
+                <label for="f-kwitansi-no" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">No. Kwitansi</label>
+                <input id="f-kwitansi-no" type="text" placeholder="Contoh: KWT-FG-001" class="inv-input" />
+              </div>
+              <div>
+                <label for="f-invoice-ref" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">Ref. Invoice No. (Opsional)</label>
+                <input id="f-invoice-ref" type="text" placeholder="Contoh: INV-FG-001" class="inv-input" />
+              </div>
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <label for="f-receipt-date" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500">Tanggal Kwitansi</label>
+                  <button type="button" id="btn-date-today" class="text-[10px] font-bold text-primary hover:underline cursor-pointer">Set Hari Ini</button>
+                </div>
+                <input id="f-receipt-date" type="date" class="inv-input bg-white cursor-pointer" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Data Pembayar -->
+          <div class="rounded-2xl border border-soft-cream bg-white p-5 shadow-xs space-y-4">
+            <h2 class="font-serif text-base font-bold text-primary-dark border-b border-soft-cream/70 pb-2.5">
+              2. Telah Terima Dari
+            </h2>
+
+            <div class="space-y-3">
+              <div>
+                <label for="f-received-from" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                  Nama Pembayar / Perusahaan
+                </label>
+                <input id="f-received-from" type="text" placeholder="Nama yang melakukan pembayaran" class="inv-input" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Nominal Pembayaran -->
+          <div class="rounded-2xl border border-soft-cream bg-white p-5 shadow-xs space-y-4">
+            <h2 class="font-serif text-base font-bold text-primary-dark border-b border-soft-cream/70 pb-2.5">
+              3. Jumlah Pembayaran
+            </h2>
+
+            <div class="space-y-3">
+              <div>
+                <label for="f-amount" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                  Nominal (Rp)
+                </label>
+                <input id="f-amount" type="number" min="0" step="1000" placeholder="Contoh: 500000" class="inv-input" />
+              </div>
+              <div>
+                <label for="f-amount-words" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                  Terbilang (Amount in Words)
+                </label>
+                <input id="f-amount-words" type="text" placeholder="Otomatis terisi atau edit manual" class="inv-input" readonly />
+                <p class="text-[10px] text-slate-500 mt-1">Akan otomatis terisi saat Anda mengisi nominal di atas</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Untuk Pembayaran -->
+          <div class="rounded-2xl border border-soft-cream bg-white p-5 shadow-xs space-y-4">
+            <h2 class="font-serif text-base font-bold text-primary-dark border-b border-soft-cream/70 pb-2.5">
+              4. Untuk Pembayaran
+            </h2>
+
+            <div class="space-y-3">
+              <div>
+                <label for="f-payment-for" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                  Keterangan Pembayaran
+                </label>
+                <textarea 
+                  id="f-payment-for" 
+                  rows="3" 
+                  placeholder="Contoh: Pembayaran Lunas Karangan Bunga Duka Cita Standing Flower Premium"
+                  class="inv-input resize-none"
+                ></textarea>
+                <p class="text-[10px] text-slate-500 mt-1">Jelaskan item/produk yang dibayar</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5: Metode Pembayaran -->
+          <div class="rounded-2xl border border-soft-cream bg-white p-5 shadow-xs space-y-4">
+            <h2 class="font-serif text-base font-bold text-primary-dark border-b border-soft-cream/70 pb-2.5">
+              5. Metode Pembayaran
+            </h2>
+
+            <div class="space-y-3">
+              <span class="block text-[11px] font-bold uppercase tracking-wider text-slate-500">Pilih Metode</span>
+              <div class="grid grid-cols-3 gap-2" role="radiogroup" aria-label="Pilih metode pembayaran">
+                <button
+                  type="button"
+                  data-method-btn="transfer"
+                  class="method-choice-btn rounded-xl border border-soft-cream bg-clean-ivory/40 px-2.5 py-2.5 text-center text-xs font-bold text-slate-700 transition-all cursor-pointer"
+                >
+                  Transfer Bank
+                </button>
+                <button
+                  type="button"
+                  data-method-btn="qris"
+                  class="method-choice-btn rounded-xl border border-soft-cream bg-clean-ivory/40 px-2.5 py-2.5 text-center text-xs font-bold text-slate-700 transition-all cursor-pointer"
+                >
+                  QRIS
+                </button>
+                <button
+                  type="button"
+                  data-method-btn="cash"
+                  class="method-choice-btn rounded-xl border border-soft-cream bg-clean-ivory/40 px-2.5 py-2.5 text-center text-xs font-bold text-slate-700 transition-all cursor-pointer"
+                >
+                  Tunai
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 6: Lokasi & Stempel -->
+          <div class="rounded-2xl border border-soft-cream bg-white p-5 shadow-xs space-y-4">
+            <h2 class="font-serif text-base font-bold text-primary-dark border-b border-soft-cream/70 pb-2.5">
+              6. Lokasi &amp; Stempel Digital
+            </h2>
+
+            <div class="space-y-3">
+              <div>
+                <label for="f-location" class="block text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1">
+                  Lokasi Penerbitan
+                </label>
+                <input id="f-location" type="text" value="Kab. Malang" class="inv-input" />
+              </div>
+
+              <div class="rounded-xl border border-soft-cream/80 bg-accent-bg/40 p-3 space-y-2.5">
+                <label class="flex items-center gap-2.5 cursor-pointer select-none">
+                  <input 
+                    id="f-use-digital-stamp" 
+                    type="checkbox" 
+                    checked 
+                    class="h-4 w-4 rounded border-soft-cream text-primary focus:ring-primary/20 cursor-pointer"
+                  />
+                  <div class="text-xs">
+                    <span class="block font-bold text-primary-dark">Tampilkan Stempel Digital</span>
+                    <span class="block text-[10px] text-slate-500">Jika dinonaktifkan, area stempel dikosongkan untuk cap manual</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- ========== RIGHT COLUMN: LIVE KWITANSI SHEET ========== -->
+        <div id="preview-panel" class="hidden xl:block xl:col-span-7">
+          <!-- Mobile Preview Actions Toolbar -->
+          <div class="no-print xl:hidden mb-4 flex items-center justify-between gap-2 rounded-xl border border-soft-cream bg-white p-2.5 shadow-xs">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-600">Preview Kwitansi</span>
+            <div class="flex items-center gap-1.5">
+              <button
+                type="button"
+                id="mobile-zoom-out"
+                class="rounded-lg bg-clean-ivory/60 hover:bg-clean-ivory p-2 transition-colors cursor-pointer"
+                aria-label="Perkecil tampilan"
+              >
+                <svg class="w-4 h-4 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                id="mobile-zoom-in"
+                class="rounded-lg bg-clean-ivory/60 hover:bg-clean-ivory p-2 transition-colors cursor-pointer"
+                aria-label="Perbesar tampilan"
+              >
+                <svg class="w-4 h-4 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div id="sheet-scaler-wrap" class="overflow-x-auto pb-6 flex justify-center">
+            <div
+              id="kwitansi-sheet"
+              class="mx-auto w-[794px] min-h-[1123px] bg-[#FAF7F0] text-[#222922] p-10 shadow-[0_24px_60px_rgba(15,23,42,0.12)] border border-[#E6DEC8] flex flex-col transition-transform duration-200"
+            >
+              <!-- KWITANSI TEMPLATE HEADER -->
+              <div class="flex items-start justify-between gap-6 pb-6 border-b-2 border-[#B8A67D]/30">
+                <!-- Logo & Brand -->
+                <div class="flex items-center gap-4">
+                  <div class="w-[56px] h-[56px] rounded-lg border-2 border-dashed border-[#9B8C6F] flex items-center justify-center bg-white/50">
+                    <img 
+                      src={withBase('/images/logo/logo.webp')} 
+                      alt="Floragate Logo" 
+                      class="w-10 h-10 object-contain"
+                    />
+                  </div>
+                  <div>
+                    <h1 class="font-serif text-[26px] font-bold tracking-[0.15em] text-[#1F271E] leading-none">
+                      FLORAGATE
+                    </h1>
+                    <p class="text-[10px] italic text-[#6A7168] mt-1 leading-tight">
+                      The Gateway to Meaningful Moments
+                    </p>
+                    <div class="mt-2 text-[9.5px] text-[#6A7168] space-y-0.5">
+                      <p class="font-medium">Website: tokobungamurahmalang.web.id</p>
+                      <p class="font-medium">Location: Kab. Malang, Indonesia</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Title & Numbers -->
+                <div class="text-right min-w-[280px]">
+                  <p class="font-serif text-[26px] font-normal tracking-[0.18em] text-[#1F271E] leading-none">
+                    KWITANSI
+                  </p>
+                  <p class="text-[11px] italic text-[#6A7168] mt-0.5">/ OFFICIAL RECEIPT</p>
+                  
+                  <div class="mt-4 space-y-1.5 text-[11px]">
+                    <div class="flex justify-between items-baseline gap-3">
+                      <span class="font-bold tracking-[0.08em] text-[#6A7168] uppercase text-[10px]">NO. KWITANSI</span>
+                      <span id="pv-kwitansi-no" class="font-medium text-[#222922] border-b border-[#B8A67D]/40 pb-0.5 min-w-[140px] text-right">-</span>
+                    </div>
+                    <div class="flex justify-between items-baseline gap-3">
+                      <span class="font-bold tracking-[0.08em] text-[#6A7168] uppercase text-[10px]">REF. INVOICE</span>
+                      <span id="pv-invoice-ref" class="font-medium text-[#222922] border-b border-[#B8A67D]/40 pb-0.5 min-w-[140px] text-right">-</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- KWITANSI BODY -->
+              <div class="flex-1 py-8 space-y-6">
+                <!-- Telah Terima Dari -->
+                <div class="flex items-start gap-3">
+                  <div class="min-w-[160px]">
+                    <p class="font-bold text-[13px] text-[#222922]">Telah Terima Dari</p>
+                    <p class="text-[10px] italic text-[#6A7168]">Received From</p>
+                  </div>
+                  <div class="flex-1">
+                    <span class="text-[13px]">:</span>
+                    <span id="pv-received-from" class="ml-2 text-[13px] font-medium text-[#222922] border-b border-[#B8A67D]/30 inline-block min-w-[400px] pb-1">-</span>
+                  </div>
+                </div>
+
+                <!-- Uang Sejumlah / Terbilang -->
+                <div class="flex items-start gap-3">
+                  <div class="min-w-[160px]">
+                    <p class="font-bold text-[13px] text-[#222922]">Uang Sejumlah</p>
+                    <p class="text-[10px] italic text-[#6A7168]">Amount in Words / Terbilang</p>
+                  </div>
+                  <div class="flex-1">
+                    <span class="text-[13px]">:</span>
+                    <div id="pv-amount-words-box" class="ml-2 mt-1 min-h-[70px] border-2 border-[#B8A67D]/40 rounded-md bg-white/40 p-3">
+                      <p id="pv-amount-words" class="text-[12px] font-medium text-[#222922] italic leading-relaxed">-</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Untuk Pembayaran -->
+                <div class="flex items-start gap-3">
+                  <div class="min-w-[160px]">
+                    <p class="font-bold text-[13px] text-[#222922]">Untuk Pembayaran</p>
+                    <p class="text-[10px] italic text-[#6A7168]">Payment For</p>
+                  </div>
+                  <div class="flex-1">
+                    <span class="text-[13px]">:</span>
+                    <div class="ml-2 space-y-1">
+                      <p id="pv-payment-for" class="text-[13px] font-medium text-[#222922] border-b border-[#B8A67D]/30 pb-1 leading-relaxed">-</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- KWITANSI FOOTER -->
+              <div class="pt-6 border-t-2 border-[#B8A67D]/30">
+                <div class="flex items-end justify-between gap-6">
+                  <!-- Left: Total Amount -->
+                  <div class="flex-1">
+                    <div class="rounded-lg border-2 border-[#9B8C6F]/50 bg-[#FBF9F4] p-4">
+                      <p class="text-[10px] font-bold uppercase tracking-[0.12em] text-[#6A7168] mb-1">
+                        JUMLAH NOMINAL (RP) • TOTAL AMOUNT RECEIVED
+                      </p>
+                      <p id="pv-amount" class="font-bold text-[22px] text-[#222922]">Rp 0</p>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="mt-3">
+                      <p class="text-[10px] font-bold uppercase tracking-[0.12em] text-[#6A7168] mb-2">
+                        METODE PEMBAYARAN / PAYMENT METHOD
+                      </p>
+                      <div class="flex items-center gap-4 text-[11px] text-[#222922]">
+                        <label class="flex items-center gap-1.5">
+                          <input id="pv-method-transfer" type="checkbox" disabled class="h-3.5 w-3.5 rounded border-[#9B8C6F]" />
+                          <span>Transfer Bank</span>
+                        </label>
+                        <label class="flex items-center gap-1.5">
+                          <input id="pv-method-qris" type="checkbox" disabled class="h-3.5 w-3.5 rounded border-[#9B8C6F]" />
+                          <span>QRIS</span>
+                        </label>
+                        <label class="flex items-center gap-1.5">
+                          <input id="pv-method-cash" type="checkbox" disabled class="h-3.5 w-3.5 rounded border-[#9B8C6F]" />
+                          <span>Tunai</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Right: Signature & Stamp -->
+                  <div class="text-center min-w-[200px]">
+                    <p id="pv-location-date" class="text-[11px] text-[#6A7168] mb-3">Kab. Malang, <span id="pv-date-formatted">-</span></p>
+                    
+                    <div id="pv-stamp-container" class="flex items-center justify-center h-[100px] mb-2">
+                      <div id="pv-stamp-placeholder" class="w-[90px] h-[90px] rounded-full border-2 border-dashed border-[#9B8C6F]/40 flex items-center justify-center">
+                        <p class="text-[9px] text-[#9B8C6F] text-center px-2 leading-tight">ROUND<br/>DIGITAL<br/>STAMP</p>
+                      </div>
+                      <img
+                        id="pv-stamp-img"
+                        src={withBase('/images/invoice/stempel-floragate.webp')}
+                        alt="Stempel Digital Floragate"
+                        class="hidden h-[100px] w-[100px] object-contain opacity-90 mix-blend-multiply"
+                      />
+                    </div>
+
+                    <div class="border-t border-[#B8A67D]/40 pt-2">
+                      <p class="text-[10px] font-bold uppercase tracking-wider text-[#6A7168]">PENERIMA / FLORAGATE</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Page Footer -->
+              <div class="mt-6 pt-4 border-t border-[#E6DEC8]/60 text-center">
+                <p class="text-[9px] text-[#9B8C6F]">FLORAGATE — Official Payment Receipt (Kwitansi) Page 1 of 1</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <style>
+    .inv-input {
+      @apply w-full rounded-xl border border-soft-cream bg-clean-ivory/40 px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 focus:border-primary focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/20;
+    }
+
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      #kwitansi-sheet {
+        width: 100%;
+        min-height: auto;
+        box-shadow: none;
+        border: none;
+      }
+      body {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+    }
+
+    #sheet-scaler-wrap {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(184, 166, 125, 0.4) transparent;
+    }
+
+    #sheet-scaler-wrap::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    #sheet-scaler-wrap::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    #sheet-scaler-wrap::-webkit-scrollbar-thumb {
+      background-color: rgba(184, 166, 125, 0.4);
+      border-radius: 4px;
+    }
+
+    .method-choice-btn.active {
+      @apply border-primary bg-primary/10 text-primary;
+    }
+  </style>
+
+  <script src={withBase('/scripts/kwitansi.js')}></script>
+</Layout>
