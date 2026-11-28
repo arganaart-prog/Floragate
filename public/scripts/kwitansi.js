@@ -2,11 +2,100 @@
 // FLORAGATE KWITANSI (OFFICIAL RECEIPT) BUILDER
 // ============================================
 
-// Admin credentials (same as invoice for consistency)
-const ADMIN_CREDENTIALS = [
-  { email: 'admin@floragate.id', password: 'FloragateAdmin2026' },
-  { email: 'floragate@gmail.com', password: 'Floragate123' }
-];
+// Admin credentials (same SHA-256 hash & session key as invoice.astro)
+const AUTH_SESSION_KEY = 'fg_invoice_auth_v1';
+const EXPECTED_CRED_HASH = 'f6279a1caffbb9b2da7089512c9a12f806d0c63cb66f3eee046e21692b0dc08d';
+
+function sha256Fallback(ascii) {
+  const rightRotate = (value, amount) => (value >>> amount) | (value << (32 - amount));
+  const mathPow = Math.pow;
+  const maxWord = mathPow(2, 32);
+  let result = '';
+  const words = [];
+  const asciiBitLength = ascii.length * 8;
+  const hash = [];
+  const k = [];
+  let primeCounter = 0;
+  const isComposite = {};
+  for (let candidate = 2; primeCounter < 64; candidate++) {
+    if (!isComposite[candidate]) {
+      for (let i = 0; i < 313; i += candidate) isComposite[i] = true;
+      hash[primeCounter] = (mathPow(candidate, 0.5) * maxWord) | 0;
+      k[primeCounter++] = (mathPow(candidate, 1 / 3) * maxWord) | 0;
+    }
+  }
+  ascii += '\x80';
+  while ((ascii.length % 64) - 56) ascii += '\x00';
+  for (let i = 0; i < ascii.length; i++) {
+    const j = ascii.charCodeAt(i);
+    if (j >> 8) return '';
+    words[i >> 2] |= j << (((3 - i) % 4) * 8);
+  }
+  words[words.length] = (asciiBitLength / maxWord) | 0;
+  words[words.length] = asciiBitLength;
+  for (let j = 0; j < words.length; ) {
+    const w = words.slice(j, (j += 16));
+    const oldHash = hash.slice(0);
+    for (let i = 0; i < 64; i++) {
+      const w15 = w[i - 15];
+      const w2 = w[i - 2];
+      const a = hash[0];
+      const e = hash[4];
+      const temp1 =
+        hash[7] +
+        (rightRotate(e, 6) ^ rightRotate(e, 11) ^ rightRotate(e, 25)) +
+        ((e & hash[5]) ^ (~e & hash[6])) +
+        k[i] +
+        (w[i] =
+          i < 16
+            ? w[i]
+            : (w[i - 16] +
+                (rightRotate(w15, 7) ^ rightRotate(w15, 18) ^ (w15 >>> 3)) +
+                w[i - 7] +
+                (rightRotate(w2, 17) ^ rightRotate(w2, 19) ^ (w2 >>> 10))) |
+              0);
+      const temp2 =
+        (rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22)) +
+        ((a & hash[1]) ^ (a & hash[2]) ^ (hash[1] & hash[2]));
+      hash[7] = hash[6];
+      hash[6] = hash[5];
+      hash[5] = hash[4];
+      hash[4] = (hash[3] + temp1) | 0;
+      hash[3] = hash[2];
+      hash[2] = hash[1];
+      hash[1] = hash[0];
+      hash[0] = (temp1 + temp2) | 0;
+    }
+    for (let i = 0; i < 8; i++) hash[i] = (hash[i] + oldHash[i]) | 0;
+  }
+  for (let i = 0; i < 8; i++) {
+    for (let j = 3; j + 1; j--) {
+      const b = (hash[i] >> (j * 8)) & 255;
+      result += (b < 16 ? '0' : '') + b.toString(16);
+    }
+  }
+  return result;
+}
+
+async function hashCredential(email, password) {
+  const raw = `${email.trim().toLowerCase()}|${password}`;
+  if (typeof crypto !== 'undefined' && crypto.subtle) {
+    try {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(raw));
+      return Array.from(new Uint8Array(buf))
+        .map((b) => b.toString(16).padStart(2, '0'))
+        .join('');
+    } catch {
+      return sha256Fallback(raw);
+    }
+  }
+  return sha256Fallback(raw);
+}
+
+// Google Sheets Configuration
+const GSHEET_KEY = 'fg_kwitansi_gsheet_url_v1';
+const DEFAULT_GSHEET_WEBHOOK = 'https://script.google.com/macros/s/AKfycbwPaMi4dmVdY_KvXv2-QQ07K8jFw_nlJ_HWFJseyKC7xzZRUl4gvYf1y4hGESUnQmdL/exec';
+const EXCEL_LOG_KEY = 'fg_kwitansi_excel_log_v1';
 
 // ============================================
 // AUTH STATE
@@ -130,16 +219,15 @@ function getTodayString() {
 // AUTH: Check if already logged in
 // ============================================
 function checkAuth() {
-  const savedAuth = localStorage.getItem('floragate_kwitansi_auth');
-  if (savedAuth) {
-    try {
-      const authData = JSON.parse(savedAuth);
-      currentUser = authData.email;
+  try {
+    const savedEmail = localStorage.getItem(AUTH_SESSION_KEY) || sessionStorage.getItem(AUTH_SESSION_KEY);
+    if (savedEmail) {
+      currentUser = savedEmail;
       isAuthenticated = true;
       showWorkspace();
-    } catch (e) {
-      console.error('Invalid auth data:', e);
     }
+  } catch (e) {
+    console.error('Invalid auth data:', e);
   }
 }
 
@@ -166,24 +254,29 @@ function setupLoginForm() {
     });
   }
 
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const email = emailInput.value.trim().toLowerCase();
     const password = passwordInput.value;
     const remember = rememberCheckbox.checked;
+    const hashed = await hashCredential(email, password);
 
-    // Validate credentials
-    const validUser = ADMIN_CREDENTIALS.find(
-      cred => cred.email.toLowerCase() === email && cred.password === password
-    );
-
-    if (validUser) {
-      currentUser = validUser.email;
+    if (hashed === EXPECTED_CRED_HASH) {
+      currentUser = email;
       isAuthenticated = true;
+      errorEl.classList.add('hidden');
 
-      if (remember) {
-        localStorage.setItem('floragate_kwitansi_auth', JSON.stringify({ email: validUser.email }));
+      try {
+        if (remember) {
+          localStorage.setItem(AUTH_SESSION_KEY, email);
+          sessionStorage.removeItem(AUTH_SESSION_KEY);
+        } else {
+          sessionStorage.setItem(AUTH_SESSION_KEY, email);
+          localStorage.removeItem(AUTH_SESSION_KEY);
+        }
+      } catch {
+        // Ignore storage errors
       }
 
       showWorkspace();
@@ -222,7 +315,8 @@ function setupLogout() {
   const logoutBtn = document.getElementById('btn-logout');
   logoutBtn.addEventListener('click', () => {
     if (confirm('Yakin ingin keluar? Data yang belum disimpan akan hilang.')) {
-      localStorage.removeItem('floragate_kwitansi_auth');
+      localStorage.removeItem(AUTH_SESSION_KEY);
+      sessionStorage.removeItem(AUTH_SESSION_KEY);
       location.reload();
     }
   });
@@ -460,15 +554,121 @@ function setupActionButtons() {
 
   // Print
   document.getElementById('btn-print-kwitansi').addEventListener('click', () => {
-    window.print();
+    // Record to Excel & Google Sheets before printing
+    recordCurrentKwitansiToLog();
+    setTimeout(() => {
+      window.print();
+    }, 300);
   });
 
   // Download PDF
   document.getElementById('btn-download-pdf').addEventListener('click', async () => {
+    // Record to Excel & Google Sheets before downloading
+    recordCurrentKwitansiToLog();
+    
     // For now, use print dialog - can be enhanced with jsPDF later
     alert('Gunakan menu Print/Cetak, lalu pilih "Save as PDF" untuk menyimpan sebagai PDF.');
-    window.print();
+    setTimeout(() => {
+      window.print();
+    }, 300);
   });
+}
+
+// ============================================
+// EXCEL & GOOGLE SHEETS: Record Kwitansi
+// ============================================
+function recordCurrentKwitansiToLog() {
+  const entry = {
+    kwitansiNo: kwitansiData.kwitansiNo || '-',
+    invoiceRef: kwitansiData.invoiceRef || '-',
+    receiptDate: kwitansiData.receiptDate || getTodayString(),
+    receivedFrom: kwitansiData.receivedFrom || '-',
+    amount: kwitansiData.amount,
+    amountWords: kwitansiData.amountWords || '-',
+    paymentFor: kwitansiData.paymentFor || '-',
+    paymentMethod: kwitansiData.paymentMethod || 'transfer',
+    location: kwitansiData.location || 'Kab. Malang',
+    useDigitalStamp: kwitansiData.useDigitalStamp ? 'Ya' : 'Tidak',
+    recordedAt: new Date().toISOString(),
+    recordedBy: currentUser || 'admin'
+  };
+
+  // Save to localStorage
+  try {
+    const logs = loadExcelLog();
+    const existingIdx = logs.findIndex(r => r.kwitansiNo === entry.kwitansiNo);
+    if (existingIdx >= 0) {
+      logs[existingIdx] = entry;
+    } else {
+      logs.push(entry);
+    }
+    localStorage.setItem(EXCEL_LOG_KEY, JSON.stringify(logs));
+  } catch (e) {
+    console.error('Failed to save to localStorage:', e);
+  }
+
+  // Sync to Google Sheets
+  syncToGoogleSheet(entry);
+}
+
+function loadExcelLog() {
+  try {
+    const raw = localStorage.getItem(EXCEL_LOG_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+async function syncToGoogleSheet(entry) {
+  const url = localStorage.getItem(GSHEET_KEY) || DEFAULT_GSHEET_WEBHOOK;
+  if (!url) return;
+
+  try {
+    // Add type identifier for the webhook to distinguish kwitansi from invoice
+    const payload = {
+      ...entry,
+      type: 'kwitansi',
+      timestamp: new Date().toISOString()
+    };
+
+    await fetch(url, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+    });
+
+    console.log('✓ Sinkron ke Google Sheets berhasil:', entry.kwitansiNo);
+    
+    // Show success notification
+    showNotification('✓ Kwitansi tersimpan ke Google Sheets', 'success');
+  } catch (e) {
+    console.error('✗ Gagal sinkron ke Google Sheets:', e);
+    showNotification('✗ Gagal sinkron. Periksa koneksi internet.', 'error');
+  }
+}
+
+function showNotification(message, type = 'info') {
+  // Create notification element
+  const notification = document.createElement('div');
+  notification.className = `fixed top-4 right-4 z-50 rounded-xl px-4 py-3 text-sm font-bold shadow-lg transition-all ${
+    type === 'success' ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' :
+    type === 'error' ? 'bg-red-50 text-red-800 border border-red-200' :
+    'bg-blue-50 text-blue-800 border border-blue-200'
+  }`;
+  notification.textContent = message;
+  
+  document.body.appendChild(notification);
+  
+  // Remove after 3 seconds
+  setTimeout(() => {
+    notification.style.opacity = '0';
+    setTimeout(() => {
+      document.body.removeChild(notification);
+    }, 300);
+  }, 3000);
 }
 
 // ============================================
